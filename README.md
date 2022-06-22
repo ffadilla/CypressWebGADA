@@ -1,5 +1,5 @@
 # qe-test-web
-API test automation for gudangada
+WEB UI automation test for gudangada
 <br>
 ## About Cyepress
 Everything about Karate can be read in [Cypress Documentation](https://docs.cypress.io/guides), including the functions you can use to implement your test.
