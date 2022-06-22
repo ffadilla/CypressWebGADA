@@ -1,8 +1,8 @@
 # qe-test-web
 API test automation for gudangada
 <br>
-## About Karate
-Everything about Karate can be read in [Karate Documentation](https://github.com/intuit/karate), including the functions you can use to implement your test.
+## About Cyepress
+Everything about Karate can be read in [Cypress Documentation](https://docs.cypress.io/guides), including the functions you can use to implement your test.
 <br>
 ## Development Requirement
 ### Mac OSX
