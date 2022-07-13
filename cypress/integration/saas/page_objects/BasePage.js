@@ -1,6 +1,6 @@
 export default class BasePage {
 
-    baseUrl       = "https://saas.gudangada.online/";
+    baseUrl        = Cypress.config().saas.baseUrl;
     snackbar_error = "#snackbar_global_error";
 
     navigate(path) {
