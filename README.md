@@ -34,7 +34,15 @@ npm install cypress --save-dev
 ```
 
 ## Open and Run Cypress
+Open cypress using
+```
+node_modules/.bin/cypress run --env configFile=staging
+```
 Run scenarios using 
 ```
-cypress open
+node_modules/.bin/cypress run --env configFile=staging --spec [specific feature file]
+```
+Generate cucumber html report using
+```
+node cucumber-html-report.js
 ```
