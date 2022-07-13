@@ -3,21 +3,16 @@ import InventoryListPage from "../../../integration/saas/page_objects/InventoryL
 
 const inventoryListPage = new InventoryListPage();
 
-let random = Math.floor(100000000 + Math.random() * 900000000);
-function generateRandomNumber(num) {
-    return "8"+num+"";
-}
-
 When('SAAS - user is on inventory list page', () => {
     cy.clearCookies();
     inventoryListPage.visitInventoryList();
 });
 
-When('SAAS - user clicks add inventory button',() => {
+When('SAAS - user clicks on add inventory button',() => {
     inventoryListPage.clickAddInventory();
 });
 
-When('SAAS - user clicks first time add inventory button', () => {
+When('SAAS - user clicks on first time add inventory button', () => {
     inventoryListPage.clickFirstTimeAddInventoryButton();
 });
 
@@ -25,7 +20,7 @@ When('SAAS - user types inventory name field with {string}', (inventoryName) => 
     inventoryListPage.typeInventoryName(inventoryName);
 });
 
-When('SAAS - user clicks add custom inventory button', () => {
+When('SAAS - user clicks on add custom inventory button', () => {
     inventoryListPage.clickAddCustomInventoryButton();
 });
 
