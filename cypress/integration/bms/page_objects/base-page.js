@@ -7,25 +7,29 @@ export default class BasePage {
         cy.visit(this.BASE_URL + path);
     }
 
-    setLocalStorage(user) {
+    setLocalStorage(userRole) {
+        var users = Cypress.config().bms.users;
+        var userRole = userRole;
+        var user = users[userRole];
+
         window
             .localStorage
-            .setItem("username", ''); //'Cypress.config.bms.${user}.username'
+            .setItem("username", user.username);
         window
             .localStorage
-            .setItem("userImage", "");
+            .setItem("userImage", user.userImage);
         window
             .localStorage
-            .setItem("userEmail", "");
+            .setItem("userEmail", user.userEmail);
         window
             .localStorage
-            .setItem("auth-token", "");
+            .setItem("auth-token", user.authToken);
         window
             .localStorage
-            .setItem("user-permissions", "");
+            .setItem("user-permissions", JSON.stringify(user.userPermissions));
         window
             .localStorage
-            .setItem("user-roles", "");
+            .setItem("user-roles", JSON.stringify(user.userRole));
     }
 
     getPageTitle() {
