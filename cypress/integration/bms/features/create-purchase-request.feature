@@ -1,13 +1,13 @@
 Feature: Create Purchase Request
 
     Background:
-        Given BMS - user logged in as "BDM"
+        Given BMS - user logged in as "BM"
 
     Scenario: Create purchase request with multiple items
         And BMS - user is in Pengajuan Pembelian page
         And BMS - user selects purchase request channel: "MARKETPLACE"
-        And BMS - user search vendor code: "GADA-rxski7"
-        And BMS - user search buyer code: "GADA"
+        And BMS - user search vendor: "GADA-rxski7"
+        And BMS - user search buyer: "GADA"
         And BMS - user selects delivery method: "Gudang Ada Logistic"
         And BMS - user sets delivery request start date: 0 days from today
         And BMS - user sets delivery request end date: 7 days from today
@@ -17,14 +17,14 @@ Feature: Create Purchase Request
         And BMS - user fills purchase discount: 4 digits random
         And BMS - user fills purchase reason: "Purchase reason testing"
         And BMS - user clicks Lanjut button to add item stage
-        And BMS - user add 10 purchase items with random product
+        And BMS - user add 5 purchase items with random product
         And BMS - user clicks Lanjut button to suggested selling price stage
 
     Scenario Outline: Create purchase request
         And BMS - user is in Pengajuan Pembelian page
-        And BMS - user selects purchase request channel: "MARKETPLACE"
-        And BMS - user search vendor code: "GADA-rxski7"
-        And BMS - user search buyer code: "GADA"
+        And BMS - user selects purchase request channel: <channel>
+        And BMS - user search vendor: <vendor>
+        And BMS - user search buyer: "GADA"
         And BMS - user selects delivery method: <deliveryMethod>
         And BMS - user sets delivery request start date: 0 days from today
         And BMS - user sets delivery request end date: 7 days from today
@@ -55,6 +55,6 @@ Feature: Create Purchase Request
         Then BMS - purchase request created successfully
 
         Examples:
-            | deliveryMethod        | taxType   | settingType | stepInputSellingPriceOrMargin          |
-            | "Gudang Ada Logistic" | "PPN"     | "MARGIN"    | margin: 0.2 from minimum selling price |
-            | "Dikirim Penjual"     | "Non PPN" | "PRICE"     | price: 1000 + minimum selling price    |
+            | channel       | vendor        | deliveryMethod        | taxType   | settingType | stepInputSellingPriceOrMargin          |
+            | "MARKETPLACE" | "GADA-rxski7" | "Gudang Ada Logistic" | "PPN"     | "MARGIN"    | margin: 0.2 from minimum selling price |
+            | "OFFLINE"     | "Testing"     | "Dikirim Penjual"     | "Non PPN" | "PRICE"     | price: 1000 + minimum selling price    |

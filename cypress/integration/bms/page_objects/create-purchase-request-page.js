@@ -15,6 +15,7 @@ export default class CreatePurchaseRequestPage extends BasePage {
     BUYER_AREA_INPUT              = "#field-buyer-area .MuiInput-input";
     DELIVERY_METHOD_INPUT         = "#field-metode-pengiriman input[type='radio']"
     DELIVERY_REQUEST_DATE_BUTTON  = "#field-permintaan-pengiriman .MuiButtonBase-root"
+    NEXT_MONTH_CALENDAR_BUTTON    = "button[aria-label='Next month']"
     DELIVERY_FEE_INPUT            = "#field-deliveryFee .MuiInput-input"
     DELIVERY_FEE_DISCOUNT_INPUT   = "#field-deliveryFeeDiscount .MuiInput-input"
     UNLOADING_FEE_INPUT           = "#field-unloadingFee .MuiInput-input"
@@ -105,15 +106,32 @@ export default class CreatePurchaseRequestPage extends BasePage {
             .get(this.DELIVERY_REQUEST_DATE_BUTTON).eq(1)
             .click();
 
-        cy.get(`button[aria-label='${date}']`).then(element => {
-            if (element.length > 1) {
+        cy.get("button").then(($button) => {
+            if ($button.find(`[aria-label='${date}']`).length > 1) {
                 cy
                     .get(`button[aria-label='${date}']`).eq(1)
                     .click();
             }
-            else {
+            else if ($button.find(`[aria-label='${date}']`).length == 1) {
                 cy
-                    .get(`button[aria-label='${date}']`).eq(0)
+                    .get(`button[aria-label='${date}']`)
+                    .click();
+            }
+            else {
+                cy.get(this.NEXT_MONTH_CALENDAR_BUTTON).then(element => {
+                    if (element.length > 1) {
+                        cy
+                            .get(this.NEXT_MONTH_CALENDAR_BUTTON).eq(1)
+                            .click();
+                    }
+                    else {
+                        cy
+                            .get(this.NEXT_MONTH_CALENDAR_BUTTON).eq(0)
+                            .click();
+                    }
+                });
+                cy
+                    .get(`button[aria-label='${date}']`)
                     .click();
             }
         });

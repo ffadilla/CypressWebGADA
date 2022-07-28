@@ -4,8 +4,8 @@ import * as utils from "./utils.js"
 
 const createPurchaseRequestPage = new CreatePurchaseRequestPage();
 
-Given("BMS - user logged in as {string}", (user) => {
-    createPurchaseRequestPage.setLocalStorage(user);
+Given("BMS - user logged in as {string}", (userRole) => {
+    createPurchaseRequestPage.setLocalStorage(userRole);
 });
 
 And("BMS - user is in Pengajuan Pembelian page", () => {
@@ -18,7 +18,7 @@ And("BMS - user selects purchase request channel: {string}", (channel) => {
     cy.wrap(channel).as("channel");
 });
 
-And("BMS - user search vendor code: {string}", (vendorId) => {
+And("BMS - user search vendor: {string}", (vendorId) => {
     createPurchaseRequestPage.typeVendorId(vendorId);
     createPurchaseRequestPage.selectOption(0);
     cy
@@ -53,7 +53,7 @@ And("BMS - user search vendor code: {string}", (vendorId) => {
         });
 });
 
-And("BMS - user search buyer code: {string}", (buyerId) => {
+And("BMS - user search buyer: {string}", (buyerId) => {
     createPurchaseRequestPage.typeBuyerId(buyerId);
     createPurchaseRequestPage.selectOption(0);
     cy
@@ -370,11 +370,8 @@ And("BMS - user clicks Simpan button to UOM price tier", () => {
         if(settingType == "PRICE") {
             cy.get("@minimumSellingPrice").then(minimumSellingPrice => {
                 cy.get("@price").then(price => {
-                    var roundedPrice = utils.roundPrice(price);
                     var priceMargin = utils.marginCalculation(price, minimumSellingPrice)
-                    var roundedPriceMargin = utils.marginCalculation(roundedPrice, minimumSellingPrice)
-
-                    createPurchaseRequestPage.checkSellingPriceCalculation(priceMargin, roundedPriceMargin);
+                    createPurchaseRequestPage.checkSellingPriceCalculation(priceMargin, priceMargin);
                 });
             });
         }
