@@ -23,12 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.moment = require('moment');
+Cypress.moment = require("moment");
 
 Cypress.Commands.add("randomNumber", (length) => {
-    return parseInt(("" + Math.random()).substring(2,2+length).replace(/0/g, '1'));
+  return parseInt(
+    ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")
+  );
 });
 
 Cypress.Commands.add("numberFormat", (number) => {
-    return new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(number);
+  return new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(
+    number
+  );
 });
