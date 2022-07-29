@@ -33,15 +33,22 @@ Install Cypress using Node JS
 npm install cypress --save-dev
 ```
 
+Install Cypress Cucumber Preprocessor
+```
+npm install --save-dev cypress-cucumber-preprocessor
+```
+
 ## Open and Run Cypress
 Open cypress using
 ```
-node_modules/.bin/cypress run --env configFile=staging
+node_modules/.bin/cypress open --env configFile=staging
 ```
+
 Run scenarios using 
 ```
 node_modules/.bin/cypress run --env configFile=staging --spec [specific feature file]
 ```
+
 Generate cucumber html report using
 ```
 node cucumber-html-report.js
