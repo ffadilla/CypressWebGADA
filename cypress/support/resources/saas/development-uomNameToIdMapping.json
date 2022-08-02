@@ -1,0 +1,406 @@
+{
+  "data": [
+    {
+      "short_name": "UOM New",
+      "id": 207,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Uom New"
+    },
+    {
+      "short_name": "LUSIN NEW",
+      "id": 206,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Lusin New"
+    },
+    {
+      "short_name": "SERI4",
+      "id": 182,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Seri 4 Pcs"
+    },
+    {
+      "short_name": "Unit",
+      "id": 181,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Unit"
+    },
+    {
+      "short_name": "Bungkus",
+      "id": 176,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Bungkus"
+    },
+    {
+      "short_name": "halohalo",
+      "id": 173,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "halohalo"
+    },
+    {
+      "short_name": "BUAH",
+      "id": 106,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "BUAH"
+    },
+    {
+      "short_name": "SATU",
+      "id": 105,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "SATU"
+    },
+    {
+      "short_name": "Testing",
+      "id": 104,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Testing"
+    },
+    {
+      "short_name": "kotaks",
+      "id": 103,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "kotak besar"
+    },
+    {
+      "short_name": "shortname17ccc",
+      "id": 100,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname17ccc"
+    },
+    {
+      "short_name": "shortname16a",
+      "id": 99,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname16a"
+    },
+    {
+      "short_name": "shortname15",
+      "id": 98,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname15"
+    },
+    {
+      "short_name": "shortname14",
+      "id": 97,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname14"
+    },
+    {
+      "short_name": "shortname13",
+      "id": 96,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname13"
+    },
+    {
+      "short_name": "shortname12",
+      "id": 95,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname12"
+    },
+    {
+      "short_name": "shortnameagain11",
+      "id": 94,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain11"
+    },
+    {
+      "short_name": "shortnameagain10",
+      "id": 93,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain10"
+    },
+    {
+      "short_name": "test6",
+      "id": 92,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test6"
+    },
+    {
+      "short_name": "test5",
+      "id": 91,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test5"
+    },
+    {
+      "short_name": "test4",
+      "id": 90,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test4"
+    },
+    {
+      "short_name": "test3",
+      "id": 89,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test3"
+    },
+    {
+      "short_name": "test2",
+      "id": 88,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test2"
+    },
+    {
+      "short_name": "test1",
+      "id": 87,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test1"
+    },
+    {
+      "short_name": "test uom 3",
+      "id": 85,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test uom will delete later 3"
+    },
+    {
+      "short_name": "test uom 2",
+      "id": 84,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test uom will delete later 2"
+    },
+    {
+      "short_name": "test uom",
+      "id": 83,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "test uom will delete later"
+    },
+    {
+      "short_name": "shortnameagain7",
+      "id": 82,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain7"
+    },
+    {
+      "short_name": "shortnameagain6",
+      "id": 81,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain6"
+    },
+    {
+      "short_name": "shortnameagain5",
+      "id": 80,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain5"
+    },
+    {
+      "short_name": "shortnameagain4",
+      "id": 79,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain4"
+    },
+    {
+      "short_name": "shortnameagain3",
+      "id": 78,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain3"
+    },
+    {
+      "short_name": "shortnameagain2",
+      "id": 77,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain2"
+    },
+    {
+      "short_name": "shortnameagain1",
+      "id": 76,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain1"
+    },
+    {
+      "short_name": "shortnameagain",
+      "id": 75,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longnameagain"
+    },
+    {
+      "short_name": "shortname",
+      "id": 74,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "longname"
+    },
+    {
+      "short_name": "test",
+      "id": 73,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "testttttt"
+    },
+    {
+      "short_name": "UDL",
+      "id": 72,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Unit Donat Lagi"
+    },
+    {
+      "short_name": "UD",
+      "id": 71,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Unit Donat"
+    },
+    {
+      "short_name": "BOX",
+      "id": 60,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Box"
+    },
+    {
+      "short_name": "JAR",
+      "id": 18,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Jar"
+    },
+    {
+      "short_name": "LTR",
+      "id": 17,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Liter"
+    },
+    {
+      "short_name": "BLEK",
+      "id": 16,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Blek"
+    },
+    {
+      "short_name": "PETI",
+      "id": 15,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Peti"
+    },
+    {
+      "short_name": "JRG",
+      "id": 14,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Jerigen"
+    },
+    {
+      "short_name": "RCG",
+      "id": 13,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Renceng"
+    },
+    {
+      "short_name": "GLN",
+      "id": 12,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Galon"
+    },
+    {
+      "short_name": "KG",
+      "id": 11,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Kilogram"
+    },
+    {
+      "short_name": "TABUNG",
+      "id": 10,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Tabung"
+    },
+    {
+      "short_name": "RAK",
+      "id": 9,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Rak"
+    },
+    {
+      "short_name": "SLOP",
+      "id": 8,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Slop"
+    },
+    {
+      "short_name": "BAL",
+      "id": 7,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Bal"
+    },
+    {
+      "short_name": "SAK",
+      "id": 6,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Sak"
+    },
+    {
+      "short_name": "PCS",
+      "id": 5,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Pieces"
+    },
+    {
+      "short_name": "PACK",
+      "id": 4,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Pack"
+    },
+    {
+      "short_name": "LUSIN",
+      "id": 3,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Lusin"
+    },
+    {
+      "short_name": "KRT",
+      "id": 2,
+      "is_active": true,
+      "store_id": null,
+      "long_name": "Karton"
+    }
+  ],
+  "page": 1,
+  "total": 57,
+  "message": "Get List UOMs is successful."
+}
