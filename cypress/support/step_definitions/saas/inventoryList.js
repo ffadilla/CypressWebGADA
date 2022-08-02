@@ -1,7 +1,9 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 import InventoryListPage from "../../../integration/saas/page_objects/InventoryListPage"
+import InventoryDetail from "../../../integration/saas/page_objects/InventoryDetailPage";
 
 const inventoryListPage = new InventoryListPage();
+const inventoryDetailPage = new InventoryDetail();
 
 When('SAAS - user is on inventory list page', () => {
     cy.clearCookies();
@@ -38,6 +40,6 @@ When('SAAS - user deletes inventory {string} with delete reason = wrong input', 
 // assertions
 
 Then('SAAS - {string} is displayed as product variant name', (expected) => {
-    expect(cy.get('#input_productVariantName').should("have.value", expected));
+    expect(cy.get(inventoryDetailPage.productVariantNameInput).should("have.value", expected));
 });
 

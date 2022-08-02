@@ -3,7 +3,7 @@ import BasePage from './BasePage.js'
 export default class InventoryDetail extends BasePage {
 
     path = "inventory/";
-    productVariantNameInput             = "input[id='input_productVariantName']";
+    productVariantNameInput             = "input[id='input_inventory_detail_product_variant_name']";
     productDisplayNameInput             = "input[id='input_displayName']";
     expandStockUnitButton               = "span[id='button_choose_stock_unit']";
     unitSearchInput                     = "input[id='input_product_unit_uom_input_searchbar']";
