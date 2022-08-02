@@ -1,96 +1,83 @@
-import BasePage from './BasePage.js'
+import BasePage from "./BasePage.js";
 
 export default class RegistrationPage extends BasePage {
+  path = "registration";
+  numberInput = "input[id='input_phone_number']";
+  otpInput1 = "input[aria-label='Please enter verification code. Character 1']";
+  registerLanjutkanButton1 = "button[id='button_submit_step_one']";
+  registerNameInput = "input[id='field_name']";
+  registerEmailInput = "input[id='field_email']";
+  registerLanjutkanButton2 = "button[id='button_submit_step_two']";
+  registerStoreNameInput = "input[id='input_store_name']";
+  //TODO: UPDATE ID
+  storeAddressInput = "input[id='input_store_address']";
+  storeAddressLocationInput = "input[id='input_search_location_name']";
+  storeAddressCurrentLocationButton = "input[id='button_current_location']";
+  storeManualAddressButton = "button[id='button_manual_address']";
+  storeAddressChooseLocationButton = "button[id='button_choose_location']";
+  //TODO: UPDATE ID
+  submitRegistrationButton = "button";
 
-    path = "registration";
-    numberInput = "input[id='input_phone_number']";
-    otpInput1 = "input[aria-label='Please enter verification code. Character 1']";
-    registerLanjutkanButton1 = "button[id='button_submit_step_one']";
-    registerNameInput = "input[id='field_name']";
-    registerEmailInput = "input[id='field_email']";
-    registerLanjutkanButton2 = "button[id='button_submit_step_two']";
-    registerStoreNameInput = "input[id='input_store_name']";
-    //TODO: UPDATE ID
-    storeAddressInput = "input[id='input_store_address']"
-    storeAddressLocationInput = "input[id='input_search_location_name']";
-    storeAddressCurrentLocationButton = "input[id='button_current_location']";
-    storeManualAddressButton = "button[id='button_manual_address']";
-    storeAddressChooseLocationButton = "button[id='button_choose_location']";
-    //TODO: UPDATE ID
-    submitRegistrationButton = "button";
+  // common
+  visitRegistration() {
+    cy.visit(this.baseUrl + this.path);
+  }
 
+  typeNumber(number) {
+    cy.get(this.numberInput).type(number);
+  }
 
-    // common
-    visitRegistration(){
-        cy.visit(this.baseUrl+this.path);
-    }
+  clickRegister() {
+    cy.get(this.startRegisterButton).click();
+  }
 
-    typeNumber(number){
-        cy.get(this.numberInput).type(number);
-    }
+  clickRegisterLanjutkan1() {
+    cy.get(this.registerLanjutkanButton1).click();
+  }
 
-    clickRegister(){
-        cy.get(this.startRegisterButton).click();
-    }
+  typeName(name) {
+    cy.get(this.registerNameInput).type(name);
+  }
 
-    clickRegisterLanjutkan1(){
-        cy.get(this.registerLanjutkanButton1).click();
-    }
+  typeEmail(email) {
+    cy.get(this.registerEmailInput).type(email);
+  }
 
-    typeName(name){
-        cy.get(this.registerNameInput).type(name);
-    }
+  clickRegisterLanjutkan2() {
+    cy.get(this.registerLanjutkanButton2).click();
+  }
 
-    typeEmail(email){
-        cy.get(this.registerEmailInput).type(email);
-    }
+  typeStoreName(storeName) {
+    cy.get(this.registerStoreNameInput).type(storeName);
+  }
 
-    clickRegisterLanjutkan2(){
-        cy.get(this.registerLanjutkanButton2).click();
-    }
+  //TODO: UPDATE
+  clickStoreAddressInputButton() {
+    cy.get(this.storeAddressInput).prev().click();
+  }
 
-    typeStoreName(storeName){
-        cy.get(this.registerStoreNameInput).type(storeName);
-    }
+  typeStoreAddressLocationInput(address) {
+    cy.get(this.storeAddressLocationInput).type(address);
+  }
 
-    //TODO: UPDATE
-    clickStoreAddressInputButton(){
-        cy.get(this.storeAddressInput).prev().click();
-    }
+  clickStoreCurrentLocationButton() {
+    cy.get(this.storeAddressCurrentLocationButton).click();
+  }
 
-    typeStoreAddressLocationInput(address){
-        cy.get(this.storeAddressLocationInput).type(address);
-    }
+  clickStoreManualAddressButton() {
+    cy.get(this.storeManualAddressButton).click();
+  }
 
-    clickStoreCurrentLocationButton(){
-        cy.get(this.storeAddressCurrentLocationButton).click();
-    }
+  clickFirstAddressResult() {
+    cy.get(this.storeManualAddressButton).next().click();
+  }
 
-    clickStoreManualAddressButton() {
-        cy.get(this.storeManualAddressButton).click();
-    }
+  clickChooseStoreLocation() {
+    cy.get(this.storeAddressChooseLocationButton).click();
+  }
 
-    clickFirstAddressResult(){
-        cy.get(this.storeManualAddressButton).next().click();
-    }
-
-    clickChooseStoreLocation(){
-        cy.get(this.storeAddressChooseLocationButton).click();
-    }
-
-    // TODO: UPDATE
-    clickSubmitRegistrationButton() {
-        cy.get(this.submitRegistrationButton).contains('Daftar').click();
-    }
-
-
-
-
-
-
-
-
-
-
-
+  // TODO: UPDATE
+  clickSubmitRegistrationButton() {
+    cy.get(this.submitRegistrationButton).contains("Daftar").click();
+  }
 }

@@ -1,29 +1,35 @@
 {
-    "name": "qe-test-web",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "cypress": "^9.5.3",
-        "cypress-cucumber-preprocessor": "^4.3.1",
-        "cypress-xpath": "^1.6.2",
-        "multiple-cucumber-html-reporter": "^1.21.4"
-    },
-    "projectId": "zsa7zb",
-    "stepDefinitions": [
-        "cypress/support/step_definitions/**/*.{js}"
-    ],
-    "cypress-cucumber-preprocessor": {
-        "cucumberJson": {
-            "generate": true,
-            "outputFolder": "cypress/reports/cucumber-json",
-            "filePrefix": "",
-            "fileSuffix": ".cucumber"
-        }
+  "name": "qe-test-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "report:generate": "node ./cucumber-html-report.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^9.5.3",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-xpath": "^1.6.2",
+    "moment": "^2.29.4",
+    "multiple-cucumber-html-reporter": "^1.21.4",
+    "prettier": "^2.7.1"
+  },
+  "projectId": "zsa7zb",
+  "stepDefinitions": [
+    "cypress/support/step_definitions/**/*.{js}"
+  ],
+  "cypress-cucumber-preprocessor": {
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/reports/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
     }
+  },
+  "volta": {
+    "node": "16.16.0"
+  }
 }
