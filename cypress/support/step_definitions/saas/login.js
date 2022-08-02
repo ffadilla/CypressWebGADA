@@ -22,6 +22,7 @@ function generateRandomNumber(num) {
 }
 
 Given('SAAS - a user is on log in page', () => {
+    cy.clearCookies();
     loginPage.visitLogin();
 });
 

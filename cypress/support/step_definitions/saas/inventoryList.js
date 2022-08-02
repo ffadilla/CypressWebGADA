@@ -24,8 +24,20 @@ When('SAAS - user clicks on add custom inventory button', () => {
     inventoryListPage.clickAddCustomInventoryButton();
 });
 
+When('SAAS - user clicks add inventory button of inventory {string}', (input) => {
+    inventoryListPage.clicksAddSpecificInventoryButton(input);
+});
+
+When('SAAS - user deletes inventory {string} with delete reason = wrong input', (input) => {
+    inventoryListPage.clickSpecificInventoryMoreOptionButton(input);
+    inventoryListPage.clickDeleteInventoryButton();
+    inventoryListPage.chooseDeleteInventoryWrongInput();
+    inventoryListPage.clickConfirmDeleteInventoryButton();
+});
+
 // assertions
 
 Then('SAAS - {string} is displayed as product variant name', (expected) => {
     expect(cy.get('#input_productVariantName').should("have.value", expected));
 });
+

@@ -1,7 +1,7 @@
 Feature: Inventory List
 
     Background:
-        Given SAAS - a new user is registered
+        Given SAAS - user "8408418423" is logged in
         And SAAS - user clicks on inventory list side menu button
 
     Scenario: User searches for inventory by name and clicks tambah barang

@@ -1,13 +1,11 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 import LoginPage from '../../../integration/saas/page_objects/LoginPage';
 import RegistrationPage from '../../../integration/saas/page_objects/RegistrationPage';
-import BasePage from "../../../integration/saas/page_objects/BasePage";
 import HomePage from "../../../integration/saas/page_objects/HomePage";
 
 const loginPage = new LoginPage();
 const registrationPage = new RegistrationPage();
 const homePage = new HomePage();
-const basePage = new BasePage();
 
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
@@ -18,6 +16,7 @@ let otpInput3 = dd.charAt(0);
 let otpInput4 = dd.charAt(1);
 let randomNumber = Math.floor(100000000 + Math.random() * 900000000);
 let randomString = generateRandomString();
+
 function generateRandomNumber(num) {
     return "8"+num+"";
 }
@@ -34,9 +33,11 @@ function generateRandomString() {
 }
 
 Given('SAAS - a new user is registered', () => {
+    cy.clearLocalStorage();
     cy.clearCookies();
+    cy.reload(true);
     registrationPage.visitRegistration();
-    registrationPage.typeNumber(generateRandomNumber(randomNumber));
+    registrationPage.typeNumber(generateRandomNumber(registrationPage));
     registrationPage.clickRegisterLanjutkan1();
     loginPage.selectWhatsappOtpType();
     loginPage.clickSendOtp();
@@ -56,6 +57,22 @@ Given('SAAS - a new user is registered', () => {
     registrationPage.clickSubmitRegistrationButton();
     homePage.clickCloseTutorialButton();
     homePage.clickConfirmCloseTutorialButton();
+});
+
+Given('SAAS - user {string} is logged in', (number) => {
+    cy.clearLocalStorage();
+    cy.clearCookies();
+    cy.reload(true);
+    loginPage.visitLogin();
+    loginPage.typeNumber(number);
+    loginPage.clickLogin();
+    loginPage.selectWhatsappOtpType();
+    loginPage.clickSendOtp();
+    loginPage.inputOtp1(otpInput1);
+    loginPage.inputOtp2(otpInput2);
+    loginPage.inputOtp3(otpInput3);
+    loginPage.inputOtp4(otpInput4);
+    loginPage.clickSubmitOtp();
 });
 
 When('SAAS - user clicks on inventory list side menu button', () => {
