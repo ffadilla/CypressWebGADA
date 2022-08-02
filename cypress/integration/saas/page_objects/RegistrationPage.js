@@ -5,8 +5,8 @@ export default class RegistrationPage extends BasePage {
   numberInput = "input[id='input_phone_number']";
   otpInput1 = "input[aria-label='Please enter verification code. Character 1']";
   registerLanjutkanButton1 = "button[id='button_submit_step_one']";
-  registerNameInput = "input[id='field_name']";
-  registerEmailInput = "input[id='field_email']";
+  registerNameInput = "input[id='input_name']";
+  registerEmailInput = "input[id='input_email']";
   registerLanjutkanButton2 = "button[id='button_submit_step_two']";
   registerStoreNameInput = "input[id='input_store_name']";
   //TODO: UPDATE ID
