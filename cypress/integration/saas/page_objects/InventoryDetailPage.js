@@ -3,19 +3,34 @@ import BasePage from './BasePage.js'
 export default class InventoryDetail extends BasePage {
 
     path = "inventory/";
+
+    // inventory basic info
     productVariantNameInput             = "input[id='input_inventory_detail_product_variant_name']";
     productDisplayNameInput             = "input[id='input_displayName']";
-    expandStockUnitButton               = "span[id='button_choose_stock_unit']";
+
+    // uom section
     unitSearchInput                     = "input[id='input_product_unit_uom_input_searchbar']";
-    specificStockUnitCheckbox           = ".MuiTypography-root";
+    expandStockUnitButton               = "span[id='button_choose_stock_unit']";
     chooseUnitButton                    = "button[id='button_product_unit_uom_pilih']";
-    firstUnitCheckbox                   = "[id^=input_checkbox_product_unit]";
-    firstUnitStockQuantityInput         = "input[id^='input_stock_card_available_stock']";
-    firstUnitPriceInput                 = "input[id^='input_stock_card_price']";
+    unitCheckboxInput                   = "[id^=input_checkbox_product_unit_uom_";
+
+    // uom hierarchy
+    uomConversionSortUpButton           = "[id^=button_conversion_modal_sort_content_up_"
+    uomConversionSortDownButton         = "[id^=button_conversion_modal_sort_content_down_"
+    uomConversionInput                  = "[id^=input_conversion_modal_convert_content_uom_"
+    uomConversionNextStepButton         = "button[id='button_conversion_modal_selanjutnya']";
+    uomConversionSaveButton             = "button[id='button_conversion_modal_simpan']";
+
+    // stock uom
+    unitStockQuantityInput              = "[id^=input_stock_card_available_stock_";
+    unitPriceInput                      = "[id^=input_stock_card_price_";
+
+    // selling uom
     expandSellingUnitButton             = "span[id='button_choose_selling_unit']"
-    addSpecificUnitSellingPriceButton   = ".MuiChip-label";
+    addSpecificUnitSellingPriceButton   = "[id^=button_selling_card_price_tier_set_"
     unitSellingPriceInput               = "input[id='priceTiers\[0\]\.unitPrice']";
     saveUnitSellingPriceButton          = "button[id='button_price_tier_modal_simpan']";
+
     submitAddInventoryButton            = "button[id='button_save_inventory_header']";
 
     // common
@@ -40,32 +55,52 @@ export default class InventoryDetail extends BasePage {
         cy.get(this.unitSearchInput).type(input);
     }
 
-    clickFirstUnitCheckbox() {
-        cy.get(this.firstUnitCheckbox).first().click();
+    clickUnitCheckboxInput() {
+        cy.get(this.unitCheckboxInput).first().click();
     }
 
-    clickSpecificUnitCheckbox(input) {
-        cy.get(this.specificStockUnitCheckbox).contains(input).prev().click();
+    clickSpecificUnitCheckbox(id) {
+        cy.get(this.unitCheckboxInput+id+"]").first().click();
     }
 
     clickChooseUnitButton() {
         cy.get(this.chooseUnitButton).click();
     }
 
-    typeFirstUnitStockQuantity(input) {
-        cy.get(this.firstUnitStockQuantityInput).first().type(input);
+    clickUomConversionSortUpButton(id) {
+        cy.get(this.uomConversionSortUpButton+id+"]").click();
     }
 
-    typeFirstUnitPrice(input) {
-        cy.get(this.firstUnitPriceInput).first().type(input);
+    clickUomConversionSortDownButton(id) {
+        cy.get(this.uomConversionSortDownButton+id+"]").click();
+    }
+
+    clickUomConversionNextStepButton() {
+        cy.get(this.uomConversionNextStepButton).click();
+    }
+
+    clickUomConversionSaveButton() {
+        cy.get(this.uomConversionSaveButton).click();
+    }
+
+    typeUomConversion(id, input) {
+        cy.get(this.uomConversionInput+id+"]").type(input);
+    }
+
+    typeUnitStockQuantity(id, input) {
+        cy.get(this.unitStockQuantityInput+id+"]").type(input);
+    }
+
+    typeUnitPrice(id,input) {
+        cy.get(this.unitPriceInput+id+"]").type(input);
     }
 
     clickExpandSellingUnitButton () {
         cy.get(this.expandSellingUnitButton).click();
     }
 
-    clickAddSpecificUnitSellingPriceButton (input) {
-        cy.get(this.addSpecificUnitSellingPriceButton).contains(input).parent().parent().next().next().children('button').click();
+    clickAddSpecificUnitSellingPriceButton (id) {
+        cy.get(this.addSpecificUnitSellingPriceButton+id+"]").click();
     }
 
     typeUnitSellingPrice(input) {

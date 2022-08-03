@@ -1,5 +1,6 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
 import InventoryDetailPage from "../../../integration/saas/page_objects/InventoryDetailPage"
+import * as utils from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 
@@ -13,30 +14,57 @@ When('SAAS - user types search unit field with {string}', (input) => {
 
 When('SAAS - user clicks on first stock unit checkbox', () => {
     cy.wait(1000);
-   inventoryDetailPage.clickFirstUnitCheckbox();
+   inventoryDetailPage.clickUnitCheckboxInput();
 });
-When('SAAS - user clicks on {string} unit checkbox', (input) => {
-    inventoryDetailPage.clickSpecificUnitCheckbox(input);
+When('SAAS - user clicks on {string} unit checkbox', (uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.clickSpecificUnitCheckbox(uomId);
 });
 
 When('SAAS - user clicks on choose unit button', (input) => {
     inventoryDetailPage.clickChooseUnitButton();
 });
 
-When('SAAS - user types {string} on first unit stock quantity field', (input) => {
-    inventoryDetailPage.typeFirstUnitStockQuantity(input);
+When('SAAS - user clicks on sort up button of unit {string}', (uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.clickUomConversionSortUpButton(uomId);
 });
 
-When('SAAS - user types {string} on first unit price field', (input) => {
-    inventoryDetailPage.typeFirstUnitPrice(input);
+When('SAAS - user clicks on sort down button of unit {string}', (uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.clickUomConversionSortDownButton(uomId);
+});
+
+When('SAAS - user clicks on uom conversion next step button', () => {
+    inventoryDetailPage.clickUomConversionNextStepButton();
+});
+
+When('SAAS - user types {string} on unit {string} conversion field', (input, uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.typeUomConversion(uomId,input);
+});
+
+When('SAAS - user clicks on uom conversion save button', () => {
+    inventoryDetailPage.clickUomConversionSaveButton();
+});
+
+When('SAAS - user types {string} on {string} unit stock quantity field', (input, uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.typeUnitStockQuantity(uomId,input);
+});
+
+When('SAAS - user types {string} on {string} unit price field', (input, uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.typeUnitPrice(uomId, input);
 });
 
 When('SAAS - user clicks on expand selling unit button', () => {
     inventoryDetailPage.clickExpandSellingUnitButton();
 });
 
-When('SAAS - user clicks on add unit selling price button of unit {string}', (input) => {
-    inventoryDetailPage.clickAddSpecificUnitSellingPriceButton(input);
+When('SAAS - user clicks on add unit selling price button of unit {string}', (uomName) => {
+    const uomId = utils.retrieveUomId(uomName);
+    inventoryDetailPage.clickAddSpecificUnitSellingPriceButton(uomId);
 });
 
 When('SAAS - user types {string} on unit selling price field', (input) => {
