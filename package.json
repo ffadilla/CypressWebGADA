@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx cypress open",
     "prepare": "husky install",
-    "report:generate": "node ./cucumber-html-report.js"
+    "report:generate": "node ./cucumberHTMLReport.js"
   },
   "author": "",
   "license": "ISC",
