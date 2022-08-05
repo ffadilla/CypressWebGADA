@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "report:generate": "node ./cucumber-html-report.js",
-    "prepare": "husky install"
+    "dev": "npx cypress open",
+    "prepare": "husky install",
+    "report:generate": "node ./cucumber-html-report.js"
   },
   "author": "",
   "license": "ISC",

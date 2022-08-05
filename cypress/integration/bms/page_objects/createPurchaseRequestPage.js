@@ -1,4 +1,4 @@
-import BasePage from "./base-page.js";
+import BasePage from "./basePage.js";
 
 const basePage = new BasePage();
 

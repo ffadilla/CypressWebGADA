@@ -1,4 +1,4 @@
-import BasePage from "./BasePage.js";
+import BasePage from "./basePage.js";
 
 export default class CreateCollectionPage extends BasePage {
   businessUnitIdInput = "input[id='businessUnitId']";
