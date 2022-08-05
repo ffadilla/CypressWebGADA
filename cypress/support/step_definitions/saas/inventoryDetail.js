@@ -1,4 +1,4 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
+import { Then, When } from "cypress-cucumber-preprocessor/steps";
 import InventoryDetailPage from "../../../integration/saas/page_objects/inventoryDetailPage";
 
 const inventoryDetailPage = new InventoryDetailPage();

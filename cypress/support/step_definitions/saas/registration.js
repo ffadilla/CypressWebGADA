@@ -1,6 +1,5 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
+import { Given, When } from "cypress-cucumber-preprocessor/steps";
 import RegistrationPage from "../../../integration/saas/page_objects/registrationPage";
-import LoginPage from "../../../integration/saas/page_objects/loginPage";
 
 const registrationPage = new RegistrationPage();
 
