@@ -1,6 +1,6 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
-import LoginPage from "../../../integration/saas/page_objects/loginPage";
+import { Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 import BasePage from "../../../integration/saas/page_objects/basePage";
+import LoginPage from "../../../integration/saas/page_objects/loginPage";
 
 beforeEach(() => {
   cy.exec("npm cache clear --force");
