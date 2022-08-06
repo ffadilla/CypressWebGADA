@@ -18,8 +18,9 @@ When('SAAS - user clicks on first time add inventory button', () => {
     inventoryListPage.clickFirstTimeAddInventoryButton();
 });
 
-When('SAAS - user types inventory name field with {string}', (inventoryName) => {
-    inventoryListPage.typeInventoryName(inventoryName);
+When('SAAS - user types search inventory input field with {string}', (input) => {
+    inventoryListPage.typeSearchInput(input);
+    cy.get(inventoryListPage.addInventorySearchInput).should('have.value',input)
 });
 
 When('SAAS - user clicks on add custom inventory button', () => {

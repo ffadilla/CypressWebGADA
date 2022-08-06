@@ -29,7 +29,7 @@ export default class InventoryListPage extends BasePage {
         cy.get(this.firstTimeAddInventoryButton).click();
     }
 
-    typeInventoryName(inventoryName) {
+    typeSearchInput(inventoryName) {
         cy.get(this.addInventorySearchInput).type(inventoryName);
     }
 
