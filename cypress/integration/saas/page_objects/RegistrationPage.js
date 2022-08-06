@@ -9,14 +9,12 @@ export default class RegistrationPage extends BasePage {
   registerEmailInput = "input[id='input_email']";
   registerLanjutkanButton2 = "button[id='button_submit_step_two']";
   registerStoreNameInput = "input[id='input_store_name']";
-  //TODO: UPDATE ID
   storeAddressInput = "input[id='input_store_address']";
   storeAddressLocationInput = "input[id='input_search_location_name']";
   storeAddressCurrentLocationButton = "input[id='button_current_location']";
   storeManualAddressButton = "button[id='button_manual_address']";
   storeAddressChooseLocationButton = "button[id='button_choose_location']";
-  //TODO: UPDATE ID
-  submitRegistrationButton = "button";
+  submitRegistrationButton = "button[id='button_submit_step_three']";
 
   // common
   visitRegistration() {
@@ -51,9 +49,8 @@ export default class RegistrationPage extends BasePage {
     cy.get(this.registerStoreNameInput).type(storeName);
   }
 
-  //TODO: UPDATE
   clickStoreAddressInputButton() {
-    cy.get(this.storeAddressInput).prev().click();
+    cy.get(this.storeAddressInput).click();
   }
 
   typeStoreAddressLocationInput(address) {
@@ -76,8 +73,7 @@ export default class RegistrationPage extends BasePage {
     cy.get(this.storeAddressChooseLocationButton).click();
   }
 
-  // TODO: UPDATE
   clickSubmitRegistrationButton() {
-    cy.get(this.submitRegistrationButton).contains("Daftar").click();
+    cy.get(this.submitRegistrationButton).click();
   }
 }
