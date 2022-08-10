@@ -3,7 +3,7 @@
 WEB UI automation test for gudangada
 <br>
 
-## 1. About Cyepress
+## 1. About Cypress
 
 Everything about Karate can be read in [Cypress Documentation](https://docs.cypress.io/guides), including the functions you can use to implement your test.
 <br>
