@@ -7,7 +7,7 @@ export default class InventoryListPage extends BasePage {
     "button[id='inventory_list_tambah_barang_button']";
   firstTimeAddInventoryButton = "button[id='button_first_time_add_inventory']";
   addInventorySearchInput = "input[id='input_tambah_barang_searchbar']";
-  addCustomInventoryButton = "span[id='button_add_custom_product']";
+  addCustomInventoryButton = "#button_add_custom_product";
   deleteReasonOtherRadioButton = "input[value='OTHER']";
   deleteReasonMistakeRadioButton = "input[value='MISTAKE']";
   confirmDeleteInventoryButton = ".MuiButton-label";
@@ -34,7 +34,11 @@ export default class InventoryListPage extends BasePage {
   }
 
   clickAddCustomInventoryButton() {
-    cy.get(this.addCustomInventoryButton).click();
+    cy.get(".MuiCircularProgress-keyframes-circular-rotate").should(
+      "not.exist",
+      { timeout: 5000 }
+    );
+    cy.get(this.addCustomInventoryButton).click({ force: true });
   }
 
   clicksAddSpecificInventoryButton(input) {
