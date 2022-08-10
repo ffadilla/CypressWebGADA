@@ -7,5 +7,8 @@
         "localStorage": {
 
         }
+    },
+    "warehouseMitra": {
+        "baseUrl": "https://warehouse-dev.gudangada.com/"
     }
 }
