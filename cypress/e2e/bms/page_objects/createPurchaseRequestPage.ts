@@ -205,7 +205,7 @@ export default class CreatePurchaseRequestPage extends BasePage {
     cy.get(this.savePriceTierButton).click();
   }
 
-  checkSellingPriceCalculation(beforeRounded: number, afterRounded: number) {
+  checkSellingPriceCalculation(beforeRounded: string, afterRounded: string) {
     cy.get(this.sellingPriceText + `:contains('${beforeRounded}')`).should(
       "be.visible"
     );

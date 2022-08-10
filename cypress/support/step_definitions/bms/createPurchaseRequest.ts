@@ -99,31 +99,27 @@ And(
 );
 
 And("BMS - user fills delivery fee: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((deliveryFee: any) => {
-    createPurchaseRequestPage.typeDeliveryFee(deliveryFee);
-    cy.wrap(deliveryFee).as("deliveryFee");
-  });
+  let deliveryFee = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(deliveryFee);
+  cy.wrap(deliveryFee).as("deliveryFee");
 });
 
 And("BMS - user fills delivery fee discount: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((deliveryFeeDiscount: any) => {
-    createPurchaseRequestPage.typeDeliveryFeeDiscount(deliveryFeeDiscount);
-    cy.wrap(deliveryFeeDiscount).as("deliveryFeeDiscount");
-  });
+  let deliveryFeeDiscount = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(deliveryFeeDiscount);
+  cy.wrap(deliveryFeeDiscount).as("deliveryFeeDiscount");
 });
 
 And("BMS - user fills unloading fee: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((unloadingFee: any) => {
-    createPurchaseRequestPage.typeUnloadingFee(unloadingFee);
-    cy.wrap(unloadingFee).as("unloadingFee");
-  });
+  let unloadingFee = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(unloadingFee);
+  cy.wrap(unloadingFee).as("unloadingFee");
 });
 
 And("BMS - user fills purchase discount: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((purchaseDiscount: any) => {
-    createPurchaseRequestPage.typePurchaseDiscount(purchaseDiscount);
-    cy.wrap(purchaseDiscount).as("purchaseDiscount");
-  });
+  let purchaseDiscount = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(purchaseDiscount);
+  cy.wrap(purchaseDiscount).as("purchaseDiscount");
 });
 
 And("BMS - user fills purchase reason: {string}", (purchaseReason) => {
@@ -151,93 +147,78 @@ And("BMS - user selects tax type: {string}", (taxTypeName) => {
 });
 
 And("BMS - user fills item quantity: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((quantity: any) => {
-    createPurchaseRequestPage.typeQuantity(quantity);
-    cy.wrap(quantity).as("quantity");
-  });
+  let quantity = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(quantity);
+  cy.wrap(quantity).as("quantity");
 });
 
 And("BMS - user fills item rate: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((rate: any) => {
-    createPurchaseRequestPage.typeRate(rate);
+  let rate = utils.randomNumber(digits);
+  let dpp = utils.dppCalculation(rate);
+  let rateNumberFormat = utils.numberFormat(rate);
+  let dppNumberFormat = utils.numberFormat(dpp);
 
-    cy.wrap(rate).as("rate");
-    cy.get("@taxType").then((taxType: any) => {
-      if (taxType === "VAT") {
-        let dpp = utils.dppCalculation(rate);
-        let vat = utils.vatCalculation(rate, dpp);
-        cy.numberFormat(dpp).then((dpp) => {
-          cy.get(createPurchaseRequestPage.dppInput)
-            .eq(0)
-            .invoke("val")
-            .should("eq", dpp);
+  createPurchaseRequestPage.typeRate(rate);
 
-          cy.wrap(dpp).as("dpp");
+  cy.wrap(rate).as("rate");
+  cy.wrap(dpp).as("dpp");
+
+  cy.get("@taxType").then((taxType: any) => {
+    if (taxType === "VAT") {
+      let vat = utils.vatCalculation(rate, dpp);
+      let vatNumberFormat = utils.numberFormat(vat);
+
+      cy.get(createPurchaseRequestPage.dppInput)
+        .eq(0)
+        .invoke("val")
+        .should("eq", dppNumberFormat);
+      cy.get(createPurchaseRequestPage.vatInput)
+        .eq(1)
+        .invoke("val")
+        .should("eq", vatNumberFormat);
+      cy.wrap(vat).as("vat");
+    } else {
+      cy.get(createPurchaseRequestPage.dppInput)
+        .eq(0)
+        .invoke("val")
+        .should("eq", 0 + rateNumberFormat);
+      cy.get(createPurchaseRequestPage.vatInput)
+        .eq(1)
+        .invoke("val")
+        .should("eq", "0")
+        .then((value) => {
+          cy.wrap(value).as("vat");
         });
-        cy.numberFormat(vat).then((vat) => {
-          cy.get(createPurchaseRequestPage.vatInput)
-            .eq(1)
-            .invoke("val")
-            .should("eq", vat);
-
-          cy.wrap(vat).as("vat");
-        });
-      } else {
-        cy.get("@rate").then((rate: any) => {
-          cy.numberFormat(rate).then((dpp: any) => {
-            cy.get(createPurchaseRequestPage.dppInput)
-              .eq(0)
-              .invoke("val")
-              .should("eq", 0 + dpp);
-
-            cy.wrap(dpp).as("dpp");
-          });
-        });
-        cy.get(createPurchaseRequestPage.vatInput)
-          .eq(1)
-          .invoke("val")
-          .should("eq", "0")
-          .then((value) => {
-            cy.wrap(value).as("vat");
-          });
-      }
-    });
+    }
   });
 });
 
 And("BMS - user fills item rate discount: {int} digits random", (digits) => {
-  cy.randomNumber(digits).then((rateDiscount: any) => {
-    createPurchaseRequestPage.typeRateDiscount(rateDiscount);
-    cy.wrap(rateDiscount).as("rateDiscount");
-  });
+  let rateDiscount = utils.randomNumber(digits);
+  createPurchaseRequestPage.typeDeliveryFee(rateDiscount);
+  cy.wrap(rateDiscount).as("rateDiscount");
   cy.get("@quantity").then((quantity: any) => {
     cy.get("@rate").then((rate: any) => {
-      cy.get("@rateDiscount").then((rateDiscount: any) => {
-        cy.numberFormat(utils.totalAmount(quantity, rate, rateDiscount)).then(
-          (totalAmount) => {
-            cy.get(createPurchaseRequestPage.totalAmountInput)
-              .invoke("val")
-              .should("eq", totalAmount);
-          }
-        );
-        let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
-        cy.wrap(totalAmount).as("totalAmount");
-
-        cy.get("@deliveryFee").then((deliveryFee: any) => {
-          cy.get("@deliveryFeeDiscount").then((deliveryFeeDiscount: any) => {
-            cy.get("@unloadingFee").then((unloadingFee: any) => {
-              cy.get("@purchaseDiscount").then((purchaseDiscount: any) => {
-                let minimumSellingPrice = utils.minimumSellingPrice(
-                  rate,
-                  rateDiscount,
-                  quantity,
-                  deliveryFee,
-                  deliveryFeeDiscount,
-                  unloadingFee,
-                  purchaseDiscount
-                );
-                cy.wrap(minimumSellingPrice).as("minimumSellingPrice");
-              });
+      let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
+      let totalAmountNumberFormat = utils.numberFormat(totalAmount);
+      cy.get(createPurchaseRequestPage.totalAmountInput)
+        .invoke("val")
+        .should("eq", totalAmountNumberFormat);
+      cy.wrap(totalAmount).as("totalAmount");
+      cy.get("@deliveryFee").then((deliveryFee: any) => {
+        cy.get("@deliveryFeeDiscount").then((deliveryFeeDiscount: any) => {
+          cy.get("@unloadingFee").then((unloadingFee: any) => {
+            cy.get("@purchaseDiscount").then((purchaseDiscount: any) => {
+              let minimumSellingPrice = utils.minimumSellingPrice(
+                rate,
+                rateDiscount,
+                quantity,
+                deliveryFee,
+                deliveryFeeDiscount,
+                unloadingFee,
+                purchaseDiscount
+              );
+              cy.wrap(minimumSellingPrice).as("minimumSellingPrice");
             });
           });
         });
@@ -265,70 +246,59 @@ And("BMS - user add {int} purchase items with random product", (items) => {
     createPurchaseRequestPage.selectTaxType(taxType);
     cy.wrap(taxType).as("taxType " + i);
 
-    cy.randomNumber(2).then((quantity: any) => {
-      createPurchaseRequestPage.typeQuantity(quantity);
-      cy.wrap(quantity).as("quantity " + i);
+    let quantity = utils.randomNumber(2);
+    createPurchaseRequestPage.typeQuantity(quantity);
+    cy.wrap(quantity).as("quantity " + i);
+
+    let rate = utils.randomNumber(5);
+    let rateNumberFormat = utils.numberFormat(rate);
+    createPurchaseRequestPage.typeRate(rate);
+    cy.wrap(rate).as("rate " + i);
+
+    let dpp = utils.dppCalculation(rate);
+    let dppNumberFormat = utils.numberFormat(dpp);
+    cy.wrap(dpp).as("dpp" + i);
+
+    cy.get(`@taxType ${i}`).then((taxType: any) => {
+      if (taxType === "VAT") {
+        let vat = utils.vatCalculation(rate, dpp);
+        let vatNumberFormat = utils.numberFormat(vat);
+        cy.get(createPurchaseRequestPage.dppInput)
+          .eq(0)
+          .invoke("val")
+          .should("eq", dppNumberFormat);
+        cy.get(createPurchaseRequestPage.vatInput)
+          .eq(1)
+          .invoke("val")
+          .should("eq", vatNumberFormat);
+        cy.wrap(vat).as("vat" + i);
+      } else {
+        cy.get(createPurchaseRequestPage.dppInput)
+          .eq(0)
+          .invoke("val")
+          .should("eq", 0 + rateNumberFormat);
+        cy.get(createPurchaseRequestPage.vatInput)
+          .eq(1)
+          .invoke("val")
+          .should("eq", "0")
+          .then((value) => {
+            cy.wrap(value).as("vat" + i);
+          });
+      }
     });
 
-    cy.randomNumber(5).then((rate: any) => {
-      createPurchaseRequestPage.typeRate(rate);
-      cy.wrap(rate).as("rate " + i);
-      cy.get(`@taxType ${i}`).then((taxType: any) => {
-        if (taxType == "VAT") {
-          let dpp = utils.dppCalculation(rate);
-          let vat = utils.vatCalculation(rate, dpp);
-          cy.numberFormat(dpp).then((dpp) => {
-            cy.get(createPurchaseRequestPage.dppInput)
-              .eq(0)
-              .invoke("val")
-              .should("eq", dpp);
+    let rateDiscount = utils.randomNumber(4);
+    createPurchaseRequestPage.typeRateDiscount(rateDiscount);
+    cy.wrap(rateDiscount).as("rateDiscount " + i);
 
-            cy.wrap(dpp).as("dpp " + i);
-          });
-          cy.numberFormat(vat).then((vat) => {
-            cy.get(createPurchaseRequestPage.vatInput)
-              .eq(1)
-              .invoke("val")
-              .should("eq", vat);
-
-            cy.wrap(vat).as("vat " + i);
-          });
-        } else {
-          cy.get(`@rate ${i}`).then((rate: any) => {
-            cy.numberFormat(rate).then((dpp: any) => {
-              cy.get(createPurchaseRequestPage.dppInput)
-                .eq(0)
-                .invoke("val")
-                .should("eq", 0 + dpp);
-
-              cy.wrap(dpp).as("dpp " + i);
-            });
-          });
-          cy.get(createPurchaseRequestPage.vatInput)
-            .eq(1)
-            .invoke("val")
-            .should("eq", "0")
-            .then((value) => {
-              cy.wrap(value).as("vat " + i);
-            });
-        }
-      });
-    });
-    cy.randomNumber(4).then((rateDiscount: any) => {
-      createPurchaseRequestPage.typeRateDiscount(rateDiscount);
-      cy.wrap(rateDiscount).as("rateDiscount " + i);
-    });
     cy.get(`@quantity ${i}`).then((quantity: any) => {
       cy.get(`@rate ${i}`).then((rate: any) => {
         cy.get(`@rateDiscount ${i}`).then((rateDiscount: any) => {
-          cy.numberFormat(quantity * (rate - rateDiscount)).then(
-            (totalAmount) => {
-              cy.get(createPurchaseRequestPage.totalAmountInput)
-                .invoke("val")
-                .should("eq", totalAmount);
-            }
-          );
           let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
+          let totalAmountNumberFormat = utils.numberFormat(totalAmount);
+          cy.get(createPurchaseRequestPage.totalAmountInput)
+            .invoke("val")
+            .should("eq", totalAmountNumberFormat);
           cy.wrap(totalAmount).as("totalAmount " + i);
         });
       });
@@ -344,12 +314,9 @@ And("BMS - user clicks Lanjut button to suggested selling price stage", () => {
 And(
   "BMS - user fills selling estimation days: {int} digits random",
   (digits) => {
-    cy.randomNumber(digits).then((sellingEstimationDays: any) => {
-      createPurchaseRequestPage.typeSellingEstimationDays(
-        sellingEstimationDays
-      );
-      cy.wrap(sellingEstimationDays).as("sellingEstimationDays");
-    });
+    let sellingEstimationDays = utils.randomNumber(digits);
+    createPurchaseRequestPage.typeSellingEstimationDays(sellingEstimationDays);
+    cy.wrap(sellingEstimationDays).as("sellingEstimationDays");
   }
 );
 
@@ -390,9 +357,10 @@ And("BMS - user clicks Simpan button to UOM price tier", () => {
       cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
         cy.get("@price").then((price: any) => {
           let priceMargin = utils.marginCalculation(price, minimumSellingPrice);
+          let priceMarginNumberFormat = utils.numberFormat(priceMargin);
           createPurchaseRequestPage.checkSellingPriceCalculation(
-            priceMargin,
-            priceMargin
+            priceMarginNumberFormat,
+            priceMarginNumberFormat
           );
         });
       });
@@ -401,14 +369,12 @@ And("BMS - user clicks Simpan button to UOM price tier", () => {
         cy.get("@margin").then((margin: any) => {
           let price = utils.priceCalculation(margin, minimumSellingPrice);
           let roundedPrice = utils.roundPrice(price);
-          cy.numberFormat(price).then((price: any) => {
-            cy.numberFormat(roundedPrice).then((roundedPrice: any) => {
-              createPurchaseRequestPage.checkSellingPriceCalculation(
-                price,
-                roundedPrice
-              );
-            });
-          });
+          let priceNumberFormat = utils.numberFormat(price);
+          let roundedPriceNumberFormat = utils.numberFormat(roundedPrice);
+          createPurchaseRequestPage.checkSellingPriceCalculation(
+            priceNumberFormat,
+            roundedPriceNumberFormat
+          );
         });
       });
     }
