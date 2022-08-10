@@ -1,32 +1,45 @@
 {
-    "name": "qe-test-web",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "cypress": "^9.7.0",
-        "cypress-cucumber-preprocessor": "^4.3.1",
-        "cypress-xpath": "^1.6.2",
-        "multiple-cucumber-html-reporter": "^1.21.4"
-    },
-    "projectId": "zsa7zb",
-    "stepDefinitions": [
-        "cypress/support/step_definitions/**/*.{js}"
-    ],
-    "cypress-cucumber-preprocessor": {
-        "cucumberJson": {
-            "generate": true,
-            "outputFolder": "cypress/reports/cucumber-json",
-            "filePrefix": "",
-            "fileSuffix": ".cucumber"
-        }
-    },
-    "dependencies": {
-        "fs-extra": "^10.1.0"
+  "name": "qe-test-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx cypress open",
+    "prepare": "husky install",
+    "report:generate": "node ./cucumberHTMLReport.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.6.5",
+    "cypress": "^9.5.3",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-xpath": "^1.6.2",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "moment": "^2.29.4",
+    "multiple-cucumber-html-reporter": "^1.21.4",
+    "prettier": "^2.7.1"
+  },
+  "projectId": "zsa7zb",
+  "stepDefinitions": [
+    "cypress/support/step_definitions/**/*.{js}"
+  ],
+  "cypress-cucumber-preprocessor": {
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/reports/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,css,md,json,yml,yaml}": "npx prettier --write"
+  },
+  "volta": {
+    "node": "16.16.0"
+  },
+  "dependencies": {
+    "fs-extra": "^10.1.0"
+  }
 }
