@@ -1,4 +1,4 @@
-import BasePage from "./basePage.js";
+import BasePage from "./basePage";
 
 export default class HomePage extends BasePage {
   path = "";

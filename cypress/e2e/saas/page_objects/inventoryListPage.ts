@@ -1,4 +1,4 @@
-import BasePage from "./BasePage.js";
+import BasePage from "./basePage";
 
 export default class InventoryListPage extends BasePage {
   path = "inventory/list";
@@ -29,7 +29,7 @@ export default class InventoryListPage extends BasePage {
     cy.get(this.firstTimeAddInventoryButton).click();
   }
 
-  typeSearchInput(inventoryName) {
+  typeSearchInput(inventoryName: string) {
     cy.get(this.addInventorySearchInput).type(inventoryName);
   }
 
@@ -41,11 +41,11 @@ export default class InventoryListPage extends BasePage {
     cy.get(this.addCustomInventoryButton).click({ force: true });
   }
 
-  clicksAddSpecificInventoryButton(input) {
+  clicksAddSpecificInventoryButton(input: string) {
     cy.contains("div", input).next().children("button").click();
   }
 
-  clickSpecificInventoryMoreOptionButton(input) {
+  clickSpecificInventoryMoreOptionButton(input: string) {
     cy.contains("td", input).next().next().next().next().next().click();
   }
 

@@ -1,3 +1,4 @@
+const browserify = require("@cypress/browserify-preprocessor");
 const cucumber = require("cypress-cucumber-preprocessor").default;
 const fs = require("fs-extra");
 const path = require("path");
@@ -11,7 +12,11 @@ const fetchConfigurationByFile = (file) => {
 };
 
 module.exports = (on, config) => {
-  on("file:preprocessor", cucumber());
+  const options = browserify.defaultOptions;
+  options.browserifyOptions.plugin.unshift(["tsify"]);
+
+  on("file:preprocessor", cucumber(options));
+
   const environment = config.env.configFile || "development";
   const configurationForEnvironment = fetchConfigurationByFile(environment);
 

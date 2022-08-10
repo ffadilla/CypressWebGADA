@@ -1,8 +1,10 @@
+import gadaConfig from "../../utils/gadaConfig";
+
 export default class BasePage {
-  baseUrl = Cypress.config().saas.baseUrl;
+  baseUrl = gadaConfig.saas.baseUrl;
   snackbar_error = "#snackbar_global_error";
 
-  navigate(path) {
+  navigate(path: string) {
     cy.visit(this.baseUrl + path);
   }
 

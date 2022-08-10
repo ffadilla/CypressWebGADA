@@ -1,55 +1,70 @@
 # qe-test-web
+
 WEB UI automation test for gudangada
 <br>
-## About Cyepress
+
+## 1. About Cyepress
+
 Everything about Karate can be read in [Cypress Documentation](https://docs.cypress.io/guides), including the functions you can use to implement your test.
 <br>
-## Development Requirement
+
+## 2. Development Requirement
+
 ### Mac OSX
 
-1. Install Homebrew: 	
+1. Install Homebrew:
+
 ```
 /bin/bash -c "$(curl -fs https://raw.githubusercontent.com/Homebrew/install/master/install.sh)
 ```
 
-2. Install Node JS:
-```
-2.1 Go to the Node.js Downloads page https://nodejs.org/en/download/
-2.2 Download Node.js for macOS by clicking the "Macintosh Installer" option
-2.3 Run the downloaded Node.js .pkg Installer
-2.4 Run the installer, including accepting the license, selecting the destination, and authenticating for the install.
-2.5 You're finished! To ensure Node.js has been installed, run node -v in your terminal - you should get something like v6.9.4
-```
+2. Install Node JS: There are 3 main ways to install Node.js:
+
+   1. Using the [volta.sh](https://volta.sh/), this will automatically install the Node.js version when you visit the repo.
+   2. Using the [NVM](https://github.com/nvm-sh/nvm), install it and choose node version 16.16.
+   3. Manually install Node.js
+      1. Go to the Node.js Downloads page https://nodejs.org/en/download/
+      2. Download Node.js for macOS by clicking the "Macintosh Installer" option
+      3. Run the downloaded Node.js .pkg Installer
+      4. Run the installer, including accepting the license, selecting the destination, and authenticating for the install.
+      5. You're finished! To ensure Node.js has been installed, run node -v in your terminal - you should get something like v6.9.4
 
 3. Install Cypress:
 
 Make sure you are at the project repository
+
 ```
 cd /path/qe-test-web
 ```
 
-Install Cypress using Node JS
+Install dependencies and necessary setup.
+
 ```
-npm install cypress --save-dev
+npm install
 ```
 
-Install Cypress Cucumber Preprocessor
-```
-npm install --save-dev cypress-cucumber-preprocessor
-```
+## 3. Open and Run Cypress
 
-## Open and Run Cypress
 Open cypress using
+
 ```
-node_modules/.bin/cypress open --env configFile=staging
+npx cypress open --env configFile={staging|development|production}
 ```
 
-Run scenarios using 
+Run scenarios using
+
 ```
-node_modules/.bin/cypress run --env configFile=staging --spec [specific feature file]
+npx cypress run --env configFile={staging|development|production} --spec [specific feature file]
+```
+
+Run scenarios in a folder
+
+```
+npx cypress run --env configFile={staging|development|production} --spec cypress/e2e/google/features
 ```
 
 Generate cucumber html report using
+
 ```
-node cucumber-html-report.js
+npm run report:generate
 ```

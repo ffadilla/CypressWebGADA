@@ -1,9 +1,9 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
-import InventoryDetailPage from "../../../integration/saas/page_objects/InventoryDetailPage";
+import { Then, When } from "cypress-cucumber-preprocessor/steps";
+import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
-var uomName;
+let uomName: string;
 
 When("SAAS - user clicks on expand stock unit button", () => {
   inventoryDetailPage.clickExpandStockUnitButton();
@@ -26,7 +26,7 @@ When("SAAS - user clicks on first stock unit checkbox", () => {
 
 When("SAAS - user clicks on {string} unit checkbox", (uomName) => {
   const uomId = utils.retrieveUomId(uomName);
-  inventoryDetailPage.clickSpecificUnitCheckbox(uomId);
+  inventoryDetailPage.clickSpecificUnitCheckbox(uomId + "");
 });
 
 When("SAAS - user clicks on add new unit button", () => {
@@ -38,18 +38,18 @@ When("SAAS - user clicks on add new unit button", () => {
   cy.wait(1500);
 });
 
-When("SAAS - user clicks on choose unit button", (input) => {
+When("SAAS - user clicks on choose unit button", (_input) => {
   inventoryDetailPage.clickChooseUnitButton();
 });
 
 When("SAAS - user clicks on sort up button of unit {string}", (uomName) => {
   const uomId = utils.retrieveUomId(uomName);
-  inventoryDetailPage.clickUomConversionSortUpButton(uomId);
+  inventoryDetailPage.clickUomConversionSortUpButton(uomId + "");
 });
 
 When("SAAS - user clicks on sort down button of unit {string}", (uomName) => {
   const uomId = utils.retrieveUomId(uomName);
-  inventoryDetailPage.clickUomConversionSortDownButton(uomId);
+  inventoryDetailPage.clickUomConversionSortDownButton(uomId + "");
 });
 
 When("SAAS - user clicks on uom conversion next step button", () => {
@@ -60,7 +60,7 @@ When(
   "SAAS - user types {string} on unit {string} conversion field",
   (input, uomName) => {
     const uomId = utils.retrieveUomId(uomName);
-    inventoryDetailPage.typeUomConversion(uomId, input);
+    inventoryDetailPage.typeUomConversion(uomId + "", input);
   }
 );
 
@@ -109,7 +109,7 @@ When(
         break;
       default:
         const uomId = utils.retrieveUomId(uomName);
-        inventoryDetailPage.typeUnitStockQuantity(uomId, input);
+        inventoryDetailPage.typeUnitStockQuantity(uomId + "", input);
     }
   }
 );
@@ -155,7 +155,7 @@ When(
         break;
       default:
         const uomId = utils.retrieveUomId(uomName);
-        inventoryDetailPage.typeUnitPrice(uomId, input);
+        inventoryDetailPage.typeUnitPrice(uomId + "", input);
     }
   }
 );
@@ -168,7 +168,7 @@ When(
   "SAAS - user clicks on add unit selling price button of unit {string}",
   (uomName) => {
     const uomId = utils.retrieveUomId(uomName);
-    inventoryDetailPage.clickAddSpecificUnitSellingPriceButton(uomId);
+    inventoryDetailPage.clickAddSpecificUnitSellingPriceButton(uomId + "");
   }
 );
 
@@ -208,12 +208,12 @@ When("SAAS - user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
 });
 
-When("SAAS - user clicks on submit add inventory button", (input) => {
+When("SAAS - user clicks on submit add inventory button", (_input) => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
 });
 // assertions
 
-Then("SAAS - user is redirected to inventory list page", (expected) => {
+Then("SAAS - user is redirected to inventory list page", (_expected) => {
   cy.wait(2000);
   cy.url().should("eq", inventoryDetailPage.baseUrl + "inventory/list");
 });

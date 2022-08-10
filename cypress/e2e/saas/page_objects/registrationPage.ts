@@ -1,4 +1,4 @@
-import BasePage from "./basePage.js";
+import BasePage from "./basePage";
 
 export default class RegistrationPage extends BasePage {
   path = "registration";
@@ -21,23 +21,23 @@ export default class RegistrationPage extends BasePage {
     cy.visit(this.baseUrl + this.path);
   }
 
-  typeNumber(number) {
+  typeNumber(number: string) {
     cy.get(this.numberInput).type(number);
   }
 
-  clickRegister() {
-    cy.get(this.startRegisterButton).click();
-  }
+  // clickRegister() {
+  //   cy.get(this.startRegisterButton).click();
+  // }
 
   clickRegisterLanjutkan1() {
     cy.get(this.registerLanjutkanButton1).click();
   }
 
-  typeName(name) {
+  typeName(name: string) {
     cy.get(this.registerNameInput).type(name);
   }
 
-  typeEmail(email) {
+  typeEmail(email: string) {
     cy.get(this.registerEmailInput).type(email);
   }
 
@@ -45,7 +45,7 @@ export default class RegistrationPage extends BasePage {
     cy.get(this.registerLanjutkanButton2).click();
   }
 
-  typeStoreName(storeName) {
+  typeStoreName(storeName: string) {
     cy.get(this.registerStoreNameInput).type(storeName);
   }
 
@@ -53,7 +53,7 @@ export default class RegistrationPage extends BasePage {
     cy.get(this.storeAddressInput).click();
   }
 
-  typeStoreAddressLocationInput(address) {
+  typeStoreAddressLocationInput(address: string) {
     cy.get(this.storeAddressLocationInput).type(address);
   }
 

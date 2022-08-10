@@ -1,6 +1,0 @@
-{
-    "chromeWebSecurity": false,
-    "projectId": "rd4f39",
-    "testFiles": "**/*.feature",
-    "watchForFileChanges": false
-}

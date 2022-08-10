@@ -1,4 +1,4 @@
-import BasePage from "./BasePage.js";
+import BasePage from "./basePage";
 
 export default class LoginPage extends BasePage {
   path = "login";
@@ -22,7 +22,7 @@ export default class LoginPage extends BasePage {
     cy.get(this.startRegisterButton).click();
   }
 
-  typeNumber(number) {
+  typeNumber(number: string) {
     cy.get(this.numberInput).type(number);
   }
 
@@ -42,19 +42,19 @@ export default class LoginPage extends BasePage {
     cy.get(this.sendOtpButton).click();
   }
 
-  inputOtp1(otp) {
+  inputOtp1(otp: string) {
     cy.get(this.otpInput1).type(otp);
   }
 
-  inputOtp2(otp) {
+  inputOtp2(otp: string) {
     cy.get(this.otpInput2).type(otp);
   }
 
-  inputOtp3(otp) {
+  inputOtp3(otp: string) {
     cy.get(this.otpInput3).type(otp);
   }
 
-  inputOtp4(otp) {
+  inputOtp4(otp: string) {
     cy.get(this.otpInput4).type(otp);
   }
 

@@ -1,4 +1,4 @@
-import "./commands";
+import "./";
 
 afterEach(() => {
   const screenshotsFolder = Cypress.config("screenshotsFolder");

@@ -1,4 +1,4 @@
-import BasePage from "./BasePage.js";
+import BasePage from "./basePage";
 
 export default class InventoryDetail extends BasePage {
   path = "inventory/";
@@ -48,11 +48,11 @@ export default class InventoryDetail extends BasePage {
     cy.visit(this.baseUrl + this.path);
   }
 
-  typeProductVariantName(input) {
+  typeProductVariantName(input: string) {
     cy.get(this.productVariantNameInput).type(input);
   }
 
-  typeProductDisplayName(input) {
+  typeProductDisplayName(input: string) {
     cy.get(this.productDisplayNameInput).type(input);
   }
 
@@ -60,7 +60,7 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.expandStockUnitButton).click();
   }
 
-  typeUnitSearch(input) {
+  typeUnitSearch(input: string) {
     cy.get(this.unitSearchInput).clear();
     cy.get(this.unitSearchInput).type(input);
   }
@@ -69,7 +69,7 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.unitCheckboxInput).first().click();
   }
 
-  clickSpecificUnitCheckbox(id) {
+  clickSpecificUnitCheckbox(id: string) {
     cy.get(this.unitCheckboxInput + id + "]")
       .first()
       .click();
@@ -83,11 +83,11 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.addNewUnitButton).click();
   }
 
-  clickUomConversionSortUpButton(id) {
+  clickUomConversionSortUpButton(id: string) {
     cy.get(this.uomConversionSortUpButton + id + "]").click();
   }
 
-  clickUomConversionSortDownButton(id) {
+  clickUomConversionSortDownButton(id: string) {
     cy.get(this.uomConversionSortDownButton + id + "]").click();
   }
 
@@ -99,15 +99,15 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.uomConversionSaveButton).click();
   }
 
-  typeUomConversion(id, input) {
+  typeUomConversion(id: string, input: string) {
     cy.get(this.uomConversionInput + id + "]").type(input);
   }
 
-  typeUnitStockQuantity(id, input) {
+  typeUnitStockQuantity(id: string, input: string) {
     cy.get(this.unitStockQuantityInput + id + "]").type(input);
   }
 
-  typeUnitPrice(id, input) {
+  typeUnitPrice(id: string, input: string) {
     cy.get(this.unitPriceInput + id + "]").type(input);
   }
 
@@ -119,11 +119,11 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.enablePriceTierButton).click();
   }
 
-  typeUnitPriceTierSellingPriceInput(id, input) {
+  typeUnitPriceTierSellingPriceInput(id: string, input: string) {
     cy.get(this.unitPriceTierSellingPriceInput + id + "]").type(input);
   }
 
-  typeUnitPriceTierMinimumQuantityInput(id, input) {
+  typeUnitPriceTierMinimumQuantityInput(id: string, input: string) {
     cy.get(this.unitPriceTierMinimumQuantityInput + id + "]").type(input);
   }
 
@@ -131,11 +131,11 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.unitPriceTierAddMoreRowButton).click();
   }
 
-  clickAddSpecificUnitSellingPriceButton(id) {
+  clickAddSpecificUnitSellingPriceButton(id: string) {
     cy.get(this.addSpecificUnitSellingPriceButton + id + "]").click();
   }
 
-  typeUnitSellingPrice(input) {
+  typeUnitSellingPrice(input: string) {
     cy.get(this.unitSellingPriceInput).type(input);
   }
 

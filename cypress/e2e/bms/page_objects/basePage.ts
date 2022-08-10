@@ -1,15 +1,16 @@
-export default class BasePage {
-  BASE_URL = Cypress.config().bms.baseUrl;
-  SNACK_BAR_ALERT = ".SnackbarContent-root";
+import gadaConfig from "../../utils/gadaConfig";
 
-  navigate(path) {
-    cy.visit(this.BASE_URL + path);
+export default class BasePage {
+  baseURL = gadaConfig.bms.baseUrl;
+  snackBarAlert = ".SnackbarContent-root";
+
+  navigate(path: string) {
+    cy.visit(this.baseURL + path);
   }
 
-  setLocalStorage(userRole) {
-    var users = Cypress.config().bms.users;
-    var userRole = userRole;
-    var user = users[userRole];
+  setLocalStorage(userRole: string) {
+    let users = gadaConfig.bms.users;
+    let user = users[userRole];
 
     window.localStorage.setItem("username", user.username);
     window.localStorage.setItem("userImage", user.userImage);
@@ -26,9 +27,7 @@ export default class BasePage {
     return cy.title();
   }
 
-  checkSnackBar(message) {
-    cy.get(this.SNACK_BAR_ALERT + `:contains('${message}')`).should(
-      "be.visible"
-    );
+  checkSnackBar(message: string) {
+    cy.get(this.snackBarAlert + `:contains('${message}')`).should("be.visible");
   }
 }

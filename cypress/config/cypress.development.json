@@ -1,4 +1,7 @@
 {
+  "google": {
+    "baseUrl": "https://google.com/"
+  },
   "saas": {
     "baseUrl": "https://saas.gudangada.online/"
   },
