@@ -1,4 +1,4 @@
-import BasePage from "./basePage.js";
+import BasePage from "./BasePage.js";
 
 export default class LoginPage extends BasePage {
   path = "login";
@@ -8,10 +8,10 @@ export default class LoginPage extends BasePage {
   whatsappOtpTypeInput = "input[value='WHATSAPP']";
   smsOtpTypeInput = "input[value='SMS']";
   sendOtpButton = "button[id='button_send_otp']";
-  otpInput1 = "input[aria-label='Please enter verification code. Character 1']";
-  otpInput2 = "input[aria-label='Character 2']";
-  otpInput3 = "input[aria-label='Character 3']";
-  otpInput4 = "input[aria-label='Character 4']";
+  otpInput1 = "input[data-testid='input_otp-0']";
+  otpInput2 = "input[data-testid='input_otp-1']";
+  otpInput3 = "input[data-testid='input_otp-2']";
+  otpInput4 = "input[data-testid='input_otp-3']";
   submitOtpButton = "button[id='button_otp_submit']";
 
   visitLogin() {

@@ -1,12 +1,9 @@
-import { Given, When } from "cypress-cucumber-preprocessor/steps";
-import RegistrationPage from "../../../integration/saas/page_objects/registrationPage";
+import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
+import RegistrationPage from "../../../integration/saas/page_objects/RegistrationPage";
+import LoginPage from "../../../integration/saas/page_objects/LoginPage";
+import * as utils from "../saas/utils";
 
 const registrationPage = new RegistrationPage();
-
-let random = Math.floor(100000000 + Math.random() * 900000000);
-function generateRandomNumber(num) {
-  return "8" + num + "";
-}
 
 Given("SAAS - a user is on registration page", () => {
   cy.clearCookies();
@@ -14,7 +11,9 @@ Given("SAAS - a user is on registration page", () => {
 });
 
 When("SAAS - user fills phone number with random phone number", () => {
-  registrationPage.typeNumber(generateRandomNumber(random));
+  let num = utils.generateRandomNumber();
+  registrationPage.typeNumber(num);
+  cy.get(registrationPage.numberInput).should('have.value', num)
 });
 
 When("SAAS - user clicks on lanjutkan button #no. handphone", () => {
@@ -27,10 +26,12 @@ When("SAAS - user clicks on lanjutkan button #data diri", () => {
 
 When("SAAS - user fills name field with {string}", (name) => {
   registrationPage.typeName(name);
+  cy.get(registrationPage.registerNameInput).should('have.value', name)
 });
 
 When("SAAS - user fills email field with {string}", (email) => {
   registrationPage.typeEmail(email);
+  cy.get(registrationPage.registerEmailInput).should('have.value', email)
 });
 
 When("SAAS - user clicks on daftar button", () => {
@@ -39,6 +40,7 @@ When("SAAS - user clicks on daftar button", () => {
 
 When("SAAS - user fills store name field with {string}", (storeName) => {
   registrationPage.typeStoreName(storeName);
+  cy.get(registrationPage.registerStoreNameInput).should('have.value', storeName)
 });
 
 When("SAAS - user clicks on input address button", () => {
@@ -47,6 +49,7 @@ When("SAAS - user clicks on input address button", () => {
 
 When("SAAS - user fills store address field with {string}", (address) => {
   registrationPage.typeStoreAddressLocationInput(address);
+  cy.get(registrationPage.storeAddressLocationInput).should('have.value', address)
 });
 
 When("SAAS - user clicks on current address button", () => {

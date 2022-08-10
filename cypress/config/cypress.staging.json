@@ -1,1 +1,11 @@
-{}
+{
+  "saas": {
+    "baseUrl": "https://saas.gudangada.net/"
+  },
+  "bms": {
+    "baseUrl": "https://bms.gudangada.net/",
+    "localStorage": {
+
+    }
+  }
+}
