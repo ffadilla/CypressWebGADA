@@ -4,18 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "report:generate": "node ./cucumber-html-report.js"
+    "check:staged": "npx lint-staged",
+    "check:static:watch": "npx tsc --watch",
+    "check:static": "npx tsc",
+    "dev": "npx cypress open",
+    "prepare": "husky install",
+    "report:generate": "node ./cucumberHTMLReport.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "cypress": "^9.5.3",
     "cypress-cucumber-preprocessor": "^4.3.1",
-    "cypress-xpath": "^1.6.2",
+    "cypress-xpath": "^2.0.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "moment": "^2.29.4",
     "multiple-cucumber-html-reporter": "^1.21.4",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "tsify": "^5.0.4",
+    "typescript": "^4.7.4"
   },
   "projectId": "zsa7zb",
   "stepDefinitions": [
@@ -23,13 +31,19 @@
   ],
   "cypress-cucumber-preprocessor": {
     "cucumberJson": {
-      "generate": true,
-      "outputFolder": "cypress/reports/cucumber-json",
       "filePrefix": "",
-      "fileSuffix": ".cucumber"
+      "fileSuffix": ".cucumber",
+      "generate": true,
+      "outputFolder": "cypress/reports/cucumber-json"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,css,md,json,yml,yaml}": "npx prettier --write"
   },
   "volta": {
     "node": "16.16.0"
+  },
+  "dependencies": {
+    "fs-extra": "^10.1.0"
   }
 }

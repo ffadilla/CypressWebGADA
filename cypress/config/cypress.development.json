@@ -1,14 +1,15 @@
 {
-    "saas": {
-        "baseUrl": "https://saas.gudangada.online/"
-    },
-    "bms": {
-        "baseUrl": "https://bms.gudangada.online/",
-        "localStorage": {
-
-        }
-    },
-    "warehouseMitra": {
-        "baseUrl": "https://warehouse-dev.gudangada.com/"
-    }
+  "google": {
+    "baseUrl": "https://google.com/"
+  },
+  "saas": {
+    "baseUrl": "https://saas.gudangada.online/"
+  },
+  "bms": {
+    "baseUrl": "https://bms.gudangada.online/",
+    "localStorage": {}
+  },
+  "warehouseMitra": {
+      "baseUrl": "https://warehouse-dev.gudangada.com/"
+  }
 }
