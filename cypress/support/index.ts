@@ -25,6 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // TODO: change any
+import "cypress-xpath";
+
 Cypress.Commands.add("randomNumber", (length: number): any => {
   return parseInt(
     ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")

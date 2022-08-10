@@ -8,5 +8,8 @@
   "bms": {
     "baseUrl": "https://bms.gudangada.net/",
     "localStorage": {}
+  },
+  "warehouseMitra": {
+      "baseUrl": "https://warehouse-staging.gudangada.com/"
   }
 }
