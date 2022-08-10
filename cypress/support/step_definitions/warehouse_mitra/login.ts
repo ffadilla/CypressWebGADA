@@ -1,5 +1,5 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
-import LoginPage from "../../../integration/warehouse_mitra/page_objects/login-page.js";
+import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
 
 const loginPage = new LoginPage();
 
@@ -26,11 +26,14 @@ When("Mitra - user click MASUK button", () => {
 //ASSERTION
 
 Then("Mitra - user is on dashboard page", () => {
-  expect(cy.url().should('include', 'dashboard'));
+  expect(cy.url().should("include", "dashboard"));
   loginPage.logout();
 });
 
 Then("Mitra - {string} error message should appear", (errorMessage) => {
-  expect(cy.get('.css-1r9jg41 > .css-10ttwk5 > .MuiBox-root')
-    .should('contain.text', errorMessage));
+  expect(
+    cy
+      .get(".css-1r9jg41 > .css-10ttwk5 > .MuiBox-root")
+      .should("contain.text", errorMessage)
+  );
 });

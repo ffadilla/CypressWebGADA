@@ -1,12 +1,12 @@
-import BasePage from './base-page.js';
+import BasePage from "./basePage";
 
 export default class LoginPage extends BasePage {
-  path = 'login';
+  path = "login";
   emailField = 'input[id="email"]';
   passwordField = 'input[id="password"]';
   loginButton = 'button[type="submit"]';
 
-  login(email, password){
+  login(email: string, password: string) {
     this.navigate(this.path);
     cy.get(this.emailField).type(email);
     cy.get(this.passwordField).type(password);
