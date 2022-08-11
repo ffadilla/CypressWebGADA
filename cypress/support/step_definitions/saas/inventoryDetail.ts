@@ -4,19 +4,61 @@ import * as utils from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
+let principalName: string;
 
 When("SAAS - user clicks on expand stock unit button", () => {
   inventoryDetailPage.clickExpandStockUnitButton();
 });
 
-When("SAAS - user types search unit field with {string}", (input) => {
+When("SAAS - user types {string} on search unit field", (input) => {
   uomName = input;
   inventoryDetailPage.typeUnitSearch(uomName);
 });
 
-When("SAAS - user types search unit field with random uom name", () => {
+When("SAAS - user clicks on principal and brand button", () => {
+  inventoryDetailPage.clickPrincipalAndBrandButton();
+});
+
+When(
+  "SAAS - user types random principal name on principal searchbar input",
+  () => {
+    principalName = utils.generateRandomString(5);
+    inventoryDetailPage.typePrincipalSearchbarInput(
+      "Principal " + principalName
+    );
+    cy.get(inventoryDetailPage.principalSearchbarInput).should(
+      "have.value",
+      "Principal " + principalName
+    );
+    cy.get(inventoryDetailPage.addCustomPrincipalButton)
+      .children(".MuiButton-label")
+      .should("include.text", "Principal " + principalName);
+  }
+);
+
+When("SAAS - user clicks on add custom principal button", () => {
+  inventoryDetailPage.clickAddCustomPrincipalButton();
+});
+
+When(
+  "SAAS - user clicks on submit add custom principal or brand modal button",
+  () => {
+    inventoryDetailPage.clickCustomPrincipalAndBrandModalSubmitButton();
+    expect("h2").contain("Isi Nama Brand");
+  }
+);
+
+When("SAAS user clicks on brand back button", () => {
+  inventoryDetailPage.clickBrandBackButton();
+});
+
+When("SAAS - user types random uom name on search unit field", () => {
   uomName = utils.generateRandomString(5);
   inventoryDetailPage.typeUnitSearch("UOM " + uomName);
+  cy.get(inventoryDetailPage.unitSearchInput).should(
+    "have.value",
+    "UOM " + uomName
+  );
 });
 
 When("SAAS - user clicks on first stock unit checkbox", () => {
@@ -38,7 +80,7 @@ When("SAAS - user clicks on add new unit button", () => {
   cy.wait(1500);
 });
 
-When("SAAS - user clicks on choose unit button", (_input) => {
+When("SAAS - user clicks on choose unit button", () => {
   inventoryDetailPage.clickChooseUnitButton();
 });
 
@@ -176,7 +218,7 @@ When("SAAS - user types {string} on unit selling price field", (input) => {
   inventoryDetailPage.typeUnitSellingPrice(input);
 });
 
-When("SAAS - user clicks enable price tier button", () => {
+When("SAAS - user clicks on enable price tier button", () => {
   inventoryDetailPage.clickEnablePriceTierButton();
 });
 
@@ -208,12 +250,37 @@ When("SAAS - user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
 });
 
-When("SAAS - user clicks on submit add inventory button", (_input) => {
+When("SAAS - user clicks on add barcode button", () => {
+  inventoryDetailPage.clickAddBarcodeButton();
+});
+
+When("SAAS - user clicks on input barcode manually button", () => {
+  inventoryDetailPage.clickInputBarcodeManuallyButton();
+});
+
+When("SAAS - user types {string} on barcode modal", (input) => {
+  inventoryDetailPage.typeBarcodeValue(input);
+  cy.get(inventoryDetailPage.barcodeValueInput).should("have.value", input);
+  cy.get(inventoryDetailPage.saveBarcodeButton).should("not.be.disabled");
+});
+
+When("SAAS - user clicks on save barcode button", () => {
+  inventoryDetailPage.clickSaveBarcodeButton();
+});
+
+When("SAAS - user clicks on submit add inventory button", () => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
 });
+
 // assertions
 
-Then("SAAS - user is redirected to inventory list page", (_expected) => {
-  cy.wait(2000);
+Then("SAAS - user is redirected to inventory list page", () => {
   cy.url().should("eq", inventoryDetailPage.baseUrl + "inventory/list");
 });
+
+Then(
+  "SAAS - correct principal name is displayed on the first principal list",
+  (principalName) => {
+    expect("p").contain.text(principalName);
+  }
+);
