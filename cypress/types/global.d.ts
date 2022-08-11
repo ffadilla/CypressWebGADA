@@ -9,6 +9,8 @@ declare global {
        */
       randomNumber(length: number): Chainable<Element>;
       numberFormat(number: number): Chainable<Element>;
+      login(phoneNumber: string): Chainable<Element>;
+      logout(): Chainable<Element>;
     }
   }
 }
