@@ -14,10 +14,10 @@ export default class InventoryDetail extends BasePage {
   principalSearchbarInput = "#input_principal_searchbar";
   brandBackButton = "#button_brand_back";
   brandSearchbarInput = "#input_brand_searchbar";
-  principalRadioButton = "[id^=radio_button_category_";
-  addCustomPrincipalButton = "#button_add_custom_category_modal";
+  principalRadioButton = "[id^=radio_button_principal_";
+  addCustomPrincipalButton = "#button_add_custom_principal_modal";
   brandRadioButton = "[id^=radio_button_brand_";
-  addCustomBrandButton = "#button_add_custom_principal_modal";
+  addCustomBrandButton = "#button_add_custom_brand_modal";
   customPrincipalAndBrandModalInput =
     "#input_custom_principal_or_brand_modal_name";
   customPrincipalAndBrandModalSubmitButton =

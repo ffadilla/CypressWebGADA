@@ -26,13 +26,22 @@ When(
     inventoryDetailPage.typePrincipalSearchbarInput(
       "Principal " + principalName
     );
+
     cy.get(inventoryDetailPage.principalSearchbarInput).should(
       "have.value",
-      "Principal " + principalName
+      "Principal " +
+        principalName.charAt(0).toUpperCase() +
+        principalName.slice(1)
     );
-    cy.get(inventoryDetailPage.addCustomPrincipalButton)
-      .children(".MuiButton-label")
-      .should("include.text", "Principal " + principalName);
+    cy.get(
+      inventoryDetailPage.addCustomPrincipalButton +
+        " > .MuiButton-label > .MuiTypography-root"
+    ).should(
+      "include.text",
+      "Principal " +
+        principalName.charAt(0).toUpperCase() +
+        principalName.slice(1)
+    );
   }
 );
 
@@ -44,11 +53,12 @@ When(
   "SAAS - user clicks on submit add custom principal or brand modal button",
   () => {
     inventoryDetailPage.clickCustomPrincipalAndBrandModalSubmitButton();
-    expect("h2").contain("Isi Nama Brand");
+    cy.get(inventoryDetailPage.brandBackButton).should("be.visible");
+    // expect("h2").contain("Isi Nama Brand");
   }
 );
 
-When("SAAS user clicks on brand back button", () => {
+When("SAAS - user clicks on brand back button", () => {
   inventoryDetailPage.clickBrandBackButton();
 });
 
@@ -281,6 +291,6 @@ Then("SAAS - user is redirected to inventory list page", () => {
 Then(
   "SAAS - correct principal name is displayed on the first principal list",
   (principalName) => {
-    expect("p").contain.text(principalName);
+    cy.contains("p", principalName);
   }
 );
