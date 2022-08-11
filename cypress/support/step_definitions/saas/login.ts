@@ -3,10 +3,6 @@ import BasePage from "../../../e2e/saas/page_objects/basePage";
 import LoginPage from "../../../e2e/saas/page_objects/loginPage";
 import * as utils from "../saas/utils";
 
-beforeEach(() => {
-  cy.exec("npm cache clear --force");
-});
-
 const loginPage = new LoginPage();
 const basePage = new BasePage();
 
