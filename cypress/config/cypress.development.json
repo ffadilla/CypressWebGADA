@@ -9,5 +9,6 @@
   "bms": {
     "baseUrl": "https://bms.gudangada.online/",
     "localStorage": {}
-  }
+  },
+  "watchForFileChanges": false
 }
