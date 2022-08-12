@@ -27,6 +27,7 @@ export default class InventoryDetail extends BasePage {
   closeCategoryAndSubcategoryButton =
     "#button_category_or_subcategory_modal_close";
   categorySearchbarInput = "#input_category_searchbar";
+  subcategoryBackButton = "#button_subcategory_back";
   categoryRadioButton = "[id^=radio_button_category_";
   addCustomCategoryButton = "#button_add_custom_category_modal";
   subcategorySearchbarInput = "#input_subcategory_searchbar";
@@ -194,6 +195,10 @@ export default class InventoryDetail extends BasePage {
 
   clickCustomCategoryAndSubcategoryModalSubmitButton() {
     cy.get(this.customCategoryAndSubcategoryModalSubmitButton).click();
+  }
+
+  clickSubcategoryBackButton() {
+    cy.get(this.subcategoryBackButton).click();
   }
 
   // consignment

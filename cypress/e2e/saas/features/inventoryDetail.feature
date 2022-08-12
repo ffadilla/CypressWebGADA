@@ -181,4 +181,20 @@ Feature: Inventory Detail
         And SAAS - user clicks on add custom principal button
         And SAAS - user clicks on submit add custom principal or brand modal button
         And SAAS - user clicks on brand back button
-        Then SAAS - correct principal name is displayed on the first principal list
+        Then SAAS - new principal is displayed on the principal list
+
+    Scenario: User adds new category with new subcategory
+        When SAAS - user clicks on add inventory button
+        And SAAS - user clicks on first time add inventory button
+        And SAAS - user types "web automation test product" on search inventory input field
+        And SAAS - user clicks on add custom inventory button
+        And SAAS - user clicks on category and subcategory button
+        And SAAS - user types random category name on category searchbar input
+        And SAAS - user clicks on add custom category button
+        And SAAS - user clicks on submit add custom category or subcategory modal button
+        And SAAS - user types random subcategory name on subcategory searchbar input
+        And SAAS - user clicks on add custom subcategory button
+        And SAAS - user clicks on submit add custom category or subcategory modal button
+        Then SAAS - new subcategory is displayed on the subcategory list
+        And SAAS - user clicks on subcategory back button
+        Then SAAS - new category is displayed on the category list

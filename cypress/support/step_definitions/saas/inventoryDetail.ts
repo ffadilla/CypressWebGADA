@@ -5,6 +5,8 @@ import * as utils from "./utils";
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
 let principalName: string;
+let categoryName: string;
+let subcategoryName: string;
 
 When("SAAS - user clicks on expand stock unit button", () => {
   inventoryDetailPage.clickExpandStockUnitButton();
@@ -54,12 +56,81 @@ When(
   () => {
     inventoryDetailPage.clickCustomPrincipalAndBrandModalSubmitButton();
     cy.get(inventoryDetailPage.brandBackButton).should("be.visible");
-    // expect("h2").contain("Isi Nama Brand");
   }
 );
 
 When("SAAS - user clicks on brand back button", () => {
   inventoryDetailPage.clickBrandBackButton();
+});
+
+When("SAAS - user clicks on category and subcategory button", () => {
+  inventoryDetailPage.clickCategoryAndSubcategoryButton();
+});
+
+When(
+  "SAAS - user types random category name on category searchbar input",
+  () => {
+    categoryName = utils.generateRandomString(5);
+    inventoryDetailPage.typeCategorySearchbarInput("Category " + categoryName);
+
+    cy.get(inventoryDetailPage.categorySearchbarInput).should(
+      "have.value",
+      "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    );
+    cy.get(
+      inventoryDetailPage.addCustomCategoryButton +
+        " > .MuiButton-label > .MuiTypography-root"
+    ).should(
+      "include.text",
+      "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    );
+  }
+);
+
+When("SAAS - user clicks on add custom category button", () => {
+  inventoryDetailPage.clickAddCustomCategoryButton();
+});
+
+When(
+  "SAAS - user clicks on submit add custom category or subcategory modal button",
+  () => {
+    inventoryDetailPage.clickCustomCategoryAndSubcategoryModalSubmitButton();
+    cy.get(inventoryDetailPage.subcategoryBackButton).should("be.visible");
+  }
+);
+
+When(
+  "SAAS - user types random subcategory name on subcategory searchbar input",
+  () => {
+    subcategoryName = utils.generateRandomString(5);
+    inventoryDetailPage.typeSubcategorySearchbarInput(
+      "Subcategory " + subcategoryName
+    );
+
+    cy.get(inventoryDetailPage.subcategorySearchbarInput).should(
+      "have.value",
+      "Subcategory " +
+        subcategoryName.charAt(0).toUpperCase() +
+        subcategoryName.slice(1)
+    );
+    cy.get(
+      inventoryDetailPage.addCustomSubcategoryButton +
+        " > .MuiButton-label > .MuiTypography-root"
+    ).should(
+      "include.text",
+      "Subcategory " +
+        subcategoryName.charAt(0).toUpperCase() +
+        subcategoryName.slice(1)
+    );
+  }
+);
+
+When("SAAS - user clicks on add custom subcategory button", () => {
+  inventoryDetailPage.clickAddCustomSubcategoryButton();
+});
+
+When("SAAS - user clicks on subcategory back button", () => {
+  inventoryDetailPage.clickSubcategoryBackButton();
 });
 
 When("SAAS - user types random uom name on search unit field", () => {
@@ -289,8 +360,22 @@ Then("SAAS - user is redirected to inventory list page", () => {
 });
 
 Then(
-  "SAAS - correct principal name is displayed on the first principal list",
+  "SAAS - new principal is displayed on the principal list",
   (principalName) => {
     cy.contains("p", principalName);
+  }
+);
+
+Then(
+  "SAAS - new category is displayed on the category list",
+  (categoryName) => {
+    cy.contains("p", categoryName);
+  }
+);
+
+Then(
+  "SAAS - new subcategory is displayed on the subcategory list",
+  (subcategoryName) => {
+    cy.contains("p", subcategoryName);
   }
 );
