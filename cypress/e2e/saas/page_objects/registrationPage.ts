@@ -2,19 +2,19 @@ import BasePage from "./basePage";
 
 export default class RegistrationPage extends BasePage {
   path = "registration";
-  numberInput = "input[id='input_phone_number']";
+  numberInput = "#input_phone_number";
   otpInput1 = "input[aria-label='Please enter verification code. Character 1']";
-  registerLanjutkanButton1 = "button[id='button_submit_step_one']";
-  registerNameInput = "input[id='input_name']";
-  registerEmailInput = "input[id='input_email']";
-  registerLanjutkanButton2 = "button[id='button_submit_step_two']";
-  registerStoreNameInput = "input[id='input_store_name']";
-  storeAddressInput = "input[id='input_store_address']";
-  storeAddressLocationInput = "input[id='input_search_location_name']";
-  storeAddressCurrentLocationButton = "input[id='button_current_location']";
-  storeManualAddressButton = "button[id='button_manual_address']";
-  storeAddressChooseLocationButton = "button[id='button_choose_location']";
-  submitRegistrationButton = "button[id='button_submit_step_three']";
+  registerLanjutkanButton1 = "#button_submit_step_one";
+  registerNameInput = "#input_name";
+  registerEmailInput = "#input_email";
+  registerLanjutkanButton2 = "#button_submit_step_two";
+  registerStoreNameInput = "#input_store_name";
+  storeAddressInput = "#input_store_address";
+  storeAddressLocationInput = "#input_search_location_name";
+  storeAddressCurrentLocationButton = "#button_current_location";
+  storeManualAddressButton = "#button_manual_address";
+  storeAddressChooseLocationButton = "#button_choose_location";
+  submitRegistrationButton = "#button_submit_step_three";
 
   // common
   visitRegistration() {
@@ -24,10 +24,6 @@ export default class RegistrationPage extends BasePage {
   typeNumber(number: string) {
     cy.get(this.numberInput).type(number);
   }
-
-  // clickRegister() {
-  //   cy.get(this.startRegisterButton).click();
-  // }
 
   clickRegisterLanjutkan1() {
     cy.get(this.registerLanjutkanButton1).click();

@@ -1,0 +1,329 @@
+{
+  "data": [
+    {
+      "id": 473,
+      "parent_category_id": 357,
+      "name": "BPJS Kesehatan"
+    },
+    {
+      "id": 436,
+      "parent_category_id": 200,
+      "name": "Alat Olahraga"
+    },
+    {
+      "id": 393,
+      "parent_category_id": 204,
+      "name": "Batu Kerikil"
+    },
+    {
+      "id": 382,
+      "parent_category_id": 357,
+      "name": "Voucher Game"
+    },
+    {
+      "id": 381,
+      "parent_category_id": 357,
+      "name": "Paket Data"
+    },
+    {
+      "id": 380,
+      "parent_category_id": 357,
+      "name": "Pulsa"
+    },
+    {
+      "id": 336,
+      "parent_category_id": 332,
+      "name": "Fashion Pria"
+    },
+    {
+      "id": 333,
+      "parent_category_id": 332,
+      "name": "Fashion"
+    },
+    {
+      "id": 327,
+      "parent_category_id": 326,
+      "name": "Kesehatan"
+    },
+    {
+      "id": 319,
+      "parent_category_id": 318,
+      "name": "Aksesoris Komputer"
+    },
+    {
+      "id": 229,
+      "parent_category_id": 204,
+      "name": "Oven Listrik"
+    },
+    {
+      "id": 228,
+      "parent_category_id": 3,
+      "name": "Bahan Makanan Tepung"
+    },
+    {
+      "id": 227,
+      "parent_category_id": 200,
+      "name": "Perlengkapan Sekolah & Hobi"
+    },
+    {
+      "id": 226,
+      "parent_category_id": 200,
+      "name": "Perlengkapan Kantor"
+    },
+    {
+      "id": 225,
+      "parent_category_id": 200,
+      "name": "Alat Tulis"
+    },
+    {
+      "id": 224,
+      "parent_category_id": 200,
+      "name": "Produk Kertas & Buku"
+    },
+    {
+      "id": 223,
+      "parent_category_id": 204,
+      "name": "Peralatan Elektronik"
+    },
+    {
+      "id": 222,
+      "parent_category_id": 204,
+      "name": "Perlengkapan Taman & Outdoor"
+    },
+    {
+      "id": 218,
+      "parent_category_id": 205,
+      "name": "test"
+    },
+    {
+      "id": 215,
+      "parent_category_id": 318,
+      "name": "Produk Rakitan"
+    },
+    {
+      "id": 213,
+      "parent_category_id": 2,
+      "name": "product category 2 - updated"
+    },
+    {
+      "id": 212,
+      "parent_category_id": 1,
+      "name": "product category 1"
+    },
+    {
+      "id": 210,
+      "parent_category_id": 1,
+      "name": "Test Warehouse 2"
+    },
+    {
+      "id": 209,
+      "parent_category_id": 1,
+      "name": "Warehouse Meal"
+    },
+    {
+      "id": 207,
+      "parent_category_id": 206,
+      "name": "tessssss"
+    },
+    {
+      "id": 195,
+      "parent_category_id": 204,
+      "name": "Peralatan Rumah Tangga"
+    },
+    {
+      "id": 192,
+      "parent_category_id": 204,
+      "name": "Peralatan Kebersihan"
+    },
+    {
+      "id": 190,
+      "parent_category_id": 204,
+      "name": "Peralatan Kamar Mandi"
+    },
+    {
+      "id": 185,
+      "parent_category_id": 204,
+      "name": "Peralatan Makan"
+    },
+    {
+      "id": 183,
+      "parent_category_id": 204,
+      "name": "Peralatan Dapur"
+    },
+    {
+      "id": 181,
+      "parent_category_id": 204,
+      "name": "Peralatan Masak"
+    },
+    {
+      "id": 43,
+      "parent_category_id": 6,
+      "name": "Kontrasepsi dan Hormon"
+    },
+    {
+      "id": 42,
+      "parent_category_id": 6,
+      "name": "Alat Kesehatan"
+    },
+    {
+      "id": 41,
+      "parent_category_id": 6,
+      "name": "Obat Mulut dan THT"
+    },
+    {
+      "id": 40,
+      "parent_category_id": 6,
+      "name": "Obat Mata"
+    },
+    {
+      "id": 39,
+      "parent_category_id": 6,
+      "name": "Obat Luar"
+    },
+    {
+      "id": 37,
+      "parent_category_id": 6,
+      "name": "Obat Minum"
+    },
+    {
+      "id": 36,
+      "parent_category_id": 205,
+      "name": "Kemasan"
+    },
+    {
+      "id": 35,
+      "parent_category_id": 8,
+      "name": "Perawatan Mobil Dan Motor"
+    },
+    {
+      "id": 34,
+      "parent_category_id": 7,
+      "name": "Produk Spesifik"
+    },
+    {
+      "id": 33,
+      "parent_category_id": 6,
+      "name": "Obat Obatan"
+    },
+    {
+      "id": 32,
+      "parent_category_id": 5,
+      "name": "Perawatan Tubuh"
+    },
+    {
+      "id": 31,
+      "parent_category_id": 204,
+      "name": "Peralatan Ibu Dan Bayi"
+    },
+    {
+      "id": 30,
+      "parent_category_id": 4,
+      "name": "Perlengkapan Dapur"
+    },
+    {
+      "id": 29,
+      "parent_category_id": 318,
+      "name": "Alat Tulis Kantor"
+    },
+    {
+      "id": 28,
+      "parent_category_id": 4,
+      "name": "Kebutuhan Rumah Tangga"
+    },
+    {
+      "id": 27,
+      "parent_category_id": 3,
+      "name": "Sembako"
+    },
+    {
+      "id": 26,
+      "parent_category_id": 3,
+      "name": "Bahan Masakan"
+    },
+    {
+      "id": 25,
+      "parent_category_id": 3,
+      "name": "Bumbu Dapur"
+    },
+    {
+      "id": 24,
+      "parent_category_id": 3,
+      "name": "Cereal"
+    },
+    {
+      "id": 23,
+      "parent_category_id": 3,
+      "name": "Mi Instan"
+    },
+    {
+      "id": 22,
+      "parent_category_id": 2,
+      "name": "Susu"
+    },
+    {
+      "id": 21,
+      "parent_category_id": 2,
+      "name": "Sirup"
+    },
+    {
+      "id": 20,
+      "parent_category_id": 2,
+      "name": "Minuman Ringan"
+    },
+    {
+      "id": 19,
+      "parent_category_id": 2,
+      "name": "Vitamin"
+    },
+    {
+      "id": 18,
+      "parent_category_id": 2,
+      "name": "Minuman Kesehatan"
+    },
+    {
+      "id": 17,
+      "parent_category_id": 2,
+      "name": "Minuman Energi"
+    },
+    {
+      "id": 16,
+      "parent_category_id": 2,
+      "name": "Kopi"
+    },
+    {
+      "id": 15,
+      "parent_category_id": 2,
+      "name": "Teh"
+    },
+    {
+      "id": 14,
+      "parent_category_id": 2,
+      "name": "Air Mineral"
+    },
+    {
+      "id": 13,
+      "parent_category_id": 1,
+      "name": "Keju"
+    },
+    {
+      "id": 12,
+      "parent_category_id": 1,
+      "name": "Ice Cream"
+    },
+    {
+      "id": 11,
+      "parent_category_id": 1,
+      "name": "Roti"
+    },
+    {
+      "id": 10,
+      "parent_category_id": 1,
+      "name": "Permen Dan Coklat"
+    },
+    {
+      "id": 9,
+      "parent_category_id": 1,
+      "name": "Biskuit Dan Snack"
+    }
+  ]
+}

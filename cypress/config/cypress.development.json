@@ -3,13 +3,15 @@
     "baseUrl": "https://google.com/"
   },
   "saas": {
-    "baseUrl": "https://saas.gudangada.online/"
+    "baseUrl": "https://saas.gudangada.online/",
+    "baseApiUrl": "https://saas-api.gudangada.online/api/"
   },
   "bms": {
     "baseUrl": "https://bms.gudangada.online/",
     "localStorage": {}
   },
   "warehouseMitra": {
-      "baseUrl": "https://warehouse-dev.gudangada.com/"
-  }
+    "baseUrl": "https://warehouse-dev.gudangada.com/"
+  },
+  "watchForFileChanges": false
 }

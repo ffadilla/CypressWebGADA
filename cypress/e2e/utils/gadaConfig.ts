@@ -4,6 +4,7 @@ type config = {
   };
   saas: {
     baseUrl: string;
+    baseApiUrl: string;
   };
   bms: {
     baseUrl: string;

@@ -1,4 +1,5 @@
 import * as uomIdMap from "../../resources/saas/development-uomNameToIdMapping.json";
+
 const uomObj = uomIdMap.data;
 
 export function retrieveUomId(uomName: string) {

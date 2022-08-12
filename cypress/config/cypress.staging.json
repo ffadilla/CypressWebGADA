@@ -10,6 +10,6 @@
     "localStorage": {}
   },
   "warehouseMitra": {
-      "baseUrl": "https://warehouse-staging.gudangada.com/"
+    "baseUrl": "https://warehouse-staging.gudangada.com/"
   }
 }

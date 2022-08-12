@@ -5,8 +5,7 @@ import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage"
 const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
 
-When("SAAS - user is on inventory list page", () => {
-  cy.clearCookies();
+When("SAAS - user visits inventory list page", () => {
   inventoryListPage.visitInventoryList();
 });
 
@@ -18,16 +17,10 @@ When("SAAS - user clicks on first time add inventory button", () => {
   inventoryListPage.clickFirstTimeAddInventoryButton();
 });
 
-When(
-  "SAAS - user types search inventory input field with {string}",
-  (input) => {
-    inventoryListPage.typeSearchInput(input);
-    cy.get(inventoryListPage.addInventorySearchInput).should(
-      "have.value",
-      input
-    );
-  }
-);
+When("SAAS - user types {string} on search inventory input field", (input) => {
+  inventoryListPage.typeSearchInput(input);
+  cy.get(inventoryListPage.addInventorySearchInput).should("have.value", input);
+});
 
 When("SAAS - user clicks on add custom inventory button", () => {
   inventoryListPage.clickAddCustomInventoryButton();

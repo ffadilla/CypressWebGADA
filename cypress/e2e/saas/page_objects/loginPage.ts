@@ -2,17 +2,17 @@ import BasePage from "./basePage";
 
 export default class LoginPage extends BasePage {
   path = "login";
-  loginButton = "button[id='button_masuk']";
-  startRegisterButton = "button[id='button_register']";
-  numberInput = "input[id='input_phone_number']";
-  whatsappOtpTypeInput = "input[value='WHATSAPP']";
-  smsOtpTypeInput = "input[value='SMS']";
-  sendOtpButton = "button[id='button_send_otp']";
+  loginButton = "#button_masuk";
+  startRegisterButton = "#button_register";
+  numberInput = "#input_phone_number";
+  whatsappOtpTypeInput = "input[value='WHATSAPP";
+  smsOtpTypeInput = "input[value='SMS";
+  sendOtpButton = "#button_send_otp";
   otpInput1 = "input[data-testid='input_otp-0']";
   otpInput2 = "input[data-testid='input_otp-1']";
   otpInput3 = "input[data-testid='input_otp-2']";
   otpInput4 = "input[data-testid='input_otp-3']";
-  submitOtpButton = "button[id='button_otp_submit']";
+  submitOtpButton = "#button_otp_submit";
 
   visitLogin() {
     cy.visit(this.baseUrl + this.path);

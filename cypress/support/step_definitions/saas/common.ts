@@ -38,19 +38,7 @@ Given("SAAS - a new user is registered", () => {
 });
 
 Given("SAAS - user {string} is logged in", (number) => {
-  cy.clearLocalStorage();
-  cy.clearCookies();
-  cy.reload(true);
-  loginPage.visitLogin();
-  loginPage.typeNumber(number);
-  loginPage.clickLogin();
-  loginPage.selectWhatsappOtpType();
-  loginPage.clickSendOtp();
-  loginPage.inputOtp1(otp.charAt(0));
-  loginPage.inputOtp2(otp.charAt(1));
-  loginPage.inputOtp3(otp.charAt(2));
-  loginPage.inputOtp4(otp.charAt(3));
-  loginPage.clickSubmitOtp();
+  cy.saasLogin(number);
 });
 
 When("SAAS - user clicks on inventory list side menu button", () => {
