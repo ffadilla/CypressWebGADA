@@ -25,12 +25,24 @@ export default class CreatePurchaseRequestPage extends BasePage {
   addNewItemButton =
     ".MuiCollapse-wrapperInner .MuiButton-root:contains(' Tambah Item Pembelian')";
   productInput = "#field-product .MuiOutlinedInput-root";
-  taxTypeInput = "#field-taxType input[type='radio']";
+  taxTypeInput = "#field-taxType .Mui-checked input[type='radio']";
   quantityInput = "#field-quantity .MuiInput-input";
-  rateInput = "#field-quantity .MuiInput-input";
+  rateInput = "#field-rate .MuiInput-input";
   dppInput = "#field-dpp .MuiInput-input";
   vatInput = "#field-dpp .MuiInput-input";
-  rateDiscountInput = "#field-discountPerQty .MuiInput-input";
+  internalDiscountTypeSelect = "#field-internalDiscount .MuiSelect-select";
+  principalDiscountTypeSelect = "#field-principalDiscount .MuiSelect-select";
+  distributorDiscountTypeSelect =
+    "#field-distributorDiscount .MuiSelect-select";
+  programDiscountTypeSelect = "#field-programDiscount .MuiSelect-select";
+  internalDiscountInput = "#field-internalDiscount .MuiInput-input";
+  principalDiscountInput = "#field-principalDiscount .MuiInput-input";
+  distributorDiscountInput = "#field-distributorDiscount .MuiInput-input";
+  programDiscountInput = "#field-programDiscount .MuiInput-input";
+  internalDiscountText = "#field-internalDiscount .MuiTypography-root";
+  principalDiscountText = "#field-principalDiscount .MuiTypography-root";
+  distributorDiscountText = "#field-distributorDiscount .MuiTypography-root";
+  programDiscountText = "#field-programDiscount .MuiTypography-root";
   totalAmountInput =
     ":nth-child(2) > .css-8atqhb > .MuiGrid-container > .MuiGrid-grid-md-9 > .MuiInput-root > .MuiInput-input";
   addItemButton = ".style_ModalFooter__3jP-z .MuiButton-root";
@@ -84,29 +96,29 @@ export default class CreatePurchaseRequestPage extends BasePage {
 
   setDeliveryRequestStartDate(date: string) {
     cy.get(this.deliveryRequestDateButton).eq(0).click();
-
     cy.get(`button[aria-label='${date}']`).eq(0).click();
   }
 
   setDeliveryRequestEndDate(date: string) {
     cy.get(this.deliveryRequestDateButton).eq(1).click();
-
-    cy.get("button").then(($button) => {
-      if ($button.find(`[aria-label='${date}']`).length > 1) {
-        cy.get(`button[aria-label='${date}']`).eq(1).click();
-      } else if ($button.find(`[aria-label='${date}']`).length == 1) {
-        cy.get(`button[aria-label='${date}']`).click();
-      } else {
-        cy.get(this.nextMonthCalendarButton).then((element) => {
-          if (element.length > 1) {
-            cy.get(this.nextMonthCalendarButton).eq(1).click();
-          } else {
-            cy.get(this.nextMonthCalendarButton).eq(0).click();
-          }
-        });
-        cy.get(`button[aria-label='${date}']`).click();
-      }
-    });
+    if (Cypress.$(`[aria-label='${date}']`).length > 0) {
+      cy.get(`button[aria-label='${date}']`).then((element) => {
+        if (element.length > 1) {
+          cy.get(`button[aria-label='${date}']`).eq(1).click();
+        } else {
+          cy.get(`button[aria-label='${date}']`).click();
+        }
+      });
+    } else {
+      cy.get(this.nextMonthCalendarButton).then((element) => {
+        if (element.length > 1) {
+          cy.get(this.nextMonthCalendarButton).eq(1).click();
+        } else {
+          cy.get(this.nextMonthCalendarButton).click();
+        }
+      });
+      cy.get(`button[aria-label='${date}']`).click();
+    }
   }
 
   typeDeliveryFee(deliveryFee: number) {
@@ -141,24 +153,82 @@ export default class CreatePurchaseRequestPage extends BasePage {
     cy.get(this.productInput).type(product);
   }
 
-  selectTaxType(taxType: string) {
-    cy.get(this.taxTypeInput + `[value='${taxType}']`).click();
-  }
-
   typeQuantity(quantity: number) {
-    cy.get(this.quantityInput)
-      .eq(0)
-      .type(quantity + "");
+    cy.get(this.quantityInput).type(quantity + "");
   }
 
   typeRate(rate: number) {
-    cy.get(this.rateInput)
-      .eq(1)
-      .type(rate + "");
+    cy.get(this.rateInput).type(rate + "");
   }
 
-  typeRateDiscount(rateDiscount: number) {
-    cy.get(this.rateDiscountInput).type(rateDiscount + "");
+  typeInternalDiscount(internalDisctoutType: string, internalDisctout: number) {
+    cy.get(this.internalDiscountTypeSelect).click();
+    cy.get(
+      `li[class*='MuiMenuItem-root'][data-value='${internalDisctoutType}']`
+    ).click();
+    cy.get(this.internalDiscountInput)
+      .eq(1)
+      .type(internalDisctout + "");
+  }
+
+  typePrincipalDiscount(
+    principalDiscountType: string,
+    principalDiscount: number
+  ) {
+    cy.get(this.principalDiscountTypeSelect).click();
+    cy.get(
+      `li[class*='MuiMenuItem-root'][data-value='${principalDiscountType}']`
+    ).click();
+    cy.get(this.principalDiscountInput)
+      .eq(1)
+      .type(principalDiscount + "");
+  }
+
+  typeDistributorDiscount(
+    distributorDisctoutType: string,
+    distributorDisctout: number
+  ) {
+    cy.get(this.distributorDiscountTypeSelect).click();
+    cy.get(
+      `li[class*='MuiMenuItem-root'][data-value='${distributorDisctoutType}']`
+    ).click();
+    cy.get(this.distributorDiscountInput)
+      .eq(1)
+      .type(distributorDisctout + "");
+  }
+
+  typeProgramDiscount(programDisctoutType: string, programDisctout: number) {
+    cy.get(this.programDiscountTypeSelect).click();
+    cy.get(
+      `li[class*='MuiMenuItem-root'][data-value='${programDisctoutType}']`
+    ).click();
+    cy.get(this.programDiscountInput)
+      .eq(1)
+      .type(programDisctout + "");
+  }
+
+  checkInternalDiscountCalculation(calculatedDiscount: string) {
+    cy.get(
+      this.internalDiscountText + `:contains('${calculatedDiscount}')`
+    ).should("be.visible");
+  }
+
+  checkPrincipalDiscountCalculation(calculatedDiscount: string) {
+    cy.get(
+      this.principalDiscountText + `:contains('${calculatedDiscount}')`
+    ).should("be.visible");
+  }
+
+  checkDistributorDiscountCalculation(calculatedDiscount: string) {
+    cy.get(
+      this.distributorDiscountText + `:contains('${calculatedDiscount}')`
+    ).should("be.visible");
+  }
+
+  checkProgramDiscountCalculation(calculatedDiscount: string) {
+    cy.get(
+      this.programDiscountText + `:contains('${calculatedDiscount}')`
+    ).should("be.visible");
   }
 
   clickAddItem() {
@@ -205,7 +275,7 @@ export default class CreatePurchaseRequestPage extends BasePage {
     cy.get(this.savePriceTierButton).click();
   }
 
-  checkSellingPriceCalculation(beforeRounded: number, afterRounded: number) {
+  checkSellingPriceCalculation(beforeRounded: string, afterRounded: string) {
     cy.get(this.sellingPriceText + `:contains('${beforeRounded}')`).should(
       "be.visible"
     );

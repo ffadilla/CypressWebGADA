@@ -7,10 +7,10 @@ export function deliveryMethod(deliveryMethodName: string) {
 }
 
 export function taxType(taxTypeName: string) {
-  if (taxTypeName == "Non PPN") {
-    return "NON_VAT";
+  if (taxTypeName === "Non PKP") {
+    return "PTKP";
   } else {
-    return "VAT";
+    return "PKP";
   }
 }
 
@@ -28,6 +28,17 @@ export function totalAmount(
   rateDiscount: number
 ) {
   return quantity * (rate - rateDiscount);
+}
+
+export function rateDiscount(
+  internalDiscount: number,
+  principalDiscount: number,
+  distributorDiscount: number,
+  programDiscount: number
+) {
+  return (
+    internalDiscount + principalDiscount + distributorDiscount + programDiscount
+  );
 }
 
 export function minimumSellingPrice(
@@ -72,4 +83,16 @@ export function numberFormat(number: number) {
   return new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(
     number
   );
+}
+
+export function discountCalculation(
+  rate: number,
+  discountType: string,
+  discount: number
+) {
+  if (discountType === "amount") {
+    return parseFloat(((discount / rate) * 100).toFixed(2));
+  } else {
+    return Math.round((discount / 100) * rate);
+  }
 }
