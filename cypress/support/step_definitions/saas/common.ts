@@ -38,7 +38,7 @@ Given("SAAS - a new user is registered", () => {
 });
 
 Given("SAAS - user {string} is logged in", (number) => {
-  cy.login(number);
+  cy.saasLogin(number);
 });
 
 When("SAAS - user clicks on inventory list side menu button", () => {
