@@ -25,21 +25,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // TODO: change any
+import "cypress-xpath";
 import gadaConfig from "../e2e/utils/gadaConfig";
 import { generateCurrentDateOTP } from "./step_definitions/saas/utils";
-
-Cypress.Commands.add("randomNumber", (length: number): any => {
-  return parseInt(
-    ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")
-  );
-});
-
-// TODO: change any
-Cypress.Commands.add("numberFormat", (number: number): any => {
-  return new Intl.NumberFormat("id-ID", { minimumFractionDigits: 0 }).format(
-    number
-  );
-});
 
 // SAAS Custom Commands
 

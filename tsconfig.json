@@ -56,7 +56,7 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "resolveJsonModule": true
   },
-  "types": ["cypress"],
+  "types": ["cypress", "cypress-xpath"],
   "include": [
     "../../node_modules/cypress",
     "cypress/**/*.ts",

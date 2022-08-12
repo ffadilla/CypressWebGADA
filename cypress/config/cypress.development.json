@@ -10,5 +10,8 @@
     "baseUrl": "https://bms.gudangada.online/",
     "localStorage": {}
   },
+  "warehouseMitra": {
+    "baseUrl": "https://warehouse-dev.gudangada.com/"
+  },
   "watchForFileChanges": false
 }
