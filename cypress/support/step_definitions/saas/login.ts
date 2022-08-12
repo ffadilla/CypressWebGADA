@@ -66,5 +66,5 @@ Then("SAAS - {string} displayed after successfully logged in", (expected) => {
 });
 
 Then("SAAS - {string} displayed after submitting otp code", (expected) => {
-  expect(cy.get(basePage.snackbar_error).should("contain.text", expected));
+  expect(cy.get(basePage.snackbarMessage).should("contain.text", expected));
 });

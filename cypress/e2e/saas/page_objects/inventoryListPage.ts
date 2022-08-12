@@ -2,11 +2,10 @@ import BasePage from "./basePage";
 
 export default class InventoryListPage extends BasePage {
   path = "inventory/list";
-  addInventoryButton = "button[id='button_inventory_list_tambah_barang']";
-  emptyStateAddInventoryButton =
-    "button[id='inventory_list_tambah_barang_button']";
-  firstTimeAddInventoryButton = "button[id='button_first_time_add_inventory']";
-  addInventorySearchInput = "input[id='input_tambah_barang_searchbar']";
+  addInventoryButton = "#button_inventory_list_tambah_barang";
+  emptyStateAddInventoryButton = "#inventory_list_tambah_barang_button";
+  firstTimeAddInventoryButton = "#button_first_time_add_inventory";
+  addInventorySearchInput = "#input_tambah_barang_searchbar";
   addCustomInventoryButton = "#button_add_custom_product";
   deleteReasonOtherRadioButton = "input[value='OTHER']";
   deleteReasonMistakeRadioButton = "input[value='MISTAKE']";
