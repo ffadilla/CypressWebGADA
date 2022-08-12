@@ -2,7 +2,7 @@ import gadaConfig from "../../utils/gadaConfig";
 
 export default class BasePage {
   baseUrl = gadaConfig.saas.baseUrl;
-  snackbar_error = "#snackbar_global_error";
+  snackbarMessage = "#notistack-snackbar";
 
   navigate(path: string) {
     cy.visit(this.baseUrl + path);
@@ -10,5 +10,11 @@ export default class BasePage {
 
   getPageTitle() {
     return cy.title();
+  }
+
+  checkSnackBar(message: string) {
+    cy.get(this.snackbarMessage + `:contains('${message}')`).should(
+      "be.visible"
+    );
   }
 }
