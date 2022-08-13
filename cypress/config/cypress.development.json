@@ -11,7 +11,11 @@
     "localStorage": {}
   },
   "warehouseMitra": {
-    "baseUrl": "https://warehouse-dev.gudangada.com/"
+    "baseUrl": "https://warehouse-dev.gudangada.com/",
+    "credentials": {
+      "email": "cypress_su@mail.com",
+      "password": "warehouse"
+    }
   },
   "watchForFileChanges": false
 }

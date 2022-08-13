@@ -21,6 +21,10 @@ type config = {
   };
   warehouseMitra: {
     baseUrl: string;
+    credentials: {
+      email: string;
+      password: string;
+    };
   };
 };
 
