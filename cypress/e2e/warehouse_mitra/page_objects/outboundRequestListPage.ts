@@ -7,6 +7,11 @@ export default class OutboundRequestListPage extends BasePage {
   firstIndexData =
     ":nth-child(1) > td:nth-child(2) > a > div.MuiTypography-root";
   tabsContainer = "#chips-container";
+  tabDefault = " > div:nth-child(1) > div:nth-child(1)";
+  tabNotDoneYet = " > div:nth-child(2) > div:nth-child(1)";
+  tabInProcess = " > div:nth-child(3) > div:nth-child(1)";
+  tabDone = " > div:nth-child(4) > div:nth-child(1)";
+  tabCanceled = " > div:nth-child(5) > div:nth-child(1)";
   requestStatus =
     "tr:nth-child(1) > td:nth-child(5) > span > span.MuiTypography-root";
   //xpath
@@ -25,26 +30,21 @@ export default class OutboundRequestListPage extends BasePage {
   }
 
   clickTab(value: string) {
-    if (value === "Belum Selesai") {
-      cy.get(
-        this.tabsContainer + ` > div:nth-child(2) > div:nth-child(1)`
-      ).click();
-    } else if (value === "Sedang Diproses") {
-      cy.get(
-        this.tabsContainer + ` > div:nth-child(3) > div:nth-child(1)`
-      ).click();
-    } else if (value === "Sudah Selesai") {
-      cy.get(
-        this.tabsContainer + ` > div:nth-child(4) > div:nth-child(1)`
-      ).click();
-    } else if (value === "Dibatalkan") {
-      cy.get(
-        this.tabsContainer + ` > div:nth-child(5) > div:nth-child(1)`
-      ).click();
-    } else {
-      cy.get(
-        this.tabsContainer + ` > div:nth-child(1) > div:nth-child(1)`
-      ).click();
+    switch (value) {
+      case "Belum Selesai":
+        cy.get(this.tabsContainer + this.tabNotDoneYet).click();
+        break;
+      case "Sedang Diproses":
+        cy.get(this.tabsContainer + this.tabInProcess).click();
+        break;
+      case "Sudah Selesai":
+        cy.get(this.tabsContainer + this.tabDone).click();
+        break;
+      case "Dibatalkan":
+        cy.get(this.tabsContainer + this.tabCanceled).click();
+        break;
+      default:
+        cy.get(this.tabsContainer + this.tabDefault).click();
     }
   }
 }

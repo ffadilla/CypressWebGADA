@@ -1,15 +1,25 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps";
-// import DashboardPage from "../../../e2e/warehouse_mitra/page_objects/dashboardPage";
-// import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
+import {
+  Given,
+  When,
+  Then,
+  Before,
+  After,
+} from "cypress-cucumber-preprocessor/steps";
+import DashboardPage from "../../../e2e/warehouse_mitra/page_objects/dashboardPage";
+import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
 import OutboundRequestListPage from "../../../e2e/warehouse_mitra/page_objects/outboundRequestListPage";
 
-// const loginPage = new LoginPage();
+const loginPage = new LoginPage();
 const outboundRequestListPage = new OutboundRequestListPage();
-// const dashboardPage = new DashboardPage();
+const dashboardPage = new DashboardPage();
 
-// before(() => {
-//   loginPage.silentLogin();
-// });
+Before(() => {
+  loginPage.silentLogin();
+});
+
+After(() => {
+  dashboardPage.logout();
+});
 
 Given("Mitra - user is in menu Barang Keluar", () => {
   outboundRequestListPage.selectMenuOutbound();
@@ -36,7 +46,3 @@ Then("Mitra - show sorted result with status {string}", (value: string) => {
     .invoke("text")
     .should("eql", value);
 });
-
-// after(() => {
-//   dashboardPage.logout();
-// });
