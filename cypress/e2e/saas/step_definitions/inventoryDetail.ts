@@ -1,35 +1,35 @@
-import { Then, When } from "cypress-cucumber-preprocessor/steps";
+import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
 
-When("SAAS - user clicks on expand stock unit button", () => {
+When("user clicks on expand stock unit button", () => {
   inventoryDetailPage.clickExpandStockUnitButton();
 });
 
-When("SAAS - user types search unit field with {string}", (input) => {
+When("user types search unit field with {string}", (input: string) => {
   uomName = input;
   inventoryDetailPage.typeUnitSearch(uomName);
 });
 
-When("SAAS - user types search unit field with random uom name", () => {
+When("user types search unit field with random uom name", () => {
   uomName = utils.generateRandomString(5);
   inventoryDetailPage.typeUnitSearch("UOM " + uomName);
 });
 
-When("SAAS - user clicks on first stock unit checkbox", () => {
+When("user clicks on first stock unit checkbox", () => {
   cy.wait(1000);
   inventoryDetailPage.clickUnitCheckboxInput();
 });
 
-When("SAAS - user clicks on {string} unit checkbox", (uomName) => {
+When("user clicks on {string} unit checkbox", (uomName: string) => {
   const uomId = utils.retrieveUomId(uomName);
   inventoryDetailPage.clickSpecificUnitCheckbox(uomId + "");
 });
 
-When("SAAS - user clicks on add new unit button", () => {
+When("user clicks on add new unit button", () => {
   cy.get(inventoryDetailPage.addNewUnitButton)
     .children(".MuiButton-label")
     .children(".MuiTypography-root")
@@ -38,39 +38,39 @@ When("SAAS - user clicks on add new unit button", () => {
   cy.wait(1500);
 });
 
-When("SAAS - user clicks on choose unit button", (_input) => {
+When("user clicks on choose unit button", (_input) => {
   inventoryDetailPage.clickChooseUnitButton();
 });
 
-When("SAAS - user clicks on sort up button of unit {string}", (uomName) => {
+When("user clicks on sort up button of unit {string}", (uomName: string) => {
   const uomId = utils.retrieveUomId(uomName);
   inventoryDetailPage.clickUomConversionSortUpButton(uomId + "");
 });
 
-When("SAAS - user clicks on sort down button of unit {string}", (uomName) => {
+When("user clicks on sort down button of unit {string}", (uomName: string) => {
   const uomId = utils.retrieveUomId(uomName);
   inventoryDetailPage.clickUomConversionSortDownButton(uomId + "");
 });
 
-When("SAAS - user clicks on uom conversion next step button", () => {
+When("user clicks on uom conversion next step button", () => {
   inventoryDetailPage.clickUomConversionNextStepButton();
 });
 
 When(
-  "SAAS - user types {string} on unit {string} conversion field",
-  (input, uomName) => {
+  "user types {string} on unit {string} conversion field",
+  (input: string, uomName: string) => {
     const uomId = utils.retrieveUomId(uomName);
     inventoryDetailPage.typeUomConversion(uomId + "", input);
   }
 );
 
-When("SAAS - user clicks on uom conversion save button", () => {
+When("user clicks on uom conversion save button", () => {
   inventoryDetailPage.clickUomConversionSaveButton();
 });
 
 When(
-  "SAAS - user types {string} on {string} unit stock quantity field",
-  (input, uomName) => {
+  "user types {string} on {string} unit stock quantity field",
+  (input: string, uomName: string) => {
     switch (uomName) {
       case "first":
         cy.get("input[name='buying.0.availableStock']").type(input);
@@ -115,8 +115,8 @@ When(
 );
 
 When(
-  "SAAS - user types {string} on {string} unit price field",
-  (input, uomName) => {
+  "user types {string} on {string} unit price field",
+  (input: string, uomName: string) => {
     switch (uomName) {
       case "first":
         cy.get("input[name='buying.0.price']").type(input);
@@ -160,29 +160,29 @@ When(
   }
 );
 
-When("SAAS - user clicks on expand selling unit button", () => {
+When("user clicks on expand selling unit button", () => {
   inventoryDetailPage.clickExpandSellingUnitButton();
 });
 
 When(
-  "SAAS - user clicks on add unit selling price button of unit {string}",
-  (uomName) => {
+  "user clicks on add unit selling price button of unit {string}",
+  (uomName: string) => {
     const uomId = utils.retrieveUomId(uomName);
     inventoryDetailPage.clickAddSpecificUnitSellingPriceButton(uomId + "");
   }
 );
 
-When("SAAS - user types {string} on unit selling price field", (input) => {
+When("user types {string} on unit selling price field", (input: string) => {
   inventoryDetailPage.typeUnitSellingPrice(input);
 });
 
-When("SAAS - user clicks enable price tier button", () => {
+When("user clicks enable price tier button", () => {
   inventoryDetailPage.clickEnablePriceTierButton();
 });
 
 When(
-  "SAAS - user types {string} on {string} price tier minimum quantity field",
-  (input, order) => {
+  "user types {string} on {string} price tier minimum quantity field",
+  (input: string, order: string) => {
     inventoryDetailPage.typeUnitPriceTierMinimumQuantityInput(
       utils.convertOrdinalToCardinalNumber(order),
       input
@@ -191,8 +191,8 @@ When(
 );
 
 When(
-  "SAAS - user types {string} on {string} price tier unit price field",
-  (input, order) => {
+  "user types {string} on {string} price tier unit price field",
+  (input: string, order: string) => {
     inventoryDetailPage.typeUnitPriceTierSellingPriceInput(
       utils.convertOrdinalToCardinalNumber(order),
       input
@@ -200,20 +200,20 @@ When(
   }
 );
 
-When("SAAS - user clicks on add more price tier button", () => {
+When("user clicks on add more price tier button", () => {
   inventoryDetailPage.clickUnitPriceTierAddMoreRowButton();
 });
 
-When("SAAS - user clicks on save unit selling price button", () => {
+When("user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
 });
 
-When("SAAS - user clicks on submit add inventory button", (_input) => {
+When("user clicks on submit add inventory button", (_input) => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
 });
 // assertions
 
-Then("SAAS - user is redirected to inventory list page", (_expected) => {
+Then("user is redirected to inventory list page", (_expected) => {
   cy.wait(2000);
   cy.url().should("eq", inventoryDetailPage.baseUrl + "inventory/list");
 });

@@ -1,26 +1,26 @@
-import { When, Then } from "cypress-cucumber-preprocessor/steps";
+import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryListPage from "../../../e2e/saas/page_objects/InventoryListPage";
 import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage";
 
 const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
 
-When("SAAS - user is on inventory list page", () => {
+When("user is on inventory list page", () => {
   cy.clearCookies();
   inventoryListPage.visitInventoryList();
 });
 
-When("SAAS - user clicks on add inventory button", () => {
+When("user clicks on add inventory button", () => {
   inventoryListPage.clickAddInventory();
 });
 
-When("SAAS - user clicks on first time add inventory button", () => {
+When("user clicks on first time add inventory button", () => {
   inventoryListPage.clickFirstTimeAddInventoryButton();
 });
 
 When(
-  "SAAS - user types search inventory input field with {string}",
-  (input) => {
+  "user types search inventory input field with {string}",
+  (input: string) => {
     inventoryListPage.typeSearchInput(input);
     cy.get(inventoryListPage.addInventorySearchInput).should(
       "have.value",
@@ -29,20 +29,20 @@ When(
   }
 );
 
-When("SAAS - user clicks on add custom inventory button", () => {
+When("user clicks on add custom inventory button", () => {
   inventoryListPage.clickAddCustomInventoryButton();
 });
 
 When(
-  "SAAS - user clicks add inventory button of inventory {string}",
-  (input) => {
+  "user clicks add inventory button of inventory {string}",
+  (input: string) => {
     inventoryListPage.clicksAddSpecificInventoryButton(input);
   }
 );
 
 When(
-  "SAAS - user deletes inventory {string} with delete reason = wrong input",
-  (input) => {
+  "user deletes inventory {string} with delete reason = wrong input",
+  (input: string) => {
     inventoryListPage.clickSpecificInventoryMoreOptionButton(input);
     inventoryListPage.clickDeleteInventoryButton();
     inventoryListPage.chooseDeleteInventoryWrongInput();
@@ -52,7 +52,7 @@ When(
 
 // assertions
 
-Then("SAAS - {string} is displayed as product variant name", (expected) => {
+Then("{string} is displayed as product variant name", (expected) => {
   expect(
     cy
       .get(inventoryDetailPage.productVariantNameInput)
