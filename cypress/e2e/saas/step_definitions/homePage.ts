@@ -1,23 +1,23 @@
-import { Given, When } from "cypress-cucumber-preprocessor/steps";
+import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
 import HomePage from "../../../e2e/saas/page_objects/homePage";
 
 const homePage = new HomePage();
 
-Given("SAAS - a user is on home page", () => {
+Given("a user is on home page", () => {
   cy.clearCookies();
   homePage.visitHomePage();
 });
 
-When("SAAS - user clicks close tutorial button", () => {
+When("user clicks close tutorial button", () => {
   cy.wait(5000);
   homePage.clickCloseTutorialButton();
 });
 
-When("SAAS - user clicks confirm close tutorial button", () => {
+When("user clicks confirm close tutorial button", () => {
   homePage.clickConfirmCloseTutorialButton();
 });
 
-When("SAAS - user clicks cancel close tutorial button", () => {
+When("user clicks cancel close tutorial button", () => {
   homePage.clickCancelCloseTutorialButton();
 });
 // assertions
