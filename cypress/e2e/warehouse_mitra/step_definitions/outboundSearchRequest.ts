@@ -1,4 +1,9 @@
-import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
+import {
+  Given,
+  When,
+  Then,
+  And,
+} from "@badeball/cypress-cucumber-preprocessor";
 import DashboardPage from "../../../e2e/warehouse_mitra/page_objects/dashboardPage";
 import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
 import OutboundRequestListPage from "../../../e2e/warehouse_mitra/page_objects/outboundRequestListPage";
