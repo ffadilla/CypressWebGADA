@@ -15,9 +15,12 @@ export default class LoginPage extends BasePage {
   }
 
   silentLogin() {
-    this.navigate(this.path);
-    cy.get(this.emailField).type(this.credentials.email);
-    cy.get(this.passwordField).type(this.credentials.password);
-    cy.get(this.loginButton).click();
+    cy.session([], () => {
+      this.navigate(this.path);
+      cy.get(this.emailField).type(this.credentials.email);
+      cy.get(this.passwordField).type(this.credentials.password);
+      cy.get(this.loginButton).click();
+      cy.url().should("contain", "dashboard");
+    });
   }
 }

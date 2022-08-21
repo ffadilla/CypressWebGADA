@@ -1,10 +1,4 @@
-import {
-  Given,
-  When,
-  Then,
-  Before,
-  After,
-} from "cypress-cucumber-preprocessor/steps";
+import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
 import DashboardPage from "../../../e2e/warehouse_mitra/page_objects/dashboardPage";
 import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
 import OutboundRequestListPage from "../../../e2e/warehouse_mitra/page_objects/outboundRequestListPage";
@@ -13,15 +7,11 @@ const loginPage = new LoginPage();
 const outboundRequestListPage = new OutboundRequestListPage();
 const dashboardPage = new DashboardPage();
 
-Before(() => {
+Given("Mitra - user is already logged in", () => {
   loginPage.silentLogin();
 });
 
-After(() => {
-  dashboardPage.logout();
-});
-
-Given("Mitra - user is in menu Barang Keluar", () => {
+And("Mitra - user is in menu Barang Keluar", () => {
   outboundRequestListPage.selectMenuOutbound();
 });
 
@@ -29,20 +19,72 @@ When("Mitra - user inputs requestId {string}", (value: string) => {
   outboundRequestListPage.searchRequest(value);
 });
 
-When("Mitra - user sorts it by {string}", (value: string) => {
-  outboundRequestListPage.clickTab(value);
+When("Mitra - user sorts outbound requests by {string}", (value: string) => {
+  outboundRequestListPage.selectStatus(value);
 });
 
-Then("Mitra - show valid search result {string}", (value: string) => {
-  cy.get(outboundRequestListPage.firstIndexData).should("contain.text", value);
+When("Mitra - user inputs shipmentId {string}", (value: string) => {
+  outboundRequestListPage.selectShipment();
+  outboundRequestListPage.searchRequest(value);
 });
 
-Then("Mitra - show invalid search result {string}", (value: string) => {
-  cy.xpath(outboundRequestListPage.notFoundMsg).should("contain.text", value);
+When("Mitra - user sorts outbound shipments by {string}", (value: string) => {
+  outboundRequestListPage.selectShipment();
+  outboundRequestListPage.selectStatus(value);
 });
 
-Then("Mitra - show sorted result with status {string}", (value: string) => {
-  cy.get(outboundRequestListPage.requestStatus)
-    .invoke("text")
-    .should("eql", value);
+When("Mitra - user is on Dashboard page", () => {
+  dashboardPage.visitDashboard();
+});
+
+Then("Mitra - show valid requestId search result {string}", (value: string) => {
+  cy.get(outboundRequestListPage.firstIndexReqData).should(
+    "contain.text",
+    value
+  );
+});
+
+Then(
+  "Mitra - show valid shipmentId search result {string}",
+  (value: string) => {
+    cy.get(outboundRequestListPage.firstIndexShipData).should(
+      "contain.text",
+      value
+    );
+  }
+);
+
+Then(
+  "Mitra - show invalid requestId search result {string}",
+  (value: string) => {
+    cy.xpath(outboundRequestListPage.notFoundMsg).should("contain.text", value);
+  }
+);
+
+Then(
+  "Mitra - show invalid shipmentId search result {string}",
+  (value: string) => {
+    cy.xpath(outboundRequestListPage.notFoundMsg).should("contain.text", value);
+  }
+);
+
+Then(
+  "Mitra - show sorted outbound requests result with status {string}",
+  (value: string) => {
+    cy.get(outboundRequestListPage.requestStatus).should("contain.text", value);
+  }
+);
+
+Then(
+  "Mitra - show sorted outbound shipments result with status {string}",
+  (value: string) => {
+    cy.xpath(outboundRequestListPage.shipmentStatus).should(
+      "contain.text",
+      value
+    );
+  }
+);
+
+Then("Mitra - user logs out", () => {
+  dashboardPage.logout();
 });

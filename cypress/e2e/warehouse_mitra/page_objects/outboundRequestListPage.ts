@@ -1,11 +1,12 @@
 import BasePage from "./basePage";
 
 export default class OutboundRequestListPage extends BasePage {
-  path = "/inventory/outbound/request/list";
+  path = "inventory/outbound/request/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
-  firstIndexData =
+  firstIndexReqData =
     ":nth-child(1) > td:nth-child(2) > a > div.MuiTypography-root";
+  firstIndexShipData = "#panel0a-header > div.MuiAccordionSummary-content";
   tabsContainer = "#chips-container";
   tabDefault = " > div:nth-child(1) > div:nth-child(1)";
   tabNotDoneYet = " > div:nth-child(2) > div:nth-child(1)";
@@ -14,12 +15,16 @@ export default class OutboundRequestListPage extends BasePage {
   tabCanceled = " > div:nth-child(5) > div:nth-child(1)";
   requestStatus =
     "tr:nth-child(1) > td:nth-child(5) > span > span.MuiTypography-root";
+  tabShipment =
+    ".MuiTabs-scroller.MuiTabs-hideScrollbar.MuiTabs-scrollableX > div > button:nth-child(2)";
   //xpath
   notFoundMsg = '//div[text()="Pencarian Tidak Ditemukan"]';
   outboundMenu =
     '//div[@id="__next"]//div[@role="button"]//span[text()="Barang Keluar"]';
+  shipmentStatus = '//div[@id="panel0a-header"]//following-sibling::span[2]';
 
   selectMenuOutbound() {
+    this.navigate(this.path);
     cy.xpath(this.outboundMenu).click();
   }
 
@@ -29,7 +34,7 @@ export default class OutboundRequestListPage extends BasePage {
       .type(value + "{enter}");
   }
 
-  clickTab(value: string) {
+  selectStatus(value: string) {
     switch (value) {
       case "Belum Selesai":
         cy.get(this.tabsContainer + this.tabNotDoneYet).click();
@@ -46,5 +51,9 @@ export default class OutboundRequestListPage extends BasePage {
       default:
         cy.get(this.tabsContainer + this.tabDefault).click();
     }
+  }
+
+  selectShipment() {
+    cy.get(this.tabShipment).click();
   }
 }
