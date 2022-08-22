@@ -2,6 +2,7 @@ import gadaConfig from "../../utils/gadaConfig";
 
 export default class BasePage {
   baseUrl = gadaConfig.warehouseMitra.baseUrl;
+  credentials = gadaConfig.warehouseMitra.credentials;
   accountDropdown = '.css-m17ii0 > [data-testid="ExpandMoreRoundedIcon"]';
   logoutDropdownItem = ".css-1k5yatp";
 
