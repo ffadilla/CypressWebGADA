@@ -18,79 +18,70 @@ And("user is in Pengajuan Pembelian page", () => {
   createPurchaseRequestPage.visitCreatePurchaseRequestPage();
 });
 
-And("user selects {string} as purchase request channel", (channel: string) => {
-  createPurchaseRequestPage.expandChannelList();
-  createPurchaseRequestPage.selectChannel(channel);
-  cy.wrap(channel).as("channel");
+And(
+  "user selects {string} as purchase request channel",
+  (channel: "marketplace" | "offline") => {
+    createPurchaseRequestPage.expandChannelList();
+    createPurchaseRequestPage.selectChannel(utils.channelSpec[channel]);
+    cy.wrap(utils.channelSpec[channel]).as("channel");
+  }
+);
+
+And(
+  "user types search vendor input field with {string}",
+  (vendorId: string) => {
+    createPurchaseRequestPage.typeString(
+      createPurchaseRequestPage.vendorIdInput,
+      vendorId
+    );
+    createPurchaseRequestPage.selectOption(vendorId, 0);
+    createPurchaseRequestPage.checkInputValueIsNotEmpty(
+      createPurchaseRequestPage.vendorIdInput,
+      "vendorId"
+    );
+    createPurchaseRequestPage.checkInputValueIsNotEmpty(
+      createPurchaseRequestPage.vendorNameInput,
+      "vendorName"
+    );
+    createPurchaseRequestPage.checkInputValueIsNotEmpty(
+      createPurchaseRequestPage.vendorAddressInput,
+      "vendorAddress"
+    );
+    createPurchaseRequestPage.checkInputValueIsNotEmpty(
+      createPurchaseRequestPage.vendorTaxTypeInput,
+      "vendorTaxType"
+    );
+  }
+);
+
+And("user types search buyer input field with {string}", (buyerId: string) => {
+  createPurchaseRequestPage.typeString(
+    createPurchaseRequestPage.buyerIdInput,
+    buyerId
+  );
+  createPurchaseRequestPage.selectOption(buyerId, 0);
+  createPurchaseRequestPage.checkInputValueIsNotEmpty(
+    createPurchaseRequestPage.buyerIdInput,
+    "buyerId"
+  );
+  createPurchaseRequestPage.checkInputValueIsNotEmpty(
+    createPurchaseRequestPage.buyerNameInput,
+    "buyerName"
+  );
+  createPurchaseRequestPage.checkInputValueIsNotEmpty(
+    createPurchaseRequestPage.buyerAreaInput,
+    "buyerArea"
+  );
 });
 
 And(
-  "user types search vendor input field with {string} and selects the 1st option",
-  (vendorId: string) => {
-    createPurchaseRequestPage.typeVendorId(vendorId);
-    createPurchaseRequestPage.selectOption(0);
-    cy.get(createPurchaseRequestPage.vendorIdInput)
-      .invoke("val")
-      .then((value: any) => {
-        cy.wrap(value).as("vendorId");
-      });
-
-    cy.get(createPurchaseRequestPage.vendorNameInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("vendorName");
-      });
-
-    cy.get(createPurchaseRequestPage.vendorAddressInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("vendorAddress");
-      });
-
-    cy.get(createPurchaseRequestPage.vendorTaxTypeInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("vendorTaxType");
-      });
-  }
-);
-
-And(
-  "user types search buyer input field with {string} and selects the 1st option",
-  (buyerId: string) => {
-    createPurchaseRequestPage.typeBuyerId(buyerId);
-    createPurchaseRequestPage.selectOption(0);
-    cy.get(createPurchaseRequestPage.buyerIdInput)
-      .invoke("val")
-      .then((value: any) => {
-        cy.wrap(value).as("buyerId");
-      });
-
-    cy.get(createPurchaseRequestPage.buyerNameInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("buyerName");
-      });
-
-    cy.get(createPurchaseRequestPage.buyerAreaInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("buyerArea");
-      });
-  }
-);
-
-And(
   "user selects {string} as purchase request delivery method",
-  (deliveryMethodName: string) => {
-    let deliveryMethod = utils.deliveryMethod(deliveryMethodName);
-    createPurchaseRequestPage.selectDeliveryMethod(deliveryMethod);
-    cy.wrap(deliveryMethod).as("deliveryMethod");
+  (deliveryMethod: "Gudang Ada Logistic" | "Dikirim Penjual") => {
+    createPurchaseRequestPage.selectRadioButton(
+      createPurchaseRequestPage.deliveryMethodInput,
+      utils.deliveryMethodSpec[deliveryMethod]
+    );
+    cy.wrap(utils.deliveryMethodSpec[deliveryMethod]).as("deliveryMethod");
   }
 );
 
@@ -113,68 +104,63 @@ And(
 );
 
 And(
-  "user fills delivery fee input field with {int} digits random",
-  (digits: number) => {
-    let deliveryFee = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeDeliveryFee(deliveryFee);
-    cy.wrap(deliveryFee).as("deliveryFee");
-  }
-);
+  "user fills {string} input field with {int} digits random number",
+  (
+    field:
+      | "deliveryFee"
+      | "deliveryFeeDiscount"
+      | "unloadingFee"
+      | "purchaseDiscount",
+    digits: number
+  ) => {
+    const selector = {
+      deliveryFee: createPurchaseRequestPage.deliveryFeeInput,
+      deliveryFeeDiscount: createPurchaseRequestPage.deliveryFeeDiscountInput,
+      unloadingFee: createPurchaseRequestPage.unloadingFeeInput,
+      purchaseDiscount: createPurchaseRequestPage.purchaseDiscountInput,
+    };
 
-And(
-  "user fills delivery fee discount input field with {int} digits random",
-  (digits: number) => {
-    let deliveryFeeDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeDeliveryFeeDiscount(deliveryFeeDiscount);
-    cy.wrap(deliveryFeeDiscount).as("deliveryFeeDiscount");
-  }
-);
-
-And(
-  "user fills unloading fee input field with {int} digits random",
-  (digits: number) => {
-    let unloadingFee = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeUnloadingFee(unloadingFee);
-    cy.wrap(unloadingFee).as("unloadingFee");
-  }
-);
-
-And(
-  "user fills purchase discount input field with {int} digits random",
-  (digits: number) => {
-    let purchaseDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typePurchaseDiscount(purchaseDiscount);
-    cy.wrap(purchaseDiscount).as("purchaseDiscount");
+    let randomNumber = utils.randomNumber(digits);
+    createPurchaseRequestPage.typeNumber(selector[field], randomNumber);
+    cy.wrap(randomNumber).as(field);
   }
 );
 
 And(
   "user fills purchase reason input field with {string}",
   (purchaseReason: string) => {
-    createPurchaseRequestPage.typePurchaseReason(purchaseReason);
+    createPurchaseRequestPage.typeString(
+      createPurchaseRequestPage.purchaseReasonInput,
+      purchaseReason
+    );
     cy.wrap(purchaseReason).as("purchaseReason");
   }
 );
 
 And("user clicks on Lanjut button to add item stage", () => {
-  createPurchaseRequestPage.clickNextToAddItem();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.nextToAddItemButton
+  );
 });
 
 And("user clicks on Tambah Item Pembelian button", () => {
-  createPurchaseRequestPage.clickAddNewItem();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.addNewItemButton
+  );
 });
 
 And(
   "user types search item name input field with {string}",
   (productName: string) => {
-    createPurchaseRequestPage.typeProduct(productName);
-    createPurchaseRequestPage.selectOption(0);
-    cy.get(createPurchaseRequestPage.taxTypeInput)
-      .invoke("val")
-      .should("not.be.empty")
-      .then((value: any) => {
-        cy.wrap(value).as("taxType");
-      });
+    createPurchaseRequestPage.typeString(
+      createPurchaseRequestPage.productInput,
+      productName
+    );
+    createPurchaseRequestPage.selectOption(productName, 0);
+    createPurchaseRequestPage.checkInputValueIsNotEmpty(
+      createPurchaseRequestPage.taxTypeInput,
+      "taxType"
+    );
   }
 );
 
@@ -182,7 +168,10 @@ And(
   "user fills item quantity input field with {int} digits random",
   (digits: number) => {
     let quantity = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeQuantity(quantity);
+    createPurchaseRequestPage.typeNumber(
+      createPurchaseRequestPage.quantityInput,
+      quantity
+    );
     cy.wrap(quantity).as("quantity");
   }
 );
@@ -192,351 +181,200 @@ And(
   (digits: number) => {
     let rate = utils.randomNumber(digits);
     let dpp = utils.dppCalculation(rate);
-    let rateNumberFormat = utils.numberFormat(rate);
-    let dppNumberFormat = utils.numberFormat(dpp);
+    let vat = utils.vatCalculation(rate, dpp);
+    let formattedRate = utils.numberFormat(rate);
+    let formattedDpp = utils.numberFormat(dpp);
+    let formattedVat = utils.numberFormat(vat);
 
-    createPurchaseRequestPage.typeRate(rate);
-
+    createPurchaseRequestPage.typeNumber(
+      createPurchaseRequestPage.rateInput,
+      rate
+    );
     cy.wrap(rate).as("rate");
-    cy.wrap(dpp).as("dpp");
+    createPurchaseRequestPage.checkDppCalculcation(
+      dpp,
+      formattedDpp,
+      rate,
+      formattedRate
+    );
+    createPurchaseRequestPage.checkVatCalculcation(vat, formattedVat);
+  }
+);
 
-    cy.get("@taxType").then((taxType: any) => {
-      if (taxType === "VAT") {
-        let vat = utils.vatCalculation(rate, dpp);
-        let vatNumberFormat = utils.numberFormat(vat);
+And(
+  "user fills {string} discount {string} input field with {int} digits random {string}",
+  (
+    field: "internal" | "principal" | "distributor" | "program",
+    discountType: "amount" | "percentage",
+    digits: number,
+    _randomType: "number" | "decimal"
+  ) => {
+    const inputSelector = {
+      internal: createPurchaseRequestPage.internalDiscountInput,
+      principal: createPurchaseRequestPage.principalDiscountInput,
+      distributor: createPurchaseRequestPage.distributorDiscountInput,
+      program: createPurchaseRequestPage.programDiscountInput,
+    };
 
-        cy.get(createPurchaseRequestPage.dppInput)
-          .eq(0)
-          .invoke("val")
-          .should("eq", dppNumberFormat);
-        cy.get(createPurchaseRequestPage.vatInput)
-          .eq(1)
-          .invoke("val")
-          .should("eq", vatNumberFormat);
-        cy.wrap(vat).as("vat");
+    const textSelector = {
+      internal: createPurchaseRequestPage.internalDiscountText,
+      principal: createPurchaseRequestPage.principalDiscountText,
+      distributor: createPurchaseRequestPage.distributorDiscountText,
+      program: createPurchaseRequestPage.programDiscountText,
+    };
+
+    const discountInput = {
+      amount: utils.randomNumber(digits),
+      percentage: utils.randomDecimal(digits),
+    };
+
+    createPurchaseRequestPage.typeDiscount(
+      inputSelector[field],
+      discountType,
+      discountInput[discountType]
+    );
+
+    cy.get("@rate").then((rate: any) => {
+      let calculatedDiscount = utils.discountCalculation(
+        rate,
+        discountType,
+        discountInput[discountType]
+      );
+
+      createPurchaseRequestPage.checkDiscountCalculation(
+        textSelector[field],
+        calculatedDiscount + ""
+      );
+
+      if (discountType === "amount") {
+        cy.wrap(discountInput[discountType]).as(field + "Discount");
       } else {
-        cy.get(createPurchaseRequestPage.dppInput)
-          .eq(0)
-          .invoke("val")
-          .should("eq", 0 + rateNumberFormat);
-        cy.get(createPurchaseRequestPage.vatInput)
-          .eq(1)
-          .invoke("val")
-          .should("eq", "0")
-          .then((value: any) => {
-            cy.wrap(value).as("vat");
-          });
+        cy.wrap(calculatedDiscount).as(field + "Discount");
       }
     });
   }
 );
 
-And(
-  "user fills internal discount amount input field with {int} digits random",
-  (digits: number) => {
-    let discountType = "amount";
-    let internalDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeInternalDiscount(
-      discountType,
-      internalDiscount
-    );
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        internalDiscount
-      );
-      createPurchaseRequestPage.checkInternalDiscountCalculation(
-        calculatedDiscount + ""
-      );
-    });
-    cy.wrap(internalDiscount).as("internalDiscount");
-  }
-);
-
-And(
-  "user fills principal discount amount input field with {int} digits random",
-  (digits: number) => {
-    let discountType = "amount";
-    let principalDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typePrincipalDiscount(
-      discountType,
-      principalDiscount
-    );
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        principalDiscount
-      );
-      createPurchaseRequestPage.checkPrincipalDiscountCalculation(
-        calculatedDiscount + ""
-      );
-    });
-    cy.wrap(principalDiscount).as("principalDiscount");
-  }
-);
-
-And(
-  "user fills distributor discount amount input field with {int} digits random",
-  (digits: number) => {
-    let discountType = "amount";
-    let distributorDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeDistributorDiscount(
-      discountType,
-      distributorDiscount
-    );
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        distributorDiscount
-      );
-      createPurchaseRequestPage.checkDistributorDiscountCalculation(
-        calculatedDiscount + ""
-      );
-    });
-    cy.wrap(distributorDiscount).as("distributorDiscount");
-  }
-);
-
-And(
-  "user fills program discount amount input field with {int} digits random",
-  (digits: number) => {
-    let discountType = "amount";
-    let programDiscount = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeProgramDiscount(
-      discountType,
-      programDiscount
-    );
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        programDiscount
-      );
-      createPurchaseRequestPage.checkProgramDiscountCalculation(
-        calculatedDiscount + ""
-      );
-    });
-    cy.wrap(programDiscount).as("programDiscount");
-  }
-);
-
-And(
-  "user fills internal discount percentage input field with {float}",
-  (percentage: number) => {
-    let discountType = "percentage";
-    createPurchaseRequestPage.typeInternalDiscount(discountType, percentage);
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        percentage
-      );
-      let calculatedDiscountNumberFormat =
-        utils.numberFormat(calculatedDiscount);
-      createPurchaseRequestPage.checkInternalDiscountCalculation(
-        calculatedDiscountNumberFormat
-      );
-      cy.wrap(calculatedDiscount).as("internalDiscount");
-    });
-  }
-);
-
-And(
-  "user fills principal discount percentage input field with {float}",
-  (percentage: number) => {
-    let discountType = "percentage";
-    createPurchaseRequestPage.typePrincipalDiscount(discountType, percentage);
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        percentage
-      );
-      let calculatedDiscountNumberFormat =
-        utils.numberFormat(calculatedDiscount);
-      createPurchaseRequestPage.checkPrincipalDiscountCalculation(
-        calculatedDiscountNumberFormat
-      );
-      cy.wrap(calculatedDiscount).as("principalDiscount");
-    });
-  }
-);
-
-And(
-  "user fills distributor discount percentage input field with {float}",
-  (percentage: number) => {
-    let discountType = "percentage";
-    createPurchaseRequestPage.typeDistributorDiscount(discountType, percentage);
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        percentage
-      );
-      let calculatedDiscountNumberFormat =
-        utils.numberFormat(calculatedDiscount);
-      createPurchaseRequestPage.checkDistributorDiscountCalculation(
-        calculatedDiscountNumberFormat
-      );
-      cy.wrap(calculatedDiscount).as("distributorDiscount");
-    });
-  }
-);
-
-And(
-  "user fills program discount percentage input field with {float}",
-  (percentage: number) => {
-    let discountType = "percentage";
-    createPurchaseRequestPage.typeProgramDiscount(discountType, percentage);
-    cy.get("@rate").then((rate: any) => {
-      let calculatedDiscount = utils.discountCalculation(
-        rate,
-        discountType,
-        percentage
-      );
-      let calculatedDiscountNumberFormat =
-        utils.numberFormat(calculatedDiscount);
-      createPurchaseRequestPage.checkProgramDiscountCalculation(
-        calculatedDiscountNumberFormat
-      );
-      cy.wrap(calculatedDiscount).as("programDiscount");
-    });
-  }
-);
-
 And("user clicks on Tambah button to add item", () => {
-  cy.get("@quantity").then((quantity: any) => {
-    cy.get("@rate").then((rate: any) => {
-      cy.get("@internalDiscount").then((internalDiscount: any) => {
-        cy.get("@principalDiscount").then((principalDiscount: any) => {
-          cy.get("@distributorDiscount").then((distributorDiscount: any) => {
-            cy.get("@programDiscount").then((programDiscount: any) => {
-              let rateDiscount = utils.rateDiscount(
-                internalDiscount,
-                principalDiscount,
-                distributorDiscount,
-                programDiscount
-              );
-              let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
-              let totalAmountNumberFormat = utils.numberFormat(totalAmount);
-              cy.get(createPurchaseRequestPage.totalAmountInput)
-                .invoke("val")
-                .should("eq", totalAmountNumberFormat);
-              cy.wrap(totalAmount).as("totalAmount");
-              cy.get("@deliveryFee").then((deliveryFee: any) => {
-                cy.get("@deliveryFeeDiscount").then(
-                  (deliveryFeeDiscount: any) => {
-                    cy.get("@unloadingFee").then((unloadingFee: any) => {
-                      cy.get("@purchaseDiscount").then(
-                        (purchaseDiscount: any) => {
-                          let minimumSellingPrice = utils.minimumSellingPrice(
-                            rate,
-                            rateDiscount,
-                            quantity,
-                            deliveryFee,
-                            deliveryFeeDiscount,
-                            unloadingFee,
-                            purchaseDiscount
-                          );
-                          cy.wrap(minimumSellingPrice).as(
-                            "minimumSellingPrice"
-                          );
-                        }
-                      );
-                    });
-                  }
-                );
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-  createPurchaseRequestPage.clickAddItem();
+  createPurchaseRequestPage.calculateRateDiscount();
+  createPurchaseRequestPage.checkTotalAmountCalculation();
+  createPurchaseRequestPage.calculateMinimumSellingPrice();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.addItemButton
+  );
 });
 
 And("user clicks on Lanjut button to suggested selling price stage", () => {
-  createPurchaseRequestPage.clickNextToSuggestedSellingPrice();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.nextToSellingPriceButton
+  );
 });
 
 And(
-  "user fills selling estimation days input field with {int} digits random",
+  "user fills selling estimation days input field with {int} digits random number",
   (digits: number) => {
     let sellingEstimationDays = utils.randomNumber(digits);
-    createPurchaseRequestPage.typeSellingEstimationDays(sellingEstimationDays);
+    createPurchaseRequestPage.typeNumber(
+      createPurchaseRequestPage.sellingEstimationDatsInput,
+      sellingEstimationDays
+    );
     cy.wrap(sellingEstimationDays).as("sellingEstimationDays");
   }
 );
 
 And(
   "user selects {string} as selling price setting type",
-  (settingType: string) => {
-    createPurchaseRequestPage.selectSettingType(settingType);
-    cy.wrap(settingType).as("settingType");
+  (settingType: "margin" | "price") => {
+    createPurchaseRequestPage.selectRadioButton(
+      createPurchaseRequestPage.settingTypeInput,
+      utils.settingTypeSpec[settingType]
+    );
+    cy.wrap(utils.settingTypeSpec[settingType]).as("settingType");
   }
 );
 
 And("user clicks on Tambah UOM Penjualan button", () => {
-  createPurchaseRequestPage.clickAddSellingUom();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.addSellingUomButton
+  );
 });
 
 And("user selects {string} as selling UOM", (uom: string) => {
-  createPurchaseRequestPage.selectSpecificUom(uom);
+  createPurchaseRequestPage.selectCheckbox(
+    createPurchaseRequestPage.uomCheckbox,
+    uom
+  );
 });
 
 And("user clicks on Atur Harga button", () => {
-  createPurchaseRequestPage.clickSetSellingPrice();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.setSellingPriceButton
+  );
 });
 
 And(
-  "user fills price input field with {int} + minimum selling price",
-  (price: number) => {
+  "user fills {string} input field with {int} digits random {string} from minimum selling price",
+  (
+    settingType: "margin" | "price",
+    digits: number,
+    _randomType: "number" | "decimal"
+  ) => {
+    const selector = {
+      margin: createPurchaseRequestPage.marginInput,
+      price: createPurchaseRequestPage.priceInput,
+    };
+    const input = {
+      margin: utils.randomDecimal(digits),
+      price: utils.randomNumber(digits),
+    };
+    function calculateSellingPrice(
+      taxType: string,
+      settingType: "margin" | "price",
+      rate: number,
+      minimumSellingPrice: number,
+      input: number
+    ) {
+      if (taxType === "PKP" && settingType === "price") {
+        return minimumSellingPrice + input;
+      } else if (taxType === "PTKP" && settingType === "price") {
+        return minimumSellingPrice + input + 0.115 * rate;
+      } else if (taxType === "PKP" && settingType === "margin") {
+        return input;
+      } else if (taxType === "PTKP" && settingType === "margin") {
+        return input + 11.5;
+      } else {
+        return 0;
+      }
+    }
     cy.get("@vendorTaxType").then((vendorTaxType: any) => {
-      cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
-        cy.get("@rate").then((rate: any) => {
-          let taxType = utils.taxType(vendorTaxType);
-          if (taxType === "PKP") {
-            let sellingPrice = minimumSellingPrice + price;
-            createPurchaseRequestPage.typePrice(sellingPrice);
-            cy.wrap(sellingPrice).as("price");
-          } else {
-            let sellingPrice = minimumSellingPrice + price + 0.115 * rate;
-            createPurchaseRequestPage.typePrice(sellingPrice);
-            cy.wrap(sellingPrice).as("price");
-          }
+      cy.get("@rate").then((rate: any) => {
+        cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
+          let taxType = utils.taxTypeSpec[vendorTaxType];
+          let sellingPrice = calculateSellingPrice(
+            taxType,
+            settingType,
+            rate,
+            minimumSellingPrice,
+            input[settingType]
+          );
+          createPurchaseRequestPage.typeNumber(
+            selector[settingType],
+            sellingPrice
+          );
+          cy.wrap(sellingPrice).as(settingType);
         });
       });
     });
   }
 );
 
-And(
-  "user fills margin input field with {float} from minimum selling price",
-  (margin: number) => {
-    cy.get("@vendorTaxType").then((vendorTaxType: any) => {
-      let taxType = utils.taxType(vendorTaxType);
-      cy.wrap(taxType).as("taxTypetest");
-      if (taxType === "PKP") {
-        createPurchaseRequestPage.typeMargin(margin);
-        cy.wrap(margin).as("margin");
-      } else {
-        let ptkpMargin = margin + 11.5;
-        createPurchaseRequestPage.typeMargin(ptkpMargin);
-        cy.wrap(ptkpMargin).as("margin");
-      }
-    });
-  }
-);
-
 And("user clicks on Simpan button to UOM price tier input", () => {
-  createPurchaseRequestPage.clickSavePriceTier();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.savePriceTierButton
+  );
   cy.get("@settingType").then((settingType: any) => {
-    if (settingType === "PRICE") {
-      cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
+    cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
+      if (settingType === "PRICE") {
         cy.get("@price").then((price: any) => {
           let priceMargin =
             utils.marginCalculation(price, minimumSellingPrice) + "";
@@ -545,34 +383,36 @@ And("user clicks on Simpan button to UOM price tier input", () => {
             priceMargin
           );
         });
-      });
-    } else {
-      cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
+      } else {
         cy.get("@margin").then((margin: any) => {
           let price = utils.priceCalculation(margin, minimumSellingPrice);
-          let roundedPrice = utils.roundPrice(price);
           let priceNumberFormat = utils.numberFormat(price);
-          let roundedPriceNumberFormat = utils.numberFormat(roundedPrice);
           createPurchaseRequestPage.checkSellingPriceCalculation(
             priceNumberFormat,
-            roundedPriceNumberFormat
+            priceNumberFormat
           );
         });
-      });
-    }
+      }
+    });
   });
 });
 
 And("user clicks on Lanjut button to purchase request preview", () => {
-  createPurchaseRequestPage.clickNextToPreview();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.nextToPreviewButton
+  );
 });
 
 And("user clicks on Simpan button to create purchase request", () => {
-  createPurchaseRequestPage.clickSavePurchaseRequest();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.savePurchaseRequestButton
+  );
 });
 
 When("user clicks on OK button to confirm purchase request creation", () => {
-  createPurchaseRequestPage.clickConfirmOk();
+  createPurchaseRequestPage.clickButton(
+    createPurchaseRequestPage.confimOkButton
+  );
 });
 
 Then("purchase request created successfully", () => {

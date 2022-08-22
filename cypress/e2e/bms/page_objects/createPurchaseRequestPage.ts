@@ -1,4 +1,5 @@
 import BasePage from "./basePage";
+import * as utils from "../common/utils";
 
 const basePage = new BasePage();
 
@@ -30,6 +31,7 @@ export default class CreatePurchaseRequestPage extends BasePage {
   rateInput = "#field-rate .MuiInput-input";
   dppInput = "#field-dpp .MuiInput-input";
   vatInput = "#field-dpp .MuiInput-input";
+  rateDiscountInput = "#field-discountPerQty .MuiInput-input";
   internalDiscountTypeSelect = "#field-internalDiscount .MuiSelect-select";
   principalDiscountTypeSelect = "#field-principalDiscount .MuiSelect-select";
   distributorDiscountTypeSelect =
@@ -78,22 +80,6 @@ export default class CreatePurchaseRequestPage extends BasePage {
     cy.get(`li[class*='MuiMenuItem-root'][data-value='${channel}']`).click();
   }
 
-  typeVendorId(vendorId: string) {
-    cy.get(this.vendorIdInput).type(vendorId);
-  }
-
-  typeBuyerId(buyerId: string) {
-    cy.get(this.buyerIdInput).type(buyerId);
-  }
-
-  selectOption(index: number) {
-    cy.get(`li[id="combo-box-demo-option-${index}"]`).click();
-  }
-
-  selectDeliveryMethod(deliveryMethod: string) {
-    cy.get(this.deliveryMethodInput + `[value='${deliveryMethod}']`).click();
-  }
-
   setDeliveryRequestStartDate(date: string) {
     cy.get(this.deliveryRequestDateButton).eq(0).click();
     cy.get(`button[aria-label='${date}']`).eq(0).click();
@@ -121,178 +107,125 @@ export default class CreatePurchaseRequestPage extends BasePage {
     }
   }
 
-  typeDeliveryFee(deliveryFee: number) {
-    cy.get(this.deliveryFeeInput).type(deliveryFee + "");
-  }
-
-  typeDeliveryFeeDiscount(deliveryFeeDiscount: number) {
-    cy.get(this.deliveryFeeDiscountInput).type(deliveryFeeDiscount + "");
-  }
-
-  typeUnloadingFee(unloadingFee: number) {
-    cy.get(this.unloadingFeeInput).type(unloadingFee + "");
-  }
-
-  typePurchaseDiscount(purchaseDiscount: number) {
-    cy.get(this.purchaseDiscountInput).type(purchaseDiscount + "");
-  }
-
-  typePurchaseReason(purchaseReason: string) {
-    cy.get(this.purchaseReasonInput).type(purchaseReason);
-  }
-
-  clickNextToAddItem() {
-    cy.get(this.nextToAddItemButton).click();
-  }
-
-  clickAddNewItem() {
-    cy.get(this.addNewItemButton).click();
-  }
-
-  typeProduct(product: string) {
-    cy.get(this.productInput).type(product);
-  }
-
-  typeQuantity(quantity: number) {
-    cy.get(this.quantityInput).type(quantity + "");
-  }
-
-  typeRate(rate: number) {
-    cy.get(this.rateInput).type(rate + "");
-  }
-
-  typeInternalDiscount(internalDisctoutType: string, internalDisctout: number) {
-    cy.get(this.internalDiscountTypeSelect).click();
+  typeDiscount(selector: string, disctoutType: string, discount: number) {
+    cy.get(selector).eq(0).click();
     cy.get(
-      `li[class*='MuiMenuItem-root'][data-value='${internalDisctoutType}']`
+      `li[class*='MuiMenuItem-root'][data-value='${disctoutType}']`
     ).click();
-    cy.get(this.internalDiscountInput)
+    cy.get(selector)
       .eq(1)
-      .type(internalDisctout + "");
+      .type(discount + "");
   }
 
-  typePrincipalDiscount(
-    principalDiscountType: string,
-    principalDiscount: number
-  ) {
-    cy.get(this.principalDiscountTypeSelect).click();
-    cy.get(
-      `li[class*='MuiMenuItem-root'][data-value='${principalDiscountType}']`
-    ).click();
-    cy.get(this.principalDiscountInput)
-      .eq(1)
-      .type(principalDiscount + "");
-  }
-
-  typeDistributorDiscount(
-    distributorDisctoutType: string,
-    distributorDisctout: number
-  ) {
-    cy.get(this.distributorDiscountTypeSelect).click();
-    cy.get(
-      `li[class*='MuiMenuItem-root'][data-value='${distributorDisctoutType}']`
-    ).click();
-    cy.get(this.distributorDiscountInput)
-      .eq(1)
-      .type(distributorDisctout + "");
-  }
-
-  typeProgramDiscount(programDisctoutType: string, programDisctout: number) {
-    cy.get(this.programDiscountTypeSelect).click();
-    cy.get(
-      `li[class*='MuiMenuItem-root'][data-value='${programDisctoutType}']`
-    ).click();
-    cy.get(this.programDiscountInput)
-      .eq(1)
-      .type(programDisctout + "");
-  }
-
-  checkInternalDiscountCalculation(calculatedDiscount: string) {
-    cy.get(
-      this.internalDiscountText + `:contains('${calculatedDiscount}')`
-    ).should("be.visible");
-  }
-
-  checkPrincipalDiscountCalculation(calculatedDiscount: string) {
-    cy.get(
-      this.principalDiscountText + `:contains('${calculatedDiscount}')`
-    ).should("be.visible");
-  }
-
-  checkDistributorDiscountCalculation(calculatedDiscount: string) {
-    cy.get(
-      this.distributorDiscountText + `:contains('${calculatedDiscount}')`
-    ).should("be.visible");
-  }
-
-  checkProgramDiscountCalculation(calculatedDiscount: string) {
-    cy.get(
-      this.programDiscountText + `:contains('${calculatedDiscount}')`
-    ).should("be.visible");
-  }
-
-  clickAddItem() {
-    cy.get(this.addItemButton).click();
-  }
-
-  clickNextToSuggestedSellingPrice() {
-    cy.get(this.nextToSellingPriceButton).click();
-  }
-
-  typeSellingEstimationDays(sellingEstimationDays: number) {
-    cy.get(this.sellingEstimationDatsInput).type(sellingEstimationDays + "");
-  }
-
-  selectSettingType(settingType: string) {
-    cy.get(this.settingTypeInput + `[value='${settingType}']`).click();
-  }
-
-  clickAddSellingUom() {
-    cy.get(this.addSellingUomButton).click();
-  }
-
-  selectSpecificUom(uom: string) {
-    cy.get(this.uomCheckbox + `:contains('${uom}')`).click();
-  }
-
-  clickSetSellingPrice() {
-    cy.get(this.setSellingPriceButton).click({ force: true });
-  }
-
-  typeMinimumQuantity(minimumQuantity: number) {
-    cy.get(this.minimumQuantityInput).type(minimumQuantity + "");
-  }
-
-  typePrice(price: number) {
-    cy.get(this.priceInput).type(price + "");
-  }
-
-  typeMargin(margin: number) {
-    cy.get(this.marginInput).type(margin + "");
-  }
-
-  clickSavePriceTier() {
-    cy.get(this.savePriceTierButton).click();
-  }
-
-  checkSellingPriceCalculation(beforeRounded: string, afterRounded: string) {
-    cy.get(this.sellingPriceText + `:contains('${beforeRounded}')`).should(
+  checkDiscountCalculation(selector: string, calculatedDiscount: string) {
+    cy.get(selector + `:contains('${calculatedDiscount}')`).should(
       "be.visible"
     );
+  }
+
+  checkDppCalculcation(
+    dpp: number,
+    formattedDpp: string,
+    rate: number,
+    formattedRate: string
+  ) {
+    cy.get("@taxType").then((taxType: any) => {
+      if (taxType === "VAT") {
+        cy.get(this.dppInput).eq(0).invoke("val").should("eq", formattedDpp);
+        cy.wrap(dpp).as("dpp");
+      } else {
+        cy.get(this.dppInput)
+          .eq(0)
+          .invoke("val")
+          .should("eq", 0 + formattedRate);
+        cy.wrap(rate).as("dpp");
+      }
+    });
+  }
+
+  checkVatCalculcation(vat: number, formattedVat: string) {
+    cy.get("@taxType").then((taxType: any) => {
+      if (taxType === "VAT") {
+        cy.get(this.vatInput).eq(1).invoke("val").should("eq", formattedVat);
+        cy.wrap(vat).as("vat");
+      } else {
+        cy.get(this.vatInput)
+          .eq(1)
+          .invoke("val")
+          .should("eq", "0")
+          .then((value: any) => {
+            cy.wrap(value).as("vat");
+          });
+      }
+    });
+  }
+
+  checkSellingPriceCalculation(_beforeRounded: string, afterRounded: string) {
+    // cy.get(this.sellingPriceText + `:contains('${beforeRounded}')`).should(
+    //   "be.visible"
+    // );
     cy.get(
       this.roundedSellingPriceText + `:contains('${afterRounded}')`
     ).should("be.visible");
   }
 
-  clickNextToPreview() {
-    cy.get(this.nextToPreviewButton).click({ force: true });
+  calculateRateDiscount() {
+    cy.get("@internalDiscount").then((internalDiscount: any) => {
+      cy.get("@principalDiscount").then((principalDiscount: any) => {
+        cy.get("@distributorDiscount").then((distributorDiscount: any) => {
+          cy.get("@programDiscount").then((programDiscount: any) => {
+            let rateDiscount = utils.rateDiscount(
+              internalDiscount,
+              principalDiscount,
+              distributorDiscount,
+              programDiscount
+            );
+            cy.wrap(rateDiscount).as("rateDiscount");
+          });
+        });
+      });
+    });
   }
 
-  clickSavePurchaseRequest() {
-    cy.get(this.savePurchaseRequestButton).click();
+  checkTotalAmountCalculation() {
+    cy.get("@quantity").then((quantity: any) => {
+      cy.get("@rate").then((rate: any) => {
+        cy.get("@rateDiscount").then((rateDiscount: any) => {
+          let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
+          let totalAmountNumberFormat = utils.numberFormat(totalAmount);
+          cy.get(this.totalAmountInput)
+            .invoke("val")
+            .should("eq", totalAmountNumberFormat);
+          cy.wrap(totalAmount).as("totalAmount");
+        });
+      });
+    });
   }
 
-  clickConfirmOk() {
-    cy.get(this.confimOkButton).click();
+  calculateMinimumSellingPrice() {
+    cy.get("@quantity").then((quantity: any) => {
+      cy.get("@rate").then((rate: any) => {
+        cy.get("@rateDiscount").then((rateDiscount: any) => {
+          cy.get("@deliveryFee").then((deliveryFee: any) => {
+            cy.get("@deliveryFeeDiscount").then((deliveryFeeDiscount: any) => {
+              cy.get("@unloadingFee").then((unloadingFee: any) => {
+                cy.get("@purchaseDiscount").then((purchaseDiscount: any) => {
+                  let minimumSellingPrice = utils.minimumSellingPrice(
+                    rate,
+                    rateDiscount,
+                    quantity,
+                    deliveryFee,
+                    deliveryFeeDiscount,
+                    unloadingFee,
+                    purchaseDiscount
+                  );
+                  cy.wrap(minimumSellingPrice).as("minimumSellingPrice");
+                });
+              });
+            });
+          });
+        });
+      });
+    });
   }
 }

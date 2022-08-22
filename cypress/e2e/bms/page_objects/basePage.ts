@@ -27,6 +27,45 @@ export default class BasePage {
     return cy.title();
   }
 
+  typeString(selector: string, input: string) {
+    cy.get(selector).type(input);
+  }
+
+  typeNumber(selector: string, input: number) {
+    cy.get(selector).type(input + "");
+  }
+
+  typeDecimal(selector: string, input: string) {
+    cy.get(selector).type(input + "");
+  }
+
+  clickButton(selector: string) {
+    cy.get(selector).click({ force: true });
+  }
+
+  selectOption(message: string, index: number) {
+    cy.get(".MuiAutocomplete-option" + `:contains('${message}')`)
+      .eq(index)
+      .click();
+  }
+
+  selectRadioButton(selector: string, input: string) {
+    cy.get(selector + `[value='${input}']`).click();
+  }
+
+  selectCheckbox(selector: string, input: string) {
+    cy.get(selector + `:contains('${input}')`).click();
+  }
+
+  checkInputValueIsNotEmpty(selector: string, field: string) {
+    cy.get(selector)
+      .invoke("val")
+      .should("not.be.empty")
+      .then((value: any) => {
+        cy.wrap(value).as(field);
+      });
+  }
+
   checkSnackBar(message: string) {
     cy.get(this.snackBarAlert + `:contains('${message}')`).should("be.visible");
   }

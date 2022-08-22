@@ -1,18 +1,21 @@
-export function deliveryMethod(deliveryMethodName: string) {
-  if (deliveryMethodName == "Gudang Ada Logistic") {
-    return "GADA_LOGISTIC";
-  } else {
-    return "STORE_COURIER";
-  }
-}
+export const channelSpec: any = {
+  marketplace: "MARKETPLACE",
+  offline: "OFFLINE",
+};
+export const deliveryMethodSpec: any = {
+  "Gudang Ada Logistic": "GADA_LOGISTIC",
+  "Dikirim Penjual": "STORE_COURIER",
+};
 
-export function taxType(taxTypeName: string) {
-  if (taxTypeName === "Non PKP") {
-    return "PTKP";
-  } else {
-    return "PKP";
-  }
-}
+export const settingTypeSpec: any = {
+  margin: "MARGIN",
+  price: "PRICE",
+};
+
+export const taxTypeSpec: any = {
+  "Non PKP": "PTKP",
+  PKP: "PKP",
+};
 
 export function dppCalculation(rate: number) {
   return Math.round(rate / 1.11);
@@ -77,6 +80,10 @@ export function randomNumber(length: number) {
   return parseInt(
     ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")
   );
+}
+
+export function randomDecimal(length: number) {
+  return parseFloat(("" + Math.random()).substring(1, length));
 }
 
 export function numberFormat(number: number) {

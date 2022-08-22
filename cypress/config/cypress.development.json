@@ -8,7 +8,55 @@
   },
   "bms": {
     "baseUrl": "https://bms.gudangada.online/",
-    "localStorage": {}
+    "users": {
+      "BM": {
+        "username": "Henry Setiana",
+        "userImage": "",
+        "userEmail": "henry.setiana@gudangada.com",
+        "authToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NCwiZXhwIjoxNjYxMTYzNTU4LCJlbWFpbCI6ImhlbnJ5LnNldGlhbmFAZ3VkYW5nYWRhLmNvbSIsInBlcm1pc3Npb25zIjpbImFwaTovbWFya2V0cGxhY2Uvc3RvcmUvZ2V0LWxpc3QiLCJhcGk6L21hcmtldHBsYWNlL29yZGVyL2dldC1kZXRhaWwiLCJhcGk6L2ludmVudG9yeS9wcm9kdWN0LXVuaXQvZ2V0LWxpc3QiLCJhcGk6L3NhbGVzL3N0b3JlL2dldC1saXN0IiwiYXBpOi9zdWdnZXN0ZWQtc2VsbGluZy1wcmljZS9jYWxjdWxhdGUiLCJhcGk6L3B1cmNoYXNlLXJlcXVlc3QvY3JlYXRlIiwiYXBpOi9wdXJjaGFzZS1yZXF1ZXN0L2dldC1saXN0LXBhZ2luYXRlZCIsImFwaTovcHVyY2hhc2UtcmVxdWVzdC9nZXQtZGV0YWlsIiwiYXBpOi9wdXJjaGFzZS1vcmRlci9hc3NpZ24tc2VsZiIsImFwaTovcHVyY2hhc2Utb3JkZXIvcHJvY2VzcyIsInVpLWFjdGlvbjovcmVjcmVhdGUiLCJ1aTovcHVyY2hhc2VSZXF1ZXN0L2NyZWF0ZVByb3Bvc2FsIiwidWk6L3B1cmNoYXNlUmVxdWVzdC9saXN0QWxsUmVxdWVzdCIsInVpOi9wdXJjaGFzZVJlcXVlc3Qvd2FpdGluZ0ZvclByb2Nlc3MiLCJ1aTovcHVyY2hhc2VSZXF1ZXN0L3dhaXRpbmdGb3JPcmRlciIsInVpOi9wdXJjaGFzZVJlcXVlc3QvbGlzdEFsbFJlcXVlc3QvZGV0YWlsIiwidWk6L3B1cmNoYXNlUmVxdWVzdC93YWl0aW5nRm9yUHJvY2Vzcy9kZXRhaWwiLCJ1aTovcHVyY2hhc2VSZXF1ZXN0L3dhaXRpbmdGb3JPcmRlci9kZXRhaWwiLCJhcGk6L2NvbW1lbnQvY3JlYXRlIiwiYXBpOi9hdHRhY2htZW50L2dldC1wcmUtc2lnbi1wb3N0IiwiYXBpOi9wYXltZW50L2JhbmsvZ2V0LWxpc3QiLCJhcGk6L3ZlbmRvci9nZXQtbGlzdCIsImFwaTovdmVuZG9yL2dldC1kZXRhaWwiLCJhcGk6L3ZlbmRvci1yZXF1ZXN0L2dldC1saXN0LXBhZ2luYXRlZCIsImFwaTovdmVuZG9yLXJlcXVlc3QvZ2V0LWRldGFpbCIsInVpOi92ZW5kb3IvbGlzdFJlcXVlc3QiLCJhcGk6L3B1cmNoYXNlLW9yZGVyL2dldC1saXN0LXBlbmRpbmctYXNzaWdubWVudCIsImFwaTovcHVyY2hhc2Utb3JkZXIvZ2V0LWxpc3QtcGVuZGluZy1vcmRlciIsImFwaTovcHVyY2hhc2Utb3JkZXIvcHJvY2Vzcy1vZmZsaW5lLW9yZGVyIiwidWk6L3ZlbmRvci9saXN0UmVxdWVzdC9kZXRhaWwiLCJ1aTovcHVyY2hhc2VSZXF1ZXN0L2JpbGxzL2RldGFpbCIsImFwaTovdmVuZG9yLWJpbGwvZ2V0LWRldGFpbCIsImFwaTovdmVuZG9yLXJlcXVlc3QvY3JlYXRlLW5ldy1yZXF1ZXN0IiwiYXBpOi92ZW5kb3ItcmVxdWVzdC9jcmVhdGUtdXBkYXRlLXJlcXVlc3QiLCJ1aTovdmVuZG9yL3JlcXVlc3RDcmVhdGUiLCJ1aTovdmVuZG9yL3JlcXVlc3RVcGRhdGUiLCJhcGk6L2ludmVudG9yeS9pbnZlbnRvcmllcy9nZXQtcHJpY2UtdGllcnMiXX0.pXuVFdPJHqbyprG-udSPOMTGibSBsdnHtExGZf7NcQ8",
+        "userPermissions": [
+          "api:/marketplace/store/get-list",
+          "api:/marketplace/order/get-detail",
+          "api:/inventory/product-unit/get-list",
+          "api:/sales/store/get-list",
+          "api:/suggested-selling-price/calculate",
+          "api:/purchase-request/create",
+          "api:/purchase-request/get-list-paginated",
+          "api:/purchase-request/get-detail",
+          "api:/purchase-order/assign-self",
+          "api:/purchase-order/process",
+          "ui-action:/recreate",
+          "ui:/purchaseRequest/createProposal",
+          "ui:/purchaseRequest/listAllRequest",
+          "ui:/purchaseRequest/waitingForProcess",
+          "ui:/purchaseRequest/waitingForOrder",
+          "ui:/purchaseRequest/listAllRequest/detail",
+          "ui:/purchaseRequest/waitingForProcess/detail",
+          "ui:/purchaseRequest/waitingForOrder/detail",
+          "api:/comment/create",
+          "api:/attachment/get-pre-sign-post",
+          "api:/payment/bank/get-list",
+          "api:/vendor/get-list",
+          "api:/vendor/get-detail",
+          "api:/vendor-request/get-list-paginated",
+          "api:/vendor-request/get-detail",
+          "ui:/vendor/listRequest",
+          "api:/purchase-order/get-list-pending-assignment",
+          "api:/purchase-order/get-list-pending-order",
+          "api:/purchase-order/process-offline-order",
+          "ui:/vendor/listRequest/detail",
+          "ui:/purchaseRequest/bills/detail",
+          "api:/vendor-bill/get-detail"
+        ],
+        "userRole": [
+          {
+            "id": 43,
+            "name": "BM Project",
+            "source": "SALES_API"
+          }
+        ]
+      }
+    }
   },
   "warehouseMitra": {
     "baseUrl": "https://warehouse-dev.gudangada.com/"
