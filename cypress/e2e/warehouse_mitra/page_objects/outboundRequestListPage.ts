@@ -18,14 +18,15 @@ export default class OutboundRequestListPage extends BasePage {
   tabShipment =
     ".MuiTabs-scroller.MuiTabs-hideScrollbar.MuiTabs-scrollableX > div > button:nth-child(2)";
   //xpath
-  notFoundMsg = '//div[text()="Pencarian Tidak Ditemukan"]';
-  outboundMenu =
+  xpathNotFoundMsg = '//div[text()="Pencarian Tidak Ditemukan"]';
+  xpathOutboundMenu =
     '//div[@id="__next"]//div[@role="button"]//span[text()="Barang Keluar"]';
-  shipmentStatus = '//div[@id="panel0a-header"]//following-sibling::span[2]';
+  xpathShipmentStatus =
+    '//div[@id="panel0a-header"]//following-sibling::span[2]';
 
   selectMenuOutbound() {
     this.navigate(this.path);
-    cy.xpath(this.outboundMenu).click();
+    cy.xpath(this.xpathOutboundMenu).click();
   }
 
   searchRequest(value: string) {

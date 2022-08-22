@@ -1,20 +1,20 @@
 Feature: Search for specific request(s)
 
   Background: User login into WH Mitra
-    Given Mitra - user is already logged in
-    And Mitra - user is in menu Barang Keluar
+    Given user is already logged in
+    And user is in menu Barang Keluar
       
   Scenario: Search valid requestId
-    When Mitra - user inputs requestId "REQOUT/082200014"
-    Then Mitra - show valid requestId search result "REQOUT/082200014"
+    When user inputs requestId "REQOUT/082200014"
+    Then show valid requestId search result "REQOUT/082200014"
 
   Scenario: Search invalid requestId
-    When Mitra - user inputs requestId "INVALID/00112233"
-    Then Mitra - show invalid requestId search result "Pencarian Tidak Ditemukan"
+    When user inputs requestId "INVALID/00112233"
+    Then show invalid requestId search result "Pencarian Tidak Ditemukan"
 
   Scenario Outline: Sort by outbound requests with status <status>
-    When Mitra - user sorts outbound requests by <status>
-    Then Mitra - show sorted outbound requests result with status <status>
+    When user sorts outbound requests by <status>
+    Then show sorted outbound requests result with status <status>
   
   Examples:
     | status            |
@@ -24,16 +24,16 @@ Feature: Search for specific request(s)
     | "Dibatalkan"      |
 
   Scenario: Search valid shipmentId
-    When Mitra - user inputs shipmentId "OUT/082200001"
-    Then Mitra - show valid shipmentId search result "OUT/082200001"
+    When user inputs shipmentId "OUT/082200001"
+    Then show valid shipmentId search result "OUT/082200001"
 
   Scenario: Search invalid shipmentId
-    When Mitra - user inputs shipmentId "INVALID/00112233"
-    Then Mitra - show invalid shipmentId search result "Pencarian Tidak Ditemukan"
+    When user inputs shipmentId "INVALID/00112233"
+    Then show invalid shipmentId search result "Pencarian Tidak Ditemukan"
 
   Scenario Outline: Sort by outbound shipments with status <status>
-    When Mitra - user sorts outbound shipments by <status>
-    Then Mitra - show sorted outbound shipments result with status <status>
+    When user sorts outbound shipments by <status>
+    Then show sorted outbound shipments result with status <status>
   
   Examples:
     | status            |
@@ -42,5 +42,5 @@ Feature: Search for specific request(s)
     | "Sudah Selesai"   |
 
   Scenario: Logout after test
-    When Mitra - user is on Dashboard page
-    Then Mitra - user logs out
+    When user is on Dashboard page
+    Then user logs out
