@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^12.0.1",
+    "@cypress/browserify-preprocessor": "^3.0.2",
     "cypress-xpath": "^2.0.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
