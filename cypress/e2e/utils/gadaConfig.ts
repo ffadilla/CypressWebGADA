@@ -6,6 +6,9 @@ type config = {
     baseUrl: string;
     baseApiUrl: string;
   };
+  inventory: {
+    baseApiUrl: string;
+  };
   bms: {
     baseUrl: string;
     users: {
