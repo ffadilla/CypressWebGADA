@@ -43,6 +43,10 @@ Install dependencies and necessary setup.
 npm install
 ```
 
+4. Install cucumber-json-formatter:
+
+Download and install the [cucumber JSON fomatter](https://github.com/cucumber/json-formatter) depending on your OS
+
 ## 3. Open and Run Cypress
 
 Open cypress using

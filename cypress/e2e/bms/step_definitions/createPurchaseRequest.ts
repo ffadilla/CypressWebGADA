@@ -1,29 +1,31 @@
-import { Given, Then, When, And } from "cypress-cucumber-preprocessor/steps";
+import {
+  Given,
+  Then,
+  When,
+  And,
+} from "@badeball/cypress-cucumber-preprocessor";
 import * as moment from "moment";
-import CreatePurchaseRequestPage from "../../../e2e/bms/page_objects/createPurchaseRequestPage";
-import * as utils from "./utils";
+import CreatePurchaseRequestPage from "../page_objects/createPurchaseRequestPage";
+import * as utils from "../common/utils";
 
 const createPurchaseRequestPage = new CreatePurchaseRequestPage();
 
-Given("BMS - user logged in as {string}", (userRole: string) => {
+Given("user logged in as {string}", (userRole: string) => {
   createPurchaseRequestPage.setLocalStorage(userRole);
 });
 
-And("BMS - user is in Pengajuan Pembelian page", () => {
+And("user is in Pengajuan Pembelian page", () => {
   createPurchaseRequestPage.visitCreatePurchaseRequestPage();
 });
 
-And(
-  "BMS - user selects {string} as purchase request channel",
-  (channel: string) => {
-    createPurchaseRequestPage.expandChannelList();
-    createPurchaseRequestPage.selectChannel(channel);
-    cy.wrap(channel).as("channel");
-  }
-);
+And("user selects {string} as purchase request channel", (channel: string) => {
+  createPurchaseRequestPage.expandChannelList();
+  createPurchaseRequestPage.selectChannel(channel);
+  cy.wrap(channel).as("channel");
+});
 
 And(
-  "BMS - user types search vendor input field with {string} and selects the 1st option",
+  "user types search vendor input field with {string} and selects the 1st option",
   (vendorId: string) => {
     createPurchaseRequestPage.typeVendorId(vendorId);
     createPurchaseRequestPage.selectOption(0);
@@ -57,7 +59,7 @@ And(
 );
 
 And(
-  "BMS - user types search buyer input field with {string} and selects the 1st option",
+  "user types search buyer input field with {string} and selects the 1st option",
   (buyerId: string) => {
     createPurchaseRequestPage.typeBuyerId(buyerId);
     createPurchaseRequestPage.selectOption(0);
@@ -84,7 +86,7 @@ And(
 );
 
 And(
-  "BMS - user selects {string} as purchase request delivery method",
+  "user selects {string} as purchase request delivery method",
   (deliveryMethodName: string) => {
     let deliveryMethod = utils.deliveryMethod(deliveryMethodName);
     createPurchaseRequestPage.selectDeliveryMethod(deliveryMethod);
@@ -93,7 +95,7 @@ And(
 );
 
 And(
-  "BMS - user sets delivery request start date {int} days from today",
+  "user sets delivery request start date {int} days from today",
   (int: number) => {
     createPurchaseRequestPage.setDeliveryRequestStartDate(
       moment().add(int, "days").format("ll")
@@ -102,7 +104,7 @@ And(
 );
 
 And(
-  "BMS - user sets delivery request end date {int} days from today",
+  "user sets delivery request end date {int} days from today",
   (int: number) => {
     createPurchaseRequestPage.setDeliveryRequestEndDate(
       moment().add(int, "days").format("ll")
@@ -111,7 +113,7 @@ And(
 );
 
 And(
-  "BMS - user fills delivery fee input field with {int} digits random",
+  "user fills delivery fee input field with {int} digits random",
   (digits: number) => {
     let deliveryFee = utils.randomNumber(digits);
     createPurchaseRequestPage.typeDeliveryFee(deliveryFee);
@@ -120,7 +122,7 @@ And(
 );
 
 And(
-  "BMS - user fills delivery fee discount input field with {int} digits random",
+  "user fills delivery fee discount input field with {int} digits random",
   (digits: number) => {
     let deliveryFeeDiscount = utils.randomNumber(digits);
     createPurchaseRequestPage.typeDeliveryFeeDiscount(deliveryFeeDiscount);
@@ -129,7 +131,7 @@ And(
 );
 
 And(
-  "BMS - user fills unloading fee input field with {int} digits random",
+  "user fills unloading fee input field with {int} digits random",
   (digits: number) => {
     let unloadingFee = utils.randomNumber(digits);
     createPurchaseRequestPage.typeUnloadingFee(unloadingFee);
@@ -138,7 +140,7 @@ And(
 );
 
 And(
-  "BMS - user fills purchase discount input field with {int} digits random",
+  "user fills purchase discount input field with {int} digits random",
   (digits: number) => {
     let purchaseDiscount = utils.randomNumber(digits);
     createPurchaseRequestPage.typePurchaseDiscount(purchaseDiscount);
@@ -147,23 +149,23 @@ And(
 );
 
 And(
-  "BMS - user fills purchase reason input field with {string}",
+  "user fills purchase reason input field with {string}",
   (purchaseReason: string) => {
     createPurchaseRequestPage.typePurchaseReason(purchaseReason);
     cy.wrap(purchaseReason).as("purchaseReason");
   }
 );
 
-And("BMS - user clicks on Lanjut button to add item stage", () => {
+And("user clicks on Lanjut button to add item stage", () => {
   createPurchaseRequestPage.clickNextToAddItem();
 });
 
-And("BMS - user clicks on Tambah Item Pembelian button", () => {
+And("user clicks on Tambah Item Pembelian button", () => {
   createPurchaseRequestPage.clickAddNewItem();
 });
 
 And(
-  "BMS - user types search item name input field with {string}",
+  "user types search item name input field with {string}",
   (productName: string) => {
     createPurchaseRequestPage.typeProduct(productName);
     createPurchaseRequestPage.selectOption(0);
@@ -177,7 +179,7 @@ And(
 );
 
 And(
-  "BMS - user fills item quantity input field with {int} digits random",
+  "user fills item quantity input field with {int} digits random",
   (digits: number) => {
     let quantity = utils.randomNumber(digits);
     createPurchaseRequestPage.typeQuantity(quantity);
@@ -186,7 +188,7 @@ And(
 );
 
 And(
-  "BMS - user fills item rate input field with {int} digits random",
+  "user fills item rate input field with {int} digits random",
   (digits: number) => {
     let rate = utils.randomNumber(digits);
     let dpp = utils.dppCalculation(rate);
@@ -230,7 +232,7 @@ And(
 );
 
 And(
-  "BMS - user fills internal discount amount input field with {int} digits random",
+  "user fills internal discount amount input field with {int} digits random",
   (digits: number) => {
     let discountType = "amount";
     let internalDiscount = utils.randomNumber(digits);
@@ -253,7 +255,7 @@ And(
 );
 
 And(
-  "BMS - user fills principal discount amount input field with {int} digits random",
+  "user fills principal discount amount input field with {int} digits random",
   (digits: number) => {
     let discountType = "amount";
     let principalDiscount = utils.randomNumber(digits);
@@ -276,7 +278,7 @@ And(
 );
 
 And(
-  "BMS - user fills distributor discount amount input field with {int} digits random",
+  "user fills distributor discount amount input field with {int} digits random",
   (digits: number) => {
     let discountType = "amount";
     let distributorDiscount = utils.randomNumber(digits);
@@ -299,7 +301,7 @@ And(
 );
 
 And(
-  "BMS - user fills program discount amount input field with {int} digits random",
+  "user fills program discount amount input field with {int} digits random",
   (digits: number) => {
     let discountType = "amount";
     let programDiscount = utils.randomNumber(digits);
@@ -322,7 +324,7 @@ And(
 );
 
 And(
-  "BMS - user fills internal discount percentage input field with {float}",
+  "user fills internal discount percentage input field with {float}",
   (percentage: number) => {
     let discountType = "percentage";
     createPurchaseRequestPage.typeInternalDiscount(discountType, percentage);
@@ -343,7 +345,7 @@ And(
 );
 
 And(
-  "BMS - user fills principal discount percentage input field with {float}",
+  "user fills principal discount percentage input field with {float}",
   (percentage: number) => {
     let discountType = "percentage";
     createPurchaseRequestPage.typePrincipalDiscount(discountType, percentage);
@@ -364,7 +366,7 @@ And(
 );
 
 And(
-  "BMS - user fills distributor discount percentage input field with {float}",
+  "user fills distributor discount percentage input field with {float}",
   (percentage: number) => {
     let discountType = "percentage";
     createPurchaseRequestPage.typeDistributorDiscount(discountType, percentage);
@@ -385,7 +387,7 @@ And(
 );
 
 And(
-  "BMS - user fills program discount percentage input field with {float}",
+  "user fills program discount percentage input field with {float}",
   (percentage: number) => {
     let discountType = "percentage";
     createPurchaseRequestPage.typeProgramDiscount(discountType, percentage);
@@ -405,7 +407,7 @@ And(
   }
 );
 
-And("BMS - user clicks on Tambah button to add item", () => {
+And("user clicks on Tambah button to add item", () => {
   cy.get("@quantity").then((quantity: any) => {
     cy.get("@rate").then((rate: any) => {
       cy.get("@internalDiscount").then((internalDiscount: any) => {
@@ -457,15 +459,12 @@ And("BMS - user clicks on Tambah button to add item", () => {
   createPurchaseRequestPage.clickAddItem();
 });
 
-And(
-  "BMS - user clicks on Lanjut button to suggested selling price stage",
-  () => {
-    createPurchaseRequestPage.clickNextToSuggestedSellingPrice();
-  }
-);
+And("user clicks on Lanjut button to suggested selling price stage", () => {
+  createPurchaseRequestPage.clickNextToSuggestedSellingPrice();
+});
 
 And(
-  "BMS - user fills selling estimation days input field with {int} digits random",
+  "user fills selling estimation days input field with {int} digits random",
   (digits: number) => {
     let sellingEstimationDays = utils.randomNumber(digits);
     createPurchaseRequestPage.typeSellingEstimationDays(sellingEstimationDays);
@@ -474,27 +473,27 @@ And(
 );
 
 And(
-  "BMS - user selects {string} as selling price setting type",
+  "user selects {string} as selling price setting type",
   (settingType: string) => {
     createPurchaseRequestPage.selectSettingType(settingType);
     cy.wrap(settingType).as("settingType");
   }
 );
 
-And("BMS - user clicks on Tambah UOM Penjualan button", () => {
+And("user clicks on Tambah UOM Penjualan button", () => {
   createPurchaseRequestPage.clickAddSellingUom();
 });
 
-And("BMS - user selects {string} as selling UOM", (uom: string) => {
+And("user selects {string} as selling UOM", (uom: string) => {
   createPurchaseRequestPage.selectSpecificUom(uom);
 });
 
-And("BMS - user clicks on Atur Harga button", () => {
+And("user clicks on Atur Harga button", () => {
   createPurchaseRequestPage.clickSetSellingPrice();
 });
 
 And(
-  "BMS - user fills price input field with {int} + minimum selling price",
+  "user fills price input field with {int} + minimum selling price",
   (price: number) => {
     cy.get("@vendorTaxType").then((vendorTaxType: any) => {
       cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
@@ -516,7 +515,7 @@ And(
 );
 
 And(
-  "BMS - user fills margin input field with {float} from minimum selling price",
+  "user fills margin input field with {float} from minimum selling price",
   (margin: number) => {
     cy.get("@vendorTaxType").then((vendorTaxType: any) => {
       let taxType = utils.taxType(vendorTaxType);
@@ -533,7 +532,7 @@ And(
   }
 );
 
-And("BMS - user clicks on Simpan button to UOM price tier input", () => {
+And("user clicks on Simpan button to UOM price tier input", () => {
   createPurchaseRequestPage.clickSavePriceTier();
   cy.get("@settingType").then((settingType: any) => {
     if (settingType === "PRICE") {
@@ -564,21 +563,18 @@ And("BMS - user clicks on Simpan button to UOM price tier input", () => {
   });
 });
 
-And("BMS - user clicks on Lanjut button to purchase request preview", () => {
+And("user clicks on Lanjut button to purchase request preview", () => {
   createPurchaseRequestPage.clickNextToPreview();
 });
 
-And("BMS - user clicks on Simpan button to create purchase request", () => {
+And("user clicks on Simpan button to create purchase request", () => {
   createPurchaseRequestPage.clickSavePurchaseRequest();
 });
 
-When(
-  "BMS - user clicks on OK button to confirm purchase request creation",
-  () => {
-    createPurchaseRequestPage.clickConfirmOk();
-  }
-);
+When("user clicks on OK button to confirm purchase request creation", () => {
+  createPurchaseRequestPage.clickConfirmOk();
+});
 
-Then("BMS - purchase request created successfully", () => {
+Then("purchase request created successfully", () => {
   createPurchaseRequestPage.checkSnackBar("Pembelian berhasil diajukan");
 });

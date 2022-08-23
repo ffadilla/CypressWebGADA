@@ -1,4 +1,4 @@
-import { Given, When } from "cypress-cucumber-preprocessor/steps";
+import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../../../e2e/saas/page_objects/LoginPage";
 import RegistrationPage from "../../../e2e/saas/page_objects/RegistrationPage";
 import HomePage from "../../../e2e/saas/page_objects/HomePage";
@@ -10,7 +10,7 @@ const homePage = new HomePage();
 
 let otp = utils.generateCurrentDateOTP();
 
-Given("SAAS - a new user is registered", () => {
+Given("a new user is registered", () => {
   cy.clearLocalStorage();
   cy.clearCookies();
   cy.reload(true);
@@ -37,11 +37,11 @@ Given("SAAS - a new user is registered", () => {
   homePage.clickConfirmCloseTutorialButton();
 });
 
-Given("SAAS - user {string} is logged in", (number) => {
+Given("user {string} is logged in", (number: string) => {
   cy.saasLogin(number);
 });
 
-When("SAAS - user clicks on inventory list side menu button", () => {
+When("user clicks on inventory list side menu button", () => {
   homePage.clickInventorySideMenuButton();
   homePage.clickInventoryListSideMenuButton();
 });

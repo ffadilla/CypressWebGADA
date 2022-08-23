@@ -1,5 +1,5 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
-import * as saasConfig from "../../resources/saas/development-saas.json";
+import * as saasConfig from "../resources/development-saas.json";
 
 export function retrieveUomId(uomName: string) {
   cy.request({

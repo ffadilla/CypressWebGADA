@@ -27,7 +27,7 @@
 // TODO: change any
 import "cypress-xpath";
 import gadaConfig from "../e2e/utils/gadaConfig";
-import { generateCurrentDateOTP } from "./step_definitions/saas/utils";
+import { generateCurrentDateOTP } from "../e2e/saas/step_definitions/utils";
 
 // SAAS Custom Commands
 
