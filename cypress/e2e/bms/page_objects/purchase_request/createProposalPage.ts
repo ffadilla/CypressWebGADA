@@ -1,9 +1,9 @@
-import BasePage from "./basePage";
-import * as utils from "../common/utils";
+import BasePage from "../basePage";
+import * as utils from "../../common/utils";
 
 const basePage = new BasePage();
 
-export default class CreatePurchaseRequestPage extends BasePage {
+export default class CreateProposalPage extends BasePage {
   path = "purchaseRequest/createProposal";
   channelInput = "#field-channel .MuiSelect-select";
   vendorIdInput = "#field-vendorId .MuiOutlinedInput-root #combo-box-demo";
@@ -68,7 +68,7 @@ export default class CreatePurchaseRequestPage extends BasePage {
   savePurchaseRequestButton = ".MuiButton-root:contains('Simpan')";
   confimOkButton = ".MuiButton-root:contains('OK')";
 
-  visitCreatePurchaseRequestPage() {
+  visitCreateProposalPage() {
     basePage.navigate(this.path);
   }
 
@@ -117,12 +117,6 @@ export default class CreatePurchaseRequestPage extends BasePage {
       .type(discount + "");
   }
 
-  checkDiscountCalculation(selector: string, calculatedDiscount: string) {
-    cy.get(selector + `:contains('${calculatedDiscount}')`).should(
-      "be.visible"
-    );
-  }
-
   checkDppCalculcation(
     dpp: number,
     formattedDpp: string,
@@ -158,15 +152,6 @@ export default class CreatePurchaseRequestPage extends BasePage {
           });
       }
     });
-  }
-
-  checkSellingPriceCalculation(_beforeRounded: string, afterRounded: string) {
-    // cy.get(this.sellingPriceText + `:contains('${beforeRounded}')`).should(
-    //   "be.visible"
-    // );
-    cy.get(
-      this.roundedSellingPriceText + `:contains('${afterRounded}')`
-    ).should("be.visible");
   }
 
   calculateRateDiscount() {

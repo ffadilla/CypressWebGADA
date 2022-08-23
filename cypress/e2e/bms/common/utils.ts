@@ -83,7 +83,9 @@ export function randomNumber(length: number) {
 }
 
 export function randomDecimal(length: number) {
-  return parseFloat(("" + Math.random()).substring(1, length));
+  return parseFloat(
+    ("" + Math.random()).substring(1, length).replace(/0/g, "1")
+  );
 }
 
 export function numberFormat(number: number) {

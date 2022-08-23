@@ -5,7 +5,7 @@ import {
   And,
 } from "@badeball/cypress-cucumber-preprocessor";
 import * as moment from "moment";
-import CreatePurchaseRequestPage from "../page_objects/createPurchaseRequestPage";
+import CreatePurchaseRequestPage from "../page_objects/purchase_request/createProposalPage";
 import * as utils from "../common/utils";
 
 const createPurchaseRequestPage = new CreatePurchaseRequestPage();
@@ -15,7 +15,7 @@ Given("user logged in as {string}", (userRole: string) => {
 });
 
 And("user is in Pengajuan Pembelian page", () => {
-  createPurchaseRequestPage.visitCreatePurchaseRequestPage();
+  createPurchaseRequestPage.visitCreateProposalPage();
 });
 
 And(
@@ -241,7 +241,7 @@ And(
         discountInput[discountType]
       );
 
-      createPurchaseRequestPage.checkDiscountCalculation(
+      createPurchaseRequestPage.checkText(
         textSelector[field],
         calculatedDiscount + ""
       );
@@ -378,8 +378,8 @@ And("user clicks on Simpan button to UOM price tier input", () => {
         cy.get("@price").then((price: any) => {
           let priceMargin =
             utils.marginCalculation(price, minimumSellingPrice) + "";
-          createPurchaseRequestPage.checkSellingPriceCalculation(
-            priceMargin,
+          createPurchaseRequestPage.checkText(
+            createPurchaseRequestPage.text,
             priceMargin
           );
         });
@@ -387,8 +387,8 @@ And("user clicks on Simpan button to UOM price tier input", () => {
         cy.get("@margin").then((margin: any) => {
           let price = utils.priceCalculation(margin, minimumSellingPrice);
           let priceNumberFormat = utils.numberFormat(price);
-          createPurchaseRequestPage.checkSellingPriceCalculation(
-            priceNumberFormat,
+          createPurchaseRequestPage.checkText(
+            createPurchaseRequestPage.text,
             priceNumberFormat
           );
         });
