@@ -1,14 +1,20 @@
-import * as uomIdMap from "../../resources/saas/development-uomNameToIdMapping.json";
-
-const uomObj = uomIdMap.data;
+import gadaConfig from "../../../e2e/utils/gadaConfig";
+import * as saasConfig from "../../resources/saas/development-saas.json";
 
 export function retrieveUomId(uomName: string) {
-  for (let i = 0; i < uomObj.length; i++) {
-    if (uomObj[i].long_name === uomName) {
-      return uomObj[i].id;
-    }
-  }
-  return "";
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "product/uom",
+    qs: {
+      page_size: 100,
+      page: 1,
+      query: uomName,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+    },
+  }).then((resp) => {
+    let uomId = resp.body.data[0].id;
+    cy.wrap(uomId.toString()).as("uomId");
+  });
 }
 
 export function generateRandomNumber() {
