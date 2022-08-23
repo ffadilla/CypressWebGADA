@@ -3,6 +3,7 @@ import gadaConfig from "../../utils/gadaConfig";
 export default class BasePage {
   baseURL = gadaConfig.bms.baseUrl;
   snackBarAlert = ".SnackbarContent-root";
+  text = ".MuiTypography-root";
 
   navigate(path: string) {
     cy.visit(this.baseURL + path);
@@ -68,5 +69,9 @@ export default class BasePage {
 
   checkSnackBar(message: string) {
     cy.get(this.snackBarAlert + `:contains('${message}')`).should("be.visible");
+  }
+
+  checkText(selector: string, message: string) {
+    cy.get(selector + `:contains('${message}')`).should("be.visible");
   }
 }
