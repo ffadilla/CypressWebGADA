@@ -62,6 +62,7 @@ export default class InventoryDetail extends BasePage {
   chooseUnitButton = "#button_product_unit_uom_pilih";
   unitCheckboxInput = "#input_checkbox_product_unit_uom_";
   addNewUnitButton = "#button_product_unit_uom_add_custom";
+  clearUomSearchButton = "#button_search_clear";
 
   // uom hierarchy
   uomConversionSortUpButton = "#button_conversion_modal_sort_content_up_";

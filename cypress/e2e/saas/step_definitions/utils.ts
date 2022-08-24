@@ -45,3 +45,7 @@ export function convertOrdinalToCardinalNumber(input: any) {
 
   return input.toString();
 }
+
+export function numberWithSeparators(input: any) {
+  return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}

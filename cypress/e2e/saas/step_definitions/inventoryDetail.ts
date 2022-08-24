@@ -1,6 +1,7 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
+import { numberWithSeparators } from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
@@ -17,6 +18,7 @@ When("user clicks on expand stock unit button", () => {
 When("user types search unit field with {string}", (input: string) => {
   uomName = input;
   inventoryDetailPage.typeUnitSearch(uomName);
+  cy.get(inventoryDetailPage.unitSearchInput).should("have.value", uomName);
 });
 
 When("user clicks on principal and brand button", () => {
@@ -158,10 +160,16 @@ When("user types {string} on search unit field", (input: string) => {
     uomName = input;
     inventoryDetailPage.typeUnitSearch(uomName);
   }
+  cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
 });
 
 When("user types recently created unit name on search unit field", () => {
   inventoryDetailPage.typeUnitSearch(customUomName);
+  cy.get(inventoryDetailPage.unitSearchInput).should(
+    "have.value",
+    customUomName
+  );
+  cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
 });
 
 When("user clicks on first stock unit checkbox", () => {
@@ -223,6 +231,10 @@ When(
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
       inventoryDetailPage.typeUomConversion(uomId, input);
+      cy.get(inventoryDetailPage.uomConversionInput + uomId).should(
+        "have.value",
+        input
+      );
     });
   }
 );
@@ -233,6 +245,10 @@ When(
     utils.retrieveUomId(customUomName);
     cy.get("@uomId").then((uomId: any) => {
       inventoryDetailPage.typeUomConversion(uomId, input);
+      cy.get(inventoryDetailPage.uomConversionInput + uomId).should(
+        "have.value",
+        input
+      );
     });
   }
 );
@@ -249,12 +265,20 @@ When(
         utils.retrieveUomId(customUomName);
         cy.get("@uomId").then((uomId: any) => {
           inventoryDetailPage.typeUnitStockQuantity(uomId, input);
+          cy.get(inventoryDetailPage.unitStockQuantityInput + uomId).should(
+            "have.value",
+            input
+          );
         });
         break;
       default:
         utils.retrieveUomId(uomName);
         cy.get("@uomId").then((uomId: any) => {
           inventoryDetailPage.typeUnitStockQuantity(uomId, input);
+          cy.get(inventoryDetailPage.unitStockQuantityInput + uomId).should(
+            "have.value",
+            input
+          );
         });
     }
   }
@@ -268,12 +292,20 @@ When(
         utils.retrieveUomId(customUomName);
         cy.get("@uomId").then((uomId: any) => {
           inventoryDetailPage.typeUnitPrice(uomId, input);
+          cy.get(inventoryDetailPage.unitPriceInput + uomId).should(
+            "have.value",
+            "Rp " + utils.numberWithSeparators(input)
+          );
         });
         break;
       default:
         utils.retrieveUomId(uomName);
         cy.get("@uomId").then((uomId: any) => {
           inventoryDetailPage.typeUnitPrice(uomId, input);
+          cy.get(inventoryDetailPage.unitPriceInput + uomId).should(
+            "have.value",
+            "Rp " + numberWithSeparators(input)
+          );
         });
     }
   }
@@ -304,6 +336,10 @@ When(
 
 When("user types {string} on unit selling price field", (input: string) => {
   inventoryDetailPage.typeUnitSellingPrice(input);
+  cy.get(inventoryDetailPage.unitSellingPriceInput).should(
+    "have.value",
+    "Rp " + utils.numberWithSeparators(input)
+  );
 });
 
 When("user clicks on enable price tier button", () => {
@@ -317,6 +353,10 @@ When(
       utils.convertOrdinalToCardinalNumber(order),
       input
     );
+    cy.get(
+      inventoryDetailPage.unitPriceTierMinimumQuantityInput +
+        utils.convertOrdinalToCardinalNumber(order)
+    ).should("have.value", input);
   }
 );
 
@@ -327,6 +367,10 @@ When(
       utils.convertOrdinalToCardinalNumber(order),
       input
     );
+    cy.get(
+      inventoryDetailPage.unitPriceTierSellingPriceInput +
+        utils.convertOrdinalToCardinalNumber(order)
+    ).should("have.value", "Rp " + utils.numberWithSeparators(input));
   }
 );
 
