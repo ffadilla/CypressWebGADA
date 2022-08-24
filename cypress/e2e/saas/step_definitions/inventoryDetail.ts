@@ -8,7 +8,6 @@ let uomName: string;
 let principalName: string;
 let categoryName: string;
 let subcategoryName: string;
-let brandName: string;
 let customUomName: string;
 
 When("user clicks on expand stock unit button", () => {
@@ -56,7 +55,7 @@ When("user clicks on submit add custom principal or brand modal button", () => {
 });
 
 When("user types random brand name on brand searchbar input", () => {
-  brandName = utils.generateRandomString(5);
+  let brandName = utils.generateRandomString(5);
   inventoryDetailPage.typeBrandSearchbarInput("Brand " + brandName);
 
   cy.get(inventoryDetailPage.brandSearchbarInput).should(
