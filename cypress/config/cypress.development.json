@@ -6,6 +6,9 @@
     "baseUrl": "https://saas.gudangada.online/",
     "baseApiUrl": "https://saas-api.gudangada.online/api/"
   },
+  "inventory": {
+    "baseApiUrl": "https://inventory-api.gudangada.online/api/"
+  },
   "bms": {
     "baseUrl": "https://bms.gudangada.online/",
     "localStorage": {}

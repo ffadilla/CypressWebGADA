@@ -33,7 +33,7 @@ When("user clicks on add custom inventory button", () => {
 });
 
 When(
-  "user clicks add inventory button of inventory {string}",
+  "user clicks on add inventory button of inventory {string}",
   (input: string) => {
     inventoryListPage.clicksAddSpecificInventoryButton(input);
   }
