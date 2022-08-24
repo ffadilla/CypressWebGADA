@@ -148,7 +148,7 @@ When("user clicks on subcategory back button", () => {
 });
 
 When("user types {string} on search unit field", (input: string) => {
-  if (input.toLowerCase() == "random") {
+  if (input.toLowerCase() === "random") {
     uomName = utils.generateRandomString(5);
     customUomName = uomName;
     inventoryDetailPage.typeUnitSearch("WebAutoUOM " + uomName);
@@ -178,7 +178,7 @@ When("user clicks on first stock unit checkbox", () => {
 });
 
 When("user clicks on {string} unit checkbox", (uomName: string) => {
-  if (uomName == "recently created") {
+  if (uomName === "recently created") {
     uomName = customUomName;
   }
   utils.retrieveUomId(uomName);
