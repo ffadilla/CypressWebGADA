@@ -4,6 +4,9 @@ export default class BasePage {
   baseURL = gadaConfig.bms.baseUrl;
   snackBarAlert = ".SnackbarContent-root";
   text = ".MuiTypography-root";
+  accountSettingsButton = "button[aria-label='Account settings']";
+  logoutButton = ".MuiMenuItem-root:contains('Logout')";
+  bmsText = ".MuiTypography-root";
 
   navigate(path: string) {
     cy.visit(this.baseURL + path);
@@ -63,7 +66,7 @@ export default class BasePage {
       .invoke("val")
       .should("not.be.empty")
       .then((value: any) => {
-        cy.wrap(value).as(field);
+        return cy.wrap(value).as(field);
       });
   }
 

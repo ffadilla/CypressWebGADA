@@ -6,24 +6,22 @@ import {
 } from "@badeball/cypress-cucumber-preprocessor";
 import * as moment from "moment";
 import CreatePurchaseRequestPage from "../page_objects/purchase_request/createProposalPage";
+import * as types from "../common/types";
 import * as utils from "../common/utils";
+import * as enums from "../common/enums";
 
 const createPurchaseRequestPage = new CreatePurchaseRequestPage();
 
-Given("user logged in as {string}", (userRole: string) => {
-  createPurchaseRequestPage.setLocalStorage(userRole);
-});
-
-And("user is in Pengajuan Pembelian page", () => {
-  createPurchaseRequestPage.visitCreateProposalPage();
+Given("user is in Pengajuan Pembelian page", () => {
+  // createPurchaseRequestPage.visitCreateProposalPage();
 });
 
 And(
   "user selects {string} as purchase request channel",
-  (channel: "marketplace" | "offline") => {
+  (channel: types.TChannel) => {
     createPurchaseRequestPage.expandChannelList();
-    createPurchaseRequestPage.selectChannel(utils.channelSpec[channel]);
-    cy.wrap(utils.channelSpec[channel]).as("channel");
+    createPurchaseRequestPage.selectChannel(enums.channel[channel]);
+    cy.wrap(enums.channel[channel]).as("channel");
   }
 );
 
@@ -76,12 +74,12 @@ And("user types search buyer input field with {string}", (buyerId: string) => {
 
 And(
   "user selects {string} as purchase request delivery method",
-  (deliveryMethod: "Gudang Ada Logistic" | "Dikirim Penjual") => {
+  (deliveryMethod: types.TDeliveryMethod) => {
     createPurchaseRequestPage.selectRadioButton(
       createPurchaseRequestPage.deliveryMethodInput,
-      utils.deliveryMethodSpec[deliveryMethod]
+      enums.deliveryMethod[deliveryMethod]
     );
-    cy.wrap(utils.deliveryMethodSpec[deliveryMethod]).as("deliveryMethod");
+    cy.wrap(enums.deliveryMethod[deliveryMethod]).as("deliveryMethod");
   }
 );
 
@@ -284,12 +282,12 @@ And(
 
 And(
   "user selects {string} as selling price setting type",
-  (settingType: "margin" | "price") => {
+  (settingType: types.TSettingType) => {
     createPurchaseRequestPage.selectRadioButton(
       createPurchaseRequestPage.settingTypeInput,
-      utils.settingTypeSpec[settingType]
+      enums.settingType[settingType]
     );
-    cy.wrap(utils.settingTypeSpec[settingType]).as("settingType");
+    cy.wrap(enums.settingType[settingType]).as("settingType");
   }
 );
 
@@ -315,7 +313,7 @@ And("user clicks on Atur Harga button", () => {
 And(
   "user fills {string} input field with {int} digits random {string} from minimum selling price",
   (
-    settingType: "margin" | "price",
+    settingType: types.TSettingType,
     digits: number,
     _randomType: "number" | "decimal"
   ) => {
@@ -329,7 +327,7 @@ And(
     };
     function calculateSellingPrice(
       taxType: string,
-      settingType: "margin" | "price",
+      settingType: types.TSettingType,
       rate: number,
       minimumSellingPrice: number,
       input: number
@@ -346,10 +344,10 @@ And(
         return 0;
       }
     }
-    cy.get("@vendorTaxType").then((vendorTaxType: any) => {
+    cy.get<types.TTaxType>("@vendorTaxType").then((vendorTaxType) => {
       cy.get("@rate").then((rate: any) => {
         cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
-          let taxType = utils.taxTypeSpec[vendorTaxType];
+          let taxType = enums.taxType[vendorTaxType];
           let sellingPrice = calculateSellingPrice(
             taxType,
             settingType,

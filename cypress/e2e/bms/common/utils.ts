@@ -1,22 +1,3 @@
-export const channelSpec: any = {
-  marketplace: "MARKETPLACE",
-  offline: "OFFLINE",
-};
-export const deliveryMethodSpec: any = {
-  "Gudang Ada Logistic": "GADA_LOGISTIC",
-  "Dikirim Penjual": "STORE_COURIER",
-};
-
-export const settingTypeSpec: any = {
-  margin: "MARGIN",
-  price: "PRICE",
-};
-
-export const taxTypeSpec: any = {
-  "Non PKP": "PTKP",
-  PKP: "PKP",
-};
-
 export function dppCalculation(rate: number) {
   return Math.round(rate / 1.11);
 }
