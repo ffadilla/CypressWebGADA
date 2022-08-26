@@ -82,6 +82,7 @@ export default class InventoryDetail extends BasePage {
   tambahStokBaruStokMasukInput = "#input_topup_new_stock_";
   tambahStokBaruCogsInput = "#input_topup_unit_price_";
   tambahStokBaruSubmitButton = "#button_topup_modal_submit";
+  tambahStokBaruCloseModalButton = "#button_topup_modal_close";
   hitungUlangStokButton = "[id^=button_restock_]";
   ubahStatusButton = "[id^=button_edit_good_stock_]";
   totalStokFisikText = "#p_total_stok_fisik_";
@@ -346,7 +347,7 @@ export default class InventoryDetail extends BasePage {
   }
 
   clickTambahStokBaruUomPopoverButton() {
-    cy.get(this.tambahStokBaruUomPopoverButton).click();
+    cy.get(this.tambahStokBaruUomPopoverButton).click({ force: true });
   }
 
   typeTambahStokBaruStokMasukInput(id: string, input: string) {
@@ -359,6 +360,10 @@ export default class InventoryDetail extends BasePage {
 
   clickTambahStokBaruSubmitButton() {
     cy.get(this.tambahStokBaruSubmitButton).click();
+  }
+
+  clickTambahStokBaruCloseModalButton() {
+    cy.get(this.tambahStokBaruCloseModalButton).click();
   }
 
   clickHitungUlangStokButton() {

@@ -14,6 +14,7 @@ export default class InventoryListPage extends BasePage {
   namaBarangButton = "[id^=button_inventory_list_td_nama_barang_]";
   // common
   visitInventoryList() {
+    cy.viewport(1200, 800);
     cy.visit(this.baseUrl + this.path);
   }
 

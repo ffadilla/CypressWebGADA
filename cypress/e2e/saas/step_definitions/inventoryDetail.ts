@@ -218,6 +218,10 @@ When("user clicks on tambah stok baru submit button", () => {
   cy.wait(1000);
 });
 
+When("user clicks on tambah stok baru close modal button", () => {
+  inventoryDetailPage.clickTambahStokBaruCloseModalButton();
+});
+
 When("user clicks on first stock unit checkbox", () => {
   cy.wait(1000);
   inventoryDetailPage.clickUnitCheckboxInput();
@@ -471,6 +475,10 @@ When(
   }
 );
 
+When("user clicks on is consign toggle button", () => {
+  inventoryDetailPage.clickIsConsignedToggleButton();
+});
+
 When("user clicks on submit add inventory button", () => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
 });
@@ -624,3 +632,11 @@ Then(
     );
   }
 );
+
+Then("lainnya text is not displayed", () => {
+  cy.get("#text_lainnya").should("not.exist");
+});
+
+Then("is consign toggle button is not displayed", () => {
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("not.exist");
+});
