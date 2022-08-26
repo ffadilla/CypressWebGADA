@@ -488,7 +488,9 @@ When("user selects delete reason = {string}", (input: string) => {
       cy.get("input[value='OTHER']").click();
       break;
   }
-  cy.contains("Ya, Hapus Barang").parent("button").click();
+  cy.get(
+    ".MuiDialogActions-root > .MuiButtonBase-root > .MuiButton-label"
+  ).click();
 });
 
 // assertions
