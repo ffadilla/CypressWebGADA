@@ -2,6 +2,7 @@ import gadaConfig from "../../../e2e/utils/gadaConfig";
 import * as saasConfig from "../resources/development-saas.json";
 
 export function retrieveUomId(uomName: string) {
+  cy.wait(750);
   cy.request({
     method: "GET",
     url: gadaConfig.saas.baseApiUrl + "product/uom",

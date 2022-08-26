@@ -158,6 +158,7 @@ When("user types {string} on search unit field", (input: string) => {
   } else {
     uomName = input;
     inventoryDetailPage.typeUnitSearch(uomName);
+    cy.get(inventoryDetailPage.unitSearchInput).should("have.value", uomName);
   }
   cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
 });
@@ -169,6 +170,52 @@ When("user types recently created unit name on search unit field", () => {
     customUomName
   );
   cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
+});
+
+When("user clicks on update stock card ubah button", () => {
+  inventoryDetailPage.clickInventoryEditStockCardUbahButton();
+});
+
+When("user clicks on tambah stok baru button", () => {
+  cy.wait(1000);
+  inventoryDetailPage.clickTambahStokBaruButton();
+});
+
+When("user clicks on tambah stok baru uom popover button", () => {
+  inventoryDetailPage.clickTambahStokBaruUomPopoverButton();
+});
+
+When(
+  "user types {string} on tambah stok baru stok masuk input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeTambahStokBaruStokMasukInput(uomId, input);
+      cy.get(inventoryDetailPage.tambahStokBaruStokMasukInput + uomId).should(
+        "have.value",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+When(
+  "user types {string} on tambah stok baru cogs input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeTambahStokBaruCogsInput(uomId, input);
+      cy.get(inventoryDetailPage.tambahStokBaruCogsInput + uomId).should(
+        "have.value",
+        "Rp " + utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+When("user clicks on tambah stok baru submit button", () => {
+  inventoryDetailPage.clickTambahStokBaruSubmitButton();
+  cy.wait(1000);
 });
 
 When("user clicks on first stock unit checkbox", () => {
@@ -187,12 +234,12 @@ When("user clicks on {string} unit checkbox", (uomName: string) => {
 });
 
 When("user clicks on add new unit button", () => {
+  cy.wait(1500);
   cy.get(inventoryDetailPage.addNewUnitButton)
     .children(".MuiButton-label")
     .children(".MuiTypography-root")
     .should("have.text", "Webautouom " + uomName);
   inventoryDetailPage.clickAddNewUnitButton();
-  cy.wait(1500);
 });
 
 When("user clicks on choose unit button", () => {
@@ -414,8 +461,34 @@ When("user clicks on save barcode button", () => {
   inventoryDetailPage.clickSaveBarcodeButton();
 });
 
+When(
+  "user clicks on edit selling price button of unit {string}",
+  (uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.clickEditSellingPriceButton(uomId);
+    });
+  }
+);
+
 When("user clicks on submit add inventory button", () => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
+});
+
+When("user clicks on delete inventory button", () => {
+  inventoryDetailPage.clickDeleteInventoryButton();
+});
+
+When("user selects delete reason = {string}", (input: string) => {
+  switch (input) {
+    case "wrong input":
+      cy.get("input[value='MISTAKE']").click();
+      break;
+    case "other":
+      cy.get("input[value='OTHER']").click();
+      break;
+  }
+  cy.contains("Ya, Hapus Barang").parent("button").click();
 });
 
 // assertions
@@ -446,5 +519,106 @@ Then(
   "new subcategory is displayed on the subcategory list",
   (subcategoryName: string) => {
     cy.contains("p", subcategoryName);
+  }
+);
+
+Then("cogs of unit {string} is {string}", (uomName: string, input: string) => {
+  cy.get("div")
+    .contains(uomName)
+    .parent()
+    .next()
+    .next()
+    .next()
+    .next()
+    .children("p")
+    .should("contain", utils.numberWithSeparators(input));
+});
+
+Then(
+  "selling price of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.editSellingPriceButton + uomId)
+        .parent()
+        .prev()
+        .should("contain", "Rp " + utils.numberWithSeparators(input));
+    });
+  }
+);
+
+Then(
+  "bisa dijual of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.bisaDijualText + uomId).should(
+        "contain",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "good stock of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.goodStockText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "bad stock of unit {string} is updated to {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.badStockText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "total stok fisik of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.totalStokFisikText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then("total good stock of the product is {string}", (input: string) => {
+  cy.get(inventoryDetailPage.totalGoodStockText).should("have.text", input);
+});
+
+Then(
+  "total good stock yang sedang dipesan of the product is {string}",
+  (input: string) => {
+    cy.get(inventoryDetailPage.totalGoodStockYangSedangDipesanText).should(
+      "have.text",
+      input
+    );
+  }
+);
+
+Then(
+  "total good stock yang bisa dijual of the product is {string}",
+  (input: string) => {
+    cy.get(inventoryDetailPage.totalGoodStockYangBisaDijualText).should(
+      "have.text",
+      input
+    );
   }
 );

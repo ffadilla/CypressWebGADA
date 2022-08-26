@@ -9,6 +9,22 @@ When("user visits inventory list page", () => {
   inventoryListPage.visitInventoryList();
 });
 
+When(
+  "user types search inventory input field with {string}",
+  (input: string) => {
+    inventoryListPage.typeSearchInventoryInput(input);
+    cy.get(inventoryListPage.searchInventoryInput).should("have.value", input);
+  }
+);
+
+When("user clicks on inventory detail button of {string}", (input: string) => {
+  inventoryListPage.clickSpecificNamaBarangButton(input);
+  cy.url().should(
+    "contain",
+    inventoryDetailPage.baseUrl + inventoryDetailPage.path + "edit"
+  );
+});
+
 When("user clicks on add inventory button", () => {
   inventoryListPage.clickAddInventory();
 });
@@ -18,9 +34,9 @@ When("user clicks on first time add inventory button", () => {
 });
 
 When(
-  "user types search inventory input field with {string}",
+  "user types add inventory search inventory input field with {string}",
   (input: string) => {
-    inventoryListPage.typeSearchInput(input);
+    inventoryListPage.typeAddInventorySearchInput(input);
     cy.get(inventoryListPage.addInventorySearchInput).should(
       "have.value",
       input

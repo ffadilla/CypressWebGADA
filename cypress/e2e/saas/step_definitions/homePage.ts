@@ -9,7 +9,7 @@ Given("a user is on home page", () => {
 });
 
 When("user clicks close tutorial button", () => {
-  cy.wait(5000);
+  cy.wait(2000);
   homePage.clickCloseTutorialButton();
 });
 

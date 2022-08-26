@@ -10,7 +10,8 @@ export default class InventoryListPage extends BasePage {
   deleteReasonOtherRadioButton = "input[value='OTHER']";
   deleteReasonMistakeRadioButton = "input[value='MISTAKE']";
   confirmDeleteInventoryButton = ".MuiButton-label";
-
+  searchInventoryInput = "#input_inventory_list_searchbar";
+  namaBarangButton = "[id^=button_inventory_list_td_nama_barang_]";
   // common
   visitInventoryList() {
     cy.visit(this.baseUrl + this.path);
@@ -28,7 +29,7 @@ export default class InventoryListPage extends BasePage {
     cy.get(this.firstTimeAddInventoryButton).click();
   }
 
-  typeSearchInput(inventoryName: string) {
+  typeAddInventorySearchInput(inventoryName: string) {
     cy.get(this.addInventorySearchInput).type(inventoryName);
   }
 
@@ -64,5 +65,13 @@ export default class InventoryListPage extends BasePage {
     cy.get(this.confirmDeleteInventoryButton)
       .contains("Ya, Hapus Barang")
       .click();
+  }
+
+  typeSearchInventoryInput(input: string) {
+    cy.get(this.searchInventoryInput).type(input);
+  }
+
+  clickSpecificNamaBarangButton(input: string) {
+    cy.contains("div", input).first().click();
   }
 }
