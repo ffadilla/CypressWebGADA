@@ -29,7 +29,8 @@ Feature: Inventory Detail - Update Inventory
 #    Then selling price of unit "Pieces" is "2000"
 #    Then bisa dijual of unit "Pieces" is "2"
     And user clicks on delete inventory button
-    And user selects delete reason = "wrong input"
+    And user clicks on delete reason = "wrong input"
+    And user clicks on confirm delete inventory button
 
   Scenario: User updates curated inventory - add custom stock UOM
     When user clicks on add inventory button
@@ -50,46 +51,53 @@ Feature: Inventory Detail - Update Inventory
     And user clicks on tambah stok baru button
     And user clicks on tambah stok baru uom popover button
     Then lainnya text is not displayed
-    And user clicks on tambah stok baru uom popover button
+    And user clicks on choose unit button
     And user clicks on tambah stok baru close modal button
     And user clicks on delete inventory button
-    And user selects delete reason = "wrong input"
+    And user clicks on delete reason = "wrong input"
+    And user clicks on confirm delete inventory button
 
   Scenario: User views inventory details of non consign inventory
     When user clicks on add inventory button
     And user clicks on first time add inventory button
-    And user types add inventory search inventory input field with "Beras SLYP Medium Ramos Setra 50 Kg"
-    And user clicks on add inventory button of inventory "Beras SLYP Medium Ramos Setra 50 Kg"
+    And user types add inventory search inventory input field with "web automation test product"
+    And user clicks on add custom inventory button
     And user clicks on expand stock unit button
-    And user types search unit field with "Sak"
-    And user clicks on "Sak" unit checkbox
+    And user types search unit field with "Pieces"
+    And user clicks on "Pieces" unit checkbox
     And user clicks on choose unit button
-    And user types "1" on "Sak" unit stock quantity field
-    And user types "1234" on "Sak" unit price field
+    And user types "1" on "Pieces" unit stock quantity field
+    And user types "1234" on "Pieces" unit price field
     And user clicks on submit add inventory button
     # Update inventory
-    And user types search inventory input field with "Beras SLYP Medium Ramos Setra 50 Kg"
-    And user clicks on inventory detail button of "Beras SLYP Medium Ramos Setra 50 Kg"
+    And user types search inventory input field with "web automation test product"
+    And user clicks on inventory detail button of "web automation test product"
     Then is consign toggle button is not displayed
     And user clicks on delete inventory button
-    And user selects delete reason = "wrong input"
+    And user clicks on delete reason = "wrong input"
+    And user clicks on confirm delete inventory button
 
   Scenario: User views inventory details of consign inventory
     When user clicks on add inventory button
     And user clicks on first time add inventory button
-    And user types add inventory search inventory input field with "Beras SLYP Medium Ramos Setra 50 Kg"
-    And user clicks on add inventory button of inventory "Beras SLYP Medium Ramos Setra 50 Kg"
+    And user types add inventory search inventory input field with "web automation test product"
+    And user clicks on add custom inventory button
     And user clicks on expand stock unit button
-    And user types search unit field with "Sak"
-    And user clicks on "Sak" unit checkbox
+    And user types search unit field with "Pieces"
+    And user clicks on "Pieces" unit checkbox
     And user clicks on choose unit button
-    And user types "1" on "Sak" unit stock quantity field
-    And user types "1234" on "Sak" unit price field
+    And user types "1" on "Pieces" unit stock quantity field
+    And user types "1234" on "Pieces" unit price field
     And user clicks on is consign toggle button
+    And user clicks on choose supplier button
+    And user types "Default Supplier" on input supplier search modal
+    And user clicks on "Default Supplier" supplier checkbox
+    And user clicks on supplier modal close button
     And user clicks on submit add inventory button
     # Update inventory
-    And user types search inventory input field with "Beras SLYP Medium Ramos Setra 50 Kg"
-    And user clicks on inventory detail button of "Beras SLYP Medium Ramos Setra 50 Kg"
-    Then is consign toggle button is not displayed
+    And user types search inventory input field with "web automation test product"
+    And user clicks on inventory detail button of "web automation test product"
+    Then is consign toggle button is displayed
     And user clicks on delete inventory button
-    And user selects delete reason = "wrong input"
+    Then delete inventory options are not displayed
+    And user clicks on confirm delete inventory button

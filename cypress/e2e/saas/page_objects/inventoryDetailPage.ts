@@ -43,6 +43,7 @@ export default class InventoryDetail extends BasePage {
   isConsignedToggleButton = "#button_toggle_is_consigned_product";
   chooseSupplierButton = "#button_choose_supplier";
   supplierSearchModalInput = "#input_supplier_search_modal";
+  supplierModalCloseButton = "#button_supplier_modal_close";
   addCustomSupplierButton = "#button_add_custom_supplier";
   addCustomSupplierNamaTokoInput = "#input_add_custom_supplier_nama_toko";
   addCustomSupplierNamaSalesInput = "#input_add_custom_supplier_nama_sales";
@@ -240,6 +241,10 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.supplierSearchModalInput).type(input);
   }
 
+  clickSupplierModalCloseButton() {
+    cy.get(this.supplierModalCloseButton).click();
+  }
+
   clickAddCustomSupplierButton() {
     cy.get(this.addCustomSupplierButton).click();
   }
@@ -347,7 +352,7 @@ export default class InventoryDetail extends BasePage {
   }
 
   clickTambahStokBaruUomPopoverButton() {
-    cy.get(this.tambahStokBaruUomPopoverButton).click({ force: true });
+    cy.get(this.tambahStokBaruUomPopoverButton).click();
   }
 
   typeTambahStokBaruStokMasukInput(id: string, input: string) {

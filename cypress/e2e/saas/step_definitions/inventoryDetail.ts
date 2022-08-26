@@ -479,6 +479,25 @@ When("user clicks on is consign toggle button", () => {
   inventoryDetailPage.clickIsConsignedToggleButton();
 });
 
+When("user clicks on choose supplier button", () => {
+  inventoryDetailPage.clickChooseSupplierButton();
+});
+
+When("user types {string} on input supplier search modal", (input: string) => {
+  inventoryDetailPage.typeSupplierSearchModalInput(input);
+});
+
+When("user clicks on {string} supplier checkbox", (supplierName: string) => {
+  utils.retrieveSupplierId(supplierName);
+  cy.get("@supplierId").then((supplierId: any) => {
+    cy.get("input[value='" + supplierId + "']").click();
+  });
+});
+
+When("user clicks on supplier modal close button", () => {
+  inventoryDetailPage.clickSupplierModalCloseButton();
+});
+
 When("user clicks on submit add inventory button", () => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
 });
@@ -487,7 +506,7 @@ When("user clicks on delete inventory button", () => {
   inventoryDetailPage.clickDeleteInventoryButton();
 });
 
-When("user selects delete reason = {string}", (input: string) => {
+When("user clicks on delete reason = {string}", (input: string) => {
   switch (input) {
     case "wrong input":
       cy.get("input[value='MISTAKE']").click();
@@ -496,6 +515,9 @@ When("user selects delete reason = {string}", (input: string) => {
       cy.get("input[value='OTHER']").click();
       break;
   }
+});
+
+When("user clicks on confirm delete inventory button", () => {
   cy.get(
     ".MuiDialogActions-root > .MuiButtonBase-root > .MuiButton-label"
   ).click();
@@ -639,4 +661,14 @@ Then("lainnya text is not displayed", () => {
 
 Then("is consign toggle button is not displayed", () => {
   cy.get(inventoryDetailPage.isConsignedToggleButton).should("not.exist");
+});
+
+Then("is consign toggle button is displayed", () => {
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("exist");
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("be.disabled");
+});
+
+Then("delete inventory options are not displayed", () => {
+  cy.get("input[value='MISTAKE']").should("not.exist");
+  cy.get("input[value='OTHER']").should("not.exist");
 });

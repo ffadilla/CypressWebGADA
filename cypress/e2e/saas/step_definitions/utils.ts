@@ -18,6 +18,22 @@ export function retrieveUomId(uomName: string) {
   });
 }
 
+export function retrieveSupplierId(supplierName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "consignor",
+    qs: {
+      page_size: 30,
+      page: 1,
+      query: supplierName,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+    },
+  }).then((resp) => {
+    let supplierId = resp.body.data[0].id;
+    cy.wrap(supplierId.toString()).as("supplierId");
+  });
+}
+
 export function generateRandomNumber() {
   let random = Math.floor(100000000 + Math.random() * 900000000);
   return "8" + random + "";

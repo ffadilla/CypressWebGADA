@@ -19,6 +19,7 @@ When(
 
 When("user clicks on inventory detail button of {string}", (input: string) => {
   inventoryListPage.clickSpecificNamaBarangButton(input);
+  cy.wait(2000);
   cy.url().should(
     "contain",
     inventoryDetailPage.baseUrl + inventoryDetailPage.path + "edit"
