@@ -1,7 +1,9 @@
 import { And, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import BasePage from "../page_objects/basePage";
 import ListAllRequestPage from "../page_objects/purchase_request/listAllRequestPage";
 import WaitingForApprovalPage from "../page_objects/purchase_request/waitingForApprovalPage";
 
+const basePage = new BasePage();
 const listAllRequestPage = new ListAllRequestPage();
 const witingForApprovalPage = new WaitingForApprovalPage();
 
@@ -15,7 +17,10 @@ When("user clicks the first purchase request to open the details", () => {
 });
 
 Then("purchase request details opened successfully", () => {
-  listAllRequestPage.checkText(listAllRequestPage.text, "Detail Pengajuan");
+  listAllRequestPage.assertTextContains(
+    basePage.selectors.text,
+    "Detail Pengajuan"
+  );
 });
 
 // Waiting for Approval Page

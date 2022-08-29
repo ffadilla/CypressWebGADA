@@ -1,14 +1,18 @@
-import BasePage from "./basePage";
+import BaseCommads from "../common/baseCommads";
 
-export default class CreateProposalPage extends BasePage {
+const base = new BaseCommads();
+
+export default class LoginPage extends BaseCommads {
   path = "";
-  loginWithEmailButton = ".MuiButton-root:contains('Masuk dengan Email')";
-  userEmailInput = ".MuiSelect-select";
-  userEmailOption = "li[role='option']";
-  loginButton = ".MuiButton-root:contains('Login')";
+  selectors = {
+    loginWithEmailButton: ".MuiButton-root:contains('Masuk dengan Email')",
+    userEmailInput: ".MuiSelect-select",
+    userEmailOption: "li[role='option']",
+    loginButton: ".MuiButton-root:contains('Login')",
+  };
 
   selectUserEmail(userEmail: string) {
-    cy.get(this.userEmailInput).click();
-    cy.get(this.userEmailOption + `[data-value='${userEmail}']`).click();
+    base.click(this.selectors.userEmailInput);
+    base.selectOption(this.selectors.userEmailOption, userEmail);
   }
 }

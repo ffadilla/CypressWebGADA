@@ -1,29 +1,29 @@
 export enum userRoleEmail {
-  "BM" = "henry.setiana@gudangada.com",
-  "SBM" = "agustinus.limono@gudangada.com",
-  "VP" = "device.testing@gudangada.com",
-  "VP OPS" = "ambrosius.alvin@gudangada.com",
-  "TGA OPS" = "frederic.ronaldi@gudangada.com",
-  "Finance" = "finance-invoicing@gudangada.com",
-  "Viewer" = "willy@gudangada.com",
+  BM = "henry.setiana@gudangada.com",
+  SBM = "agustinus.limono@gudangada.com",
+  VP = "device.testing@gudangada.com",
+  VP_OPS = "ambrosius.alvin@gudangada.com",
+  TGA_OPS = "frederic.ronaldi@gudangada.com",
+  FINANCE = "finance-invoicing@gudangada.com",
+  VIEWER = "willy@gudangada.com",
 }
 
 export enum channel {
-  marketplace = "MARKETPLACE",
-  offline = "OFFLINE",
+  MARKETPLACE = "marketplace",
+  OFFLINE = "offline",
 }
 
 export enum deliveryMethod {
-  "Gudang Ada Logistic" = "GADA_LOGISTIC",
-  "Dikirim Penjual" = "STORE_COURIER",
+  GADA_LOGISTIC = "Gudang Ada Logistic",
+  STORE_COURIER = "Dikirim Penjual",
 }
 
 export enum settingType {
-  margin = "MARGIN",
-  price = "PRICE",
+  MARGIN = "margin",
+  PRICE = "price",
 }
 
 export enum taxType {
-  "Non PKP" = "PTKP",
-  "PKP" = "PKP",
+  PTKP = "Non PKP",
+  PKP = "PKP",
 }

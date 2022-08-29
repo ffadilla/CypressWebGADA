@@ -1,16 +1,18 @@
-import BasePage from "../basePage";
+import BaseCommads from "../../common/baseCommads";
 
-const basePage = new BasePage();
+const base = new BaseCommads();
 
-export default class ListAllRequestPage extends BasePage {
+export default class ListAllRequestPage extends BaseCommads {
   path = "purchaseRequest/listAllRequest";
-  purchaseRequestCard = ".MuiCard-root";
+  seletors = {
+    purchaseRequestCard: ".MuiCard-root",
+  };
 
   visitListAllRequestPage() {
-    basePage.navigate(this.path);
+    base.navigate(this.path);
   }
 
   clickPurchaseRequestCard(index: number) {
-    cy.get(this.purchaseRequestCard).eq(index).click();
+    base.click(this.seletors.purchaseRequestCard, index);
   }
 }

@@ -86,3 +86,9 @@ export function discountCalculation(
     return Math.round((discount / 100) * rate);
   }
 }
+
+export function getEnumKeyByValue(enums: any, value: string) {
+  const indexOfValue = Object.values(enums).indexOf(value);
+  const key = Object.keys(enums)[indexOfValue];
+  return key;
+}

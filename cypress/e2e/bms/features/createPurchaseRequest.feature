@@ -41,5 +41,5 @@ Feature: Create Purchase Request
 
     Examples:
       | channel       | vendor        | deliveryMethod        | settingType | discountType | randomType |
-      | "marketplace" | "GADA-rxski7" | "Gudang Ada Logistic" | "margin"    | "amount"     | "number"   |
-      | "offline"     | "Testing"     | "Dikirim Penjual"     | "price"     | "percentage" | "decimal"  |
+      | "Marketplace" | "GADA-rxski7" | "Gudang Ada Logistic" | "margin"    | "amount"     | "number"   |
+      | "Offline"     | "Testing"     | "Dikirim Penjual"     | "price"     | "percentage" | "decimal"  |
