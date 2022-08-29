@@ -169,7 +169,7 @@ And(
       productName
     );
     createProposalPage.selectOption(
-      createProposalPage.selectors.productOprion,
+      createProposalPage.selectors.productOption,
       productName,
       0
     );
@@ -204,13 +204,13 @@ And(
 
     createProposalPage.typeNumber(createProposalPage.selectors.rateInput, rate);
     cy.wrap(rate).as("rate");
-    createProposalPage.checkDppCalculcation(
+    createProposalPage.checkDppCalculation(
       dpp,
       formattedDpp,
       rate,
       formattedRate
     );
-    createProposalPage.checkVatCalculcation(vat, formattedVat);
+    createProposalPage.checkVatCalculation(vat, formattedVat);
   }
 );
 
@@ -286,7 +286,7 @@ And(
   (digits: number) => {
     let sellingEstimationDays = utils.randomNumber(digits);
     createProposalPage.typeNumber(
-      createProposalPage.selectors.sellingEstimationDatsInput,
+      createProposalPage.selectors.sellingEstimationDateInput,
       sellingEstimationDays
     );
     cy.wrap(sellingEstimationDays).as("sellingEstimationDays");
@@ -426,7 +426,7 @@ And("user clicks on Simpan button to create purchase request", () => {
 });
 
 When("user clicks on OK button to confirm purchase request creation", () => {
-  createProposalPage.clickButton(createProposalPage.selectors.confimOkButton);
+  createProposalPage.clickButton(createProposalPage.selectors.confirmOkButton);
 });
 
 Then("purchase request created successfully", () => {

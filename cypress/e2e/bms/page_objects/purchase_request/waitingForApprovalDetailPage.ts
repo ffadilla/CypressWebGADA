@@ -1,7 +1,7 @@
-import BaseCommads from "../../common/baseCommads";
+import BaseCommands from "../../common/baseCommands";
 
-export default class WaitingForApprovalDetailPage extends BaseCommads {
-  seletors = {
+export default class WaitingForApprovalDetailPage extends BaseCommands {
+  selectors = {
     changeDeliveryRequestDateButton: ".MuiTypography-roo:contains('Ubah')",
     selectedSettingTypeRadioButton: ".MuiRadio-root Mui-checked",
     settingTypeInput: ".PrivateSwitchBase-input input[type='radio']",

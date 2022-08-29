@@ -1,8 +1,8 @@
-import BaseCommads from "../common/baseCommads";
+import BaseCommands from "../common/baseCommands";
 
-const base = new BaseCommads();
+const base = new BaseCommands();
 
-export default class LoginPage extends BaseCommads {
+export default class LoginPage extends BaseCommands {
   path = "";
   selectors = {
     loginWithEmailButton: ".MuiButton-root:contains('Masuk dengan Email')",

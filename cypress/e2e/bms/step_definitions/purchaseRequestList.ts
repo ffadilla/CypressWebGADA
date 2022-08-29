@@ -5,9 +5,9 @@ import WaitingForApprovalPage from "../page_objects/purchase_request/waitingForA
 
 const basePage = new BasePage();
 const listAllRequestPage = new ListAllRequestPage();
-const witingForApprovalPage = new WaitingForApprovalPage();
+const waitingForApprovalPage = new WaitingForApprovalPage();
 
-// List All Reuquest Page
+// List All Request Page
 And("user is in Daftar Pengajuan Pembelian page", () => {
   listAllRequestPage.visitListAllRequestPage();
 });
@@ -25,5 +25,5 @@ Then("purchase request details opened successfully", () => {
 
 // Waiting for Approval Page
 And("user is in Menunggu Approval page", () => {
-  witingForApprovalPage.visitWaitingForApprovalPage();
+  waitingForApprovalPage.visitWaitingForApprovalPage();
 });

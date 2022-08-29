@@ -1,8 +1,8 @@
-import BaseCommads from "../../common/baseCommads";
+import BaseCommands from "../../common/baseCommands";
 
-const base = new BaseCommads();
+const base = new BaseCommands();
 
-export default class WaitingForApprovalPage extends BaseCommads {
+export default class WaitingForApprovalPage extends BaseCommands {
   path = "purchaseRequest/waitingForApproval";
 
   visitWaitingForApprovalPage() {

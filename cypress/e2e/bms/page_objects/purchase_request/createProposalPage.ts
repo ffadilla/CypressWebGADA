@@ -1,9 +1,9 @@
-import BaseCommads from "../../common/baseCommads";
+import BaseCommands from "../../common/baseCommands";
 import * as utils from "../../common/utils";
 
-const base = new BaseCommads();
+const base = new BaseCommands();
 
-export default class CreateProposalPage extends BaseCommads {
+export default class CreateProposalPage extends BaseCommands {
   path = "purchaseRequest/createProposal";
   selectors = {
     channelInput: "#field-channel .MuiSelect-select",
@@ -30,7 +30,7 @@ export default class CreateProposalPage extends BaseCommads {
     addNewItemButton:
       ".MuiCollapse-wrapperInner .MuiButton-root:contains(' Tambah Item Pembelian')",
     productInput: "#field-product .MuiOutlinedInput-root",
-    productOprion: ".MuiAutocomplete-option",
+    productOption: ".MuiAutocomplete-option",
     taxTypeInput: "#field-taxType .Mui-checked input[type='radio']",
     quantityInput: "#field-quantity .MuiInput-input",
     rateInput: "#field-rate .MuiInput-input",
@@ -56,7 +56,7 @@ export default class CreateProposalPage extends BaseCommads {
     nextToSellingPriceButton:
       ".MuiGrid-root .MuiButton-root:contains('Lanjut')",
     purchaseItemVariantCard: ".MuiPaper-root .MuiCardContent-root",
-    sellingEstimationDatsInput: "#field-quantity .MuiInput-input",
+    sellingEstimationDateInput: "#field-quantity .MuiInput-input",
     settingTypeInput: "#field-settingType input[type='radio']",
     addSellingUomButton:
       ".MuiTypography-root:contains('+ Tambah UOM Penjualan')",
@@ -72,7 +72,7 @@ export default class CreateProposalPage extends BaseCommads {
     roundedSellingPriceText: "tbody .MuiTypography-root",
     nextToPreviewButton: ".MuiButton-root:contains('Lanjut')",
     savePurchaseRequestButton: ".MuiButton-root:contains('Simpan')",
-    confimOkButton: ".MuiButton-root:contains('OK')",
+    confirmOkButton: ".MuiButton-root:contains('OK')",
   };
 
   visitCreateProposalPage() {
@@ -111,13 +111,13 @@ export default class CreateProposalPage extends BaseCommads {
     }
   }
 
-  typeDiscount(selector: string, disctoutType: string, discount: number) {
+  typeDiscount(selector: string, discountType: string, discount: number) {
     base.click(selector);
-    base.click(`li[class*='MuiMenuItem-root'][data-value='${disctoutType}']`);
+    base.click(`li[class*='MuiMenuItem-root'][data-value='${discountType}']`);
     base.typeNumber(selector, discount, 1);
   }
 
-  checkDppCalculcation(
+  checkDppCalculation(
     dpp: number,
     formattedDpp: string,
     rate: number,
@@ -134,7 +134,7 @@ export default class CreateProposalPage extends BaseCommads {
     });
   }
 
-  checkVatCalculcation(vat: number, formattedVat: string) {
+  checkVatCalculation(vat: number, formattedVat: string) {
     cy.get("@taxType").then((taxType: any) => {
       if (taxType === "VAT") {
         base.assertValueEqualTo(this.selectors.vatInput, formattedVat, 1);
