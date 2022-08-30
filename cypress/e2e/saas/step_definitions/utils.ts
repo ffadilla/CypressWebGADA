@@ -34,6 +34,26 @@ export function retrieveSupplierId(supplierName: string) {
   });
 }
 
+export function retrieveProductVariantId(query: string) {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/list",
+    body: {
+      keyword: query,
+      page_size: 30,
+      page: 1,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      include_delete: false,
+      sort_by: "RECENTLY_MODIFIED",
+      sort_type: "asc",
+      exclude_empty_price_tiers: false,
+    },
+  }).then((resp) => {
+    let supplierId = resp.body.data[0].product_variant_id;
+    cy.wrap(supplierId.toString()).as("productVariantId");
+  });
+}
+
 export function generateRandomNumber() {
   let random = Math.floor(100000000 + Math.random() * 900000000);
   return "8" + random + "";
