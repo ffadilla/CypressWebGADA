@@ -5,13 +5,26 @@ export default class LoginPage extends BasePage {
   emailField = 'input[id="email"]';
   passwordField = 'input[id="password"]';
   loginButton = 'button[type="submit"]';
-  errMsg = 'div[class="MuiBox-root css-jao01j"]';
+  errorLoginButton = '//*[@id="__next"]/div/div/div/div[3]/form/div[2]/div[2]';
+  errorMultipleDeviceLoginText =
+    "Akun sedang login di suatu perangkat dan telah dikeluarkan. Silakan login kembali.";
+
+  clickLoginButton() {
+    cy.get(this.loginButton).click();
+    cy.wait(1000);
+
+    cy.url().then(($url) => {
+      if ($url.includes(this.path)) {
+        cy.get(this.loginButton).click();
+      }
+    });
+  }
 
   login(email: string, password: string) {
     this.navigate(this.path);
     cy.get(this.emailField).type(email);
     cy.get(this.passwordField).type(password);
-    cy.get(this.loginButton).click();
+    this.clickLoginButton();
   }
 
   silentLogin() {

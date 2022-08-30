@@ -20,7 +20,7 @@ When("user fills password input with {string}", (password: string) => {
 });
 
 When("user click MASUK button", () => {
-  cy.get(loginPage.loginButton).click();
+  loginPage.clickLoginButton();
 });
 
 //ASSERTION
@@ -32,8 +32,6 @@ Then("user is on dashboard page", () => {
 
 Then("{string} error message should appear", (errorMessage: string) => {
   expect(
-    cy
-      .get(".css-1r9jg41 > .css-10ttwk5 > .MuiBox-root")
-      .should("contain.text", errorMessage)
+    cy.xpath(loginPage.errorLoginButton).should("contain.text", errorMessage)
   );
 });

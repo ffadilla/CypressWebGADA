@@ -17,15 +17,15 @@ Given(
 
 //STEP
 When("user redirects to inbound menu", () => {
-  cy.xpath(inboundRequestListPage.xPathinboundMenu).click();
+  cy.xpath(inboundRequestListPage.inboundMenuButton).click();
 });
 
 When("user clicks create inbound request button", () => {
-  cy.xpath(inboundRequestListPage.xPathCreateRequestButton).click();
+  cy.xpath(inboundRequestListPage.createRequestButton).click();
 });
 
 When("user selects new inbound request dropdown", () => {
-  cy.contains(inboundRequestListPage.textCreateNewRequestButton).click();
+  cy.contains(inboundRequestListPage.createNewRequestButtonOption).click();
 });
 
 When("user clicks submission button", () => {
@@ -36,77 +36,57 @@ When("user clicks submission button", () => {
 Then("error messages should appear at create new inbound Request form", () => {
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(1) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorSourceID)
       .should("contain.text", "Harap masukkan nomor referensi")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorSourceType)
       .should("contain.text", "Harap pilih tipe barang masuk")
   );
   expect(
     cy
-      .get(":nth-child(3) > .css-tzsjye > .MuiFormHelperText-root")
+      .get(inboundRequestFormPage.errorStoreName)
       .should("contain.text", "Harap pilih toko penerima")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(4) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorWarehouseName)
       .should("contain.text", "Harap pilih lokasi gudang penerima")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(5) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorStoreTargetName)
       .should("contain.text", "Harap pilih nama perusahaan pengirim")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(6) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorStoreTargetAddress)
       .should("contain.text", "Harap masukkan alamat perusahaan pengirim")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(7) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorSourceDate)
       .should("contain.text", "Harap pilih tanggal barang masuk")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(8) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorSourceDeliveryDate)
       .should("contain.text", "Harap pilih tanggal pengiriman")
   );
   expect(
     cy
-      .get(
-        ":nth-child(1) > :nth-child(9) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorSourceDeliveryMethod)
       .should("contain.text", "Harap pilih metode pengiriman")
   );
   expect(
     cy
-      .get(
-        ".css-an5v1p > .MuiGrid-container > :nth-child(1) > .css-tzsjye > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorRequestProductName)
       .should("contain.text", "Harap pilih nama produk")
   );
   expect(
     cy
-      .get(
-        ".css-an5v1p > .MuiGrid-container > :nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root"
-      )
+      .get(inboundRequestFormPage.errorRequestProductQuantity)
       .should("contain.text", "Harap masukkan jumlah produk")
   );
   inboundRequestFormPage.logout();
