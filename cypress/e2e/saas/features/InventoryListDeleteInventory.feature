@@ -61,7 +61,7 @@ Feature: Inventory List - Delete Inventory
     And user clicks on submit add inventory button
     And user types search inventory input field with "web automation test product"
     And user clicks on stock edit button of inventory "web automation test product"
-    And user clicks on hitung ulang stok button of inventory "web automation test product"
+    And user clicks on hitung ulang stok button
     And user types "0" on good stock input field of unit "Pieces"
     And user clicks on hitung ulang stok submit button
     And user clicks on inventory more option button of "web automation test product"
