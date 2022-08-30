@@ -222,6 +222,45 @@ When("user clicks on tambah stok baru close modal button", () => {
   inventoryDetailPage.clickTambahStokBaruCloseModalButton();
 });
 
+When("user clicks on hitung ulang stok button", () => {
+  inventoryDetailPage.clickHitungUlangStokButton();
+});
+
+When(
+  "user types {string} on good stock input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeGoodStockInput(uomId, input);
+    });
+  }
+);
+
+When(
+  "user types {string} on bad stock kadaluwarsa input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeBadStockKadaluwarsaInput(uomId, input);
+    });
+  }
+);
+
+When(
+  "user types {string} on bad stock rusak input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeBadStockRusakInput(uomId, input);
+    });
+  }
+);
+
+When("user clicks on hitung ulang stok submit button", () => {
+  inventoryDetailPage.clickHitungUlangStokSubmitButton();
+  cy.wait(300);
+});
+
 When("user clicks on first stock unit checkbox", () => {
   cy.wait(1000);
   inventoryDetailPage.clickUnitCheckboxInput();

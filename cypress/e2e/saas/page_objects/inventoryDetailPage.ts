@@ -85,6 +85,11 @@ export default class InventoryDetail extends BasePage {
   tambahStokBaruSubmitButton = "#button_topup_modal_submit";
   tambahStokBaruCloseModalButton = "#button_topup_modal_close";
   hitungUlangStokButton = "[id^=button_restock_]";
+  goodStockInput = "#input_restock_new_good_stock_";
+  badStockKadaluwarsaInput = "#input_restock_new_kedaluwarsa_stock_";
+  badStockRusakInput = "#input_restock_new_rusak_stock_";
+  hitungUlangStokSubmitButton = "#button_restock_modal_submit";
+  hitungUlangStokCloseButton = "#button_restock_modal_close";
   ubahStatusButton = "[id^=button_edit_good_stock_]";
   totalStokFisikText = "#p_total_stok_fisik_";
   goodStockText = "#p_good_stock_";
@@ -373,6 +378,26 @@ export default class InventoryDetail extends BasePage {
 
   clickHitungUlangStokButton() {
     cy.get(this.hitungUlangStokButton).click();
+  }
+
+  typeGoodStockInput(id: string, input: string) {
+    cy.get(this.goodStockInput + id).type(input);
+  }
+
+  typeBadStockKadaluwarsaInput(id: string, input: string) {
+    cy.get(this.badStockKadaluwarsaInput + id).type(input);
+  }
+
+  typeBadStockRusakInput(id: string, input: string) {
+    cy.get(this.badStockRusakInput + id).type(input);
+  }
+
+  clickHitungUlangStokSubmitButton() {
+    cy.get(this.hitungUlangStokSubmitButton).click();
+  }
+
+  clickHitungUlangStokCloseButton() {
+    cy.get(this.hitungUlangStokCloseButton).click();
   }
 
   clickUbahStatusButton() {
