@@ -1,6 +1,7 @@
 import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryListPage from "../../../e2e/saas/page_objects/InventoryListPage";
 import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage";
+import * as utils from "./utils";
 
 const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
@@ -57,21 +58,184 @@ When(
 );
 
 When(
+  "user clicks on stock edit button of inventory {string}",
+  (input: string) => {
+    utils.retrieveProductVariantId(input);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
+      inventoryListPage.clickStockEditButton(pvId);
+    });
+    cy.wait(500);
+  }
+);
+
+When(
+  "user clicks on close stock edit button of inventory {string}",
+  (input: string) => {
+    utils.retrieveProductVariantId(input);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.namaBarangButton + pvId).trigger("click");
+    });
+  }
+);
+
+When(
+  "user clicks on inventory more option button of {string}",
+  (input: string) => {
+    utils.retrieveProductVariantId(input);
+    cy.get("@productVariantId").then((pvId: any) => {
+      inventoryListPage.clickMoreOptionsButton(pvId);
+    });
+  }
+);
+
+When("user clicks on inventory list delete button", () => {
+  inventoryListPage.clickDeleteInventoryButton();
+});
+
+When(
+  "user clicks on barang rusak/kadaluwarsa/hilang delete reason input",
+  () => {
+    inventoryListPage.clickDeleteInventoryOtherReason();
+  }
+);
+
+When("user clicks on ada kesalahan input delete reason input", () => {
+  inventoryListPage.clickDeleteInventoryWrongInput();
+});
+
+When("user clicks on inventory list confirm delete button", () => {
+  inventoryListPage.clickConfirmDeleteInventoryButton();
+});
+
+When(
+  "user clicks on selling price edit button of inventory {string}",
+  (input: string) => {
+    cy.wait(500);
+    utils.retrieveProductVariantId(input);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
+      inventoryListPage.clickSellingPriceEditButton(pvId);
+    });
+  }
+);
+
+When(
+  "user clicks on selling price edit button of inventory {string} unit {string}",
+  (inventoryName: string, uomName: string) => {
+    cy.wait(500);
+    utils.retrieveProductVariantId(inventoryName);
+    cy.get("@productVariantId").then((pvId: any) => {
+      utils.retrieveUomId(uomName);
+      let temp = pvId;
+      cy.get("@uomId").then((uomId: any) => {
+        temp.concat("_" + uomId);
+        cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
+        inventoryListPage.clickSellingPriceEditButton(temp);
+      });
+    });
+  }
+);
+
+When(
   "user deletes inventory {string} with delete reason = wrong input",
   (input: string) => {
     inventoryListPage.clickSpecificInventoryMoreOptionButton(input);
     inventoryListPage.clickDeleteInventoryButton();
-    inventoryListPage.chooseDeleteInventoryWrongInput();
+    inventoryListPage.clickDeleteInventoryWrongInput();
     inventoryListPage.clickConfirmDeleteInventoryButton();
   }
 );
 
 // assertions
 
-Then("{string} is displayed as product variant name", (expected) => {
+Then("{string} is displayed as product variant name", (expected: string) => {
   expect(
     cy
       .get(inventoryDetailPage.productVariantNameInput)
       .should("have.value", expected)
   );
 });
+
+Then("stock edit options of inventory {string} are displayed", () => {
+  cy.contains("Tambah Stok Baru").should("exist");
+  cy.contains("Hitung Ulang Stok").should("exist");
+  cy.contains("Ubah Status").should("exist");
+});
+
+Then(
+  "is consign label is displayed on {string} status column",
+  (input: string) => {
+    utils.retrieveProductVariantId(input);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.isConsignLabel + pvId + "']").should(
+        "be.visible"
+      );
+    });
+  }
+);
+
+Then("delete reasons are not displayed", () => {
+  cy.get("input[name='deleteReason']").should("not.exist");
+});
+
+Then("delete reasons are displayed", () => {
+  cy.get("input[name='deleteReason']").should("exist");
+});
+
+Then(
+  "current smallest stock quantity of {string} is {string} {string}",
+  (inventoryName: string, input: string, uomName: string) => {
+    utils.retrieveProductVariantId(inventoryName);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.namaBarangButton + pvId)
+        .parent("td")
+        .next()
+        .children()
+        .first()
+        .children()
+        .first()
+        .children("span")
+        .should("have.text", input + " ")
+        .next()
+        .should("have.text", uomName);
+    });
+  }
+);
+
+Then(
+  "current stock quantity of {string} is {string}",
+  (inventoryName: string, input: string) => {
+    utils.retrieveProductVariantId(inventoryName);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.namaBarangButton + pvId)
+        .parent("td")
+        .next()
+        .children()
+        .first()
+        .children()
+        .first()
+        .children("span")
+        .next()
+        .next()
+        .should("have.text", input);
+    });
+  }
+);
+
+Then(
+  "selling price of {string} is {string}",
+  (inventoryName: string, input: string) => {
+    utils.retrieveProductVariantId(inventoryName);
+    cy.get("@productVariantId").then((pvId: any) => {
+      cy.get(inventoryListPage.moreOptionsButton + pvId)
+        .parent("td")
+        .prev()
+        .prev()
+        .children()
+        .first()
+        .children("span")
+        .should("have.text", input);
+    });
+  }
+);
