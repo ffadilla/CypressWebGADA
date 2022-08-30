@@ -118,6 +118,16 @@ When("user created custom inventory with stock + selling uom", () => {
   );
   // And user clicks on save unit selling price button
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
+  // And user clicks on add barcode button of "Pieces" unit
+  cy.get("@uomId").then((uomId: any) => {
+    inventoryDetailPage.clickAddBarcodeButton(uomId);
+  });
+  // And user clicks on input barcode manually button
+  inventoryDetailPage.clickInputBarcodeManuallyButton();
+  // And user types "843842841" on barcode modal
+  inventoryDetailPage.typeBarcodeValue("843842841");
+  // And user clicks on save barcode button
+  inventoryDetailPage.clickSaveBarcodeButton();
   // And user clicks on submit add inventory button
   inventoryDetailPage.clickSubmitAddInventoryButton();
   // Then user is redirected to inventory list page
