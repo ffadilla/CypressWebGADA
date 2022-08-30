@@ -11,7 +11,12 @@ export default class InventoryListPage extends BasePage {
   deleteReasonMistakeRadioButton = "input[value='MISTAKE']";
   confirmDeleteInventoryButton = ".MuiButton-label";
   searchInventoryInput = "#input_inventory_list_searchbar";
-  namaBarangButton = "[id^=button_inventory_list_td_nama_barang_]";
+  namaBarangButton = "#button_inventory_list_td_nama_barang_";
+  stockEditButton = "#button_stock_edit_";
+  sellingPriceEditButton = "#button_selling_uom_edit_popover_";
+  isConsignLabel = "div[property='is_consigned_";
+  moreOptionsButton = "#button_inventory_list_extra_options_popover_";
+
   // common
   visitInventoryList() {
     cy.viewport(1200, 800);
@@ -54,11 +59,11 @@ export default class InventoryListPage extends BasePage {
     cy.contains("button", "Hapus").click();
   }
 
-  chooseDeleteInventoryOtherReason() {
+  clickDeleteInventoryOtherReason() {
     cy.get(this.deleteReasonOtherRadioButton).click();
   }
 
-  chooseDeleteInventoryWrongInput() {
+  clickDeleteInventoryWrongInput() {
     cy.get(this.deleteReasonMistakeRadioButton).click();
   }
 
@@ -74,5 +79,17 @@ export default class InventoryListPage extends BasePage {
 
   clickSpecificNamaBarangButton(input: string) {
     cy.contains("div", input).first().click();
+  }
+
+  clickStockEditButton(id: string) {
+    cy.get(this.stockEditButton + id).click();
+  }
+
+  clickSellingPriceEditButton(id: string) {
+    cy.get(this.sellingPriceEditButton + id).click();
+  }
+
+  clickMoreOptionsButton(id: string) {
+    cy.get(this.moreOptionsButton + id).click();
   }
 }
