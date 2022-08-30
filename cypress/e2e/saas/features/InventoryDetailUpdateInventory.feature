@@ -92,7 +92,6 @@ Feature: Inventory Detail - Update Inventory
     And user clicks on choose supplier button
     And user types "Default Supplier" on input supplier search modal
     And user clicks on "Default Supplier" supplier checkbox
-    And user clicks on supplier modal close button
     And user clicks on submit add inventory button
     # Update inventory
     And user types search inventory input field with "web automation test product"
