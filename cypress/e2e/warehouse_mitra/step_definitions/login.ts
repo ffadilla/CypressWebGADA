@@ -10,7 +10,6 @@ Given("user is on log in page", () => {
 });
 
 //STEP
-
 When("user fills email input with {string}", (email: string) => {
   cy.get(loginPage.emailField).type(email);
 });
@@ -24,12 +23,6 @@ When("user click MASUK button", () => {
 });
 
 //ASSERTION
-
-Then("user is on dashboard page", () => {
-  expect(cy.url().should("include", "dashboard"));
-  loginPage.logout();
-});
-
 Then("{string} error message should appear", (errorMessage: string) => {
   expect(
     cy.xpath(loginPage.errorLoginButton).should("contain.text", errorMessage)

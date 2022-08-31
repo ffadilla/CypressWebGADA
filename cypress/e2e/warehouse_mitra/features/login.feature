@@ -18,4 +18,5 @@ Feature: Login
     When user fills email input with "cypress_su@mail.com"
     And user fills password input with "warehouse"
     And user click MASUK button
-    Then user is on dashboard page
+    Then user should be on dashboard page
+    When user logs out from WMS
