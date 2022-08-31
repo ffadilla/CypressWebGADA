@@ -28,8 +28,69 @@ When("user selects new inbound request dropdown", () => {
   cy.contains(inboundRequestListPage.createNewRequestButtonOption).click();
 });
 
+When("user fills inbound Source ID", () => {
+  inboundRequestFormPage.typeSourceID();
+});
+
+When("user selects {string} as inbound type", (inboundType: string) => {
+  inboundRequestFormPage.setSourceType(inboundType);
+});
+
+When(
+  "user selects the first options of {string} on store name dropdown",
+  (storeKeyword: string) => {
+    inboundRequestFormPage.setStore(storeKeyword);
+  }
+);
+
+When(
+  "user selects the first options of {string} on warehouse name dropdown",
+  (warehouseKeyword: string) => {
+    inboundRequestFormPage.setWarehouse(warehouseKeyword);
+  }
+);
+
+When(
+  "user selects the first options of {string} on target store name dropdown",
+  (targetStoreKeyword: string) => {
+    inboundRequestFormPage.setTargetStore(targetStoreKeyword);
+  }
+);
+
+When("user selects date {string} as Source date", (sourceDate: number) => {
+  inboundRequestFormPage.setSourceDate(sourceDate);
+});
+
+When("user selects date {string} as delivery date", (deliveryDate: number) => {
+  inboundRequestFormPage.setDeliveryDate(deliveryDate);
+});
+
+When("user selects {string} as delivery method", (deliveryMethod: string) => {
+  inboundRequestFormPage.setDeliveryMethod(deliveryMethod);
+});
+
+When(
+  "user selects the first options of {string} as first product name",
+  (productName: string) => {
+    inboundRequestFormPage.setRequestFirstProductName(productName);
+    cy.log(productName);
+  }
+);
+
+When(
+  "user inputs {string} as first product amount",
+  (productAmount: string) => {
+    inboundRequestFormPage.setRequestFirstProductAmount(productAmount);
+    cy.log(productAmount + " ");
+  }
+);
+
+When("user selects second product name", () => {});
+
+When("user selects second product amount", () => {});
+
 When("user clicks submission button", () => {
-  cy.xpath(inboundRequestFormPage.xPathSubmitRequestFormButton).click();
+  cy.xpath(inboundRequestFormPage.submitRequestFormButton).click();
 });
 
 //ASSERTION
