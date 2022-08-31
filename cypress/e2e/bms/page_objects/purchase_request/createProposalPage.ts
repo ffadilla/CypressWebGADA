@@ -75,17 +75,13 @@ export default class CreateProposalPage extends BaseCommands {
     confirmOkButton: ".MuiButton-root:contains('OK')",
   };
 
-  visitCreateProposalPage() {
-    base.navigate(this.path);
-  }
-
   selectChannel(channel: string) {
     base.click(this.selectors.channelInput);
     base.selectOption(this.selectors.channelOption, channel);
   }
 
   setDeliveryRequestStartDate(date: string) {
-    base.clickButton(this.selectors.deliveryRequestDateButton);
+    base.click(this.selectors.deliveryRequestDateButton);
     base.click(`button[aria-label='${date}']`);
   }
 

@@ -1,18 +1,14 @@
-import BaseCommads from "../../common/baseCommands";
+import BaseCommands from "../../common/baseCommands";
 
-const base = new BaseCommads();
+const base = new BaseCommands();
 
-export default class ListAllRequestPage extends BaseCommads {
+export default class ListAllRequestPage extends BaseCommands {
   path = "purchaseRequest/listAllRequest";
-  seletors = {
+  selectors = {
     purchaseRequestCard: ".MuiCard-root",
   };
 
-  visitListAllRequestPage() {
-    base.navigate(this.path);
-  }
-
   clickPurchaseRequestCard(index: number) {
-    base.click(this.seletors.purchaseRequestCard, index);
+    base.click(this.selectors.purchaseRequestCard, index);
   }
 }

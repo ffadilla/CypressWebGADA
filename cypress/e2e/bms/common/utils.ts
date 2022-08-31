@@ -57,7 +57,7 @@ export function priceCalculation(margin: number, minimumSellingPrice: number) {
   return Math.round((margin / 100) * minimumSellingPrice + minimumSellingPrice);
 }
 
-export function randomNumber(length: number) {
+export function randomInt(length: number) {
   return parseInt(
     ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")
   );

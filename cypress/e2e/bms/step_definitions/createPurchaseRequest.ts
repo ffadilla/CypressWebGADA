@@ -1,9 +1,4 @@
-import {
-  Given,
-  Then,
-  When,
-  And,
-} from "@badeball/cypress-cucumber-preprocessor";
+import { Then, When, And } from "@badeball/cypress-cucumber-preprocessor";
 import * as moment from "moment";
 import BasePage from "../page_objects/basePage";
 import CreateProposalPage from "../page_objects/purchase_request/createProposalPage";
@@ -17,10 +12,6 @@ type channel = "marketplace" | "offline";
 type deliveryMethod = "Gudang Ada Logistic" | "Dikirim Penjual";
 type settingType = "margin" | "price";
 type taxType = "Non PKP" | "PKP";
-
-Given("user is in Pengajuan Pembelian page", () => {
-  // createProposalPage.selectors.visitCreateProposalPage();
-});
 
 And("user selects {string} as purchase request channel", (channel: channel) => {
   const channelKey = utils.getEnumKeyByValue(enums.channel, channel);
@@ -117,7 +108,7 @@ And(
 );
 
 And(
-  "user fills {string} input field with {int} digits random number",
+  "user fills {string} input field with {int} digits random integer",
   (
     field:
       | "deliveryFee"
@@ -134,9 +125,9 @@ And(
       purchaseDiscount: createProposalPage.selectors.purchaseDiscountInput,
     };
 
-    let randomNumber = utils.randomNumber(digits);
-    createProposalPage.typeNumber(selector[field], randomNumber);
-    cy.wrap(randomNumber).as(field);
+    let randomInt = utils.randomInt(digits);
+    createProposalPage.typeNumber(selector[field], randomInt);
+    cy.wrap(randomInt).as(field);
   }
 );
 
@@ -152,13 +143,11 @@ And(
 );
 
 And("user clicks on Lanjut button to add item stage", () => {
-  createProposalPage.clickButton(
-    createProposalPage.selectors.nextToAddItemButton
-  );
+  createProposalPage.click(createProposalPage.selectors.nextToAddItemButton);
 });
 
 And("user clicks on Tambah Item Pembelian button", () => {
-  createProposalPage.clickButton(createProposalPage.selectors.addNewItemButton);
+  createProposalPage.click(createProposalPage.selectors.addNewItemButton);
 });
 
 And(
@@ -183,7 +172,7 @@ And(
 And(
   "user fills item quantity input field with {int} digits random",
   (digits: number) => {
-    let quantity = utils.randomNumber(digits);
+    let quantity = utils.randomInt(digits);
     createProposalPage.typeNumber(
       createProposalPage.selectors.quantityInput,
       quantity
@@ -195,7 +184,7 @@ And(
 And(
   "user fills item rate input field with {int} digits random",
   (digits: number) => {
-    let rate = utils.randomNumber(digits);
+    let rate = utils.randomInt(digits);
     let dpp = utils.dppCalculation(rate);
     let vat = utils.vatCalculation(rate, dpp);
     let formattedRate = utils.numberFormat(rate);
@@ -237,7 +226,7 @@ And(
     };
 
     const discountInput = {
-      amount: utils.randomNumber(digits),
+      amount: utils.randomInt(digits),
       percentage: utils.randomDecimal(digits),
     };
 
@@ -272,19 +261,19 @@ And("user clicks on Tambah button to add item", () => {
   createProposalPage.calculateRateDiscount();
   createProposalPage.checkTotalAmountCalculation();
   createProposalPage.calculateMinimumSellingPrice();
-  createProposalPage.clickButton(createProposalPage.selectors.addItemButton);
+  createProposalPage.click(createProposalPage.selectors.addItemButton);
 });
 
 And("user clicks on Lanjut button to suggested selling price stage", () => {
-  createProposalPage.clickButton(
+  createProposalPage.click(
     createProposalPage.selectors.nextToSellingPriceButton
   );
 });
 
 And(
-  "user fills selling estimation days input field with {int} digits random number",
+  "user fills selling estimation days input field with {int} digits random integer",
   (digits: number) => {
-    let sellingEstimationDays = utils.randomNumber(digits);
+    let sellingEstimationDays = utils.randomInt(digits);
     createProposalPage.typeNumber(
       createProposalPage.selectors.sellingEstimationDateInput,
       sellingEstimationDays
@@ -309,9 +298,7 @@ And(
 );
 
 And("user clicks on Tambah UOM Penjualan button", () => {
-  createProposalPage.clickButton(
-    createProposalPage.selectors.addSellingUomButton
-  );
+  createProposalPage.click(createProposalPage.selectors.addSellingUomButton);
 });
 
 And("user selects {string} as selling UOM", (uom: string) => {
@@ -322,9 +309,7 @@ And("user selects {string} as selling UOM", (uom: string) => {
 });
 
 And("user clicks on Atur Harga button", () => {
-  createProposalPage.clickButton(
-    createProposalPage.selectors.setSellingPriceButton
-  );
+  createProposalPage.click(createProposalPage.selectors.setSellingPriceButton);
 });
 
 And(
@@ -332,7 +317,7 @@ And(
   (
     settingType: settingType,
     digits: number,
-    _randomType: "number" | "decimal"
+    _randomType: "integer" | "decimal"
   ) => {
     const selector = {
       margin: createProposalPage.selectors.marginInput,
@@ -340,7 +325,7 @@ And(
     };
     const input = {
       margin: utils.randomDecimal(digits),
-      price: utils.randomNumber(digits),
+      price: utils.randomInt(digits),
     };
     function calculateSellingPrice(
       taxType: string,
@@ -385,9 +370,7 @@ And(
 );
 
 And("user clicks on Simpan button to UOM price tier input", () => {
-  createProposalPage.clickButton(
-    createProposalPage.selectors.savePriceTierButton
-  );
+  createProposalPage.click(createProposalPage.selectors.savePriceTierButton);
   cy.get("@settingType").then((settingType: any) => {
     cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
       if (settingType === "PRICE") {
@@ -414,19 +397,17 @@ And("user clicks on Simpan button to UOM price tier input", () => {
 });
 
 And("user clicks on Lanjut button to purchase request preview", () => {
-  createProposalPage.clickButton(
-    createProposalPage.selectors.nextToPreviewButton
-  );
+  createProposalPage.click(createProposalPage.selectors.nextToPreviewButton);
 });
 
 And("user clicks on Simpan button to create purchase request", () => {
-  createProposalPage.clickButton(
+  createProposalPage.click(
     createProposalPage.selectors.savePurchaseRequestButton
   );
 });
 
 When("user clicks on OK button to confirm purchase request creation", () => {
-  createProposalPage.clickButton(createProposalPage.selectors.confirmOkButton);
+  createProposalPage.click(createProposalPage.selectors.confirmOkButton);
 });
 
 Then("purchase request created successfully", () => {

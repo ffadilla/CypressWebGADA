@@ -21,11 +21,11 @@ type userRole =
   | "VIEWER";
 
 Given("user is in Business Management System Login page", () => {
-  loginPage.navigate(loginPage.path);
+  loginPage.visitPage(loginPage.path);
 });
 
 And("user clicks on Masuk dengan Email button", () => {
-  loginPage.clickButton(loginPage.selectors.loginWithEmailButton);
+  loginPage.click(loginPage.selectors.loginWithEmailButton);
 });
 
 And("user selects {string} user email", (userRole: userRole) => {
@@ -33,7 +33,7 @@ And("user selects {string} user email", (userRole: userRole) => {
 });
 
 When("user clicks on Login button", () => {
-  loginPage.clickButton(loginPage.selectors.loginButton);
+  loginPage.click(loginPage.selectors.loginButton);
 });
 
 Then("user logged in successfully", () => {
@@ -44,10 +44,10 @@ Then("user logged in successfully", () => {
 });
 
 Given("user logged in as {string}", (userRole: userRole) => {
-  loginPage.navigate(loginPage.path);
-  loginPage.clickButton(loginPage.selectors.loginWithEmailButton);
+  loginPage.visitPage(loginPage.path);
+  loginPage.click(loginPage.selectors.loginWithEmailButton);
   loginPage.selectUserEmail(enums.userRoleEmail[userRole]);
-  loginPage.clickButton(loginPage.selectors.loginButton);
+  loginPage.click(loginPage.selectors.loginButton);
   loginPage.assertTextContains(
     basePage.selectors.bmsText,
     "Business Management System"
@@ -55,6 +55,6 @@ Given("user logged in as {string}", (userRole: userRole) => {
 });
 
 When("user clicks on logout button", () => {
-  loginPage.clickButton(basePage.selectors.accountSettingsButton);
-  loginPage.clickButton(basePage.selectors.logoutButton);
+  loginPage.click(basePage.selectors.accountSettingsButton);
+  loginPage.click(basePage.selectors.logoutButton);
 });

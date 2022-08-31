@@ -3,8 +3,21 @@ import gadaConfig from "../../utils/gadaConfig";
 export default class BaseCommads {
   baseURL = gadaConfig.bms.baseUrl;
 
-  navigate(path: string) {
+  visitPage(path: string) {
     cy.visit(this.baseURL + path);
+  }
+
+  click(selector: string, index: number = 0) {
+    cy.get(selector).eq(index).click({ force: true });
+  }
+
+  openPage(selector: string, menu: string, subMenu: string) {
+    if (Cypress.$(selector + ` .isOpen:contains('${menu}')`).length > 0) {
+      this.click(selector + `:contains('${subMenu}')`);
+    } else {
+      this.click(selector + `:contains('${menu}')`);
+      this.click(selector + `:contains('${subMenu}')`);
+    }
   }
 
   typeString(selector: string, input: string, index: number = 0) {
@@ -15,14 +28,6 @@ export default class BaseCommads {
     cy.get(selector)
       .eq(index)
       .type(input + "");
-  }
-
-  clickButton(selector: string, index: number = 0) {
-    cy.get(selector).eq(index).click({ force: true });
-  }
-
-  click(selector: string, index: number = 0) {
-    cy.get(selector).eq(index).click({ force: true });
   }
 
   selectOption(selector: string, input: string, index: number = 0) {
