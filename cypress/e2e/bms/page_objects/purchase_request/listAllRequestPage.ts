@@ -1,4 +1,4 @@
-import BaseCommands from "../../common/baseCommands";
+import BaseCommands from "../baseCommands";
 
 const base = new BaseCommands();
 

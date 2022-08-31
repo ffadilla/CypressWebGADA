@@ -5,7 +5,7 @@ import {
   And,
 } from "@badeball/cypress-cucumber-preprocessor";
 import BasePage from "../page_objects/basePage";
-import LoginPage from "../page_objects/loginPage";
+import LoginPage from "../page_objects/login/loginPage";
 import * as enums from "../common/enums";
 
 const basePage = new BasePage();
@@ -52,9 +52,4 @@ Given("user logged in as {string}", (userRole: userRole) => {
     basePage.selectors.bmsText,
     "Business Management System"
   );
-});
-
-When("user clicks on logout button", () => {
-  loginPage.click(basePage.selectors.accountSettingsButton);
-  loginPage.click(basePage.selectors.logoutButton);
 });

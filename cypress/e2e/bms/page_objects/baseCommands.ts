@@ -1,6 +1,6 @@
 import gadaConfig from "../../utils/gadaConfig";
 
-export default class BaseCommads {
+export default class BaseCommands {
   baseURL = gadaConfig.bms.baseUrl;
 
   visitPage(path: string) {
