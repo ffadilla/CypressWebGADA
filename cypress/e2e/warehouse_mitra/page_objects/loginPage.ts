@@ -6,15 +6,12 @@ export default class LoginPage extends BasePage {
   passwordField = 'input[id="password"]';
   loginButton = 'button[type="submit"]';
   errorLoginButton = '//*[@id="__next"]/div/div/div/div[3]/form/div[2]/div[2]';
-  errorMultipleDeviceLoginText =
-    "Akun sedang login di suatu perangkat dan telah dikeluarkan. Silakan login kembali.";
 
   clickLoginButton() {
+    cy.intercept("POST", "/account/login*").as("loginAPI");
     cy.get(this.loginButton).click();
-    cy.wait(1000);
-
-    cy.url().then(($url) => {
-      if ($url.includes(this.path)) {
+    cy.wait("@loginAPI").then(($response) => {
+      if ($response.response?.statusCode == 400) {
         cy.get(this.loginButton).click();
       }
     });
