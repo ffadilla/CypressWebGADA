@@ -11,6 +11,6 @@ When("user selects new inbound request dropdown", () => {
 });
 
 //ASSERTION
-Then("user should be on inbound Request list", () => {
+Then("user should be at inbound Request list", () => {
   expect(cy.url().should("include", inboundRequestListPage.path));
 });

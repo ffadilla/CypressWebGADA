@@ -15,5 +15,6 @@ export default class BasePage {
   logout() {
     cy.xpath(this.xPathAccountDropdown).click();
     cy.xpath(this.logoutDropdownItem).click();
+    cy.url().should("contain", "login");
   }
 }

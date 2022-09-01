@@ -42,5 +42,5 @@ Feature: Search for specific request(s)
     | "Sudah Selesai"   |
 
   Scenario: Logout after test
-    When user is on Dashboard page
-    Then user logs out
+    When user redirects to Dashboard page
+    Then user should be logged out
