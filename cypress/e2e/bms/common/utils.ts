@@ -1,3 +1,9 @@
+import * as moment from "moment";
+
+export function getDate(index: number, format: string) {
+  return moment().add(index, "days").format(format);
+}
+
 export function dppCalculation(rate: number) {
   return Math.round(rate / 1.11);
 }
@@ -64,9 +70,7 @@ export function randomInt(length: number) {
 }
 
 export function randomDecimal(length: number) {
-  return parseFloat(
-    ("" + Math.random()).substring(1, length).replace(/0/g, "1")
-  );
+  return parseFloat(("" + Math.random()).substring(1, 1 + length));
 }
 
 export function numberFormat(number: number) {

@@ -1,5 +1,4 @@
 import { Then, When, And } from "@badeball/cypress-cucumber-preprocessor";
-import * as moment from "moment";
 import BasePage from "../page_objects/basePage";
 import CreateProposalPage from "../page_objects/purchase_request/createProposalPage";
 import * as utils from "../common/utils";
@@ -92,18 +91,14 @@ And(
 And(
   "user sets delivery request start date {int} days from today",
   (int: number) => {
-    createProposalPage.setDeliveryRequestStartDate(
-      moment().add(int, "days").format("ll")
-    );
+    createProposalPage.setDeliveryRequestStartDate(utils.getDate(int, "ll"));
   }
 );
 
 And(
   "user sets delivery request end date {int} days from today",
   (int: number) => {
-    createProposalPage.setDeliveryRequestEndDate(
-      moment().add(int, "days").format("ll")
-    );
+    createProposalPage.setDeliveryRequestEndDate(utils.getDate(int, "ll"));
   }
 );
 
