@@ -116,4 +116,50 @@ export default class InboundRequestFormPage extends BasePage {
     cy.xpath(this.requestProductQuantityField).click();
     cy.xpath(this.requestProductQuantityField).type(input);
   }
+
+  assertErrorSourceID(err: string) {
+    expect(cy.get(this.errorSourceID).should("contain.text", err));
+  }
+
+  assertErrorSourceType(err: string) {
+    expect(cy.get(this.errorSourceType).should("contain.text", err));
+  }
+
+  assertErrorStoreName(err: string) {
+    expect(cy.get(this.errorStoreName).should("contain.text", err));
+  }
+
+  assertErrorWarehouseName(err: string) {
+    expect(cy.get(this.errorWarehouseName).should("contain.text", err));
+  }
+
+  assertErrorStoreTargetName(err: string) {
+    expect(cy.get(this.errorStoreTargetName).should("contain.text", err));
+  }
+
+  assertErrorStoreTargetAddress(err: string) {
+    expect(cy.get(this.errorStoreTargetAddress).should("contain.text", err));
+  }
+
+  assertErrorSourceDate(err: string) {
+    expect(cy.get(this.errorSourceDate).should("contain.text", err));
+  }
+
+  assertErrorSourceDeliveryDate(err: string) {
+    expect(cy.get(this.errorSourceDeliveryDate).should("contain.text", err));
+  }
+
+  assertErrorSourceDeliveryMethod(err: string) {
+    expect(cy.get(this.errorSourceDeliveryMethod).should("contain.text", err));
+  }
+
+  assertErrorRequestProductName(err: string) {
+    expect(cy.get(this.errorRequestProductName).should("contain.text", err));
+  }
+
+  assertErrorRequestProductQuantity(err: string) {
+    expect(
+      cy.get(this.errorRequestProductQuantity).should("contain.text", err)
+    );
+  }
 }
