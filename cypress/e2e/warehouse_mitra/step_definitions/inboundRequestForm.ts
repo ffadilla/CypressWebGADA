@@ -3,7 +3,6 @@ import InboundRequestFormPage from "../page_objects/inboundRequestFormPage";
 
 const inboundRequestFormPage = new InboundRequestFormPage();
 
-//STEP
 When("user fills inbound Source ID at new inbound request form", () => {
   inboundRequestFormPage.typeSourceID();
 });
@@ -84,7 +83,6 @@ When("user clicks new inbound request form submission button", () => {
   cy.xpath(inboundRequestFormPage.submitRequestFormButton).click();
 });
 
-//ASSERTION
 Then(
   "empty error messages for single Request should appear at create new inbound Request form",
   () => {

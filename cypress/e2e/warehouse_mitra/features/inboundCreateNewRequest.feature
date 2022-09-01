@@ -1,7 +1,7 @@
 Feature: Create Inbound Source
 
   Background: 
-    Given user "cypress_su@mail.com" already logged in to WMS with "warehouse" as password
+    Given user already logged in to WMS as "superuser"
 
   Scenario: Fail to create a new inbound Source/Request with null form
     When user redirects to inbound menu
