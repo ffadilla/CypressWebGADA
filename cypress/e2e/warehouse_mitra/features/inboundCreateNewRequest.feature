@@ -16,8 +16,8 @@ Feature: Create Inbound Source
     And user clicks create inbound request button
     And user selects new inbound request dropdown
     And user fills inbound Source ID at new inbound request form
-    And user selects "Pembelian" as inbound type at new inbound request form
     And user selects the first options of "Faris" on store name dropdown at new inbound request form
+    And user selects "Pembelian" as inbound type at new inbound request form
     And user selects the first options of "Warehouse" on warehouse name dropdown at new inbound request form
     And user selects the first options of "Faris" on target store name dropdown at new inbound request form
     And user selects date "11" as Source date at new inbound request form

@@ -81,7 +81,6 @@ export default class InboundRequestFormPage extends BasePage {
 
   setWarehouse(keyword: string) {
     cy.xpath(this.warehouseNameField).click();
-    cy.xpath(this.warehouseNameField).click({ force: true });
     cy.xpath(this.warehouseNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
   }
