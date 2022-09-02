@@ -134,33 +134,35 @@ export default class InboundRequestListPage extends BasePage {
     deliveryMethod: string,
     deliveryDate: number
   ) {
-    cy.log(deliveryMethod);
     const deliveryDateCopy =
       "Dikirim " + deliveryDate + utils.generateDateTime(0, " MMM YYYY");
 
     const firstRequestItemSourceID = this.requestItemListBody.concat(
       "/tr[1]" + this.requestItemSourceIDPointer
     );
-    expect(cy.xpath(firstRequestItemSourceID).should("contain", sourceID));
     const firstRequestItemTargetStore = this.requestItemListBody.concat(
       "/tr[1]" + this.requestItemSupplierStorePointer
     );
-    expect(
-      cy.xpath(firstRequestItemTargetStore).should("contain", targetStoreName)
+    const firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
+      "/tr[1]" + this.requestItemDeliveryMethodPointer
     );
-    /**
-     * commented because the element clicked is still wrong
-    const firstRequestItemDeliveryMethod = this.requestItemListBody.concat("/tr[1]" + this.requestItemDeliveryMethodPointer);
-    expect(cy.xpath(firstRequestItemDeliveryMethod).should("contain", deliveryMethod));
-    */
     const firstRequestItemDeliveryDate = this.requestItemListBody.concat(
       "/tr[1]" + this.requestItemDeliveryDatePointer
     );
-    expect(
-      cy.xpath(firstRequestItemDeliveryDate).should("contain", deliveryDateCopy)
-    );
+
     const firstRequestItemStatus = this.requestItemListBody.concat(
       "/tr[1]" + this.requestItemStatusPointer
+    );
+
+    expect(cy.xpath(firstRequestItemSourceID).should("contain", sourceID));
+    expect(
+      cy.xpath(firstRequestItemTargetStore).should("contain", targetStoreName)
+    );
+    expect(
+      cy.xpath(firstRequestItemDeliveryMethod).should("contain", deliveryMethod)
+    );
+    expect(
+      cy.xpath(firstRequestItemDeliveryDate).should("contain", deliveryDateCopy)
     );
     expect(cy.xpath(firstRequestItemStatus).should("contain", "Belum Selesai"));
   }

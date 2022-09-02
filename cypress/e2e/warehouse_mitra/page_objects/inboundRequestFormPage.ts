@@ -104,7 +104,7 @@ export default class InboundRequestFormPage extends BasePage {
 
   setDeliveryMethod(keyword: string) {
     cy.xpath(this.deliveryMethodField).click();
-    cy.contains(this.dropdownOptionsList, keyword).click();
+    cy.get(this.dropdownOptionsList).contains(keyword).click();
   }
 
   setRequestFirstProductName(keyword: string) {
