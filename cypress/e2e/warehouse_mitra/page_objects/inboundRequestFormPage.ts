@@ -66,6 +66,7 @@ export default class InboundRequestFormPage extends BasePage {
 
   typeSourceID() {
     cy.get(this.sourceIDField).type(this.sourceID);
+    utils.setSourceID(this.sourceID);
   }
 
   setSourceType(keyword: string) {
@@ -112,9 +113,9 @@ export default class InboundRequestFormPage extends BasePage {
     cy.get(this.firstAutocompleteItem).click();
   }
 
-  setRequestFirstProductAmount(input: string) {
+  setRequestFirstProductAmount(input: number) {
     cy.xpath(this.requestProductQuantityField).click();
-    cy.xpath(this.requestProductQuantityField).type(input);
+    cy.xpath(this.requestProductQuantityField).type(input.toString());
   }
 
   assertErrorSourceID(err: string) {

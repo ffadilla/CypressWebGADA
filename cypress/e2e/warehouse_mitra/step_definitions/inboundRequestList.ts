@@ -104,10 +104,11 @@ Then(
 Then(
   "user should only able to see inbound Request with {int} delivery date",
   (value: number) => {
-    const string = "Dikirim " + value + utils.generateDateTime(0, " MMM YYYY");
+    const deliveryDateCopy =
+      "Dikirim " + value + utils.generateDateTime(0, " MMM YYYY");
     inboundRequestListPage.assertRequestItemsBySearchFilter(
       "delivery date",
-      string
+      deliveryDateCopy
     );
   }
 );
@@ -115,3 +116,16 @@ Then(
 Then("user should able to see empty inbound Requests list", () => {
   inboundRequestListPage.assertEmptyList();
 });
+
+Then(
+  "user should able to see created Request at inbound Request list -- with {string}, {string}, {int}",
+  (targetStoreName: string, deliveryMethod: string, deliveryDate: number) => {
+    inboundRequestListPage.setSearchKeyword(utils.getSourceID());
+    inboundRequestListPage.assertFirtRequestItem(
+      utils.getSourceID(),
+      targetStoreName,
+      deliveryMethod,
+      deliveryDate
+    );
+  }
+);

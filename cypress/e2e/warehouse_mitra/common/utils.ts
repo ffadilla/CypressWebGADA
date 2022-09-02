@@ -1,5 +1,15 @@
 import * as moment from "moment";
 
+let generatedSourceID = "";
+
+export function setSourceID(value: string) {
+  generatedSourceID = value;
+}
+
+export function getSourceID(): string {
+  return generatedSourceID;
+}
+
 export function generateDateTime(index: number, form: string): string {
   return moment().add(index, "days").format(form);
 }

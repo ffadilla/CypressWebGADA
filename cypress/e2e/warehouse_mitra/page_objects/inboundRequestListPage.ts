@@ -1,4 +1,5 @@
 import BasePage from "./basePage";
+import * as utils from "../common/utils";
 
 export default class InboundRequestListPage extends BasePage {
   path = "/inventory/inbound/request/list";
@@ -45,7 +46,6 @@ export default class InboundRequestListPage extends BasePage {
   setDeliveryDateFilter(deliveryDate: number) {
     cy.xpath(this.deliveryDateFilterButton).click();
     cy.get(this.deliveryDateCell).contains(deliveryDate).click();
-    //cy.get(this.deliveryDateCTAButton).contains('OK').click();
   }
 
   clickStatusChip(status: string) {
@@ -126,5 +126,42 @@ export default class InboundRequestListPage extends BasePage {
           "Silakan ganti filter/kata kunci lain yang lebih sesuai."
         )
     );
+  }
+
+  assertFirtRequestItem(
+    sourceID: string,
+    targetStoreName: string,
+    deliveryMethod: string,
+    deliveryDate: number
+  ) {
+    cy.log(deliveryMethod);
+    const deliveryDateCopy =
+      "Dikirim " + deliveryDate + utils.generateDateTime(0, " MMM YYYY");
+
+    const firstRequestItemSourceID = this.requestItemListBody.concat(
+      "/tr[1]" + this.requestItemSourceIDPointer
+    );
+    expect(cy.xpath(firstRequestItemSourceID).should("contain", sourceID));
+    const firstRequestItemTargetStore = this.requestItemListBody.concat(
+      "/tr[1]" + this.requestItemSupplierStorePointer
+    );
+    expect(
+      cy.xpath(firstRequestItemTargetStore).should("contain", targetStoreName)
+    );
+    /**
+     * commented because the element clicked is still wrong
+    const firstRequestItemDeliveryMethod = this.requestItemListBody.concat("/tr[1]" + this.requestItemDeliveryMethodPointer);
+    expect(cy.xpath(firstRequestItemDeliveryMethod).should("contain", deliveryMethod));
+    */
+    const firstRequestItemDeliveryDate = this.requestItemListBody.concat(
+      "/tr[1]" + this.requestItemDeliveryDatePointer
+    );
+    expect(
+      cy.xpath(firstRequestItemDeliveryDate).should("contain", deliveryDateCopy)
+    );
+    const firstRequestItemStatus = this.requestItemListBody.concat(
+      "/tr[1]" + this.requestItemStatusPointer
+    );
+    expect(cy.xpath(firstRequestItemStatus).should("contain", "Belum Selesai"));
   }
 }

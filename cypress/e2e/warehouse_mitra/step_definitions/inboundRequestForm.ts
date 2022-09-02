@@ -36,14 +36,14 @@ When(
 );
 
 When(
-  "user selects date {string} as Source date at new inbound request form",
+  "user selects date {int} as Source date at new inbound request form",
   (sourceDate: number) => {
     inboundRequestFormPage.setSourceDate(sourceDate);
   }
 );
 
 When(
-  "user selects date {string} as delivery date at new inbound request form",
+  "user selects date {int} as delivery date at new inbound request form",
   (deliveryDate: number) => {
     inboundRequestFormPage.setDeliveryDate(deliveryDate);
   }
@@ -65,10 +65,9 @@ When(
 );
 
 When(
-  "user inputs {string} as first product amount at new inbound request form",
-  (productAmount: string) => {
+  "user inputs {int} as first product amount at new inbound request form",
+  (productAmount: number) => {
     inboundRequestFormPage.setRequestFirstProductAmount(productAmount);
-    cy.log(productAmount + " ");
   }
 );
 
