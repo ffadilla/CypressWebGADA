@@ -5,16 +5,15 @@ import * as utils from "../common/utils";
 const inboundRequestListPage = new InboundRequestListPage();
 
 When(
-  "user clicks {string} button at inbound Request list",
-  (status: string) => {
-    inboundRequestListPage.clickStatusChip(status);
-  }
-);
-
-When(
   "user applies {string} to find related inbound Request",
   (keyword: string) => {
     inboundRequestListPage.setSearchKeyword(keyword);
+  }
+);
+When(
+  "user applies {int} as delivery date filter at inbound Request list",
+  (deliveryDate: number) => {
+    inboundRequestListPage.setDeliveryDateFilter(deliveryDate);
   }
 );
 
@@ -26,9 +25,9 @@ When(
 );
 
 When(
-  "user applies {int} as delivery date filter at inbound Request list",
-  (deliveryDate: number) => {
-    inboundRequestListPage.setDeliveryDateFilter(deliveryDate);
+  "user clicks {string} button at inbound Request list",
+  (status: string) => {
+    inboundRequestListPage.clickStatusChip(status);
   }
 );
 
@@ -104,11 +103,11 @@ Then(
 Then(
   "user should only able to see inbound Request with {int} delivery date",
   (value: number) => {
-    const deliveryDateCopy =
-      "Dikirim " + value + utils.generateDateTime(0, " MMM YYYY");
+    const expectedDeliveryDate =
+      inboundRequestListPage.setExpectedDeliveryDate(value);
     inboundRequestListPage.assertRequestItemsBySearchFilter(
       "delivery date",
-      deliveryDateCopy
+      expectedDeliveryDate
     );
   }
 );

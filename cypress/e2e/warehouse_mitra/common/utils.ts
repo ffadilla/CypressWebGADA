@@ -2,6 +2,9 @@ import * as moment from "moment";
 
 let generatedSourceID = "";
 
+/**
+ * generatedSourceID should be utilized to save Source ID input between cases
+ */
 export function setSourceID(value: string) {
   generatedSourceID = value;
 }

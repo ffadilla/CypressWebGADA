@@ -10,8 +10,14 @@ export default class InboundRequestListPage extends BasePage {
   searchbox =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
   deliveryMethodFilterButton = "#filter-modal";
+  deliveryMethodDropdown = "#mui-component-select-delivery_method";
+  deliveryMethodDropdownItem = 'li[role="option"]';
+  submitDeliveryMethodFilterButton =
+    ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
   deliveryDateFilterButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div/div/input';
+  deliveryDateCell = 'div[role="cell"]';
+  deliveryDateCTAButton = 'button[class="MuiButtonBase-root"]';
   requestItemListBody =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[1]/table/tbody';
   requestItemSourceIDPointer = "/td[1]/div[1]";
@@ -21,15 +27,23 @@ export default class InboundRequestListPage extends BasePage {
   requestItemDeliveryDatePointer = "/td[2]/a/div[2]/span";
   requestItemStatusPointer = "/td[5]/span/span[2]";
   requestItemFirstElementPointer = "/tr[1]";
+  firstRequestItemSourceID = this.requestItemListBody.concat(
+    "/tr[1]" + this.requestItemSourceIDPointer
+  );
+  firstRequestItemTargetStore = this.requestItemListBody.concat(
+    "/tr[1]" + this.requestItemSupplierStorePointer
+  );
+  firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
+    "/tr[1]" + this.requestItemDeliveryMethodPointer
+  );
+  firstRequestItemDeliveryDate = this.requestItemListBody.concat(
+    "/tr[1]" + this.requestItemDeliveryDatePointer
+  );
+  firstRequestItemStatus = this.requestItemListBody.concat(
+    "/tr[1]" + this.requestItemStatusPointer
+  );
   emptyResultText =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
-
-  deliveryMethodDropdown = "#mui-component-select-delivery_method";
-  deliveryMethodDropdownItem = 'li[role="option"]';
-  submitDeliveryMethodFilterButton =
-    ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
-  deliveryDateCell = 'div[role="cell"]';
-  deliveryDateCTAButton = 'button[class="MuiButtonBase-root"]';
 
   setSearchKeyword(keyword: string) {
     cy.xpath(this.searchbox).type(keyword);
@@ -46,6 +60,10 @@ export default class InboundRequestListPage extends BasePage {
   setDeliveryDateFilter(deliveryDate: number) {
     cy.xpath(this.deliveryDateFilterButton).click();
     cy.get(this.deliveryDateCell).contains(deliveryDate).click();
+  }
+
+  setExpectedDeliveryDate(deliveryDate: number): string {
+    return "Dikirim " + deliveryDate + utils.generateDateTime(0, " MMM YYYY");
   }
 
   clickStatusChip(status: string) {
@@ -71,6 +89,39 @@ export default class InboundRequestListPage extends BasePage {
         queryParam = "status=";
     }
     expect(cy.url().should("include", queryParam));
+  }
+
+  assertFirtRequestItem(
+    expectedSourceID: string,
+    expectedTargetStoreName: string,
+    expectedDeliveryMethod: string,
+    deliveryDate: number
+  ) {
+    const expectedDeliveryDate = this.setExpectedDeliveryDate(deliveryDate);
+
+    expect(
+      cy
+        .xpath(this.firstRequestItemSourceID)
+        .should("contain", expectedSourceID)
+    );
+    expect(
+      cy
+        .xpath(this.firstRequestItemTargetStore)
+        .should("contain", expectedTargetStoreName)
+    );
+    expect(
+      cy
+        .xpath(this.firstRequestItemDeliveryMethod)
+        .should("contain", expectedDeliveryMethod)
+    );
+    expect(
+      cy
+        .xpath(this.firstRequestItemDeliveryDate)
+        .should("contain", expectedDeliveryDate)
+    );
+    expect(
+      cy.xpath(this.firstRequestItemStatus).should("contain", "Belum Selesai")
+    );
   }
 
   assertRequestItemsBySearchFilter(target: string, value: string) {
@@ -126,44 +177,5 @@ export default class InboundRequestListPage extends BasePage {
           "Silakan ganti filter/kata kunci lain yang lebih sesuai."
         )
     );
-  }
-
-  assertFirtRequestItem(
-    sourceID: string,
-    targetStoreName: string,
-    deliveryMethod: string,
-    deliveryDate: number
-  ) {
-    const deliveryDateCopy =
-      "Dikirim " + deliveryDate + utils.generateDateTime(0, " MMM YYYY");
-
-    const firstRequestItemSourceID = this.requestItemListBody.concat(
-      "/tr[1]" + this.requestItemSourceIDPointer
-    );
-    const firstRequestItemTargetStore = this.requestItemListBody.concat(
-      "/tr[1]" + this.requestItemSupplierStorePointer
-    );
-    const firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
-      "/tr[1]" + this.requestItemDeliveryMethodPointer
-    );
-    const firstRequestItemDeliveryDate = this.requestItemListBody.concat(
-      "/tr[1]" + this.requestItemDeliveryDatePointer
-    );
-
-    const firstRequestItemStatus = this.requestItemListBody.concat(
-      "/tr[1]" + this.requestItemStatusPointer
-    );
-
-    expect(cy.xpath(firstRequestItemSourceID).should("contain", sourceID));
-    expect(
-      cy.xpath(firstRequestItemTargetStore).should("contain", targetStoreName)
-    );
-    expect(
-      cy.xpath(firstRequestItemDeliveryMethod).should("contain", deliveryMethod)
-    );
-    expect(
-      cy.xpath(firstRequestItemDeliveryDate).should("contain", deliveryDateCopy)
-    );
-    expect(cy.xpath(firstRequestItemStatus).should("contain", "Belum Selesai"));
   }
 }
