@@ -13,10 +13,10 @@ export default class BaseCommands {
 
   openPage(selector: string, menu: string, subMenu: string) {
     if (Cypress.$(selector + ` .isOpen:contains('${menu}')`).length > 0) {
-      this.click(selector + `:contains('${subMenu}')`);
+      cy.contains(selector, subMenu);
     } else {
-      this.click(selector + `:contains('${menu}')`);
-      this.click(selector + `:contains('${subMenu}')`);
+      cy.contains(selector, menu);
+      cy.contains(selector, subMenu);
     }
   }
 
