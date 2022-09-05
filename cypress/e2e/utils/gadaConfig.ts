@@ -8,16 +8,6 @@ type config = {
   };
   bms: {
     baseUrl: string;
-    users: {
-      [userRole: string]: {
-        username: string;
-        userImage: string;
-        userEmail: string;
-        authToken: string;
-        userRole: string;
-        userPermissions: [string];
-      };
-    };
   };
   warehouseMitra: {
     baseUrl: string;
