@@ -107,10 +107,12 @@ export default class CreateProposalPage extends BaseCommands {
     }
   }
 
-  typeDiscount(selector: string, discountType: string, discount: number) {
-    base.click(selector);
-    base.click(`li[class*='MuiMenuItem-root'][data-value='${discountType}']`);
-    base.typeNumber(selector, discount, 1);
+  typeDiscount(selector: string, _discountType: string, discount: number) {
+    // Todo: discount improvement project
+    // base.click(selector);
+    // base.click(`li[class*='MuiMenuItem-root'][data-value='${discountType}']`);
+    // base.typeNumber(selector, discount, 1);
+    base.typeNumber(selector, discount);
   }
 
   checkDppCalculation(

@@ -199,6 +199,19 @@ And(
 );
 
 And(
+  "user fills rate discount input fields with {int} digits random integer",
+  (digits: number) => {
+    let rateDiscount = utils.randomInt(digits);
+    createProposalPage.typeDiscount(
+      createProposalPage.selectors.rateDiscountInput,
+      "amount",
+      rateDiscount
+    );
+    cy.wrap(rateDiscount).as("rateDiscount");
+  }
+);
+
+And(
   "user fills {string} discount {string} input field with {int} digits random {string}",
   (
     field: "internal" | "principal" | "distributor" | "program",
@@ -253,7 +266,7 @@ And(
 );
 
 And("user clicks on Tambah button to add item", () => {
-  createProposalPage.calculateRateDiscount();
+  // createProposalPage.calculateRateDiscount();
   createProposalPage.checkTotalAmountCalculation();
   createProposalPage.calculateMinimumSellingPrice();
   createProposalPage.click(createProposalPage.selectors.addItemButton);

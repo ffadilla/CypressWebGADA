@@ -21,10 +21,12 @@ Feature: Create Purchase Request
     And user types search item name input field with "Coklat"
     And user fills item quantity input field with 2 digits random
     And user fills item rate input field with 5 digits random
-    And user fills "internal" discount <discountType> input field with 3 digits random <randomType>
-    And user fills "principal" discount <discountType> input field with 3 digits random <randomType>
-    And user fills "distributor" discount <discountType> input field with 3 digits random <randomType>
-    And user fills "program" discount <discountType> input field with 3 digits random <randomType>
+    And user fills rate discount input fields with 3 digits random integer
+    # Todo: discount improvement project
+    # And user fills "internal" discount <discountType> input field with 3 digits random <randomType>
+    # And user fills "principal" discount <discountType> input field with 3 digits random <randomType>
+    # And user fills "distributor" discount <discountType> input field with 3 digits random <randomType>
+    # And user fills "program" discount <discountType> input field with 3 digits random <randomType>
     And user clicks on Tambah button to add item
     And user clicks on Lanjut button to suggested selling price stage
     And user fills selling estimation days input field with 2 digits random integer

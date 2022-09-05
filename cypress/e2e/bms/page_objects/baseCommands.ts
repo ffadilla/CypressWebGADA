@@ -31,9 +31,7 @@ export default class BaseCommands {
   }
 
   selectOption(selector: string, input: string, index: number = 0) {
-    cy.get(selector + `:contains('${input}')`)
-      .eq(index)
-      .click();
+    cy.contains(selector, input).eq(index).click();
   }
 
   selectRadioButton(selector: string, input: string, index: number = 0) {
@@ -43,9 +41,7 @@ export default class BaseCommands {
   }
 
   selectCheckbox(selector: string, input: string, index: number = 0) {
-    cy.get(selector + `:contains('${input}')`)
-      .eq(index)
-      .click();
+    cy.contains(selector, input).eq(index).click();
   }
 
   assertValueIsNotEmpty(selector: string, field: string, index: number = 0) {
@@ -67,8 +63,6 @@ export default class BaseCommands {
   }
 
   assertTextContains(selector: string, message: string, index: number = 0) {
-    cy.get(selector + `:contains('${message}')`)
-      .eq(index)
-      .should("be.visible");
+    cy.contains(selector, message).eq(index).should("be.visible");
   }
 }
