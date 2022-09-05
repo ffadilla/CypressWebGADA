@@ -60,9 +60,8 @@ Then(
 Then(
   "query param for {string} delivery method should be added to inbound Request list URL",
   (value: string) => {
-    let deliveryMethod;
-    if (value == "Semua Metode") deliveryMethod = "";
-    else deliveryMethod = value.split(" ").join("_");
+    const deliveryMethod =
+      value === "Semua Metode" ? "" : value.split(" ").join("_");
     inboundRequestListPage.assertQueryParam("delivery_method=", deliveryMethod);
   }
 );
@@ -91,7 +90,7 @@ Then(
 Then(
   "user should only able to see inbound Request with {string} delivery method",
   (value: string) => {
-    if (value == "Semua Metode") return null;
+    if (value === "Semua Metode") return null;
     inboundRequestListPage.assertRequestItemsBySearchFilter(
       "delivery method",
       value

@@ -71,24 +71,24 @@ export default class InboundRequestListPage extends BasePage {
   }
 
   assertStatusQueryParam(value: string) {
-    let queryParam = "";
+    let expectedValue = "";
     switch (value) {
       case "Belum Selesai":
-        queryParam = "status=INCOMPLETE";
+        expectedValue = "INCOMPLETE";
         break;
       case "Sedang Diproses":
-        queryParam = "status=IN_PROGRESS";
+        expectedValue = "IN_PROGRESS";
         break;
       case "Sudah Selesai":
-        queryParam = "status=COMPLETE";
+        expectedValue = "COMPLETE";
         break;
       case "Dibatalkan":
-        queryParam = "status=CANCELLED";
+        expectedValue = "CANCELLED";
         break;
       case "Semua Status":
-        queryParam = "status=";
+        expectedValue = "";
     }
-    expect(cy.url().should("include", queryParam));
+    this.assertQueryParam("status=", expectedValue);
   }
 
   assertFirtRequestItem(
