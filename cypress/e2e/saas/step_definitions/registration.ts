@@ -81,11 +81,11 @@ When(
   }
 );
 
+// assertions
+
 Then("{string} error message is displayed", (errorMessage: string) => {
   cy.get(registrationPage.invalidRegexErrorMessage).should(
     "contain.text",
     errorMessage
   );
 });
-
-// assertions
