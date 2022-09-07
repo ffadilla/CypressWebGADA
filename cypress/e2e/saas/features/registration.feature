@@ -20,3 +20,8 @@ Feature: Registration
     And user clicks on choose this location
     And user clicks on daftar button
     Then "Selamat datang" displayed after successfully logged in
+
+  Scenario: User registers with invalid regex number
+    When user fills phone number with invalid regex number with "53635363536"
+    And user clicks on lanjutkan button #no. handphone
+    Then "Nomor handphone tidak valid" error message is displayed

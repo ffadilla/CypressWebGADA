@@ -1,4 +1,4 @@
-import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import RegistrationPage from "../../../e2e/saas/page_objects/RegistrationPage";
 import * as utils from "./utils";
 
@@ -71,6 +71,21 @@ When("user clicks on first store address search result", () => {
 
 When("user clicks on choose this location", () => {
   registrationPage.clickChooseStoreLocation();
+});
+
+When(
+  "user fills phone number with invalid regex number with {string}",
+  (number: string) => {
+    registrationPage.typeNumber(number);
+    cy.get(registrationPage.numberInput).should("have.value", number);
+  }
+);
+
+Then("{string} error message is displayed", (errorMessage: string) => {
+  cy.get(registrationPage.invalidRegexErrorMessage).should(
+    "contain.text",
+    errorMessage
+  );
 });
 
 // assertions
