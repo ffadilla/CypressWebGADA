@@ -718,7 +718,7 @@ Then(
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
       cy.get(inventoryDetailPage.currentGoodStockInput + uomId).should(
-        "have.text",
+        "have.value",
         utils.numberWithSeparators(input)
       );
     });
@@ -732,7 +732,7 @@ Then(
     cy.get("@uomId").then((uomId: any) => {
       cy.get(
         inventoryDetailPage.currentBadStockKadaluwarsaInput + uomId
-      ).should("have.text", utils.numberWithSeparators(input));
+      ).should("have.value", utils.numberWithSeparators(input));
     });
   }
 );
@@ -743,7 +743,7 @@ Then(
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
       cy.get(inventoryDetailPage.currentBadStockRusakInput + uomId).should(
-        "have.text",
+        "have.value",
         utils.numberWithSeparators(input)
       );
     });

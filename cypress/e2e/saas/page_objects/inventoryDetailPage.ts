@@ -86,9 +86,8 @@ export default class InventoryDetail extends BasePage {
   tambahStokBaruCloseModalButton = "#button_topup_modal_close";
   hitungUlangStokButton = "[id^=button_restock_]";
   currentGoodStockInput = "#input_restock_current_good_stock_";
-  currentBadStockKadaluwarsaInput =
-    "#input_restock_current_bad_stock_kadaluwarsa_";
-  currentBadStockRusakInput = "#input_restock_current_bad_stock_rusak_";
+  currentBadStockKadaluwarsaInput = "#input_restock_current_kedaluwarsa_stock_";
+  currentBadStockRusakInput = "#input_restock_current_rusak_stock_";
   goodStockInput = "#input_restock_new_good_stock_";
   badStockKadaluwarsaInput = "#input_restock_new_kedaluwarsa_stock_";
   badStockRusakInput = "#input_restock_new_rusak_stock_";
