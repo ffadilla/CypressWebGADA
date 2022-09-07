@@ -54,7 +54,9 @@ When("user clicks on inventory list side menu button", () => {
 
 When("user created custom inventory with stock + selling uom", () => {
   // When user clicks on add inventory button
-  inventoryListPage.clickAddInventory();
+  inventoryListPage.clickAddInventoryButton();
+  // When user clicks on add single inventory button
+  inventoryListPage.clickAddSingleInventoryButton();
   // And user clicks on first time add inventory button
   inventoryListPage.clickFirstTimeAddInventoryButton();
   // And user types search inventory input field with "web automation test product"

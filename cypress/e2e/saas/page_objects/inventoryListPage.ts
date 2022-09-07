@@ -3,6 +3,7 @@ import BasePage from "./basePage";
 export default class InventoryListPage extends BasePage {
   path = "inventory/list";
   addInventoryButton = "#button_inventory_list_tambah_barang";
+  addSingleInventoryButton = "#button_inventory_list_tambah_barang_single";
   emptyStateAddInventoryButton = "#inventory_list_tambah_barang_button";
   firstTimeAddInventoryButton = "#button_first_time_add_inventory";
   addInventorySearchInput = "#input_tambah_barang_searchbar";
@@ -23,8 +24,12 @@ export default class InventoryListPage extends BasePage {
     cy.visit(this.baseUrl + this.path);
   }
 
-  clickAddInventory() {
+  clickAddInventoryButton() {
     cy.get(this.addInventoryButton).click();
+  }
+
+  clickAddSingleInventoryButton() {
+    cy.get(this.addSingleInventoryButton).click();
   }
 
   clickEmptyStateAddInventory() {

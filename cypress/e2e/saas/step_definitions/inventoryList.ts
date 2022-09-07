@@ -28,7 +28,11 @@ When("user clicks on inventory detail button of {string}", (input: string) => {
 });
 
 When("user clicks on add inventory button", () => {
-  inventoryListPage.clickAddInventory();
+  inventoryListPage.clickAddInventoryButton();
+});
+
+When("user clicks on add single inventory button", () => {
+  inventoryListPage.clickAddSingleInventoryButton();
 });
 
 When("user clicks on first time add inventory button", () => {
@@ -65,7 +69,7 @@ When(
       cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
       inventoryListPage.clickStockEditButton(pvId);
     });
-    cy.wait(500);
+    cy.wait(1500);
   }
 );
 
@@ -124,13 +128,16 @@ When(
   "user clicks on selling price edit button of inventory {string} unit {string}",
   (inventoryName: string, uomName: string) => {
     cy.wait(500);
-    utils.retrieveProductVariantId(inventoryName);
+    utils.retrieveProductVariantId(inventoryName); //40711
     cy.get("@productVariantId").then((pvId: any) => {
       utils.retrieveUomId(uomName);
       let temp = pvId;
+      console.log("pvidnya " + pvId);
+      console.log(temp);
       cy.get("@uomId").then((uomId: any) => {
-        temp.concat("_" + uomId);
-        cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
+        temp = temp.concat("_" + uomId);
+        console.log("uomidnya " + uomId);
+        console.log(temp);
         inventoryListPage.clickSellingPriceEditButton(temp);
       });
     });
@@ -143,6 +150,15 @@ When(
     inventoryListPage.clickSpecificInventoryMoreOptionButton(input);
     inventoryListPage.clickDeleteInventoryButton();
     inventoryListPage.clickDeleteInventoryWrongInput();
+    inventoryListPage.clickConfirmDeleteInventoryButton();
+  }
+);
+
+When(
+  "user deletes inventory {string} without delete reason",
+  (input: string) => {
+    inventoryListPage.clickSpecificInventoryMoreOptionButton(input);
+    inventoryListPage.clickDeleteInventoryButton();
     inventoryListPage.clickConfirmDeleteInventoryButton();
   }
 );

@@ -6,6 +6,7 @@ Feature: Inventory List - Delete Inventory
 
   Scenario: User deletes consign inventory
     When user clicks on add inventory button
+    And user clicks on add single inventory button
     And user clicks on first time add inventory button
     And user types add inventory search inventory input field with "web automation test product"
     And user clicks on add custom inventory button
@@ -30,6 +31,7 @@ Feature: Inventory List - Delete Inventory
 
   Scenario: User deletes non consign inventory with smallest uom quantity > 0
     When user clicks on add inventory button
+    And user clicks on add single inventory button
     And user clicks on first time add inventory button
     And user types add inventory search inventory input field with "web automation test product"
     And user clicks on add custom inventory button
@@ -49,6 +51,7 @@ Feature: Inventory List - Delete Inventory
 
   Scenario: User deletes non consign inventory with smallest uom quantity = 0
     When user clicks on add inventory button
+    And user clicks on add single inventory button
     And user clicks on first time add inventory button
     And user types add inventory search inventory input field with "web automation test product"
     And user clicks on add custom inventory button
