@@ -15,6 +15,7 @@ export default class RegistrationPage extends BasePage {
   storeManualAddressButton = "#button_manual_address";
   storeAddressChooseLocationButton = "#button_choose_location";
   submitRegistrationButton = "#button_submit_step_three";
+  invalidRegexErrorMessage = "p[id='input_phone_number']";
 
   // common
   visitRegistration() {
