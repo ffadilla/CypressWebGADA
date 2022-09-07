@@ -60,33 +60,31 @@ export default class InventoryDetail extends BasePage {
   unitSearchInput = "#input_product_unit_uom_input_searchbar";
   expandStockUnitButton = "#button_choose_stock_unit";
   chooseUnitButton = "#button_product_unit_uom_pilih";
-  unitCheckboxInput = "[id^=input_checkbox_product_unit_uom_";
+  unitCheckboxInput = "#input_checkbox_product_unit_uom_";
   addNewUnitButton = "#button_product_unit_uom_add_custom";
+  clearUomSearchButton = "#button_search_clear";
 
   // uom hierarchy
-  uomConversionSortUpButton = "[id^=button_conversion_modal_sort_content_up_";
-  uomConversionSortDownButton =
-    "[id^=button_conversion_modal_sort_content_down_";
-  uomConversionInput = "[id^=input_conversion_modal_convert_content_uom_";
+  uomConversionSortUpButton = "#button_conversion_modal_sort_content_up_";
+  uomConversionSortDownButton = "#button_conversion_modal_sort_content_down_";
+  uomConversionInput = "#input_conversion_modal_convert_content_uom_";
   uomConversionNextStepButton = "#button_conversion_modal_selanjutnya";
   uomConversionSaveButton = "#button_conversion_modal_simpan";
 
   // stock uom
-  unitStockQuantityInput = "[id^=input_stock_card_available_stock_";
-  unitPriceInput = "[id^=input_stock_card_price_";
+  unitStockQuantityInput = "#input_stock_card_available_stock_";
+  unitPriceInput = "#input_stock_card_price_";
 
   // selling uom
   expandSellingUnitButton = "#button_choose_selling_unit";
-  addSpecificUnitSellingPriceButton =
-    "[id^=button_selling_card_price_tier_set_";
+  addSpecificUnitSellingPriceButton = "#button_selling_card_price_tier_set_";
   enablePriceTierButton = "#button_price_tier_modal_is_multiple";
-  unitPriceTierSellingPriceInput = "[id^=input_price_tier_modal_unit_price_";
-  unitPriceTierMinimumQuantityInput =
-    "[id^=input_price_tier_modal_min_quantity_";
+  unitPriceTierSellingPriceInput = "#input_price_tier_modal_unit_price_";
+  unitPriceTierMinimumQuantityInput = "#input_price_tier_modal_min_quantity_";
   unitPriceTierAddMoreRowButton = "#button_price_tier_modal_add_row";
   unitSellingPriceInput = "input[id='priceTiers[0].unitPrice']";
   saveUnitSellingPriceButton = "#button_price_tier_modal_simpan";
-  addBarcodeButton = "[id^=button_selling_card_barcode_edit_]";
+  addBarcodeButton = "#button_selling_card_barcode_edit_";
   inputBarcodeManuallyButton = "#button_barcode_modal_manual_input";
   barcodeValueInput = "#input_barcode_modal";
   saveBarcodeButton = "#button_barcode_modal_simpan";
@@ -268,10 +266,8 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.unitCheckboxInput).first().click();
   }
 
-  clickSpecificUnitCheckbox(id: string) {
-    cy.get(this.unitCheckboxInput + id + "]")
-      .first()
-      .click();
+  clickSpecificUnitCheckbox(id: any) {
+    cy.get(this.unitCheckboxInput + id).click();
   }
 
   clickChooseUnitButton() {
@@ -284,11 +280,11 @@ export default class InventoryDetail extends BasePage {
 
   // uom hierarchy
   clickUomConversionSortUpButton(id: string) {
-    cy.get(this.uomConversionSortUpButton + id + "]").click();
+    cy.get(this.uomConversionSortUpButton + id).click();
   }
 
   clickUomConversionSortDownButton(id: string) {
-    cy.get(this.uomConversionSortDownButton + id + "]").click();
+    cy.get(this.uomConversionSortDownButton + id).click();
   }
 
   clickUomConversionNextStepButton() {
@@ -300,16 +296,16 @@ export default class InventoryDetail extends BasePage {
   }
 
   typeUomConversion(id: string, input: string) {
-    cy.get(this.uomConversionInput + id + "]").type(input);
+    cy.get(this.uomConversionInput + id).type(input);
   }
 
   // stock uom
   typeUnitStockQuantity(id: string, input: string) {
-    cy.get(this.unitStockQuantityInput + id + "]").type(input);
+    cy.get(this.unitStockQuantityInput + id).type(input);
   }
 
   typeUnitPrice(id: string, input: string) {
-    cy.get(this.unitPriceInput + id + "]").type(input);
+    cy.get(this.unitPriceInput + id).type(input);
   }
 
   // selling uom
@@ -322,11 +318,11 @@ export default class InventoryDetail extends BasePage {
   }
 
   typeUnitPriceTierSellingPriceInput(id: string, input: string) {
-    cy.get(this.unitPriceTierSellingPriceInput + id + "]").type(input);
+    cy.get(this.unitPriceTierSellingPriceInput + id).type(input);
   }
 
   typeUnitPriceTierMinimumQuantityInput(id: string, input: string) {
-    cy.get(this.unitPriceTierMinimumQuantityInput + id + "]").type(input);
+    cy.get(this.unitPriceTierMinimumQuantityInput + id).type(input);
   }
 
   clickUnitPriceTierAddMoreRowButton() {
@@ -334,7 +330,7 @@ export default class InventoryDetail extends BasePage {
   }
 
   clickAddSpecificUnitSellingPriceButton(id: string) {
-    cy.get(this.addSpecificUnitSellingPriceButton + id + "]").click();
+    cy.get(this.addSpecificUnitSellingPriceButton + id).click();
   }
 
   typeUnitSellingPrice(input: string) {
@@ -345,8 +341,8 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.saveUnitSellingPriceButton).click();
   }
 
-  clickAddBarcodeButton() {
-    cy.get(this.addBarcodeButton).click();
+  clickAddBarcodeButton(id: string) {
+    cy.get(this.addBarcodeButton + id).click();
   }
 
   clickInputBarcodeManuallyButton() {

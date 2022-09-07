@@ -6,11 +6,28 @@
     "baseUrl": "https://saas.gudangada.online/",
     "baseApiUrl": "https://saas-api.gudangada.online/api/"
   },
+  "inventory": {
+    "baseApiUrl": "https://inventory-api.gudangada.online/api/"
+  },
   "bms": {
     "baseUrl": "https://bms.gudangada.online/"
   },
   "warehouseMitra": {
-    "baseUrl": "https://warehouse-dev.gudangada.com/"
+    "baseUrl": "https://warehouse-dev.gudangada.com/",
+    "accounts": {
+      "superuser": {
+        "email": "cypress_su@mail.com",
+        "password": "warehouse"
+      },
+      "renter": {
+        "email": "cypress_renter@mail.com",
+        "password": "warehouse"
+      }
+    },
+    "credentials": {
+      "email": "cypress_su@mail.com",
+      "password": "warehouse"
+    }
   },
   "watchForFileChanges": false
 }

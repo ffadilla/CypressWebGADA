@@ -7,6 +7,6 @@ Feature: Inventory List
   Scenario: User searches for inventory by name and clicks tambah barang
     When user clicks on add inventory button
     And user clicks on first time add inventory button
-    And user types "Web Automation Test Product" on search inventory input field
+    And user types search inventory input field with "Web Automation Test Product"
     And user clicks on add custom inventory button
     Then "Web Automation Test Product" is displayed as product variant name

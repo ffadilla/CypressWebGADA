@@ -73,9 +73,4 @@ When("user clicks on choose this location", () => {
   registrationPage.clickChooseStoreLocation();
 });
 
-When("user clicks on daftar button", () => {
-  registrationPage.clickSubmitRegistrationButton();
-  cy.wait(2000);
-});
-
 // assertions

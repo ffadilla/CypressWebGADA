@@ -6,11 +6,20 @@ type config = {
     baseUrl: string;
     baseApiUrl: string;
   };
+  inventory: {
+    baseApiUrl: string;
+  };
   bms: {
     baseUrl: string;
   };
   warehouseMitra: {
     baseUrl: string;
+    accounts: {
+      [accountRole: string]: {
+        email: string;
+        password: string;
+      };
+    };
   };
 };
 
