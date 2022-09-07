@@ -1,20 +1,7 @@
-import {
-  Given,
-  When,
-  Then,
-  And,
-} from "@badeball/cypress-cucumber-preprocessor";
-import DashboardPage from "../../../e2e/warehouse_mitra/page_objects/dashboardPage";
-import LoginPage from "../../../e2e/warehouse_mitra/page_objects/loginPage";
-import OutboundRequestListPage from "../../../e2e/warehouse_mitra/page_objects/outboundRequestListPage";
+import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
+import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
 
-const loginPage = new LoginPage();
 const outboundRequestListPage = new OutboundRequestListPage();
-const dashboardPage = new DashboardPage();
-
-Given("user is already logged in", () => {
-  loginPage.silentLogin();
-});
 
 And("user is in menu Barang Keluar", () => {
   outboundRequestListPage.selectMenuOutbound();
@@ -36,10 +23,6 @@ When("user inputs shipmentId {string}", (value: string) => {
 When("user sorts outbound shipments by {string}", (value: string) => {
   outboundRequestListPage.selectShipment();
   outboundRequestListPage.selectStatus(value);
-});
-
-When("user is on Dashboard page", () => {
-  dashboardPage.visitDashboard();
 });
 
 Then("show valid requestId search result {string}", (value: string) => {
@@ -86,7 +69,3 @@ Then(
     );
   }
 );
-
-Then("user logs out", () => {
-  dashboardPage.logout();
-});

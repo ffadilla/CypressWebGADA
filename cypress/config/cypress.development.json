@@ -15,6 +15,16 @@
   },
   "warehouseMitra": {
     "baseUrl": "https://warehouse-dev.gudangada.com/",
+    "accounts": {
+      "superuser": {
+        "email": "cypress_su@mail.com",
+        "password": "warehouse"
+      },
+      "renter": {
+        "email": "cypress_renter@mail.com",
+        "password": "warehouse"
+      }
+    },
     "credentials": {
       "email": "cypress_su@mail.com",
       "password": "warehouse"
