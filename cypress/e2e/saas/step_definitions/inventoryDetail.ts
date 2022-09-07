@@ -594,15 +594,13 @@ Then(
 );
 
 Then("cogs of unit {string} is {string}", (uomName: string, input: string) => {
-  cy.get("div")
-    .contains(uomName)
-    .parent()
-    .next()
-    .next()
-    .next()
-    .next()
-    .children("p")
-    .should("contain", utils.numberWithSeparators(input));
+  utils.retrieveUomId(uomName);
+  cy.get("@uomId").then((uomId: any) => {
+    cy.get("#p_stock_card_harga_modal_rata_rata_per_unit_" + uomId).should(
+      "contain",
+      utils.numberWithSeparators(input)
+    );
+  });
 });
 
 Then(
@@ -610,10 +608,12 @@ Then(
   (uomName: string, input: string) => {
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
-      cy.get(inventoryDetailPage.editSellingPriceButton + uomId)
-        .parent()
-        .prev()
-        .should("contain", "Rp " + utils.numberWithSeparators(input));
+      expect(
+        cy
+          .get("#p_selling_card_price_tier_price_unit_price_" + uomId + "_0")
+          .contains("Rp " + utils.numberWithSeparators(input))
+      );
+      // cy.get("#p_selling_card_price_tier_price_unit_price_"+uomId+"_0").should('text',"Rp " + utils.numberWithSeparators(input));
     });
   }
 );
@@ -623,8 +623,8 @@ Then(
   (uomName: string, input: string) => {
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
-      cy.get(inventoryDetailPage.bisaDijualText + uomId).should(
-        "contain",
+      cy.get("#td_selling_card_bisa_dijual_" + uomId).should(
+        "have.text",
         utils.numberWithSeparators(input)
       );
     });
@@ -710,4 +710,50 @@ Then("is consign toggle button is displayed", () => {
 Then("delete inventory options are not displayed", () => {
   cy.get("input[value='MISTAKE']").should("not.exist");
   cy.get("input[value='OTHER']").should("not.exist");
+});
+
+Then(
+  "current good stock of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.currentGoodStockInput + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "current bad stock kadaluwarsa of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(
+        inventoryDetailPage.currentBadStockKadaluwarsaInput + uomId
+      ).should("have.text", utils.numberWithSeparators(input));
+    });
+  }
+);
+
+Then(
+  "current bad stock rusak of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.currentBadStockRusakInput + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then("user is redirected to create purchase transaction page", () => {
+  cy.url().should("eq", inventoryDetailPage.baseUrl + "purchase/add");
+});
+
+Then("restock button text is {string}", (input: string) => {
+  cy.get(inventoryDetailPage.tambahStokBaruButton).should("contain", input);
 });
