@@ -128,16 +128,12 @@ When(
   "user clicks on selling price edit button of inventory {string} unit {string}",
   (inventoryName: string, uomName: string) => {
     cy.wait(500);
-    utils.retrieveProductVariantId(inventoryName); //40711
+    utils.retrieveProductVariantId(inventoryName);
     cy.get("@productVariantId").then((pvId: any) => {
       utils.retrieveUomId(uomName);
       let temp = pvId;
-      console.log("pvidnya " + pvId);
-      console.log(temp);
       cy.get("@uomId").then((uomId: any) => {
         temp = temp.concat("_" + uomId);
-        console.log("uomidnya " + uomId);
-        console.log(temp);
         inventoryListPage.clickSellingPriceEditButton(temp);
       });
     });
