@@ -51,6 +51,15 @@ export function deleteSeedInventoryData() {
   });
   cy.request({
     method: "DELETE",
+    url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22131 + "/delete",
+    failOnStatusCode: false,
+    qs: {
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      variant_id: 22131,
+    },
+  });
+  cy.request({
+    method: "DELETE",
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22157 + "/delete",
     failOnStatusCode: false,
     qs: {
@@ -64,6 +73,7 @@ export function createSeedInventory() {
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    failOnStatusCode: false,
     body: {
       display_name: null,
       product_information: {
@@ -107,6 +117,7 @@ export function createSeedInventory() {
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    failOnStatusCode: false,
     body: {
       display_name: null,
       product_information: {
@@ -172,6 +183,7 @@ export function createSeedInventory() {
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    failOnStatusCode: false,
     body: {
       display_name: null,
       product_information: {
@@ -215,15 +227,16 @@ export function createSeedInventory() {
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    failOnStatusCode: false,
     body: {
       display_name: null,
       product_information: {
         brand_id: null,
-        consignor_id: null,
+        consignor_id: 315,
         product_category_id: 320,
         image: null,
       },
-      product_name: "Web Automation Custom Inventory 4 (consign)",
+      product_name: "Web Automation Custom Inventory 4 (Consign)",
       store_id: saasConfig.saasAutomationUser1StoreStoreId,
       stock_reminder: {
         stock_reminder_amount: 1,
@@ -280,6 +293,7 @@ export function createSeedInventory() {
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory",
+    failOnStatusCode: false,
     body: {
       consignor_id: null,
       conversion: [],
@@ -329,6 +343,44 @@ export function createSeedInventory() {
           stock: {
             available_stock: 20,
             price: 220000,
+          },
+        },
+      ],
+    },
+  });
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory",
+    failOnStatusCode: false,
+    body: {
+      consignor_id: 315,
+      conversion: [],
+      display_name: null,
+      product_variant_id: 22131,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 2,
+          product_unit_id: 43308,
+          sellable: {
+            barcode: "840841007",
+            minimum_sellable_online_quantity: 0,
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 18000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 10,
+            price: 12000,
           },
         },
       ],
