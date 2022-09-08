@@ -2,6 +2,7 @@ import gadaConfig from "../../../e2e/utils/gadaConfig";
 import * as saasConfig from "../resources/development-saas.json";
 
 export function retrieveUomId(uomName: string) {
+  cy.wait(750);
   cy.request({
     method: "GET",
     url: gadaConfig.saas.baseApiUrl + "product/uom",
@@ -14,6 +15,42 @@ export function retrieveUomId(uomName: string) {
   }).then((resp) => {
     let uomId = resp.body.data[0].id;
     cy.wrap(uomId.toString()).as("uomId");
+  });
+}
+
+export function retrieveSupplierId(supplierName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "consignor",
+    qs: {
+      page_size: 30,
+      page: 1,
+      query: supplierName,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+    },
+  }).then((resp) => {
+    let supplierId = resp.body.data[0].id;
+    cy.wrap(supplierId.toString()).as("supplierId");
+  });
+}
+
+export function retrieveProductVariantId(query: string) {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/list",
+    body: {
+      keyword: query,
+      page_size: 30,
+      page: 1,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      include_delete: false,
+      sort_by: "RECENTLY_MODIFIED",
+      sort_type: "asc",
+      exclude_empty_price_tiers: false,
+    },
+  }).then((resp) => {
+    let supplierId = resp.body.data[0].product_variant_id;
+    cy.wrap(supplierId.toString()).as("productVariantId");
   });
 }
 
