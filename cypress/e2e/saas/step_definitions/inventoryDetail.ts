@@ -258,7 +258,7 @@ When(
 
 When("user clicks on hitung ulang stok submit button", () => {
   inventoryDetailPage.clickHitungUlangStokSubmitButton();
-  cy.wait(300);
+  cy.wait(600);
 });
 
 When("user clicks on first stock unit checkbox", () => {
