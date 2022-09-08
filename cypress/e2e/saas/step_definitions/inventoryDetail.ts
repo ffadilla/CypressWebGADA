@@ -469,6 +469,7 @@ When("user clicks on add more price tier button", () => {
 
 When("user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
+  cy.wait(500);
 });
 
 When(

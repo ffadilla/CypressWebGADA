@@ -2,6 +2,7 @@ Feature: Inventory Detail - Create Inventory
 
   Background:
     Given user "8408418423" is logged in
+    And user creates seed inventory data
     And user visits inventory list page
 
   Scenario: User adds curated inventory with all mandatory fields
@@ -18,7 +19,7 @@ Feature: Inventory Detail - Create Inventory
     And user types "1234" on "Sak" unit price field
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "Beras SLYP Medium Ramos Setra 50 Kg" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds custom inventory with all mandatory fields
     When user clicks on add inventory button
@@ -34,7 +35,7 @@ Feature: Inventory Detail - Create Inventory
     And user types "1234" on "Pieces" unit price field
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds custom inventory with 1 stock UOM & 1 selling UOM
     When user clicks on add inventory button
@@ -57,7 +58,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save unit selling price button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds custom inventory with multiple stock UOMs & selling UOMs
     When user clicks on add inventory button
@@ -93,7 +94,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save unit selling price button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds new custom UOM
     When user clicks on add inventory button
@@ -109,7 +110,7 @@ Feature: Inventory Detail - Create Inventory
     And user types "2000" on "recently created" unit price field
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds product with multiple UOM and price of each UOM are combination of single price and price tiers
     When user clicks on add inventory button
@@ -149,7 +150,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save unit selling price button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds inventory with barcode (manual input)
     When user clicks on add inventory button
@@ -176,7 +177,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save barcode button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds new principal
     When user clicks on add inventory button
@@ -262,7 +263,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save unit selling price button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data
 
   Scenario: User adds curated inventory with different stock uom & selling uom (custom + curated uom)
     When user clicks on add inventory button
@@ -314,4 +315,4 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on save unit selling price button
     And user clicks on submit add inventory button
     Then user is redirected to inventory list page
-    And user deletes inventory "web automation test product" with delete reason = wrong input
+    And user deletes test data

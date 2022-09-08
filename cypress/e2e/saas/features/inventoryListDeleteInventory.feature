@@ -23,11 +23,11 @@ Feature: Inventory List - Delete Inventory
 
   Scenario: User deletes non consign inventory with smallest uom quantity = 0
     And user types search inventory input field with "Web Automation Custom Inventory 1 (Single UOM)"
-    And user clicks on inventory more option button of "Web Automation Custom Inventory 1 (Single UOM)"
+    And user clicks on stock edit button of inventory "Web Automation Custom Inventory 1 (Single UOM)"
     And user clicks on hitung ulang stok button
     And user types "0" on good stock input field of unit "Pieces"
     And user clicks on hitung ulang stok submit button
-    And user clicks on inventory more option button of "web automation test product"
+    And user clicks on inventory more option button of "Web Automation Custom Inventory 1 (Single UOM)"
     And user clicks on inventory list delete button
     Then delete reasons are not displayed
     And user clicks on inventory list confirm delete button
