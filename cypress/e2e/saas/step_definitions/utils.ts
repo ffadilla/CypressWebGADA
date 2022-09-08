@@ -1,6 +1,341 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
 import * as saasConfig from "../resources/development-saas.json";
 
+export function deleteSeedInventoryData() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/list",
+    failOnStatusCode: false,
+    body: {
+      keyword: "web automation",
+      page: 1,
+      page_size: 20,
+      principal_ids: [],
+      sort_by: "RECENTLY_MODIFIED",
+      sort_type: "desc",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      uom_id: [],
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let pvIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      pvIdArray.push(data[i].product_variant_id.toString());
+    }
+
+    for (let inventory of pvIdArray) {
+      cy.request({
+        method: "DELETE",
+        url:
+          gadaConfig.saas.baseApiUrl +
+          "product/variant/" +
+          inventory +
+          "/delete",
+        failOnStatusCode: false,
+        qs: {
+          store_id: saasConfig.saasAutomationUser1StoreStoreId,
+          variant_id: inventory,
+        },
+      });
+    }
+  });
+
+  cy.request({
+    method: "DELETE",
+    url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22277 + "/delete",
+    failOnStatusCode: false,
+    qs: {
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      variant_id: 22277,
+    },
+  });
+  cy.request({
+    method: "DELETE",
+    url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22157 + "/delete",
+    failOnStatusCode: false,
+    qs: {
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      variant_id: 22157,
+    },
+  });
+}
+
+export function createSeedInventory() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    body: {
+      display_name: null,
+      product_information: {
+        brand_id: null,
+        consignor_id: null,
+        product_category_id: 179,
+        image: null,
+      },
+      product_name: "Web Automation Custom Inventory 1 (Single UOM)",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 5,
+          sellable: {
+            barcode: "840841001",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 1000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 100,
+            price: 400,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: null,
+            multiplier_to_unit_of_measurement: null,
+          },
+        },
+      ],
+    },
+  });
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    body: {
+      display_name: null,
+      product_information: {
+        brand_id: null,
+        consignor_id: null,
+        product_category_id: 320,
+        image: null,
+      },
+      product_name: "Web Automation Custom Inventory 2 (Multi UOM)",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 5,
+          sellable: {
+            barcode: "840841001",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 500,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 100,
+            price: 300,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: null,
+            multiplier_to_unit_of_measurement: null,
+          },
+        },
+        {
+          uom_id: 2,
+          sellable: {
+            barcode: "840841002",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 10000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 50,
+            price: 5400,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: 5,
+            multiplier_to_unit_of_measurement: 20,
+          },
+        },
+      ],
+    },
+  });
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    body: {
+      display_name: null,
+      product_information: {
+        brand_id: null,
+        consignor_id: null,
+        product_category_id: 179,
+        image: null,
+      },
+      product_name: "Web Automation Custom Inventory 3 (Jual Rugi)",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 5,
+          sellable: {
+            barcode: "840841003",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 4000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 200,
+            price: 10000,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: null,
+            multiplier_to_unit_of_measurement: null,
+          },
+        },
+      ],
+    },
+  });
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+    body: {
+      display_name: null,
+      product_information: {
+        brand_id: null,
+        consignor_id: null,
+        product_category_id: 320,
+        image: null,
+      },
+      product_name: "Web Automation Custom Inventory 4 (consign)",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 5,
+          sellable: {
+            barcode: "840841005",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 3500,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 50,
+            price: 2000,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: null,
+            multiplier_to_unit_of_measurement: null,
+          },
+        },
+        {
+          uom_id: 4,
+          sellable: {
+            barcode: "840841004",
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 7000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 50,
+            price: 5000,
+          },
+          conversion: {
+            smaller_unit_of_measurement_id: 5,
+            multiplier_to_unit_of_measurement: 12,
+          },
+        },
+      ],
+    },
+  });
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory",
+    body: {
+      consignor_id: null,
+      conversion: [],
+      display_name: null,
+      product_variant_id: 22277,
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      stock_reminder: {
+        stock_reminder_amount: 1,
+        stock_reminder_uom_id: null,
+      },
+      inventories: [
+        {
+          uom_id: 5,
+          product_unit_id: 43469,
+          sellable: {
+            barcode: "840841005",
+            minimum_sellable_online_quantity: 0,
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 40000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 30,
+            price: 20000,
+          },
+        },
+        {
+          uom_id: 2,
+          product_unit_id: 43468,
+          sellable: {
+            barcode: "840841005",
+            minimum_sellable_online_quantity: 0,
+            online_selling: false,
+            online_selling_minimum_order: 1,
+            price_tier: [
+              {
+                minimum_quantity: 1,
+                unit_price: 300000,
+              },
+            ],
+          },
+          stock: {
+            available_stock: 20,
+            price: 220000,
+          },
+        },
+      ],
+    },
+  });
+}
+
 export function retrieveUomId(uomName: string) {
   cy.wait(750);
   cy.request({

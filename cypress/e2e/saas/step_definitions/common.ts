@@ -47,6 +47,15 @@ Given("user {string} is logged in", (number: string) => {
   cy.saasLogin(number);
 });
 
+When("user creates seed inventory data", () => {
+  utils.deleteSeedInventoryData();
+  utils.createSeedInventory();
+});
+
+When("user deletes test data", () => {
+  utils.deleteSeedInventoryData();
+});
+
 When("user clicks on inventory list side menu button", () => {
   homePage.clickInventorySideMenuButton();
   homePage.clickInventoryListSideMenuButton();
