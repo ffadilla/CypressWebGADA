@@ -48,7 +48,7 @@ Feature: Inventory List - Update Inventory
     And user clicks on selling price edit button of inventory "Web Automation Custom Inventory 4 (Consign)" unit "Pieces"
     And user types "55555" on unit selling price field
     And user clicks on save unit selling price button
-    Then selling price of "Web Automation Custom Inventory 4 (Consign)" is "Rp 55.555"
+    Then selling price of "Web Automation Custom Inventory 4 (Consign)" is "55555"
     And user deletes test data
 
   Scenario: User recounts stock -- good stock increases

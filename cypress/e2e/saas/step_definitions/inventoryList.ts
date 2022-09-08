@@ -171,11 +171,20 @@ Then("{string} is displayed as product variant name", (expected: string) => {
   );
 });
 
-Then("stock edit options of inventory {string} are displayed", () => {
-  cy.contains("Tambah Stok Baru").should("exist");
+Then("stock edit options of consign inventory {string} are displayed", () => {
+  cy.contains("Terima Stok Baru").should("exist");
   cy.contains("Hitung Ulang Stok").should("exist");
   cy.contains("Ubah Status").should("exist");
 });
+
+Then(
+  "stock edit options of non consign inventory {string} are displayed",
+  () => {
+    cy.contains("Tambah Stok dari Pembelian").should("exist");
+    cy.contains("Hitung Ulang Stok").should("exist");
+    cy.contains("Ubah Status").should("exist");
+  }
+);
 
 Then(
   "is consign label is displayed on {string} status column",
@@ -249,7 +258,7 @@ Then(
         .children()
         .first()
         .children("span")
-        .should("have.text", input);
+        .should("contain", utils.numberWithSeparators(input));
     });
   }
 );
