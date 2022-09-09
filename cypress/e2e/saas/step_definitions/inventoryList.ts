@@ -3,7 +3,6 @@ import InventoryListPage from "../../../e2e/saas/page_objects/InventoryListPage"
 import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
 import gadaConfig from "../../utils/gadaConfig";
-import * as saasConfig from "../resources/development-saas.json";
 
 const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
@@ -277,7 +276,7 @@ Then(
         principal_ids: [],
         sort_by: "RECENTLY_MODIFIED",
         sort_type: "desc",
-        store_id: saasConfig.saasAutomationUser1StoreStoreId,
+        store_id: gadaConfig.saas.testUserAccount.storeId,
         uom_id: [],
       },
     }).then((resp) => {

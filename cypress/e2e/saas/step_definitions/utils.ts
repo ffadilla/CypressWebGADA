@@ -1,5 +1,4 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
-import * as saasConfig from "../resources/development-saas.json";
 
 export function deleteSeedInventoryData() {
   // delete category name prefix web automation (level 3)
@@ -12,7 +11,7 @@ export function deleteSeedInventoryData() {
       page_size: 100,
       name: "web automation",
       level: "3",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       sort_by: "NAME",
       sort_type: "ASC",
     },
@@ -48,7 +47,7 @@ export function deleteSeedInventoryData() {
       page_size: 100,
       name: "web automation",
       level: "2",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       sort_by: "NAME",
       sort_type: "ASC",
     },
@@ -83,7 +82,7 @@ export function deleteSeedInventoryData() {
       page: 1,
       page_size: 100,
       query: "web automation brand",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
     },
   }).then((resp) => {
     let data = resp.body.data;
@@ -116,7 +115,7 @@ export function deleteSeedInventoryData() {
       page: 1,
       page_size: 100,
       query: "web automation principal",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
     },
   }).then((resp) => {
     let data = resp.body.data;
@@ -152,7 +151,7 @@ export function deleteSeedInventoryData() {
       principal_ids: [],
       sort_by: "RECENTLY_MODIFIED",
       sort_type: "desc",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       uom_id: [],
     },
   }).then((resp) => {
@@ -172,7 +171,7 @@ export function deleteSeedInventoryData() {
           "/delete",
         failOnStatusCode: false,
         qs: {
-          store_id: saasConfig.saasAutomationUser1StoreStoreId,
+          store_id: gadaConfig.saas.testUserAccount.storeId,
           variant_id: inventory,
         },
       });
@@ -184,7 +183,7 @@ export function deleteSeedInventoryData() {
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22277 + "/delete",
     failOnStatusCode: false,
     qs: {
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       variant_id: 22277,
     },
   });
@@ -194,7 +193,7 @@ export function deleteSeedInventoryData() {
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22131 + "/delete",
     failOnStatusCode: false,
     qs: {
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       variant_id: 22131,
     },
   });
@@ -204,7 +203,7 @@ export function deleteSeedInventoryData() {
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22157 + "/delete",
     failOnStatusCode: false,
     qs: {
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       variant_id: 22157,
     },
   });
@@ -224,7 +223,7 @@ export function createSeedInventory() {
         image: null,
       },
       product_name: "Web Automation Custom Inventory 1 (Single UOM)",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -268,7 +267,7 @@ export function createSeedInventory() {
         image: null,
       },
       product_name: "Web Automation Custom Inventory 2 (Multi UOM)",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -334,7 +333,7 @@ export function createSeedInventory() {
         image: null,
       },
       product_name: "Web Automation Custom Inventory 3 (Jual Rugi)",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -378,7 +377,7 @@ export function createSeedInventory() {
         image: null,
       },
       product_name: "Web Automation Custom Inventory 4 (Consign)",
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -440,7 +439,7 @@ export function createSeedInventory() {
       conversion: [],
       display_name: null,
       product_variant_id: 22277,
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -498,7 +497,7 @@ export function createSeedInventory() {
       conversion: [],
       display_name: null,
       product_variant_id: 22131,
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
         stock_reminder_uom_id: null,
@@ -538,7 +537,7 @@ export function retrieveUomId(uomName: string) {
       page_size: 100,
       page: 1,
       query: uomName,
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
     },
   }).then((resp) => {
     let uomId = resp.body.data[0].id;
@@ -554,7 +553,7 @@ export function retrieveSupplierId(supplierName: string) {
       page_size: 30,
       page: 1,
       query: supplierName,
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
     },
   }).then((resp) => {
     let supplierId = resp.body.data[0].id;
@@ -570,7 +569,7 @@ export function retrieveProductVariantId(query: string) {
       keyword: query,
       page_size: 30,
       page: 1,
-      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
       include_delete: false,
       sort_by: "RECENTLY_MODIFIED",
       sort_type: "asc",

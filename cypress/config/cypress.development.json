@@ -4,7 +4,12 @@
   },
   "saas": {
     "baseUrl": "https://saas.gudangada.online/",
-    "baseApiUrl": "https://saas-api.gudangada.online/api/"
+    "baseApiUrl": "https://saas-api.gudangada.online/api/",
+    "testUserAccount": {
+      "phoneNumber": "8408418423",
+      "canonicalId": "1200581",
+      "storeId": "ae4440c6-3a02-4f17-8b6a-61b4430b2ee0"
+    }
   },
   "inventory": {
     "baseApiUrl": "https://inventory-api.gudangada.online/api/"
