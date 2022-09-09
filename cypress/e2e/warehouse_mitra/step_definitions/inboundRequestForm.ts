@@ -36,14 +36,14 @@ When(
 );
 
 When(
-  "user selects date {string} as Source date at new inbound request form",
+  "user selects date {int} as Source date at new inbound request form",
   (sourceDate: number) => {
     inboundRequestFormPage.setSourceDate(sourceDate);
   }
 );
 
 When(
-  "user selects date {string} as delivery date at new inbound request form",
+  "user selects date {int} as delivery date at new inbound request form",
   (deliveryDate: number) => {
     inboundRequestFormPage.setDeliveryDate(deliveryDate);
   }
@@ -65,10 +65,9 @@ When(
 );
 
 When(
-  "user inputs {string} as first product amount at new inbound request form",
-  (productAmount: string) => {
+  "user inputs {int} as first product amount at new inbound request form",
+  (productAmount: number) => {
     inboundRequestFormPage.setRequestFirstProductAmount(productAmount);
-    cy.log(productAmount + " ");
   }
 );
 
@@ -86,60 +85,36 @@ When("user clicks new inbound request form submission button", () => {
 Then(
   "empty error messages for single Request should appear at create new inbound Request form",
   () => {
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorSourceID)
-        .should("contain.text", "Harap masukkan nomor referensi")
+    inboundRequestFormPage.assertErrorSourceID(
+      "Harap masukkan nomor referensi"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorSourceType)
-        .should("contain.text", "Harap pilih tipe barang masuk")
+    inboundRequestFormPage.assertErrorSourceType(
+      "Harap pilih tipe barang masuk"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorStoreName)
-        .should("contain.text", "Harap pilih toko penerima")
+    inboundRequestFormPage.assertErrorStoreName("Harap pilih toko penerima");
+    inboundRequestFormPage.assertErrorWarehouseName(
+      "Harap pilih lokasi gudang penerima"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorWarehouseName)
-        .should("contain.text", "Harap pilih lokasi gudang penerima")
+    inboundRequestFormPage.assertErrorStoreTargetName(
+      "Harap pilih nama perusahaan pengirim"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorStoreTargetName)
-        .should("contain.text", "Harap pilih nama perusahaan pengirim")
+    inboundRequestFormPage.assertErrorStoreTargetAddress(
+      "Harap masukkan alamat perusahaan pengirim"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorStoreTargetAddress)
-        .should("contain.text", "Harap masukkan alamat perusahaan pengirim")
+    inboundRequestFormPage.assertErrorSourceDate(
+      "Harap pilih tanggal barang masuk"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorSourceDate)
-        .should("contain.text", "Harap pilih tanggal barang masuk")
+    inboundRequestFormPage.assertErrorSourceDeliveryDate(
+      "Harap pilih tanggal pengiriman"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorSourceDeliveryDate)
-        .should("contain.text", "Harap pilih tanggal pengiriman")
+    inboundRequestFormPage.assertErrorSourceDeliveryMethod(
+      "Harap pilih metode pengiriman"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorSourceDeliveryMethod)
-        .should("contain.text", "Harap pilih metode pengiriman")
+    inboundRequestFormPage.assertErrorRequestProductName(
+      "Harap pilih nama produk"
     );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorRequestProductName)
-        .should("contain.text", "Harap pilih nama produk")
-    );
-    expect(
-      cy
-        .get(inboundRequestFormPage.errorRequestProductQuantity)
-        .should("contain.text", "Harap masukkan jumlah produk")
+    inboundRequestFormPage.assertErrorRequestProductQuantity(
+      "Harap masukkan jumlah produk"
     );
   }
 );
