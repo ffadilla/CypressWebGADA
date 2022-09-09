@@ -191,6 +191,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on submit add custom principal or brand modal button
     And user clicks on brand back button
     Then new principal is displayed on the principal list
+    And user deletes test data
 
   Scenario: User adds new category with new subcategory
     When user clicks on add inventory button
@@ -208,6 +209,7 @@ Feature: Inventory Detail - Create Inventory
     Then new subcategory is displayed on the subcategory list
     And user clicks on subcategory back button
     Then new category is displayed on the category list
+#    And user deletes test data
 
   Scenario: User adds new brand
     When user clicks on add inventory button
@@ -223,6 +225,7 @@ Feature: Inventory Detail - Create Inventory
     And user clicks on add custom brand button
     And user clicks on submit add custom principal or brand modal button
     Then new brand is displayed on the brand list
+#    And user deletes test data
 
   Scenario: User adds new custom inventory with selling UOM different with stock UOM
     When user clicks on add inventory button

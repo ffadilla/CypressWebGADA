@@ -2,6 +2,145 @@ import gadaConfig from "../../../e2e/utils/gadaConfig";
 import * as saasConfig from "../resources/development-saas.json";
 
 export function deleteSeedInventoryData() {
+  // delete category name prefix web automation (level 3)
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "product/category/list",
+    failOnStatusCode: false,
+    body: {
+      page: 1,
+      page_size: 100,
+      name: "web automation",
+      level: "3",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      sort_by: "NAME",
+      sort_type: "ASC",
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let categoryIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      categoryIdArray.push(data[i].id.toString());
+    }
+
+    for (let categoryId of categoryIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url: gadaConfig.inventory.baseApiUrl + "product-categories/delete",
+        failOnStatusCode: false,
+        body: {
+          product_category_id: categoryId,
+        },
+      });
+    }
+  });
+
+  // delete category name prefix web automation (level 2)
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "product/category/list",
+    failOnStatusCode: false,
+    body: {
+      page: 1,
+      page_size: 100,
+      name: "web automation",
+      level: "2",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+      sort_by: "NAME",
+      sort_type: "ASC",
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let categoryIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      categoryIdArray.push(data[i].id.toString());
+    }
+
+    for (let categoryId of categoryIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url: gadaConfig.inventory.baseApiUrl + "product-categories/delete",
+        failOnStatusCode: false,
+        body: {
+          product_category_id: categoryId,
+        },
+      });
+    }
+  });
+
+  // delete brand with brand name prefix web automation
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "product/brand",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      query: "web automation brand",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let brandIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      brandIdArray.push(data[i].id.toString());
+    }
+
+    for (let brandId of brandIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url: gadaConfig.inventory.baseApiUrl + "brands/delete",
+        failOnStatusCode: false,
+        body: {
+          brand_id: brandId,
+        },
+      });
+    }
+  });
+
+  // delete principal with brand name prefix web automation
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "product/principal",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      query: "web automation principal",
+      store_id: saasConfig.saasAutomationUser1StoreStoreId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let principalIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      principalIdArray.push(data[i].id.toString());
+    }
+
+    for (let principalId of principalIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url: gadaConfig.inventory.baseApiUrl + "principals/delete",
+        failOnStatusCode: false,
+        body: {
+          principal_id: principalId,
+        },
+      });
+    }
+  });
+
+  // delete custom inventories with prefix web automation
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "inventory/list",
@@ -39,7 +178,7 @@ export function deleteSeedInventoryData() {
       });
     }
   });
-
+  // delete inventory Onyx Sendok Nasi 8'5-7001 Official
   cy.request({
     method: "DELETE",
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22277 + "/delete",
@@ -49,6 +188,7 @@ export function deleteSeedInventoryData() {
       variant_id: 22277,
     },
   });
+  // delete inventory Hati Angsa Kecap Manis Sedang 600 ml
   cy.request({
     method: "DELETE",
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22131 + "/delete",
@@ -58,6 +198,7 @@ export function deleteSeedInventoryData() {
       variant_id: 22131,
     },
   });
+  // delete inventory Beras SLYP Medium Ramos Setra 50 Kg
   cy.request({
     method: "DELETE",
     url: gadaConfig.saas.baseApiUrl + "product/variant/" + 22157 + "/delete",
