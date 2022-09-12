@@ -20,7 +20,3 @@ export function generateDateTime(index: number, form: string): string {
 export function padTo2Digits(num: number): string {
   return num.toString().padStart(2, "0");
 }
-
-export function generateBackDate(index: number, form: string): string {
-  return moment().subtract(index, "days").format(form);
-}

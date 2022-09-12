@@ -1,5 +1,5 @@
 import BasePage from "./basePage";
-import { generateDateTime, generateBackDate } from "../common/utils";
+import { generateDateTime } from "../common/utils";
 
 export default class OutboundRequestListPage extends BasePage {
   path = "inventory/outbound/request/list";
@@ -241,7 +241,7 @@ export default class OutboundRequestListPage extends BasePage {
         let dateVal = parseInt(value);
         let todayDateVal = parseInt(this.dateOnly);
         let resDate = todayDateVal - dateVal;
-        let targetDate = generateBackDate(resDate, "YYYY-MM-DD");
+        let targetDate = generateDateTime(-resDate, "YYYY-MM-DD");
         cy.get(this.deliveryDateDP).should("contain.value", targetDate);
         cy.location("search").should("include", "delivery_date=" + targetDate);
     }
@@ -327,7 +327,7 @@ export default class OutboundRequestListPage extends BasePage {
                     .xpath(this.xpathReqList)
                     .should(
                       "contain.text",
-                      generateBackDate(targetDate, "D MMM YYYY")
+                      generateDateTime(-targetDate, "D MMM YYYY")
                     );
             });
         } else {
@@ -343,7 +343,7 @@ export default class OutboundRequestListPage extends BasePage {
                     .xpath(this.xpathReqList)
                     .should(
                       "contain.text",
-                      generateBackDate(targetDate, "DD MMM YYYY")
+                      generateDateTime(-targetDate, "DD MMM YYYY")
                     );
             });
         }
@@ -430,7 +430,7 @@ export default class OutboundRequestListPage extends BasePage {
                     .xpath(this.xpathShipList)
                     .should(
                       "contain.text",
-                      generateBackDate(targetDate, "D MMM YYYY")
+                      generateDateTime(-targetDate, "D MMM YYYY")
                     );
             });
         } else {
@@ -446,7 +446,7 @@ export default class OutboundRequestListPage extends BasePage {
                     .xpath(this.xpathShipList)
                     .should(
                       "contain.text",
-                      generateBackDate(targetDate, "DD MMM YYYY")
+                      generateDateTime(-targetDate, "DD MMM YYYY")
                     );
             });
         }
