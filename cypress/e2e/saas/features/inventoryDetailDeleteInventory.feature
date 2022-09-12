@@ -2,7 +2,7 @@ Feature: Inventory Detail - Delete Inventory
 
   Background:
     Given user "8408418423" is logged in
-    And user creates seed inventory data
+    And user prepares test data
     And user visits inventory list page
 
   Scenario: User deletes non consign inventory with smallest uom quantity > 0

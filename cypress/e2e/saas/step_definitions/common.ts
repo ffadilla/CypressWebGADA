@@ -47,12 +47,16 @@ Given("user {string} is logged in", (number: string) => {
   cy.saasLogin(number);
 });
 
-When("user creates seed inventory data", () => {
+When("user prepares test data", () => {
   utils.deleteSeedInventoryData();
   utils.createSeedInventory();
 });
 
 When("user deletes test data", () => {
+  utils.setDefaultTaxSettings();
+  utils.deleteCategoryTestData();
+  utils.deleteBrandTestData();
+  utils.deletePrincipalTestData();
   utils.deleteSeedInventoryData();
 });
 
