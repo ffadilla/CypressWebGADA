@@ -2,6 +2,7 @@ import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryListPage from "../../../e2e/saas/page_objects/InventoryListPage";
 import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
+import gadaConfig from "../../utils/gadaConfig";
 
 const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
@@ -169,11 +170,20 @@ Then("{string} is displayed as product variant name", (expected: string) => {
   );
 });
 
-Then("stock edit options of inventory {string} are displayed", () => {
-  cy.contains("Tambah Stok Baru").should("exist");
+Then("stock edit options of consign inventory {string} are displayed", () => {
+  cy.contains("Terima Stok Baru").should("exist");
   cy.contains("Hitung Ulang Stok").should("exist");
   cy.contains("Ubah Status").should("exist");
 });
+
+Then(
+  "stock edit options of non consign inventory {string} are displayed",
+  () => {
+    cy.contains("Tambah Stok dari Pembelian").should("exist");
+    cy.contains("Hitung Ulang Stok").should("exist");
+    cy.contains("Ubah Status").should("exist");
+  }
+);
 
 Then(
   "is consign label is displayed on {string} status column",
@@ -247,7 +257,38 @@ Then(
         .children()
         .first()
         .children("span")
-        .should("have.text", input);
+        .should("contain", utils.numberWithSeparators(input));
+    });
+  }
+);
+
+Then(
+  "inventories with name containing {string} are displayed",
+  (input: string) => {
+    cy.request({
+      method: "POST",
+      url: gadaConfig.saas.baseApiUrl + "inventory/list",
+      failOnStatusCode: false,
+      body: {
+        keyword: input,
+        page: 1,
+        page_size: 20,
+        principal_ids: [],
+        sort_by: "RECENTLY_MODIFIED",
+        sort_type: "desc",
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+        uom_id: [],
+      },
+    }).then((resp) => {
+      let data = resp.body.data;
+      let pvIdArray: Array<string> = [];
+      for (let i = 0; i < data.length; i++) {
+        pvIdArray.push(data[i].product_variant_id.toString());
+      }
+
+      for (let inventory of pvIdArray) {
+        cy.get(inventoryListPage.namaBarangButton + inventory).should("exist");
+      }
     });
   }
 );

@@ -109,7 +109,7 @@ export default class InventoryDetail extends BasePage {
   unitPriceTierSellingPriceInput = "#input_price_tier_modal_unit_price_";
   unitPriceTierMinimumQuantityInput = "#input_price_tier_modal_min_quantity_";
   unitPriceTierAddMoreRowButton = "#button_price_tier_modal_add_row";
-  unitSellingPriceInput = "input[id='priceTiers[0].unitPrice']";
+  unitSellingPriceInput = "#input_price_tier_modal_unit_price_0";
   saveUnitSellingPriceButton = "#button_price_tier_modal_simpan";
   addBarcodeButton = "#button_selling_card_barcode_edit_";
   inputBarcodeManuallyButton = "#button_barcode_modal_manual_input";

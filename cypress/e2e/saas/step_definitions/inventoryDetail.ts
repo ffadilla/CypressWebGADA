@@ -26,11 +26,13 @@ When("user clicks on principal and brand button", () => {
 
 When("user types random principal name on principal searchbar input", () => {
   principalName = utils.generateRandomString(5);
-  inventoryDetailPage.typePrincipalSearchbarInput("Principal " + principalName);
+  inventoryDetailPage.typePrincipalSearchbarInput(
+    "Web Automation Principal " + principalName
+  );
 
   cy.get(inventoryDetailPage.principalSearchbarInput).should(
     "have.value",
-    "Principal " +
+    "Web Automation Principal " +
       principalName.charAt(0).toUpperCase() +
       principalName.slice(1)
   );
@@ -39,7 +41,7 @@ When("user types random principal name on principal searchbar input", () => {
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Principal " +
+    "Web Automation Principal " +
       principalName.charAt(0).toUpperCase() +
       principalName.slice(1)
   );
@@ -56,18 +58,24 @@ When("user clicks on submit add custom principal or brand modal button", () => {
 
 When("user types random brand name on brand searchbar input", () => {
   let brandName = utils.generateRandomString(5);
-  inventoryDetailPage.typeBrandSearchbarInput("Brand " + brandName);
+  inventoryDetailPage.typeBrandSearchbarInput(
+    "Web Automation Brand " + brandName
+  );
 
   cy.get(inventoryDetailPage.brandSearchbarInput).should(
     "have.value",
-    "Brand " + brandName.charAt(0).toUpperCase() + brandName.slice(1)
+    "Web Automation Brand " +
+      brandName.charAt(0).toUpperCase() +
+      brandName.slice(1)
   );
   cy.get(
     inventoryDetailPage.addCustomBrandButton +
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Brand " + brandName.charAt(0).toUpperCase() + brandName.slice(1)
+    "Web Automation Brand " +
+      brandName.charAt(0).toUpperCase() +
+      brandName.slice(1)
   );
 });
 
@@ -85,18 +93,24 @@ When("user clicks on category and subcategory button", () => {
 
 When("user types random category name on category searchbar input", () => {
   categoryName = utils.generateRandomString(5);
-  inventoryDetailPage.typeCategorySearchbarInput("Category " + categoryName);
+  inventoryDetailPage.typeCategorySearchbarInput(
+    "Web Automation Category " + categoryName
+  );
 
   cy.get(inventoryDetailPage.categorySearchbarInput).should(
     "have.value",
-    "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    "Web Automation Category " +
+      categoryName.charAt(0).toUpperCase() +
+      categoryName.slice(1)
   );
   cy.get(
     inventoryDetailPage.addCustomCategoryButton +
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    "Web Automation Category " +
+      categoryName.charAt(0).toUpperCase() +
+      categoryName.slice(1)
   );
 });
 
@@ -117,12 +131,12 @@ When(
   () => {
     subcategoryName = utils.generateRandomString(5);
     inventoryDetailPage.typeSubcategorySearchbarInput(
-      "Subcategory " + subcategoryName
+      "Web Automation Subcategory " + subcategoryName
     );
 
     cy.get(inventoryDetailPage.subcategorySearchbarInput).should(
       "have.value",
-      "Subcategory " +
+      "Web Automation Subcategory " +
         subcategoryName.charAt(0).toUpperCase() +
         subcategoryName.slice(1)
     );
@@ -131,7 +145,7 @@ When(
         " > .MuiButton-label > .MuiTypography-root"
     ).should(
       "include.text",
-      "Subcategory " +
+      "Web Automation Subcategory " +
         subcategoryName.charAt(0).toUpperCase() +
         subcategoryName.slice(1)
     );
@@ -258,7 +272,7 @@ When(
 
 When("user clicks on hitung ulang stok submit button", () => {
   inventoryDetailPage.clickHitungUlangStokSubmitButton();
-  cy.wait(300);
+  cy.wait(600);
 });
 
 When("user clicks on first stock unit checkbox", () => {
@@ -469,6 +483,7 @@ When("user clicks on add more price tier button", () => {
 
 When("user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
+  cy.wait(500);
 });
 
 When(

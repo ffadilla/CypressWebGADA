@@ -5,6 +5,11 @@ type config = {
   saas: {
     baseUrl: string;
     baseApiUrl: string;
+    testUserAccount: {
+      phoneNumber: string;
+      canonicalId: string;
+      storeId: string;
+    };
   };
   inventory: {
     baseApiUrl: string;
