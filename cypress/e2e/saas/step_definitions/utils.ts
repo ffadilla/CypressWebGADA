@@ -1,6 +1,6 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
 
-export function deleteSeedInventoryData() {
+export function deleteCategoryTestData() {
   // delete category name prefix web automation (level 3)
   cy.request({
     method: "POST",
@@ -72,7 +72,9 @@ export function deleteSeedInventoryData() {
       });
     }
   });
+}
 
+export function deleteBrandTestData() {
   // delete brand with brand name prefix web automation
   cy.request({
     method: "GET",
@@ -105,7 +107,9 @@ export function deleteSeedInventoryData() {
       });
     }
   });
+}
 
+export function deletePrincipalTestData() {
   // delete principal with brand name prefix web automation
   cy.request({
     method: "GET",
@@ -138,7 +142,9 @@ export function deleteSeedInventoryData() {
       });
     }
   });
+}
 
+export function deleteSeedInventoryData() {
   // delete custom inventories with prefix web automation
   cy.request({
     method: "POST",
@@ -528,6 +534,20 @@ export function createSeedInventory() {
   });
 }
 
+export function setDefaultTaxSettings() {
+  cy.request({
+    method: "PATCH",
+    url: gadaConfig.saas.baseApiUrl + "store/setting",
+    body: {
+      is_tax_active: true,
+      is_tax_after_discount: false,
+      is_tax_included_in_price: true,
+      tax_percentage_amount: "10",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  });
+}
+
 export function retrieveUomId(uomName: string) {
   cy.wait(750);
   cy.request({
@@ -578,6 +598,84 @@ export function retrieveProductVariantId(query: string) {
   }).then((resp) => {
     let supplierId = resp.body.data[0].product_variant_id;
     cy.wrap(supplierId.toString()).as("productVariantId");
+  });
+}
+
+export function retrieveInventoryId(
+  productVariantName: string,
+  uomName: string
+) {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "inventory/list",
+    body: {
+      keyword: productVariantName,
+      page_size: 30,
+      page: 1,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      include_delete: false,
+      sort_by: "RECENTLY_MODIFIED",
+      sort_type: "asc",
+      exclude_empty_price_tiers: false,
+    },
+  }).then(() => {
+    cy.request({
+      method: "GET",
+      url: gadaConfig.saas.baseApiUrl + "product/uom",
+      qs: {
+        page_size: 100,
+        page: 1,
+        query: uomName,
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+      },
+    }).then((resp) => {
+      let inventoryId = "";
+      let uomId = resp.body.data[0].id;
+      for (let i = 0; i < resp.body.data.length; i++) {
+        if (
+          resp.body.data[i].product_variant_name
+            .toLowerCase()
+            .equals(productVariantName.toLowerCase())
+        ) {
+          for (let j = 0; j < resp.body.data[i].inventories.length; j++) {
+            if (
+              resp.body.data[i].inventories[j].unit_of_measurement.id
+                .toString()
+                .equals(uomId)
+            ) {
+              inventoryId = resp.body.data[i].inventories[j].inventory_id;
+              cy.wrap(inventoryId.toString()).as("inventoryId");
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+export function retrieveUserInfo() {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "user/userinfo",
+  }).then((resp) => {
+    let result = resp.body.data.user_info;
+    cy.wrap(result).as("userInfo");
+  });
+}
+
+export function retrieveStoreId(storeName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "user/userinfo",
+  }).then((resp) => {
+    let data = resp.body.data.user_store_list;
+    let storeId = "";
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].storeName.toLowerCase().equals(storeName).toLowerCase()) {
+        storeId = data[i].store_id.toString();
+      }
+    }
+    cy.wrap(storeId.toString()).as("storeId");
   });
 }
 
