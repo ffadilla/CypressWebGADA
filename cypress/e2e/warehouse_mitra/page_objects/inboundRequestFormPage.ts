@@ -117,49 +117,43 @@ export default class InboundRequestFormPage extends BasePage {
     cy.xpath(this.requestProductQuantityField).type(input.toString());
   }
 
-  assertErrorSourceID(err: string) {
-    expect(cy.get(this.errorSourceID).should("contain.text", err));
-  }
-
-  assertErrorSourceType(err: string) {
-    expect(cy.get(this.errorSourceType).should("contain.text", err));
-  }
-
-  assertErrorStoreName(err: string) {
-    expect(cy.get(this.errorStoreName).should("contain.text", err));
-  }
-
-  assertErrorWarehouseName(err: string) {
-    expect(cy.get(this.errorWarehouseName).should("contain.text", err));
-  }
-
-  assertErrorStoreTargetName(err: string) {
-    expect(cy.get(this.errorStoreTargetName).should("contain.text", err));
-  }
-
-  assertErrorStoreTargetAddress(err: string) {
-    expect(cy.get(this.errorStoreTargetAddress).should("contain.text", err));
-  }
-
-  assertErrorSourceDate(err: string) {
-    expect(cy.get(this.errorSourceDate).should("contain.text", err));
-  }
-
-  assertErrorSourceDeliveryDate(err: string) {
-    expect(cy.get(this.errorSourceDeliveryDate).should("contain.text", err));
-  }
-
-  assertErrorSourceDeliveryMethod(err: string) {
-    expect(cy.get(this.errorSourceDeliveryMethod).should("contain.text", err));
-  }
-
-  assertErrorRequestProductName(err: string) {
-    expect(cy.get(this.errorRequestProductName).should("contain.text", err));
-  }
-
-  assertErrorRequestProductQuantity(err: string) {
-    expect(
-      cy.get(this.errorRequestProductQuantity).should("contain.text", err)
-    );
+  assertErrorInboundRequestForm(field: string, err: string) {
+    let pointer = "";
+    switch (field) {
+      case "source ID":
+        pointer = this.errorSourceID;
+        break;
+      case "source type":
+        pointer = this.errorSourceType;
+        break;
+      case "store name":
+        pointer = this.errorStoreName;
+        break;
+      case "warehouse name":
+        pointer = this.errorWarehouseName;
+        break;
+      case "store target name":
+        pointer = this.errorStoreTargetName;
+        break;
+      case "store target address":
+        pointer = this.errorStoreTargetAddress;
+        break;
+      case "source date":
+        pointer = this.errorSourceDate;
+        break;
+      case "source delivery date":
+        pointer = this.errorSourceDeliveryDate;
+        break;
+      case "source delivery method":
+        pointer = this.errorSourceDeliveryMethod;
+        break;
+      case "request product name":
+        pointer = this.errorRequestProductName;
+        break;
+      case "request product quantity":
+        pointer = this.errorRequestProductQuantity;
+        break;
+    }
+    expect(cy.get(pointer).should("contain.text", err));
   }
 }

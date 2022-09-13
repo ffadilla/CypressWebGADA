@@ -17,12 +17,6 @@ export default class InboundBasePage extends BasePage {
   emptyResultText =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
 
-  clickReceiptTab() {
-    cy.intercept("GET", "/inbound/receipts/list/*").as("shipmentListAPI");
-    cy.get(this.inboundTabContainer).contains("Proses Penerimaan").click();
-    cy.wait("@shipmentListAPI");
-  }
-
   setSearchKeyword(keyword: string) {
     cy.xpath(this.searchbox).type(keyword);
     cy.xpath(this.searchbox).type("{enter}");
@@ -44,6 +38,24 @@ export default class InboundBasePage extends BasePage {
     return (
       "Dikirim " + deliveryDate + this.utils.generateDateTime(0, " MMM YYYY")
     );
+  }
+
+  clickRequestTab() {
+    cy.intercept("GET", "/inbound/requests/list/*").as("requestListAPI");
+    cy.get(this.inboundTabContainer)
+      .contains("Permintaan Barang Masuk")
+      .click();
+    cy.wait("@requestListAPI");
+  }
+
+  clickReceiptTab() {
+    cy.intercept("GET", "/inbound/receipts/list/*").as("shipmentListAPI");
+    cy.get(this.inboundTabContainer).contains("Proses Penerimaan").click();
+    cy.wait("@shipmentListAPI");
+  }
+
+  clickStatusChip(status: string) {
+    cy.get(this.chipContainer).contains(status).click();
   }
 
   assertStatusQueryParam(value: string) {

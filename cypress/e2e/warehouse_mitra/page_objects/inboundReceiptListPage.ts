@@ -21,10 +21,6 @@ export default class InboundReceiptListPage extends InboundListPage {
     this.accordionParentReceiptIDPointer
   );
 
-  clickStatusChip(status: string) {
-    cy.get(this.chipContainer).contains(status).click();
-  }
-
   assertReceiptItemsBySearchFilter(target: string, value: string) {
     let pointer = "";
     cy.get(this.firstRowAccordionReceiptID).should("be.visible");

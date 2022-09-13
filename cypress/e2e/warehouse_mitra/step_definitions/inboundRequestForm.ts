@@ -85,35 +85,48 @@ When("user clicks new inbound request form submission button", () => {
 Then(
   "empty error messages for single Request should appear at create new inbound Request form",
   () => {
-    inboundRequestFormPage.assertErrorSourceID(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "source ID",
       "Harap masukkan nomor referensi"
     );
-    inboundRequestFormPage.assertErrorSourceType(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "source type",
       "Harap pilih tipe barang masuk"
     );
-    inboundRequestFormPage.assertErrorStoreName("Harap pilih toko penerima");
-    inboundRequestFormPage.assertErrorWarehouseName(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "store name",
+      "Harap pilih toko penerima"
+    );
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "warehouse name",
       "Harap pilih lokasi gudang penerima"
     );
-    inboundRequestFormPage.assertErrorStoreTargetName(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "store target name",
       "Harap pilih nama perusahaan pengirim"
     );
-    inboundRequestFormPage.assertErrorStoreTargetAddress(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "store target address",
       "Harap masukkan alamat perusahaan pengirim"
     );
-    inboundRequestFormPage.assertErrorSourceDate(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "source date",
       "Harap pilih tanggal barang masuk"
     );
-    inboundRequestFormPage.assertErrorSourceDeliveryDate(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "source delivery date",
       "Harap pilih tanggal pengiriman"
     );
-    inboundRequestFormPage.assertErrorSourceDeliveryMethod(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "source delivery method",
       "Harap pilih metode pengiriman"
     );
-    inboundRequestFormPage.assertErrorRequestProductName(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "request product name",
       "Harap pilih nama produk"
     );
-    inboundRequestFormPage.assertErrorRequestProductQuantity(
+    inboundRequestFormPage.assertErrorInboundRequestForm(
+      "request product quantity",
       "Harap masukkan jumlah produk"
     );
   }
