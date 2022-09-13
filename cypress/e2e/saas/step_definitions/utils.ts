@@ -1,5 +1,20 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
 
+export function deleteTestDataSequence() {
+  deleteBankAccount();
+  deleteCategoryTestData();
+  deleteBrandTestData();
+  deletePrincipalTestData();
+  deleteSeedInventoryData();
+}
+
+export function insertTestDataSequence() {
+  setDefaultTaxAndCustomerDebtSettings();
+  setDefaultRefundSettings();
+  unlinkStore();
+  createSeedInventory();
+}
+
 export function deleteCategoryTestData() {
   // delete category name prefix web automation (level 3)
   cy.request({
@@ -534,7 +549,7 @@ export function createSeedInventory() {
   });
 }
 
-export function setDefaultTaxSettings() {
+export function setDefaultTaxAndCustomerDebtSettings() {
   cy.request({
     method: "PATCH",
     url: gadaConfig.saas.baseApiUrl + "store/setting",
@@ -544,7 +559,73 @@ export function setDefaultTaxSettings() {
       is_tax_included_in_price: true,
       tax_percentage_amount: "10",
       store_id: gadaConfig.saas.testUserAccount.storeId,
+      duration: 7,
+      cumulative_max_amount: 0,
+      invoice_max_amount: 0,
+      is_max_amount_active: false,
+      is_allow_multiple_top: false,
     },
+  });
+}
+
+export function setDefaultRefundSettings() {
+  cy.request({
+    method: "PUT",
+    url: gadaConfig.saas.baseApiUrl + "refund/config",
+    body: {
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      is_active: true,
+      max_refund_range: 30,
+    },
+  });
+}
+
+export function unlinkStore() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "store/unlink",
+    failOnStatusCode: false,
+    body: {
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  });
+}
+
+export function deleteBankAccount() {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "user/userinfo",
+  }).then((resp) => {
+    let bankAccountId = "";
+    for (let i = 0; i < resp.body.data.user_store_list.length; i++) {
+      if (
+        resp.body.data.user_store_list.store_id.equals(
+          gadaConfig.saas.testUserAccount.storeId
+        )
+      ) {
+        if (resp.body.data.user_store_list[i].store_bank_account.length > 0) {
+          for (
+            let j = 0;
+            j < resp.body.data.user_store_list[i].store_bank_account[j].length;
+            j++
+          ) {
+            bankAccountId =
+              resp.body.data.user_store_list[i].store_bank_account[j]
+                .bank_account_id;
+            cy.request({
+              method: "DELETE",
+              url: gadaConfig.saas.baseApiUrl + "store/bank/" + bankAccountId,
+              qs: {
+                bank_account_id: bankAccountId,
+              },
+            });
+          }
+        }
+      }
+    }
+
+    let result = resp.body.data.user_info;
+    cy.wrap(result).as("userInfo");
   });
 }
 
@@ -676,6 +757,75 @@ export function retrieveStoreId(storeName: string) {
       }
     }
     cy.wrap(storeId.toString()).as("storeId");
+  });
+}
+
+export function createOrder(
+  orderObjectArray: {
+    productVariantName: string;
+    uomName: string;
+    quantity: string;
+  }[],
+  payAmount: string,
+  paymentType: string
+) {
+  // create new cart
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "api/cart",
+    body: {
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      cashier_id: gadaConfig.saas.testUserAccount.userId,
+    },
+  }).then((resp) => {
+    let cartId = resp.body.data.id;
+    cy.wrap(cartId.toString()).as("cartId");
+
+    // put item(s) to cart
+    for (let i = 0; i < orderObjectArray.length; i++) {
+      retrieveInventoryId(
+        orderObjectArray[i].productVariantName,
+        orderObjectArray[i].uomName
+      );
+      cy.get("@inventoryId").then((inventoryId: any) => {
+        cy.request({
+          method: "PUT",
+          url: gadaConfig.saas.baseApiUrl + "cart/item",
+          body: {
+            store_id: gadaConfig.saas.testUserAccount.storeId,
+            cart_id: cartId,
+            inventory_id: inventoryId,
+            quantity: orderObjectArray[i].quantity,
+          },
+        });
+      });
+    }
+
+    // checkout cart
+    cy.request({
+      method: "POST",
+      url: gadaConfig.saas.baseApiUrl + "cart/checkout",
+      body: {
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+        cart_id: cartId,
+      },
+    });
+
+    // payment
+    cy.request({
+      method: "POST",
+      url: gadaConfig.saas.baseApiUrl + "order",
+      body: {
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+        cart_id: cartId,
+        amount: payAmount,
+        currency: "IDR",
+        customer_id: null,
+        sales_person_id: null,
+        payment_type: paymentType,
+        store_bank_account_id: null,
+      },
+    });
   });
 }
 
