@@ -1,5 +1,4 @@
 import BasePage from "./basePage";
-import * as utils from "../common/utils";
 
 export default class InboundRequestFormPage extends BasePage {
   path = "/inventory/inbound/request/create";
@@ -62,11 +61,11 @@ export default class InboundRequestFormPage extends BasePage {
   dropdownOptionsList = '[role="listbox"]';
   datepickerItem = '[role="cell"]';
 
-  sourceID = "Cyp-" + utils.generateDateTime(0, "YYMMDD_HHmm");
+  sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmm");
 
   typeSourceID() {
     cy.get(this.sourceIDField).type(this.sourceID);
-    utils.setSourceID(this.sourceID);
+    this.utils.setSourceID(this.sourceID);
   }
 
   setSourceType(keyword: string) {
