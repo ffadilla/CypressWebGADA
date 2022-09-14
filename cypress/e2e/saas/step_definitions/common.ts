@@ -1,11 +1,14 @@
-import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  DataTable,
+  Given,
+  When,
+} from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../../../e2e/saas/page_objects/LoginPage";
 import RegistrationPage from "../../../e2e/saas/page_objects/RegistrationPage";
 import HomePage from "../../../e2e/saas/page_objects/HomePage";
 import * as utils from "./utils";
 import InventoryListPage from "../page_objects/inventoryListPage";
 import InventoryDetailPage from "../page_objects/inventoryDetailPage";
-import { numberWithSeparators } from "./utils";
 
 const loginPage = new LoginPage();
 const registrationPage = new RegistrationPage();
@@ -47,13 +50,13 @@ Given("user {string} is logged in", (number: string) => {
   cy.saasLogin(number);
 });
 
-When("user creates seed inventory data", () => {
-  utils.deleteSeedInventoryData();
-  utils.createSeedInventory();
+When("user prepares test data", () => {
+  utils.deleteTestDataSequence();
+  utils.insertTestDataSequence();
 });
 
 When("user deletes test data", () => {
-  utils.deleteSeedInventoryData();
+  utils.deleteTestDataSequence();
 });
 
 When("user clicks on inventory list side menu button", () => {
@@ -102,7 +105,7 @@ When("user created custom inventory with stock + selling uom", () => {
     inventoryDetailPage.typeUnitPrice(uomId, "1");
     cy.get(inventoryDetailPage.unitPriceInput + uomId).should(
       "have.value",
-      "Rp " + numberWithSeparators("1")
+      "Rp " + utils.numberWithSeparators("1")
     );
   });
   // And user clicks on expand selling unit button
@@ -144,3 +147,22 @@ When("user created custom inventory with stock + selling uom", () => {
   // Then user is redirected to inventory list page
   cy.url().should("eq", inventoryDetailPage.baseUrl + "inventory/list");
 });
+
+When(
+  "user creates order with below items, payment amount is {string}, payment type is {string}",
+  (datatable: DataTable, paymentAmount: string, paymentType: string) => {
+    let arr: {
+      productVariantName: string;
+      uomName: string;
+      quantity: string;
+    }[] = [];
+    datatable.hashes().forEach((row) => {
+      arr.push({
+        productVariantName: row.productVariantName,
+        uomName: row.uomName,
+        quantity: row.quantity,
+      });
+    });
+    utils.createOrder(arr, paymentAmount, paymentType);
+  }
+);

@@ -2,7 +2,7 @@ Feature: Inventory List - Delete Inventory
 
   Background:
     Given user "8408418423" is logged in
-    And user creates seed inventory data
+    And user prepares test data
     And user visits inventory list page
 
   Scenario: User deletes consign inventory

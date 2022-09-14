@@ -9,6 +9,7 @@ type config = {
       phoneNumber: string;
       canonicalId: string;
       storeId: string;
+      userId: string;
     };
   };
   inventory: {
