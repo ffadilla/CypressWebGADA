@@ -43,6 +43,10 @@ When("user selects new inbound request dropdown", () => {
   cy.contains(inboundRequestListPage.createNewRequestButtonOption).click();
 });
 
+When("user clicks the first data on inbound Request table", () => {
+  inboundRequestListPage.clickFirstRequest();
+});
+
 Then("user should be at inbound Request list", () => {
   expect(cy.url().should("include", inboundRequestListPage.path));
 });
@@ -78,8 +82,16 @@ Then(
   "user should only able to see inbound Request with {string} {string}",
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
-    inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
-    return;
+    else if (attribute === "delivery date") {
+      const expectedDeliveryDate =
+        inboundRequestListPage.setExpectedDeliveryDate(parseInt(value));
+      inboundRequestListPage.assertRequestItemsBySearchFilter(
+        "delivery date",
+        expectedDeliveryDate
+      );
+    } else {
+      inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
+    }
   }
 );
 

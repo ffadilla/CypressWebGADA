@@ -65,8 +65,16 @@ Then(
   "user should only able to see inbound Receipt with {string} {string}",
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
-    inboundReceiptListPage.assertReceiptItemsBySearchFilter(attribute, value);
-    return;
+    else if (attribute === "delivery date") {
+      const expectedDeliveryDate =
+        inboundReceiptListPage.setExpectedDeliveryDate(parseInt(value));
+      inboundReceiptListPage.assertReceiptItemsBySearchFilter(
+        "delivery date",
+        expectedDeliveryDate
+      );
+    } else {
+      inboundReceiptListPage.assertReceiptItemsBySearchFilter(attribute, value);
+    }
   }
 );
 
