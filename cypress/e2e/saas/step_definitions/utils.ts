@@ -1,6 +1,9 @@
 import gadaConfig from "../../../e2e/utils/gadaConfig";
 
 export function deleteTestDataSequence() {
+  setDefaultTaxAndCustomerDebtSettings();
+  setDefaultRefundSettings();
+  unlinkStore();
   deleteBankAccount();
   deleteCategoryTestData();
   deleteBrandTestData();
@@ -9,9 +12,6 @@ export function deleteTestDataSequence() {
 }
 
 export function insertTestDataSequence() {
-  setDefaultTaxAndCustomerDebtSettings();
-  setDefaultRefundSettings();
-  unlinkStore();
   createSeedInventory();
 }
 
@@ -556,7 +556,7 @@ export function setDefaultTaxAndCustomerDebtSettings() {
     body: {
       is_tax_active: true,
       is_tax_after_discount: false,
-      is_tax_included_in_price: true,
+      is_tax_include_in_price: true,
       tax_percentage_amount: "10",
       store_id: gadaConfig.saas.testUserAccount.storeId,
       duration: 7,
@@ -599,18 +599,20 @@ export function deleteBankAccount() {
     let bankAccountId = "";
     for (let i = 0; i < resp.body.data.user_store_list.length; i++) {
       if (
-        resp.body.data.user_store_list.store_id.equals(
-          gadaConfig.saas.testUserAccount.storeId
-        )
+        resp.body.data.user_store_list[i].store_id ===
+        gadaConfig.saas.testUserAccount.storeId
       ) {
-        if (resp.body.data.user_store_list[i].store_bank_account.length > 0) {
+        if (
+          resp.body.data.user_store_list[i].store_bank_account_list.length > 0
+        ) {
           for (
             let j = 0;
-            j < resp.body.data.user_store_list[i].store_bank_account[j].length;
+            j <
+            resp.body.data.user_store_list[i].store_bank_account_list.length;
             j++
           ) {
             bankAccountId =
-              resp.body.data.user_store_list[i].store_bank_account[j]
+              resp.body.data.user_store_list[i].store_bank_account_list[j]
                 .bank_account_id;
             cy.request({
               method: "DELETE",
@@ -714,15 +716,14 @@ export function retrieveInventoryId(
       let uomId = resp.body.data[0].id;
       for (let i = 0; i < resp.body.data.length; i++) {
         if (
-          resp.body.data[i].product_variant_name
-            .toLowerCase()
-            .equals(productVariantName.toLowerCase())
+          resp.body.data[i].product_variant_name.toLowerCase() ===
+          productVariantName.toLowerCase()
         ) {
           for (let j = 0; j < resp.body.data[i].inventories.length; j++) {
             if (
-              resp.body.data[i].inventories[j].unit_of_measurement.id
-                .toString()
-                .equals(uomId)
+              resp.body.data[i].inventories[
+                j
+              ].unit_of_measurement.id.toString() === uomId
             ) {
               inventoryId = resp.body.data[i].inventories[j].inventory_id;
               cy.wrap(inventoryId.toString()).as("inventoryId");
@@ -752,11 +753,29 @@ export function retrieveStoreId(storeName: string) {
     let data = resp.body.data.user_store_list;
     let storeId = "";
     for (let i = 0; i < data.length; i++) {
-      if (data[i].storeName.toLowerCase().equals(storeName).toLowerCase()) {
+      if (data[i].store_name.toLowerCase() === storeName.toLowerCase()) {
         storeId = data[i].store_id.toString();
       }
     }
     cy.wrap(storeId.toString()).as("storeId");
+  });
+}
+
+export function retrieveMarketplaceStoreId(storeName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "store/marketplace",
+  }).then((resp) => {
+    let data = resp.body.data;
+    let marketplaceStoreId = "";
+    for (let i = 0; i < data.length; i++) {
+      if (
+        data[i].marketplace_store_name.toLowerCase() === storeName.toLowerCase()
+      ) {
+        marketplaceStoreId = data[i].marketplace_store_id.toString();
+      }
+    }
+    cy.wrap(marketplaceStoreId.toString()).as("marketplaceStoreId");
   });
 }
 
