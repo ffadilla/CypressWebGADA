@@ -1,6 +1,6 @@
 import BasePage from "./basePage";
 
-export default class InboundBasePage extends BasePage {
+export default class InboundListPage extends BasePage {
   searchbox =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
   deliveryMethodFilterButton = "#filter-modal";

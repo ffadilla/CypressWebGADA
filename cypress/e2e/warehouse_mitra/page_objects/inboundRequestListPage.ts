@@ -15,23 +15,49 @@ export default class InboundRequestListPage extends InboundListPage {
   requestItemStatusPointer = "/td[5]/span/span[2]";
   requestItemFirstElementPointer = "/tr[1]";
   firstRequestItemSourceID = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemSourceIDPointer
+    this.requestItemFirstElementPointer + this.requestItemSourceIDPointer
+  );
+  firstRequestItemRequestID = this.requestItemListBody.concat(
+    this.requestItemFirstElementPointer + this.requestItemRequestIDPointer
   );
   firstRequestItemTargetStore = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemSupplierStorePointer
+    this.requestItemFirstElementPointer + this.requestItemSupplierStorePointer
   );
   firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemDeliveryMethodPointer
+    this.requestItemFirstElementPointer + this.requestItemDeliveryMethodPointer
   );
   firstRequestItemDeliveryDate = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemDeliveryDatePointer
+    this.requestItemFirstElementPointer + this.requestItemDeliveryDatePointer
   );
   firstRequestItemStatus = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemStatusPointer
+    this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
 
   clickStatusChip(status: string) {
     cy.get(this.chipContainer).contains(status).click();
+  }
+
+  clickFirstRequest() {
+    cy.xpath(this.firstRequestItemSourceID)
+      .invoke("text")
+      .as("requestListSourceID");
+    cy.xpath(this.firstRequestItemRequestID)
+      .invoke("text")
+      .as("requestListRequestID");
+    cy.xpath(this.firstRequestItemTargetStore)
+      .invoke("text")
+      .as("requestListTargetStore");
+    cy.xpath(this.firstRequestItemDeliveryMethod)
+      .invoke("text")
+      .as("requestListDeliveryMethod");
+    cy.xpath(this.firstRequestItemDeliveryDate)
+      .invoke("text")
+      .as("requestListDeliveryDate");
+    cy.xpath(this.firstRequestItemStatus)
+      .invoke("text")
+      .as("requestListStatus");
+
+    cy.xpath(this.firstRequestItemSourceID).click();
   }
 
   assertFirstRequestItem(
