@@ -1,7 +1,6 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
-import { numberWithSeparators } from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
@@ -407,7 +406,7 @@ When(
           inventoryDetailPage.typeUnitPrice(uomId, input);
           cy.get(inventoryDetailPage.unitPriceInput + uomId).should(
             "have.value",
-            "Rp " + numberWithSeparators(input)
+            "Rp " + utils.numberWithSeparators(input)
           );
         });
     }
