@@ -7,65 +7,42 @@ And("user is in menu Barang Keluar", () => {
   outboundRequestListPage.selectMenuOutbound();
 });
 
-When("user inputs requestId {string}", (value: string) => {
-  outboundRequestListPage.searchRequest(value);
+When("user goes to the outbound request last page", () => {
+  outboundRequestListPage.checkReqLastPage();
 });
 
-When("user sorts outbound requests by {string}", (value: string) => {
-  outboundRequestListPage.selectStatus(value);
-});
-
-When("user inputs shipmentId {string}", (value: string) => {
-  outboundRequestListPage.selectShipment();
-  outboundRequestListPage.searchRequest(value);
-});
-
-When("user sorts outbound shipments by {string}", (value: string) => {
-  outboundRequestListPage.selectShipment();
-  outboundRequestListPage.selectStatus(value);
+When("user inputs valid requestId", () => {
+  outboundRequestListPage.searchRequest();
 });
 
 Then("show valid requestId search result {string}", (value: string) => {
-  cy.get(outboundRequestListPage.firstIndexReqData).should(
-    "contain.text",
-    value
-  );
+  outboundRequestListPage.assertSearchResultWithArg(value);
 });
 
-Then("show valid shipmentId search result {string}", (value: string) => {
-  cy.get(outboundRequestListPage.firstIndexShipData).should(
-    "contain.text",
-    value
-  );
+Then("show valid requestId search result", () => {
+  outboundRequestListPage.assertSearchResult();
 });
 
-Then("show invalid requestId search result {string}", (value: string) => {
-  cy.xpath(outboundRequestListPage.xpathNotFoundMsg).should(
-    "contain.text",
-    value
-  );
+Then("show the outbound request default list", () => {
+  outboundRequestListPage.assertListDefault();
 });
 
-Then("show invalid shipmentId search result {string}", (value: string) => {
-  cy.xpath(outboundRequestListPage.xpathNotFoundMsg).should(
-    "contain.text",
-    value
-  );
+Then("show outbound requests result with status {string}", (value: string) => {
+  outboundRequestListPage.assertResultStatus(value);
 });
 
-Then(
-  "show sorted outbound requests result with status {string}",
-  (value: string) => {
-    cy.get(outboundRequestListPage.requestStatus).should("contain.text", value);
-  }
-);
+Then("the total outbound request should be correct", () => {
+  outboundRequestListPage.assertTotalData();
+});
 
-Then(
-  "show sorted outbound shipments result with status {string}",
-  (value: string) => {
-    cy.xpath(outboundRequestListPage.xpathShipmentStatus).should(
-      "contain.text",
-      value
-    );
-  }
-);
+Then("show total {int} data request per page", () => {
+  outboundRequestListPage.assertTotalDataPerPage();
+});
+
+Then("show outbound request delivery_date on {string}", (value: string) => {
+  outboundRequestListPage.assertDeliveryDate(value);
+});
+
+Then("show outbound request delivery_method by {string}", (value: string) => {
+  outboundRequestListPage.assertDelivMethodWithArg(value);
+});
