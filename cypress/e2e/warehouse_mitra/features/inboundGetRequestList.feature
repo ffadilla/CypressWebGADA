@@ -83,3 +83,18 @@ Feature: Get Inbound Request List
     Examples:
     | deliveryDate    |
     | "22"            |
+@focus     
+   Scenario Outline: User successfully filters inbound Request list by <deliveryDate> deliveryDate
+    //TODO: Precondition to create inbound Request with 22 as delivery date
+    When user redirects to inbound menu
+    And user clicks inbound Request list tab
+    And user applies <pageAmount> as page amount at inbound Request list
+    Then user should be at inbound Request list
+    And query param for <pageAmount> "rowsPerPage" should be added to inbound Request list URL
+    And user should only able to see <pageAmount> inbound Request per page maximum
+
+    Examples:
+    | pageAmount    |
+    | "15"          |
+    | "20"          |
+    | "25"          |

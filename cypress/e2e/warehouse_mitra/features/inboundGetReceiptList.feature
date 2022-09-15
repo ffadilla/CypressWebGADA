@@ -86,3 +86,18 @@ Feature: Get Inbound Receipt List
     Examples:
     | deliveryDate    |
     | "22"            |
+
+   Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
+    //TODO: Precondition to create inbound Receipt with 22 as delivery date
+    When user redirects to inbound menu
+    And user clicks inbound Receipt list tab
+    And user applies <pageAmount> as page amount at inbound Receipt list
+    Then user should be at inbound Receipt list
+    And query param for <pageAmount> "rowsPerPage" should be added to inbound Receipt list URL
+    And user should only able to see <pageAmount> inbound Receipt per page maximum
+
+    Examples:
+    | pageAmount    |
+    | "15"          |
+    | "20"          |
+    | "25"          |

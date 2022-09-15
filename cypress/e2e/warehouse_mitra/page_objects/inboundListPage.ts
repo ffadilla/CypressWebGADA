@@ -15,6 +15,9 @@ export default class InboundListPage extends BasePage {
   deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
   chipContainer = "#chips-container";
+  pageAmountDropdown = '[aria-haspopup="listbox"]';
+  pageAmountDropdownOptions = 'ul[role="listbox"]';
+  tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
   emptyResultText =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
 
@@ -48,6 +51,11 @@ export default class InboundListPage extends BasePage {
     return (
       "Dikirim " + deliveryDate + this.utils.generateDateTime(0, " MMM YYYY")
     );
+  }
+
+  setPageAmount(value: string) {
+    cy.get(this.pageAmountDropdown).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
   }
 
   clickRequestTab() {
@@ -87,6 +95,15 @@ export default class InboundListPage extends BasePage {
         expectedValue = "";
     }
     this.assertQueryParam("status", expectedValue);
+  }
+
+  assertTotalPageAmount(value: string) {
+    cy.get(this.tablePaginationInfoContainer)
+      .invoke("text")
+      .then((text) => {
+        let dataPerPage = parseInt(text.split(" ")[1].split("-")[1]);
+        expect(dataPerPage).to.be.lessThan(parseInt(value) + 1);
+      });
   }
 
   assertEmptyList() {

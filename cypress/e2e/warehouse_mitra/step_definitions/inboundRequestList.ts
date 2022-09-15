@@ -3,8 +3,8 @@ import InboundRequestListPage from "../page_objects/inboundRequestListPage";
 
 const inboundRequestListPage = new InboundRequestListPage();
 
-When("user clicks inbound Receipt list tab", () => {
-  inboundRequestListPage.clickReceiptTab();
+When("user clicks inbound Request list tab", () => {
+  inboundRequestListPage.clickRequestTab();
 });
 
 When(
@@ -43,6 +43,13 @@ When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
     inboundRequestListPage.clickStatusChip(status);
+  }
+);
+
+When(
+  "user applies {string} as page amount at inbound Request list",
+  (value: string) => {
+    inboundRequestListPage.setPageAmount(value);
   }
 );
 
@@ -86,6 +93,13 @@ Then(
   "user should only able to see inbound Requests with {string} matched {string}",
   (attribute: string, value: string) => {
     inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
+  }
+);
+
+Then(
+  "user should only able to see {string} inbound Request per page maximum",
+  (value: string) => {
+    inboundRequestListPage.assertTotalPageAmount(value);
   }
 );
 

@@ -42,6 +42,13 @@ When(
   }
 );
 
+When(
+  "user applies {string} as page amount at inbound Receipt list",
+  (value: string) => {
+    inboundReceiptListPage.setPageAmount(value);
+  }
+);
+
 Then("user should be at inbound Receipt list", () => {
   expect(cy.url().should("include", inboundReceiptListPage.path));
 });
@@ -70,6 +77,13 @@ Then(
   "user should only able to see inbound Receipts with {string} matched {string}",
   (attribute: string, value: string) => {
     inboundReceiptListPage.assertReceiptItemsBySearchFilter(attribute, value);
+  }
+);
+
+Then(
+  "user should only able to see {string} inbound Receipt per page maximum",
+  (value: string) => {
+    inboundReceiptListPage.assertTotalPageAmount(value);
   }
 );
 
