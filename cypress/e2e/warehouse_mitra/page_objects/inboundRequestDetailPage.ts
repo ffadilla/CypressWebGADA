@@ -142,11 +142,20 @@ export default class InboundRequestDetailPage extends BasePage {
     cy.get("@requestListTargetStore").then((targetStore) => {
       expect(cy.xpath(this.targetStoreInfo).should("contain", targetStore));
     });
+    cy.xpath(this.deliveryMethodInfo).then((actualDeliveryMethod) => {
+      expect(
+        cy
+          .get("@requestListDeliveryMethod")
+          .should("contain", actualDeliveryMethod.text())
+      );
+    });
     /**
      * FE still render incorrect format
-    cy.get('@requestListDeliveryMethod').then(deliveryMethod => {
-      expect(cy.xpath(this.deliveryMethodInfo).should('contain', deliveryMethod));
-    });
+    cy.xpath(this.sourceTypeInfo).invoke("text").then(($text) => {
+        expect(cy.get("@requestListSourceType")
+            .should("contain", $text.split(" - ", 1))
+        );
+      });
     cy.get('@requestListDeliveryDate').then(deliveryDate => {
       expect(cy.xpath(this.deliveryDateInfo).should('contain', deliveryDate));
     });
@@ -165,12 +174,6 @@ export default class InboundRequestDetailPage extends BasePage {
     expect(
       cy.xpath(this.headerSubtextContainer).should("contain", "Belum Selesai")
     );
-    /**
-     * FE still render incorrect format
-    cy.get('@inboundFormSourceType').then((sourceType) => {
-      expect(cy.xpath(this.sourceTypeInfo).should('contain', sourceType));
-    });
-     */
     cy.xpath(this.targetStoreInfo).then((actualTargetStoreName) => {
       expect(
         cy
@@ -183,6 +186,9 @@ export default class InboundRequestDetailPage extends BasePage {
     });
     /**
      * FE still render incorrect format
+    cy.get('@inboundFormSourceType').then((sourceType) => {
+      expect(cy.xpath(this.sourceTypeInfo).should('contain', sourceType));
+    });
     cy.get('@inboundFormDeliveryDate').then((deliveryDate) => {
       let formattedDeliveryDate =
         this.utils.reformatDate(deliveryDate.toString(), 'YYYY-MM-DD', 'DD MMM YYYY');

@@ -45,6 +45,9 @@ export default class InboundRequestListPage extends InboundListPage {
     cy.xpath(this.firstRequestItemSourceID)
       .invoke("text")
       .as("requestListSourceID");
+    cy.xpath(this.firstRequestItemSourceType)
+      .invoke("text")
+      .as("requestListSourceType");
     cy.xpath(this.firstRequestItemRequestID)
       .invoke("text")
       .as("requestListRequestID");
