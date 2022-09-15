@@ -151,9 +151,9 @@ export default class InboundRequestDetailPage extends BasePage {
     });
     /**
      * FE still render incorrect format
-    cy.xpath(this.sourceTypeInfo).invoke("text").then(($text) => {
-        expect(cy.get("@requestListSourceType")
-            .should("contain", $text.split(" - ", 1))
+    cy.xpath(this.sourceTypeInfo).invoke('text').then(($text) => {
+        expect(cy.get('@requestListSourceType')
+            .should('contain', $text.split(' - ', 1))
         );
       });
     cy.get('@requestListDeliveryDate').then(deliveryDate => {

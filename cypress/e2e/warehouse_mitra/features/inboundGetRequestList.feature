@@ -83,7 +83,7 @@ Feature: Get Inbound Request List
     Examples:
     | deliveryDate    |
     | "22"            |
-@focus     
+
    Scenario Outline: User successfully filters inbound Request list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound menu
