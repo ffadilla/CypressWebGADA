@@ -28,6 +28,8 @@ Feature: Get Inbound Receipt List
     Then user should be at inbound Receipt list
     And query param for <status> "status" should be added to inbound Receipt list URL
     And user should only able to see inbound Receipt with <status> "status"
+    When user clicks "Semua Status" status chip at inbound Receipt list
+    Then query param for "Semua Status" "status" should be added to inbound Receipt list URL
     When user logs out from WMS
 
     Examples:
@@ -43,6 +45,8 @@ Feature: Get Inbound Receipt List
     Then user should be at inbound Receipt list
     And query param for <keyword> "keyword" should be added to inbound Receipt list URL
     And user should only able to see inbound Receipts with <searchTarget> matched <keyword>
+    When user resets any applied keyword filter at inbound Receipt list
+    Then query param for "null" "keyword" should be added to inbound Receipt list URL
     When user logs out from WMS
 
     Examples:
@@ -57,6 +61,8 @@ Feature: Get Inbound Receipt List
     Then user should be at inbound Receipt list
     And query param for <deliveryMethod> "delivery method" should be added to inbound Receipt list URL
     And user should only able to see inbound Receipt with <deliveryMethod> "delivery method"
+    When user applies "Semua Metode" as delivery method filter at inbound Receipt list
+    Then query param for "Semua Metode" "delivery method" should be added to inbound Receipt list URL
     When user logs out from WMS
 
     Examples:
@@ -64,7 +70,6 @@ Feature: Get Inbound Receipt List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-    | "Semua Metode"    |
 
  Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Receipt with 22 as delivery date
@@ -74,6 +79,8 @@ Feature: Get Inbound Receipt List
     Then user should be at inbound Receipt list
     And query param for <deliveryDate> "delivery date" should be added to inbound Receipt list URL
     And user should only able to see inbound Receipt with <deliveryDate> "delivery date"
+    When user resets any applied delivery date filter at inbound Receipt list
+    Then query param for "null" "delivery date" should be added to inbound Receipt list URL
     When user logs out from WMS
 
     Examples:

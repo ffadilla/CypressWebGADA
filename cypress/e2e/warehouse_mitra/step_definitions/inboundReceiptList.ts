@@ -9,10 +9,22 @@ When(
     inboundReceiptListPage.setSearchKeyword(keyword);
   }
 );
+
+When("user resets any applied keyword filter at inbound Receipt list", () => {
+  inboundReceiptListPage.resetSearchKeyword();
+});
+
 When(
   "user applies {string} as delivery date filter at inbound Receipt list",
   (deliveryDate: string) => {
     inboundReceiptListPage.setDeliveryDateFilter(deliveryDate);
+  }
+);
+
+When(
+  "user resets any applied delivery date filter at inbound Receipt list",
+  () => {
+    inboundReceiptListPage.resetDeliveryDate();
   }
 );
 
