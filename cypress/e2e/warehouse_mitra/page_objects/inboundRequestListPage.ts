@@ -8,6 +8,7 @@ export default class InboundRequestListPage extends InboundListPage {
   requestItemListBody =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[1]/table/tbody';
   requestItemSourceIDPointer = "/td[1]/div[1]";
+  requestItemSourceTypePointer = "/td[1]/div[2]";
   requestItemRequestIDPointer = "/td[2]/a/div[1]";
   requestItemSupplierStorePointer = "/td[3]/div";
   requestItemDeliveryMethodPointer = "/td[4]/div";
@@ -16,6 +17,9 @@ export default class InboundRequestListPage extends InboundListPage {
   requestItemFirstElementPointer = "/tr[1]";
   firstRequestItemSourceID = this.requestItemListBody.concat(
     this.requestItemFirstElementPointer + this.requestItemSourceIDPointer
+  );
+  firstRequestItemSourceType = this.requestItemListBody.concat(
+    this.requestItemFirstElementPointer + this.requestItemSourceTypePointer
   );
   firstRequestItemRequestID = this.requestItemListBody.concat(
     this.requestItemFirstElementPointer + this.requestItemRequestIDPointer
@@ -60,34 +64,54 @@ export default class InboundRequestListPage extends InboundListPage {
     cy.xpath(this.firstRequestItemSourceID).click();
   }
 
-  assertFirstRequestItem(
-    expectedSourceID: string,
-    expectedTargetStoreName: string,
-    expectedDeliveryMethod: string,
-    deliveryDate: number
-  ) {
-    const expectedDeliveryDate = this.setExpectedDeliveryDate(deliveryDate);
-
+  assertCreatedRequestItem() {
+    let requestPrefix =
+      "REQIN/" + this.utils.generateDateTime(0, "MMYY") + "000";
+    cy.get("@inboundFormSourceID").then((sourceID) => {
+      expect(
+        cy.xpath(this.firstRequestItemSourceID).should("contain", sourceID)
+      );
+    });
+    cy.xpath(this.firstRequestItemSourceType)
+      .invoke("text")
+      .then(($text) => {
+        expect(
+          cy
+            .get("@inboundFormSourceType")
+            .should("contain", $text.split(" - ", 1))
+        );
+      });
     expect(
-      cy
-        .xpath(this.firstRequestItemSourceID)
-        .should("contain", expectedSourceID)
+      cy.xpath(this.firstRequestItemRequestID).should("contain", requestPrefix)
     );
-    expect(
-      cy
-        .xpath(this.firstRequestItemTargetStore)
-        .should("contain", expectedTargetStoreName)
+    cy.xpath(this.firstRequestItemTargetStore).then((actualTargetStoreName) => {
+      expect(
+        cy
+          .get("@inboundFormTargetStoreName")
+          .should("contain", actualTargetStoreName.text())
+      );
+    });
+    cy.xpath(this.firstRequestItemDeliveryMethod).then(
+      (actualDeliveryMethod) => {
+        expect(
+          cy
+            .get("@inboundFormDeliveryMethod")
+            .should("contain", actualDeliveryMethod.text())
+        );
+      }
     );
-    expect(
-      cy
-        .xpath(this.firstRequestItemDeliveryMethod)
-        .should("contain", expectedDeliveryMethod)
-    );
-    expect(
-      cy
-        .xpath(this.firstRequestItemDeliveryDate)
-        .should("contain", expectedDeliveryDate)
-    );
+    cy.get("@inboundFormDeliveryDate").then((deliveryDate) => {
+      let formattedDeliveryDate = this.utils.reformatDate(
+        deliveryDate.toString(),
+        "YYYY-MM-DD",
+        "DD MMM YYYY"
+      );
+      expect(
+        cy
+          .xpath(this.firstRequestItemDeliveryDate)
+          .should("contain", formattedDeliveryDate)
+      );
+    });
     expect(
       cy.xpath(this.firstRequestItemStatus).should("contain", "Belum Selesai")
     );

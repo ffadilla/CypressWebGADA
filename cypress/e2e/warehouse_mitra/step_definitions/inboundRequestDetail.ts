@@ -17,3 +17,10 @@ Then(
     inboundRequestDetailPage.assertRequestDataByRequestList();
   }
 );
+
+Then(
+  "user should see similar inbound Request data between detail page and inbound form",
+  () => {
+    inboundRequestDetailPage.assertRequestDataByInboundForm();
+  }
+);

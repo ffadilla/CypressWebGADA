@@ -25,9 +25,11 @@ Feature: Create Inbound Source
     And user selects <deliveryMethod> as delivery method at new inbound request form
     And user selects the first options of <productName> as first product name at new inbound request form
     And user inputs <productQty> as first product amount at new inbound request form
-    And user clicks new inbound request form submission button
-    Then user should be at inbound Request list
-    And user should able to see created Request at inbound Request list -- with <targetStoreKeyword>, <deliveryMethod>, <deliveryDate>
+    When user redirects to inbound menu
+    And user should able to see created Request at inbound Request list
+    When user clicks the first data on inbound Request table
+    Then user should be at 'Belum Selesai' inbound Request detail page
+    And user should see similar inbound Request data between detail page and inbound form
     When user logs out from WMS
 
     Examples:

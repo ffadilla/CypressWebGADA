@@ -1,6 +1,5 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InboundRequestListPage from "../page_objects/inboundRequestListPage";
-import * as utils from "../common/utils";
 
 const inboundRequestListPage = new InboundRequestListPage();
 
@@ -99,19 +98,6 @@ Then("user should able to see empty inbound Requests list", () => {
   inboundRequestListPage.assertEmptyList();
 });
 
-Then(
-  "user should able to see created Request at inbound Request list -- with {string}, {string}, {int}",
-  (
-    attributegetStoreName: string,
-    deliveryMethod: string,
-    deliveryDate: number
-  ) => {
-    inboundRequestListPage.setSearchKeyword(utils.getSourceID());
-    inboundRequestListPage.assertFirstRequestItem(
-      utils.getSourceID(),
-      attributegetStoreName,
-      deliveryMethod,
-      deliveryDate
-    );
-  }
-);
+Then("user should able to see created Request at inbound Request list", () => {
+  inboundRequestListPage.assertCreatedRequestItem();
+});

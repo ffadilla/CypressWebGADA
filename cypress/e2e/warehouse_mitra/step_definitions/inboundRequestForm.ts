@@ -60,7 +60,6 @@ When(
   "user selects the first options of {string} as first product name at new inbound request form",
   (productName: string) => {
     inboundRequestFormPage.setRequestFirstProductName(productName);
-    cy.log(productName);
   }
 );
 
