@@ -24,16 +24,18 @@ export default class BasePage {
   }
 
   assertQueryParam(query: string, value: string) {
-    const queryParam = query + "=" + value;
+    const queryParam = value === "null" ? "" : query + "=" + value;
     expect(cy.url().should("include", queryParam));
   }
 
   assertDateQueryParam(query: string, value: string) {
     const queryParam =
-      query +
-      "=" +
-      this.dateQueryBaseFormat +
-      this.utils.padTo2Digits(parseInt(value));
+      value === "null"
+        ? ""
+        : query +
+          "=" +
+          this.dateQueryBaseFormat +
+          this.utils.padTo2Digits(parseInt(value));
     expect(cy.url().should("include", queryParam));
   }
 }

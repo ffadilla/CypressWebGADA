@@ -3,6 +3,7 @@ import BasePage from "./basePage";
 export default class InboundListPage extends BasePage {
   searchbox =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
+  resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";
   deliveryMethodDropdown = "#mui-component-select-delivery_method";
   deliveryMethodDropdownItem = 'li[role="option"]';
@@ -11,7 +12,7 @@ export default class InboundListPage extends BasePage {
   deliveryDateFilterButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div/div/input';
   deliveryDateCell = 'div[role="cell"]';
-  deliveryDateCTAButton = 'button[class="MuiButtonBase-root"]';
+  deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
   chipContainer = "#chips-container";
   emptyResultText =
@@ -20,6 +21,10 @@ export default class InboundListPage extends BasePage {
   setSearchKeyword(keyword: string) {
     cy.xpath(this.searchbox).type(keyword);
     cy.xpath(this.searchbox).type("{enter}");
+  }
+
+  resetSearchKeyword() {
+    cy.get(this.resetSearchbox).click();
   }
 
   setDeliveryMethodFilter(deliveryMethod: string) {
@@ -32,6 +37,11 @@ export default class InboundListPage extends BasePage {
   setDeliveryDateFilter(deliveryDate: string) {
     cy.xpath(this.deliveryDateFilterButton).click();
     cy.get(this.deliveryDateCell).contains(deliveryDate).click();
+  }
+
+  resetDeliveryDate() {
+    cy.xpath(this.deliveryDateFilterButton).click();
+    cy.get(this.deliveryDateCTAContainer).contains("Reset").click();
   }
 
   setExpectedDeliveryDate(deliveryDate: number): string {

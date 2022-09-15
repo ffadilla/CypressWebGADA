@@ -13,10 +13,22 @@ When(
     inboundRequestListPage.setSearchKeyword(keyword);
   }
 );
+
+When("user resets any applied keyword filter at inbound Request list", () => {
+  inboundRequestListPage.resetSearchKeyword();
+});
+
 When(
   "user applies {string} as delivery date filter at inbound Request list",
   (deliveryDate: string) => {
     inboundRequestListPage.setDeliveryDateFilter(deliveryDate);
+  }
+);
+
+When(
+  "user resets any applied delivery date filter at inbound Request list",
+  () => {
+    inboundRequestListPage.resetDeliveryDate();
   }
 );
 
