@@ -1,5 +1,5 @@
-import BaseCommands from "../baseCommands";
+import BasePage from "../basePage";
 
-export default class WaitingForApprovalPage extends BaseCommands {
+export default class WaitingForApprovalPage extends BasePage {
   path = "purchaseRequest/waitingForApproval";
 }

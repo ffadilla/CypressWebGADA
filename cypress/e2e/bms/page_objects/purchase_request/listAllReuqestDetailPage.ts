@@ -1,3 +1,3 @@
-import BaseCommands from "../baseCommands";
+import BasePage from "../basePage";
 
-export default class ListAllRequestDetailPage extends BaseCommands {}
+export default class ListAllRequestDetailPage extends BasePage {}

@@ -4,11 +4,9 @@ import {
   When,
   And,
 } from "@badeball/cypress-cucumber-preprocessor";
-import BasePage from "../page_objects/basePage";
 import LoginPage from "../page_objects/login/loginPage";
 import * as enums from "../common/enums";
 
-const basePage = new BasePage();
 const loginPage = new LoginPage();
 
 type userRole =
@@ -25,7 +23,7 @@ Given("user is in Business Management System Login page", () => {
 });
 
 And("user clicks on Masuk dengan Email button", () => {
-  loginPage.click(loginPage.selectors.loginWithEmailButton);
+  cy.get(loginPage.loginWithEmailButton).click();
 });
 
 And("user selects {string} user email", (userRole: userRole) => {
@@ -33,23 +31,17 @@ And("user selects {string} user email", (userRole: userRole) => {
 });
 
 When("user clicks on Login button", () => {
-  loginPage.click(loginPage.selectors.loginButton);
+  cy.get(loginPage.loginButton).click();
 });
 
 Then("user logged in successfully", () => {
-  loginPage.assertTextContains(
-    basePage.selectors.bmsText,
-    "Business Management System"
-  );
+  loginPage.assertTextContains(loginPage.bmsText, "Business Management System");
 });
 
 Given("user logged in as {string}", (userRole: userRole) => {
   loginPage.visitPage(loginPage.path);
-  loginPage.click(loginPage.selectors.loginWithEmailButton);
+  cy.get(loginPage.loginWithEmailButton).click();
   loginPage.selectUserEmail(enums.userRoleEmail[userRole]);
-  loginPage.click(loginPage.selectors.loginButton);
-  loginPage.assertTextContains(
-    basePage.selectors.bmsText,
-    "Business Management System"
-  );
+  cy.get(loginPage.loginButton).click();
+  loginPage.assertTextContains(loginPage.bmsText, "Business Management System");
 });

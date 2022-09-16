@@ -1,9 +1,7 @@
-import BaseCommands from "../baseCommands";
+import BasePage from "../basePage";
 
-export default class WaitingForApprovalDetailPage extends BaseCommands {
-  selectors = {
-    changeDeliveryRequestDateButton: ".MuiTypography-roo:contains('Ubah')",
-    selectedSettingTypeRadioButton: ".MuiRadio-root Mui-checked",
-    settingTypeInput: ".PrivateSwitchBase-input input[type='radio']",
-  };
+export default class WaitingForApprovalDetailPage extends BasePage {
+  changeDeliveryRequestDateButton = ".MuiTypography-roo:contains('Ubah')";
+  selectedSettingTypeRadioButton = ".MuiRadio-root Mui-checked";
+  settingTypeInput = ".PrivateSwitchBase-input input[type='radio']";
 }

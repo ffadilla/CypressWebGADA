@@ -14,61 +14,48 @@ type taxType = "Non PKP" | "PKP";
 
 And("user selects {string} as purchase request channel", (channel: channel) => {
   const channelKey = utils.getEnumKeyByValue(enums.channel, channel);
-  createProposalPage.selectChannel(channel);
+  cy.get(createProposalPage.channelInput).click();
+  cy.contains(createProposalPage.channelOption, channel).click();
   cy.wrap(channelKey).as("channel");
 });
 
 And(
   "user types search vendor input field with {string}",
   (vendorId: string) => {
-    createProposalPage.typeString(
-      createProposalPage.selectors.vendorIdInput,
-      vendorId
-    );
-    createProposalPage.selectOption(
-      createProposalPage.selectors.vendorIdOption,
-      vendorId,
-      0
-    );
+    cy.get(createProposalPage.vendorIdInput).type(vendorId);
+    cy.contains(createProposalPage.vendorIdOption, vendorId).eq(0).click();
     createProposalPage.assertValueIsNotEmpty(
-      createProposalPage.selectors.vendorIdInput,
+      createProposalPage.vendorIdInput,
       "vendorId"
     );
     createProposalPage.assertValueIsNotEmpty(
-      createProposalPage.selectors.vendorNameInput,
+      createProposalPage.vendorNameInput,
       "vendorName"
     );
     createProposalPage.assertValueIsNotEmpty(
-      createProposalPage.selectors.vendorAddressInput,
+      createProposalPage.vendorAddressInput,
       "vendorAddress"
     );
     createProposalPage.assertValueIsNotEmpty(
-      createProposalPage.selectors.vendorTaxTypeInput,
+      createProposalPage.vendorTaxTypeInput,
       "vendorTaxType"
     );
   }
 );
 
 And("user types search buyer input field with {string}", (buyerId: string) => {
-  createProposalPage.typeString(
-    createProposalPage.selectors.buyerIdInput,
-    buyerId
-  );
-  createProposalPage.selectOption(
-    createProposalPage.selectors.buyerIdOption,
-    buyerId,
-    0
-  );
+  cy.get(createProposalPage.buyerIdInput).type(buyerId);
+  cy.contains(createProposalPage.buyerIdOption, buyerId).eq(0).click();
   createProposalPage.assertValueIsNotEmpty(
-    createProposalPage.selectors.buyerIdInput,
+    createProposalPage.buyerIdInput,
     "buyerId"
   );
   createProposalPage.assertValueIsNotEmpty(
-    createProposalPage.selectors.buyerNameInput,
+    createProposalPage.buyerNameInput,
     "buyerName"
   );
   createProposalPage.assertValueIsNotEmpty(
-    createProposalPage.selectors.buyerAreaInput,
+    createProposalPage.buyerAreaInput,
     "buyerArea"
   );
 });
@@ -80,10 +67,9 @@ And(
       enums.deliveryMethod,
       deliveryMethod
     );
-    createProposalPage.selectRadioButton(
-      createProposalPage.selectors.deliveryMethodInput,
-      deliveryMethodKey
-    );
+    cy.get(
+      createProposalPage.deliveryMethodInput + `[value='${deliveryMethodKey}']`
+    ).click();
     cy.wrap(deliveryMethodKey).as("deliveryMethod");
   }
 );
@@ -113,15 +99,14 @@ And(
     digits: number
   ) => {
     const selector = {
-      deliveryFee: createProposalPage.selectors.deliveryFeeInput,
-      deliveryFeeDiscount:
-        createProposalPage.selectors.deliveryFeeDiscountInput,
-      unloadingFee: createProposalPage.selectors.unloadingFeeInput,
-      purchaseDiscount: createProposalPage.selectors.purchaseDiscountInput,
+      deliveryFee: createProposalPage.deliveryFeeInput,
+      deliveryFeeDiscount: createProposalPage.deliveryFeeDiscountInput,
+      unloadingFee: createProposalPage.unloadingFeeInput,
+      purchaseDiscount: createProposalPage.purchaseDiscountInput,
     };
 
     let randomInt = utils.randomInt(digits);
-    createProposalPage.typeNumber(selector[field], randomInt);
+    cy.get(selector[field]).type(randomInt + "");
     cy.wrap(randomInt).as(field);
   }
 );
@@ -129,36 +114,27 @@ And(
 And(
   "user fills purchase reason input field with {string}",
   (purchaseReason: string) => {
-    createProposalPage.typeString(
-      createProposalPage.selectors.purchaseReasonInput,
-      purchaseReason
-    );
+    cy.get(createProposalPage.purchaseReasonInput).type(purchaseReason);
     cy.wrap(purchaseReason).as("purchaseReason");
   }
 );
 
 And("user clicks on Lanjut button to add item stage", () => {
-  createProposalPage.click(createProposalPage.selectors.nextToAddItemButton);
+  cy.get(createProposalPage.nextToAddItemButton).click();
 });
 
 And("user clicks on Tambah Item Pembelian button", () => {
-  createProposalPage.click(createProposalPage.selectors.addNewItemButton);
+  cy.get(createProposalPage.addNewItemButton).click();
 });
 
 And(
   "user types search item name input field with {string}",
   (productName: string) => {
-    createProposalPage.typeString(
-      createProposalPage.selectors.productInput,
-      productName
-    );
-    createProposalPage.selectOption(
-      createProposalPage.selectors.productOption,
-      productName,
-      0
-    );
+    cy.get(createProposalPage.productInput).type(productName);
+    cy.contains(createProposalPage.productOption, productName).eq(0).click();
+
     createProposalPage.assertValueIsNotEmpty(
-      createProposalPage.selectors.taxTypeInput,
+      createProposalPage.taxTypeInput,
       "taxType"
     );
   }
@@ -168,10 +144,7 @@ And(
   "user fills item quantity input field with {int} digits random",
   (digits: number) => {
     let quantity = utils.randomInt(digits);
-    createProposalPage.typeNumber(
-      createProposalPage.selectors.quantityInput,
-      quantity
-    );
+    cy.get(createProposalPage.quantityInput).type(quantity + "");
     cy.wrap(quantity).as("quantity");
   }
 );
@@ -186,7 +159,7 @@ And(
     let formattedDpp = utils.numberFormat(dpp);
     let formattedVat = utils.numberFormat(vat);
 
-    createProposalPage.typeNumber(createProposalPage.selectors.rateInput, rate);
+    cy.get(createProposalPage.rateInput).type(rate + "");
     cy.wrap(rate).as("rate");
     createProposalPage.checkDppCalculation(
       dpp,
@@ -203,7 +176,7 @@ And(
   (digits: number) => {
     let rateDiscount = utils.randomInt(digits);
     createProposalPage.typeDiscount(
-      createProposalPage.selectors.rateDiscountInput,
+      createProposalPage.rateDiscountInput,
       "amount",
       rateDiscount
     );
@@ -220,17 +193,17 @@ And(
     _randomType: "number" | "decimal"
   ) => {
     const inputSelector = {
-      internal: createProposalPage.selectors.internalDiscountInput,
-      principal: createProposalPage.selectors.principalDiscountInput,
-      distributor: createProposalPage.selectors.distributorDiscountInput,
-      program: createProposalPage.selectors.programDiscountInput,
+      internal: createProposalPage.internalDiscountInput,
+      principal: createProposalPage.principalDiscountInput,
+      distributor: createProposalPage.distributorDiscountInput,
+      program: createProposalPage.programDiscountInput,
     };
 
     const textSelector = {
-      internal: createProposalPage.selectors.internalDiscountText,
-      principal: createProposalPage.selectors.principalDiscountText,
-      distributor: createProposalPage.selectors.distributorDiscountText,
-      program: createProposalPage.selectors.programDiscountText,
+      internal: createProposalPage.internalDiscountText,
+      principal: createProposalPage.principalDiscountText,
+      distributor: createProposalPage.distributorDiscountText,
+      program: createProposalPage.programDiscountText,
     };
 
     const discountInput = {
@@ -269,22 +242,19 @@ And("user clicks on Tambah button to add item", () => {
   // createProposalPage.calculateRateDiscount();
   createProposalPage.checkTotalAmountCalculation();
   createProposalPage.calculateMinimumSellingPrice();
-  createProposalPage.click(createProposalPage.selectors.addItemButton);
+  cy.get(createProposalPage.addItemButton).click();
 });
 
 And("user clicks on Lanjut button to suggested selling price stage", () => {
-  createProposalPage.click(
-    createProposalPage.selectors.nextToSellingPriceButton
-  );
+  cy.get(createProposalPage.nextToSellingPriceButton).click();
 });
 
 And(
   "user fills selling estimation days input field with {int} digits random integer",
   (digits: number) => {
     let sellingEstimationDays = utils.randomInt(digits);
-    createProposalPage.typeNumber(
-      createProposalPage.selectors.sellingEstimationDateInput,
-      sellingEstimationDays
+    cy.get(createProposalPage.sellingEstimationDateInput).type(
+      sellingEstimationDays + ""
     );
     cy.wrap(sellingEstimationDays).as("sellingEstimationDays");
   }
@@ -297,27 +267,23 @@ And(
       enums.settingType,
       settingType
     );
-    createProposalPage.selectRadioButton(
-      createProposalPage.selectors.settingTypeInput,
-      settingTypeKey
-    );
+    cy.get(
+      createProposalPage.settingTypeInput + `[value='${settingTypeKey}']`
+    ).click();
     cy.wrap(settingTypeKey).as("settingType");
   }
 );
 
 And("user clicks on Tambah UOM Penjualan button", () => {
-  createProposalPage.click(createProposalPage.selectors.addSellingUomButton);
+  cy.get(createProposalPage.addSellingUomButton).click();
 });
 
 And("user selects {string} as selling UOM", (uom: string) => {
-  createProposalPage.selectCheckbox(
-    createProposalPage.selectors.uomCheckbox,
-    uom
-  );
+  cy.contains(createProposalPage.uomCheckbox, uom).click();
 });
 
 And("user clicks on Atur Harga button", () => {
-  createProposalPage.click(createProposalPage.selectors.setSellingPriceButton);
+  cy.get(createProposalPage.setSellingPriceButton).click({ force: true });
 });
 
 And(
@@ -328,8 +294,8 @@ And(
     _randomType: "integer" | "decimal"
   ) => {
     const selector = {
-      margin: createProposalPage.selectors.marginInput,
-      price: createProposalPage.selectors.priceInput,
+      margin: createProposalPage.marginInput,
+      price: createProposalPage.priceInput,
     };
     const input = {
       margin: utils.randomDecimal(digits),
@@ -369,7 +335,7 @@ And(
             minimumSellingPrice,
             input[settingType]
           );
-          createProposalPage.typeNumber(selector[settingType], sellingPrice);
+          cy.get(selector[settingType]).type(sellingPrice + "");
           cy.wrap(sellingPrice).as(settingType);
         });
       });
@@ -378,24 +344,21 @@ And(
 );
 
 And("user clicks on Simpan button to UOM price tier input", () => {
-  createProposalPage.click(createProposalPage.selectors.savePriceTierButton);
+  cy.get(createProposalPage.savePriceTierButton).click();
   cy.get("@settingType").then((settingType: any) => {
     cy.get("@minimumSellingPrice").then((minimumSellingPrice: any) => {
       if (settingType === "PRICE") {
         cy.get("@price").then((price: any) => {
           let priceMargin =
             utils.marginCalculation(price, minimumSellingPrice) + "";
-          createProposalPage.assertTextContains(
-            basePage.selectors.text,
-            priceMargin
-          );
+          createProposalPage.assertTextContains(basePage.text, priceMargin);
         });
       } else {
         cy.get("@margin").then((margin: any) => {
           let price = utils.priceCalculation(margin, minimumSellingPrice);
           let priceNumberFormat = utils.numberFormat(price);
           createProposalPage.assertTextContains(
-            basePage.selectors.text,
+            basePage.text,
             priceNumberFormat
           );
         });
@@ -405,22 +368,20 @@ And("user clicks on Simpan button to UOM price tier input", () => {
 });
 
 And("user clicks on Lanjut button to purchase request preview", () => {
-  createProposalPage.click(createProposalPage.selectors.nextToPreviewButton);
+  cy.get(createProposalPage.nextToPreviewButton).click({ force: true });
 });
 
 And("user clicks on Simpan button to create purchase request", () => {
-  createProposalPage.click(
-    createProposalPage.selectors.savePurchaseRequestButton
-  );
+  cy.get(createProposalPage.savePurchaseRequestButton).click();
 });
 
 When("user clicks on OK button to confirm purchase request creation", () => {
-  createProposalPage.click(createProposalPage.selectors.confirmOkButton);
+  cy.get(createProposalPage.confirmOkButton).click();
 });
 
 Then("purchase request created successfully", () => {
   createProposalPage.assertTextContains(
-    basePage.selectors.snackBarAlert,
+    basePage.snackBarAlert,
     "Pembelian berhasil diajukan"
   );
 });

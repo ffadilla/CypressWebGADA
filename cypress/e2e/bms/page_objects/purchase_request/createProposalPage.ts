@@ -1,118 +1,110 @@
-import BaseCommands from "../baseCommands";
+import BasePage from "../basePage";
 import * as utils from "../../common/utils";
 
-const base = new BaseCommands();
+const basePage = new BasePage();
 
-export default class CreateProposalPage extends BaseCommands {
+export default class CreateProposalPage extends BasePage {
   path = "purchaseRequest/createProposal";
-  selectors = {
-    channelInput: "#field-channel .MuiSelect-select",
-    channelOption: ".MuiMenuItem-root",
-    vendorIdInput: "#field-vendorId .MuiOutlinedInput-root #combo-box-demo",
-    vendorIdOption: ".MuiAutocomplete-option",
-    vendorNameInput: "#field-nama-penjual .MuiInput-input",
-    vendorAddressInput: "#field-alamat-penjual textarea[class*='_textArea__']",
-    vendorTaxTypeInput: "#field-tipe-perpajakan .MuiInput-input",
-    buyerIdInput: "#field-buyer-id .MuiOutlinedInput-root #combo-box-demo",
-    buyerIdOption: ".MuiAutocomplete-option",
-    buyerNameInput: "#field-buyer-name .MuiInput-input",
-    buyerAreaInput: "#field-buyer-area .MuiInput-input",
-    deliveryMethodInput: "#field-metode-pengiriman input[type='radio']",
-    deliveryRequestDateButton:
-      "#field-permintaan-pengiriman .MuiButtonBase-root",
-    nextMonthCalendarButton: "button[aria-label='Next month']",
-    deliveryFeeInput: "#field-deliveryFee .MuiInput-input",
-    deliveryFeeDiscountInput: "#field-deliveryFeeDiscount .MuiInput-input",
-    unloadingFeeInput: "#field-unloadingFee .MuiInput-input",
-    purchaseDiscountInput: "#field-purchaseDiscount .MuiInput-input",
-    purchaseReasonInput: "#field-purchaseReason .MuiGrid-grid-md-9",
-    nextToAddItemButton: ".MuiButton-root:contains('Lanjut')",
-    addNewItemButton:
-      ".MuiCollapse-wrapperInner .MuiButton-root:contains(' Tambah Item Pembelian')",
-    productInput: "#field-product .MuiOutlinedInput-root",
-    productOption: ".MuiAutocomplete-option",
-    taxTypeInput: "#field-taxType .Mui-checked input[type='radio']",
-    quantityInput: "#field-quantity .MuiInput-input",
-    rateInput: "#field-rate .MuiInput-input",
-    dppInput: "#field-dpp .MuiInput-input",
-    vatInput: "#field-dpp .MuiInput-input",
-    rateDiscountInput: "#field-discountPerQty .MuiInput-input",
-    internalDiscountTypeSelect: "#field-internalDiscount .MuiSelect-select",
-    principalDiscountTypeSelect: "#field-principalDiscount .MuiSelect-select",
-    distributorDiscountTypeSelect:
-      "#field-distributorDiscount .MuiSelect-select",
-    programDiscountTypeSelect: "#field-programDiscount .MuiSelect-select",
-    internalDiscountInput: "#field-internalDiscount .MuiInput-input",
-    principalDiscountInput: "#field-principalDiscount .MuiInput-input",
-    distributorDiscountInput: "#field-distributorDiscount .MuiInput-input",
-    programDiscountInput: "#field-programDiscount .MuiInput-input",
-    internalDiscountText: "#field-internalDiscount .MuiTypography-root",
-    principalDiscountText: "#field-principalDiscount .MuiTypography-root",
-    distributorDiscountText: "#field-distributorDiscount .MuiTypography-root",
-    programDiscountText: "#field-programDiscount .MuiTypography-root",
-    totalAmountInput:
-      ":nth-child(2) > .css-8atqhb > .MuiGrid-container > .MuiGrid-grid-md-9 > .MuiInput-root > .MuiInput-input",
-    addItemButton: ".style_ModalFooter__3jP-z .MuiButton-root",
-    nextToSellingPriceButton:
-      ".MuiGrid-root .MuiButton-root:contains('Lanjut')",
-    purchaseItemVariantCard: ".MuiPaper-root .MuiCardContent-root",
-    sellingEstimationDateInput: "#field-quantity .MuiInput-input",
-    settingTypeInput: "#field-settingType input[type='radio']",
-    addSellingUomButton:
-      ".MuiTypography-root:contains('+ Tambah UOM Penjualan')",
-    uomCheckbox: ".MuiFormControlLabel-root .MuiTypography-root",
-    setSellingPriceButton: ".MuiTypography-root:contains('Atur Harga')",
-    deleteSellingPriceButton: ".MuiTypography-root:contains('Hapus Strata')",
-    minimumQuantityInput: "#field-minQuantity .MuiInput-input",
-    marginInput: "#field-margin .MuiInput-input",
-    priceInput: "#field-price .MuiInput-input",
-    addNewPriceTierButton: ".MuiTypography-root:contains('+ Tambah Harga')",
-    savePriceTierButton: ".MuiButton-root:contains('Simpan')",
-    sellingPriceText: ".style_rowDivider__1M-29 .MuiTypography-root",
-    roundedSellingPriceText: "tbody .MuiTypography-root",
-    nextToPreviewButton: ".MuiButton-root:contains('Lanjut')",
-    savePurchaseRequestButton: ".MuiButton-root:contains('Simpan')",
-    confirmOkButton: ".MuiButton-root:contains('OK')",
-  };
-
-  selectChannel(channel: string) {
-    base.click(this.selectors.channelInput);
-    base.selectOption(this.selectors.channelOption, channel);
-  }
+  channelInput = "#field-channel .MuiSelect-select";
+  channelOption = ".MuiMenuItem-root";
+  vendorIdInput = "#field-vendorId .MuiOutlinedInput-root #combo-box-demo";
+  vendorIdOption = ".MuiAutocomplete-option";
+  vendorNameInput = "#field-nama-penjual .MuiInput-input";
+  vendorAddressInput = "#field-alamat-penjual textarea[class*='_textArea__']";
+  vendorTaxTypeInput = "#field-tipe-perpajakan .MuiInput-input";
+  buyerIdInput = "#field-buyer-id .MuiOutlinedInput-root #combo-box-demo";
+  buyerIdOption = ".MuiAutocomplete-option";
+  buyerNameInput = "#field-buyer-name .MuiInput-input";
+  buyerAreaInput = "#field-buyer-area .MuiInput-input";
+  deliveryMethodInput = "#field-metode-pengiriman input[type='radio']";
+  deliveryRequestDateButton =
+    "#field-permintaan-pengiriman .MuiButtonBase-root";
+  nextMonthCalendarButton = "button[aria-label='Next month']";
+  deliveryFeeInput = "#field-deliveryFee .MuiInput-input";
+  deliveryFeeDiscountInput = "#field-deliveryFeeDiscount .MuiInput-input";
+  unloadingFeeInput = "#field-unloadingFee .MuiInput-input";
+  purchaseDiscountInput = "#field-purchaseDiscount .MuiInput-input";
+  purchaseReasonInput = "#field-purchaseReason .MuiGrid-grid-md-9";
+  nextToAddItemButton = ".MuiButton-root:contains('Lanjut')";
+  addNewItemButton =
+    ".MuiCollapse-wrapperInner .MuiButton-root:contains(' Tambah Item Pembelian')";
+  productInput = "#field-product .MuiOutlinedInput-root";
+  productOption = ".MuiAutocomplete-option";
+  taxTypeInput = "#field-taxType .Mui-checked input[type='radio']";
+  quantityInput = "#field-quantity .MuiInput-input";
+  rateInput = "#field-rate .MuiInput-input";
+  dppInput = "#field-dpp .MuiInput-input";
+  vatInput = "#field-dpp .MuiInput-input";
+  rateDiscountInput = "#field-discountPerQty .MuiInput-input";
+  internalDiscountTypeSelect = "#field-internalDiscount .MuiSelect-select";
+  principalDiscountTypeSelect = "#field-principalDiscount .MuiSelect-select";
+  distributorDiscountTypeSelect =
+    "#field-distributorDiscount .MuiSelect-select";
+  programDiscountTypeSelect = "#field-programDiscount .MuiSelect-select";
+  internalDiscountInput = "#field-internalDiscount .MuiInput-input";
+  principalDiscountInput = "#field-principalDiscount .MuiInput-input";
+  distributorDiscountInput = "#field-distributorDiscount .MuiInput-input";
+  programDiscountInput = "#field-programDiscount .MuiInput-input";
+  internalDiscountText = "#field-internalDiscount .MuiTypography-root";
+  principalDiscountText = "#field-principalDiscount .MuiTypography-root";
+  distributorDiscountText = "#field-distributorDiscount .MuiTypography-root";
+  programDiscountText = "#field-programDiscount .MuiTypography-root";
+  totalAmountInput =
+    ":nth-child(2) > .css-8atqhb > .MuiGrid-container > .MuiGrid-grid-md-9 > .MuiInput-root > .MuiInput-input";
+  addItemButton = ".style_ModalFooter__3jP-z .MuiButton-root";
+  nextToSellingPriceButton = ".MuiGrid-root .MuiButton-root:contains('Lanjut')";
+  purchaseItemVariantCard = ".MuiPaper-root .MuiCardContent-root";
+  sellingEstimationDateInput = "#field-quantity .MuiInput-input";
+  settingTypeInput = "#field-settingType input[type='radio']";
+  addSellingUomButton =
+    ".MuiTypography-root:contains('+ Tambah UOM Penjualan')";
+  uomCheckbox = ".MuiFormControlLabel-root .MuiTypography-root";
+  setSellingPriceButton = ".MuiTypography-root:contains('Atur Harga')";
+  deleteSellingPriceButton = ".MuiTypography-root:contains('Hapus Strata')";
+  minimumQuantityInput = "#field-minQuantity .MuiInput-input";
+  marginInput = "#field-margin .MuiInput-input";
+  priceInput = "#field-price .MuiInput-input";
+  addNewPriceTierButton = ".MuiTypography-root:contains('+ Tambah Harga')";
+  savePriceTierButton = ".MuiButton-root:contains('Simpan')";
+  sellingPriceText = ".style_rowDivider__1M-29 .MuiTypography-root";
+  roundedSellingPriceText = "tbody .MuiTypography-root";
+  nextToPreviewButton = ".MuiButton-root:contains('Lanjut')";
+  savePurchaseRequestButton = ".MuiButton-root:contains('Simpan')";
+  confirmOkButton = ".MuiButton-root:contains('OK')";
 
   setDeliveryRequestStartDate(date: string) {
-    base.click(this.selectors.deliveryRequestDateButton);
-    base.click(`button[aria-label='${date}']`);
+    cy.get(this.deliveryRequestDateButton).eq(0).click();
+    cy.get(`button[aria-label='${date}']`).eq(0).click();
   }
 
   setDeliveryRequestEndDate(date: string) {
-    base.click(this.selectors.deliveryRequestDateButton, 1);
+    cy.get(this.deliveryRequestDateButton).eq(1).click();
     if (Cypress.$(`[aria-label='${date}']`).length > 0) {
       cy.get(`button[aria-label='${date}']`).then((element) => {
         if (element.length > 1) {
           cy.get(`button[aria-label='${date}']`).eq(1).click();
         } else {
-          cy.get(`button[aria-label='${date}']`).click();
+          cy.get(`button[aria-label='${date}']`).eq(0).click();
         }
       });
     } else {
-      cy.get(this.selectors.nextMonthCalendarButton).then((element) => {
+      cy.get(this.nextMonthCalendarButton).then((element) => {
         if (element.length > 1) {
-          base.click(this.selectors.nextMonthCalendarButton, 1);
+          cy.get(this.nextMonthCalendarButton).eq(1).click();
         } else {
-          base.click(this.selectors.nextMonthCalendarButton);
+          cy.get(this.nextMonthCalendarButton).eq(0).click();
         }
       });
-      base.click(`button[aria-label='${date}']`);
+      cy.get(`button[aria-label='${date}']`).eq(0).click();
     }
   }
 
   typeDiscount(selector: string, _discountType: string, discount: number) {
-    // Todo: discount improvement project
+    // Todo= discount improvement project
     // base.click(selector);
     // base.click(`li[class*='MuiMenuItem-root'][data-value='${discountType}']`);
     // base.typeNumber(selector, discount, 1);
-    base.typeNumber(selector, discount);
+    cy.get(selector).type(discount + "");
   }
 
   checkDppCalculation(
@@ -123,10 +115,10 @@ export default class CreateProposalPage extends BaseCommands {
   ) {
     cy.get("@taxType").then((taxType: any) => {
       if (taxType === "VAT") {
-        base.assertValueEqualTo(this.selectors.dppInput, formattedDpp);
+        basePage.assertValueEqualTo(this.dppInput, formattedDpp);
         cy.wrap(dpp).as("dpp");
       } else {
-        base.assertValueEqualTo(this.selectors.dppInput, 0 + formattedRate);
+        basePage.assertValueEqualTo(this.dppInput, 0 + formattedRate);
         cy.wrap(rate).as("dpp");
       }
     });
@@ -135,10 +127,10 @@ export default class CreateProposalPage extends BaseCommands {
   checkVatCalculation(vat: number, formattedVat: string) {
     cy.get("@taxType").then((taxType: any) => {
       if (taxType === "VAT") {
-        base.assertValueEqualTo(this.selectors.vatInput, formattedVat, 1);
+        basePage.assertValueEqualTo(this.vatInput, formattedVat, 1);
         cy.wrap(vat).as("vat");
       } else {
-        base.assertValueEqualTo(this.selectors.vatInput, 0, 1);
+        basePage.assertValueEqualTo(this.vatInput, 0, 1);
         cy.wrap(0).as("vat");
       }
     });
@@ -168,8 +160,8 @@ export default class CreateProposalPage extends BaseCommands {
         cy.get("@rateDiscount").then((rateDiscount: any) => {
           let totalAmount = utils.totalAmount(quantity, rate, rateDiscount);
           let totalAmountNumberFormat = utils.numberFormat(totalAmount);
-          base.assertValueEqualTo(
-            this.selectors.totalAmountInput,
+          basePage.assertValueEqualTo(
+            this.totalAmountInput,
             totalAmountNumberFormat
           );
           cy.wrap(totalAmount).as("totalAmount");

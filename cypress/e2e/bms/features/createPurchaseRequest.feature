@@ -34,7 +34,7 @@ Feature: Create Purchase Request
     And user clicks on Tambah UOM Penjualan button
     And user selects "PCS" as selling UOM
     And user clicks on Atur Harga button
-    And user fills <settingType> input field with 4 digits random <randomType> from minimum selling price
+    And user fills <settingType> input field with 3 digits random <randomType> from minimum selling price
     And user clicks on Simpan button to UOM price tier input
     And user clicks on Lanjut button to purchase request preview
     And user clicks on Simpan button to create purchase request

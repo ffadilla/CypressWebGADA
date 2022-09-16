@@ -1,14 +1,10 @@
-import BaseCommands from "../baseCommands";
+import BasePage from "../basePage";
 
-const base = new BaseCommands();
-
-export default class ListAllRequestPage extends BaseCommands {
+export default class ListAllRequestPage extends BasePage {
   path = "purchaseRequest/listAllRequest";
-  selectors = {
-    purchaseRequestCard: ".MuiCard-root",
-  };
+  purchaseRequestCard = ".MuiCard-root";
 
   clickPurchaseRequestCard(index: number) {
-    base.click(this.selectors.purchaseRequestCard, index);
+    cy.get(this.purchaseRequestCard).eq(index).click();
   }
 }
