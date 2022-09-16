@@ -1,17 +1,7 @@
-export function deliveryMethod(deliveryMethodName: string) {
-  if (deliveryMethodName == "Gudang Ada Logistic") {
-    return "GADA_LOGISTIC";
-  } else {
-    return "STORE_COURIER";
-  }
-}
+import * as moment from "moment";
 
-export function taxType(taxTypeName: string) {
-  if (taxTypeName === "Non PKP") {
-    return "PTKP";
-  } else {
-    return "PKP";
-  }
+export function getDate(index: number, format: string) {
+  return moment().add(index, "days").format(format);
 }
 
 export function dppCalculation(rate: number) {
@@ -73,10 +63,14 @@ export function priceCalculation(margin: number, minimumSellingPrice: number) {
   return Math.round((margin / 100) * minimumSellingPrice + minimumSellingPrice);
 }
 
-export function randomNumber(length: number) {
+export function randomInt(length: number) {
   return parseInt(
     ("" + Math.random()).substring(2, 2 + length).replace(/0/g, "1")
   );
+}
+
+export function randomDecimal(length: number) {
+  return parseFloat(("" + Math.random()).substring(1, 1 + length));
 }
 
 export function numberFormat(number: number) {
@@ -95,4 +89,10 @@ export function discountCalculation(
   } else {
     return Math.round((discount / 100) * rate);
   }
+}
+
+export function getEnumKeyByValue(enums: any, value: string) {
+  const indexOfValue = Object.values(enums).indexOf(value);
+  const key = Object.keys(enums)[indexOfValue];
+  return key;
 }

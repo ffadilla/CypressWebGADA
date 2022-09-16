@@ -16,8 +16,7 @@
     "baseApiUrl": "https://inventory-api.gudangada.online/api/"
   },
   "bms": {
-    "baseUrl": "https://bms.gudangada.online/",
-    "localStorage": {}
+    "baseUrl": "https://bms.gudangada.online/"
   },
   "warehouseMitra": {
     "baseUrl": "https://warehouse-dev.gudangada.com/",

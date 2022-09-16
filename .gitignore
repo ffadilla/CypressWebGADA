@@ -1,5 +1,6 @@
 /package-lock.json
 /.idea/
+/.vscode/
 /node_modules/
 /cypress/videos
 /cypress/screenshots
