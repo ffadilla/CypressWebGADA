@@ -5,27 +5,29 @@ Feature: Get Inbound Request List
 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound request list
     When user redirects to inbound menu
-    And user clicks <status> button at inbound Request list
+    And user clicks <status> status chip at inbound Request list
     And user applies <keyword> to find related inbound Request
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
     And user applies <deliveryDate> as delivery date filter at inbound Request list
     Then user should be at inbound Request list
-    And query param for <status> status should be added to inbound Request list URL
-    And query param for <keyword> keyword should be added to inbound Request list URL
-    And query param for <deliveryMethod> delivery method should be added to inbound Request list URL
-    And query param for <deliveryDate> delivery date should be added to inbound Request list URL
+    And query param for <status> "status" should be added to inbound Request list URL
+    And query param for <keyword> "keyword" should be added to inbound Request list URL
+    And query param for <deliveryMethod> "delivery method" should be added to inbound Request list URL
+    And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
     And user should able to see empty inbound Requests list
     When user logs out from WMS
     Examples:
     | status         | keyword             | deliveryMethod   | deliveryDate  |
-    | "Dibatalkan"   | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | 1             |
+    | "Dibatalkan"   | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           |
 
   Scenario Outline: User successfully filters inbound request list by <status> status
     When user redirects to inbound menu
-    And user clicks <status> button at inbound Request list
+    And user clicks <status> status chip at inbound Request list
     Then user should be at inbound Request list
-    And query param for <status> status should be added to inbound Request list URL
-    And user should only able to see <status> status inbound Request
+    And query param for <status> "status" should be added to inbound Request list URL
+    And user should only able to see inbound Request with <status> "status"
+    When user clicks "Semua Status" status chip at inbound Request list
+    Then query param for "Semua Status" "status" should be added to inbound Request list URL
     When user logs out from WMS
 
     Examples:
@@ -39,8 +41,10 @@ Feature: Get Inbound Request List
     When user redirects to inbound menu
     And user applies <keyword> to find related inbound Request
     Then user should be at inbound Request list
-    And query param for <keyword> keyword should be added to inbound Request list URL
+    And query param for <keyword> "keyword" should be added to inbound Request list URL
     And user should only able to see inbound Requests with <searchTarget> matched <keyword>
+    When user resets any applied keyword filter at inbound Request list
+    Then query param for "null" "keyword" should be added to inbound Request list URL
     When user logs out from WMS
 
     Examples:
@@ -53,8 +57,10 @@ Feature: Get Inbound Request List
     When user redirects to inbound menu
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
     Then user should be at inbound Request list
-    And query param for <deliveryMethod> delivery method should be added to inbound Request list URL
-    And user should only able to see inbound Request with <deliveryMethod> delivery method
+    And query param for <deliveryMethod> "delivery method" should be added to inbound Request list URL
+    And user should only able to see inbound Request with <deliveryMethod> "delivery method"
+    When user applies "Semua Metode" as delivery method filter at inbound Request list
+    Then query param for "Semua Metode" "delivery method" should be added to inbound Request list URL
     When user logs out from WMS
 
     Examples:
@@ -62,17 +68,33 @@ Feature: Get Inbound Request List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-    | "Semua Metode"    |
 
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound menu
     And user applies <deliveryDate> as delivery date filter at inbound Request list
     Then user should be at inbound Request list
-    And query param for <deliveryDate> delivery date should be added to inbound Request list URL
-    And user should only able to see inbound Request with <deliveryDate> delivery date
+    And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
+    And user should only able to see inbound Request with <deliveryDate> "delivery date"
+    When user resets any applied delivery date filter at inbound Request list
+    Then query param for "null" "delivery date" should be added to inbound Request list URL
     When user logs out from WMS
 
     Examples:
     | deliveryDate    |
-    | 22              |
+    | "22"            |
+
+   Scenario Outline: User successfully filters inbound Request list by <deliveryDate> deliveryDate
+    //TODO: Precondition to create inbound Request with 22 as delivery date
+    When user redirects to inbound menu
+    And user clicks inbound Request list tab
+    And user applies <pageAmount> as page amount at inbound Request list
+    Then user should be at inbound Request list
+    And query param for <pageAmount> "rowsPerPage" should be added to inbound Request list URL
+    And user should only able to see <pageAmount> inbound Request per page maximum
+
+    Examples:
+    | pageAmount    |
+    | "15"          |
+    | "20"          |
+    | "25"          |

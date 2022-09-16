@@ -1,8 +1,11 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InboundRequestListPage from "../page_objects/inboundRequestListPage";
-import * as utils from "../common/utils";
 
 const inboundRequestListPage = new InboundRequestListPage();
+
+When("user clicks inbound Request list tab", () => {
+  inboundRequestListPage.clickRequestTab();
+});
 
 When(
   "user applies {string} to find related inbound Request",
@@ -10,10 +13,22 @@ When(
     inboundRequestListPage.setSearchKeyword(keyword);
   }
 );
+
+When("user resets any applied keyword filter at inbound Request list", () => {
+  inboundRequestListPage.resetSearchKeyword();
+});
+
 When(
-  "user applies {int} as delivery date filter at inbound Request list",
-  (deliveryDate: number) => {
+  "user applies {string} as delivery date filter at inbound Request list",
+  (deliveryDate: string) => {
     inboundRequestListPage.setDeliveryDateFilter(deliveryDate);
+  }
+);
+
+When(
+  "user resets any applied delivery date filter at inbound Request list",
+  () => {
+    inboundRequestListPage.resetDeliveryDate();
   }
 );
 
@@ -25,9 +40,16 @@ When(
 );
 
 When(
-  "user clicks {string} button at inbound Request list",
+  "user clicks {string} status chip at inbound Request list",
   (status: string) => {
     inboundRequestListPage.clickStatusChip(status);
+  }
+);
+
+When(
+  "user applies {string} as page amount at inbound Request list",
+  (value: string) => {
+    inboundRequestListPage.setPageAmount(value);
   }
 );
 
@@ -39,75 +61,62 @@ When("user selects new inbound request dropdown", () => {
   cy.contains(inboundRequestListPage.createNewRequestButtonOption).click();
 });
 
+When("user clicks the first data on inbound Request table", () => {
+  inboundRequestListPage.clickFirstRequest();
+});
+
 Then("user should be at inbound Request list", () => {
   expect(cy.url().should("include", inboundRequestListPage.path));
 });
 
 Then(
-  "query param for {string} status should be added to inbound Request list URL",
-  (value: string) => {
-    inboundRequestListPage.assertStatusQueryParam(value);
-  }
-);
+  "query param for {string} {string} should be added to inbound Request list URL",
+  (val: string, attribute: string) => {
+    const target =
+      attribute === "keyword" ? "search" : attribute.split(" ").join("_");
+    const value =
+      attribute === "delivery method" ? val.split(" ").join("_") : val;
 
-Then(
-  "query param for {string} keyword should be added to inbound Request list URL",
-  (value: string) => {
-    inboundRequestListPage.assertQueryParam("search=", value);
-  }
-);
-
-Then(
-  "query param for {string} delivery method should be added to inbound Request list URL",
-  (value: string) => {
-    const deliveryMethod =
-      value === "Semua Metode" ? "" : value.split(" ").join("_");
-    inboundRequestListPage.assertQueryParam("delivery_method=", deliveryMethod);
-  }
-);
-
-Then(
-  "query param for {int} delivery date should be added to inbound Request list URL",
-  (value: number) => {
-    inboundRequestListPage.assertDateQueryParam("delivery_date=", value);
-  }
-);
-
-Then(
-  "user should only able to see {string} status inbound Request",
-  (value: string) => {
-    inboundRequestListPage.assertRequestItemsBySearchFilter("status", value);
+    if (attribute === "status") {
+      inboundRequestListPage.assertStatusQueryParam(value);
+    } else if (attribute === "delivery date") {
+      inboundRequestListPage.assertDateQueryParam(target, value);
+    } else if (attribute === "delivery method" && val === "Semua Metode") {
+      inboundRequestListPage.assertQueryParam(target, "all");
+    } else {
+      inboundRequestListPage.assertQueryParam(target, value);
+    }
   }
 );
 
 Then(
   "user should only able to see inbound Requests with {string} matched {string}",
-  (target: string, value: string) => {
-    inboundRequestListPage.assertRequestItemsBySearchFilter(target, value);
+  (attribute: string, value: string) => {
+    inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
   }
 );
 
 Then(
-  "user should only able to see inbound Request with {string} delivery method",
+  "user should only able to see {string} inbound Request per page maximum",
   (value: string) => {
-    if (value === "Semua Metode") return null;
-    inboundRequestListPage.assertRequestItemsBySearchFilter(
-      "delivery method",
-      value
-    );
-    return null;
+    inboundRequestListPage.assertTotalPageAmount(value);
   }
 );
 
 Then(
-  "user should only able to see inbound Request with {int} delivery date",
-  (value: number) => {
-    const expectedDeliveryDate =
-      inboundRequestListPage.setExpectedDeliveryDate(value);
-    inboundRequestListPage.assertRequestItemsBySearchFilter(
-      "delivery date",
-      expectedDeliveryDate
-    );
+  "user should only able to see inbound Request with {string} {string}",
+  (value: string, attribute: string) => {
+    if (value === "Semua Metode") return;
+    else if (attribute === "delivery date") {
+      const expectedDeliveryDate =
+        inboundRequestListPage.setExpectedDeliveryDate(parseInt(value));
+      inboundRequestListPage.assertRequestItemsBySearchFilter(
+        "delivery date",
+        expectedDeliveryDate
+      );
+    } else {
+      inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
+    }
   }
 );
 
@@ -115,15 +124,6 @@ Then("user should able to see empty inbound Requests list", () => {
   inboundRequestListPage.assertEmptyList();
 });
 
-Then(
-  "user should able to see created Request at inbound Request list -- with {string}, {string}, {int}",
-  (targetStoreName: string, deliveryMethod: string, deliveryDate: number) => {
-    inboundRequestListPage.setSearchKeyword(utils.getSourceID());
-    inboundRequestListPage.assertFirtRequestItem(
-      utils.getSourceID(),
-      targetStoreName,
-      deliveryMethod,
-      deliveryDate
-    );
-  }
-);
+Then("user should able to see created Request at inbound Request list", () => {
+  inboundRequestListPage.assertCreatedRequestItem();
+});

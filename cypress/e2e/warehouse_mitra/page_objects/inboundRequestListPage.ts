@@ -1,26 +1,14 @@
-import BasePage from "./basePage";
-import * as utils from "../common/utils";
+import InboundListPage from "./inboundListPage";
 
-export default class InboundRequestListPage extends BasePage {
+export default class InboundRequestListPage extends InboundListPage {
   path = "/inventory/inbound/request/list";
   createRequestButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
-  chipContainer = "#chips-container";
-  searchbox =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
-  deliveryMethodFilterButton = "#filter-modal";
-  deliveryMethodDropdown = "#mui-component-select-delivery_method";
-  deliveryMethodDropdownItem = 'li[role="option"]';
-  submitDeliveryMethodFilterButton =
-    ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
-  deliveryDateFilterButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div/div/input';
-  deliveryDateCell = 'div[role="cell"]';
-  deliveryDateCTAButton = 'button[class="MuiButtonBase-root"]';
   requestItemListBody =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[1]/table/tbody';
   requestItemSourceIDPointer = "/td[1]/div[1]";
+  requestItemSourceTypePointer = "/td[1]/div[2]";
   requestItemRequestIDPointer = "/td[2]/a/div[1]";
   requestItemSupplierStorePointer = "/td[3]/div";
   requestItemDeliveryMethodPointer = "/td[4]/div";
@@ -28,97 +16,105 @@ export default class InboundRequestListPage extends BasePage {
   requestItemStatusPointer = "/td[5]/span/span[2]";
   requestItemFirstElementPointer = "/tr[1]";
   firstRequestItemSourceID = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemSourceIDPointer
+    this.requestItemFirstElementPointer + this.requestItemSourceIDPointer
+  );
+  firstRequestItemSourceType = this.requestItemListBody.concat(
+    this.requestItemFirstElementPointer + this.requestItemSourceTypePointer
+  );
+  firstRequestItemRequestID = this.requestItemListBody.concat(
+    this.requestItemFirstElementPointer + this.requestItemRequestIDPointer
   );
   firstRequestItemTargetStore = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemSupplierStorePointer
+    this.requestItemFirstElementPointer + this.requestItemSupplierStorePointer
   );
   firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemDeliveryMethodPointer
+    this.requestItemFirstElementPointer + this.requestItemDeliveryMethodPointer
   );
   firstRequestItemDeliveryDate = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemDeliveryDatePointer
+    this.requestItemFirstElementPointer + this.requestItemDeliveryDatePointer
   );
   firstRequestItemStatus = this.requestItemListBody.concat(
-    "/tr[1]" + this.requestItemStatusPointer
+    this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
-  emptyResultText =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
-
-  setSearchKeyword(keyword: string) {
-    cy.xpath(this.searchbox).type(keyword);
-    cy.xpath(this.searchbox).type("{enter}");
-  }
-
-  setDeliveryMethodFilter(deliveryMethod: string) {
-    cy.get(this.deliveryMethodFilterButton).click();
-    cy.get(this.deliveryMethodDropdown).click();
-    cy.get(this.deliveryMethodDropdownItem).contains(deliveryMethod).click();
-    cy.get(this.submitDeliveryMethodFilterButton).click();
-  }
-
-  setDeliveryDateFilter(deliveryDate: number) {
-    cy.xpath(this.deliveryDateFilterButton).click();
-    cy.get(this.deliveryDateCell).contains(deliveryDate).click();
-  }
-
-  setExpectedDeliveryDate(deliveryDate: number): string {
-    return "Dikirim " + deliveryDate + utils.generateDateTime(0, " MMM YYYY");
-  }
 
   clickStatusChip(status: string) {
     cy.get(this.chipContainer).contains(status).click();
   }
 
-  assertStatusQueryParam(value: string) {
-    let expectedValue = "";
-    switch (value) {
-      case "Belum Selesai":
-        expectedValue = "INCOMPLETE";
-        break;
-      case "Sedang Diproses":
-        expectedValue = "IN_PROGRESS";
-        break;
-      case "Sudah Selesai":
-        expectedValue = "COMPLETE";
-        break;
-      case "Dibatalkan":
-        expectedValue = "CANCELLED";
-        break;
-      case "Semua Status":
-        expectedValue = "";
-    }
-    this.assertQueryParam("status=", expectedValue);
+  clickFirstRequest() {
+    cy.xpath(this.firstRequestItemSourceID)
+      .invoke("text")
+      .as("requestListSourceID");
+    cy.xpath(this.firstRequestItemSourceType)
+      .invoke("text")
+      .as("requestListSourceType");
+    cy.xpath(this.firstRequestItemRequestID)
+      .invoke("text")
+      .as("requestListRequestID");
+    cy.xpath(this.firstRequestItemTargetStore)
+      .invoke("text")
+      .as("requestListTargetStore");
+    cy.xpath(this.firstRequestItemDeliveryMethod)
+      .invoke("text")
+      .as("requestListDeliveryMethod");
+    cy.xpath(this.firstRequestItemDeliveryDate)
+      .invoke("text")
+      .as("requestListDeliveryDate");
+    cy.xpath(this.firstRequestItemStatus)
+      .invoke("text")
+      .as("requestListStatus");
+
+    cy.xpath(this.firstRequestItemSourceID).click();
   }
 
-  assertFirtRequestItem(
-    expectedSourceID: string,
-    expectedTargetStoreName: string,
-    expectedDeliveryMethod: string,
-    deliveryDate: number
-  ) {
-    const expectedDeliveryDate = this.setExpectedDeliveryDate(deliveryDate);
-
+  assertCreatedRequestItem() {
+    let requestPrefix =
+      "REQIN/" + this.utils.generateDateTime(0, "MMYY") + "000";
+    cy.get("@inboundFormSourceID").then((sourceID) => {
+      expect(
+        cy.xpath(this.firstRequestItemSourceID).should("contain", sourceID)
+      );
+    });
+    cy.xpath(this.firstRequestItemSourceType)
+      .invoke("text")
+      .then(($text) => {
+        expect(
+          cy
+            .get("@inboundFormSourceType")
+            .should("contain", $text.split(" - ", 1))
+        );
+      });
     expect(
-      cy
-        .xpath(this.firstRequestItemSourceID)
-        .should("contain", expectedSourceID)
+      cy.xpath(this.firstRequestItemRequestID).should("contain", requestPrefix)
     );
-    expect(
-      cy
-        .xpath(this.firstRequestItemTargetStore)
-        .should("contain", expectedTargetStoreName)
+    cy.xpath(this.firstRequestItemTargetStore).then((actualTargetStoreName) => {
+      expect(
+        cy
+          .get("@inboundFormTargetStoreName")
+          .should("contain", actualTargetStoreName.text())
+      );
+    });
+    cy.xpath(this.firstRequestItemDeliveryMethod).then(
+      (actualDeliveryMethod) => {
+        expect(
+          cy
+            .get("@inboundFormDeliveryMethod")
+            .should("contain", actualDeliveryMethod.text())
+        );
+      }
     );
-    expect(
-      cy
-        .xpath(this.firstRequestItemDeliveryMethod)
-        .should("contain", expectedDeliveryMethod)
-    );
-    expect(
-      cy
-        .xpath(this.firstRequestItemDeliveryDate)
-        .should("contain", expectedDeliveryDate)
-    );
+    cy.get("@inboundFormDeliveryDate").then((deliveryDate) => {
+      let formattedDeliveryDate = this.utils.reformatDate(
+        deliveryDate.toString(),
+        "YYYY-MM-DD",
+        "DD MMM YYYY"
+      );
+      expect(
+        cy
+          .xpath(this.firstRequestItemDeliveryDate)
+          .should("contain", formattedDeliveryDate)
+      );
+    });
     expect(
       cy.xpath(this.firstRequestItemStatus).should("contain", "Belum Selesai")
     );
@@ -161,21 +157,5 @@ export default class InboundRequestListPage extends BasePage {
         expect(cy.xpath(requestItemAttribute).should("contain", value));
       }
     });
-  }
-
-  assertEmptyList() {
-    expect(
-      cy
-        .xpath(this.emptyResultText)
-        .should("contain", "Pencarian Tidak Ditemukan")
-    );
-    expect(
-      cy
-        .xpath(this.emptyResultText)
-        .should(
-          "contain",
-          "Silakan ganti filter/kata kunci lain yang lebih sesuai."
-        )
-    );
   }
 }
