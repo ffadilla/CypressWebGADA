@@ -30,6 +30,36 @@ export default class InboundRequestDetailPage extends BasePage {
   requestCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[2]';
 
+  invokeRequestDetail() {
+    cy.xpath(this.sourceIDInfo).invoke("text").as("requestDetailSourceID");
+    cy.xpath(this.requestIDInfo).invoke("text").as("requestDetailRequestID");
+    cy.xpath(this.sourceTypeInfo).invoke("text").as("requestDetailSourceType");
+    cy.xpath(this.targetStoreInfo)
+      .invoke("text")
+      .as("requestDetailTargetStore");
+    cy.xpath(this.storeName).invoke("text").as("requestDetailStoreName");
+    cy.xpath(this.deliveryDateInfo)
+      .invoke("text")
+      .as("requestDetailDeliveryDate");
+    cy.xpath(this.deliveryMethodInfo)
+      .invoke("text")
+      .as("requestDetailDeliveryMethod");
+    cy.xpath(this.warehouseName)
+      .invoke("text")
+      .as("requestDetailWarehouseName");
+    cy.xpath(this.tableBodyContainer + "/tr[1]/td[1]")
+      .invoke("text")
+      .as("requestDetailProductName");
+    cy.xpath(this.tableBodyContainer + "/tr[1]/td[2]")
+      .invoke("text")
+      .as("requestDetailProductQty");
+  }
+
+  clickCreateReceipt() {
+    this.invokeRequestDetail();
+    cy.xpath(this.requestCTAButtonContainer).contains("Terima Barang").click();
+  }
+
   assertRequestTableUI(status: string) {
     if (status === "Sudah Selesai") {
       expect(

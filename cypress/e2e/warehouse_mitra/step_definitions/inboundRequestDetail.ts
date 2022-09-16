@@ -1,7 +1,11 @@
-import { Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InboundRequestDetailPage from "../page_objects/inboundRequestDetailPage";
 
 const inboundRequestDetailPage = new InboundRequestDetailPage();
+
+When("user click create Receipt data at inbound Request detail page", () => {
+  inboundRequestDetailPage.clickCreateReceipt();
+});
 
 Then(
   "user should be at {string} inbound Request detail page",
