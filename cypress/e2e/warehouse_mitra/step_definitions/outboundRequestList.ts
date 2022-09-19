@@ -1,15 +1,7 @@
-import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
 
 const outboundRequestListPage = new OutboundRequestListPage();
-
-And("user is in menu Barang Keluar", () => {
-  outboundRequestListPage.selectMenuOutbound();
-});
-
-When("user goes to the outbound request last page", () => {
-  outboundRequestListPage.checkReqLastPage();
-});
 
 When("user inputs valid requestId", () => {
   outboundRequestListPage.searchRequest();

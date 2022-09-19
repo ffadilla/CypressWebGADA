@@ -24,7 +24,7 @@ When("user filters delivery_method by {string}", (value: string) => {
 });
 
 When("user chooses total {int} data per page", (value: number) => {
-  outboundPage.selectPage(value);
+  outboundPage.selectPageDropdown(value);
 });
 
 And("the previous page button will be disabled", () => {
@@ -37,10 +37,6 @@ Then("the previous page button will be clickable", () => {
 
 But("the next page button will be clickable", () => {
   outboundPage.assertNextButtonEnable();
-});
-
-But("the next page button will be disabled", () => {
-  outboundPage.assertNextButtonDisable();
 });
 
 And("user deletes the search input", () => {

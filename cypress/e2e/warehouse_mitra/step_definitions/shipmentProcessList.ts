@@ -3,7 +3,7 @@ import ShipmentProcessListPage from "../page_objects/shipmentProcessListPage";
 
 const shipmentProcessListPage = new ShipmentProcessListPage();
 
-And("user is in Shipment Process page", () => {
+And("user chooses Shipment Process page", () => {
   shipmentProcessListPage.selectShipmentProcess();
 });
 
@@ -12,7 +12,7 @@ When("user goes to the outbound shipment last page", () => {
 });
 
 When("user inputs valid shipmentId", () => {
-  shipmentProcessListPage.searchShipment();
+  shipmentProcessListPage.searchFirstShipment();
 });
 
 Then("show valid shipmentId search result {string}", (value: string) => {

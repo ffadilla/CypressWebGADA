@@ -1,11 +1,12 @@
-import BasePage from "./basePage";
+import OutboundPage from "./outboundPage";
 import { generateDateTime } from "../common/utils";
 
-export default class ShipmentProcessListPage extends BasePage {
+export default class ShipmentProcessListPage extends OutboundPage {
   path = "inventory/outbound/shipment/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
   //xpath start here
+  xpathShipmentProcessButton = "//span[text()='Proses Pengiriman']";
   xpathListParent = "//div/div[3]/div[2]/div/div/div[4]";
   xpathNotFound = '//div[text()="Pencarian Tidak Ditemukan"]';
   xpathNotFoundMsg = "Pencarian Tidak Ditemukan";
@@ -31,7 +32,7 @@ export default class ShipmentProcessListPage extends BasePage {
   yesterdayDF2 = generateDateTime(-1, "D MMM YYYY");
 
   selectShipmentProcess() {
-    this.navigate(this.path);
+    cy.xpath(this.xpathShipmentProcessButton).click();
     cy.url().should("include", this.path);
   }
 
@@ -56,7 +57,7 @@ export default class ShipmentProcessListPage extends BasePage {
       });
   }
 
-  searchShipment() {
+  searchFirstShipment() {
     cy.xpath(this.xpathFirstIdxShipData)
       .invoke("text")
       .then(($text) => {

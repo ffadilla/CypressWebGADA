@@ -13,7 +13,6 @@ export default class OutboundPage extends BasePage {
   GLOGMethodDD = 'li[data-value="GADA_LOGISTIC"]';
   defaultMethodDD = 'li[data-value="all"]';
   deliveryDateDP = 'input[placeholder="Tanggal"]';
-  datePicker = 'button[aria-label="';
   tabsContainer = "#chips-container";
   tabDefault = " > div:nth-child(1) > div:nth-child(1)";
   tabIncomplete = " > div:nth-child(2) > div:nth-child(1)";
@@ -26,18 +25,18 @@ export default class OutboundPage extends BasePage {
   xpathPaginationBox = '//div[contains(@class, "MuiSelect-select")]';
   xpathDatepickerSetToday = '//button[contains(@class,"MuiPickersDay-today")]';
   xpathDatepickerSetYesterday =
-    '//button[contains(@class,"MuiPickersDay-today")]/preceding::div[1]';
+    '//button[contains(@class,"MuiPickersDay-today")]/preceding::div[1]/button[text()=';
   xpathCounterList = '//span[contains(@class, "MuiTypography-bodyRegular")]';
   xpathPageDD = '//ul[@role="listbox"]/li[@data-value=';
-  xpathResetDP = '//button[contains(text(), "Reset")]';
+  xpathResetDP = '//button[text()="Reset"]';
   xpathNotFound = '//div[text()="Pencarian Tidak Ditemukan"]';
   xpathCounterStatusOpen = "//div[contains(text(), ";
   xpathCounterStatusClose = ")]/following::div[1]";
+  xpathDatePicker = "//button[text()=";
   //variables start here
   todayDate = generateDateTime(0, "YYYY-MM-DD");
   yesterdayDate = generateDateTime(-1, "YYYY-MM-DD");
   dateOnly = generateDateTime(0, "DD");
-  monthDF = generateDateTime(0, " MMM YYYY");
 
   assertPrevButtonDisable() {
     cy.get(this.prevArrowButton).should("be.disabled");
@@ -45,10 +44,6 @@ export default class OutboundPage extends BasePage {
 
   assertPrevButtonEnable() {
     cy.get(this.prevArrowButton).should("be.enabled");
-  }
-
-  assertNextButtonDisable() {
-    cy.get(this.nextArrowButton).should("be.disabled");
   }
 
   assertNextButtonEnable() {
@@ -83,7 +78,7 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "page=2");
   }
 
-  selectPage(value: number) {
+  selectPageDropdown(value: number) {
     cy.xpath(this.xpathPaginationBox).click();
     switch (value) {
       case 10:
@@ -138,7 +133,15 @@ export default class OutboundPage extends BasePage {
         );
         break;
       case "yesterday":
-        cy.xpath(this.xpathDatepickerSetYesterday).click();
+        cy.xpath(this.xpathDatepickerSetToday)
+          .invoke("text")
+          .then(($todayDate) => {
+            cy.xpath(
+              this.xpathDatepickerSetYesterday +
+                (parseInt($todayDate) - 1) +
+                "]"
+            ).click();
+          });
         cy.get(this.deliveryDateDP).should("contain.value", this.yesterdayDate);
         cy.location("search").should(
           "include",
@@ -146,7 +149,7 @@ export default class OutboundPage extends BasePage {
         );
         break;
       default:
-        cy.get(this.datePicker + value + this.monthDF + '"]').click();
+        cy.xpath(this.xpathDatePicker + value + "]").click();
         let dateVal = parseInt(value);
         let todayDateVal = parseInt(this.dateOnly);
         let resDate = todayDateVal - dateVal;

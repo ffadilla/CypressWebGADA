@@ -30,14 +30,4 @@ export default class LoginPage extends BasePage {
     cy.get(this.passwordField).type(this.accountData[role].password);
     this.clickLoginButton();
   }
-
-  silentLogin() {
-    cy.session([], () => {
-      this.navigate(this.path);
-      cy.get(this.emailField).type(this.accountData["superuser"].email);
-      cy.get(this.passwordField).type(this.accountData["superuser"].password);
-      cy.get(this.loginButton).click();
-      cy.url().should("contain", "dashboard");
-    });
-  }
 }

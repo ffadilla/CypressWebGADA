@@ -1,7 +1,7 @@
-import BasePage from "./basePage";
+import OutboundPage from "./outboundPage";
 import { generateDateTime } from "../common/utils";
 
-export default class OutboundRequestListPage extends BasePage {
+export default class OutboundRequestListPage extends OutboundPage {
   path = "inventory/outbound/request/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
@@ -31,32 +31,6 @@ export default class OutboundRequestListPage extends BasePage {
   todayDF2 = generateDateTime(0, "DD MMM YYYY");
   yesterdayDF1 = generateDateTime(-1, "D MMM YYYY");
   yesterdayDF2 = generateDateTime(-1, "D MMM YYYY");
-
-  selectMenuOutbound() {
-    this.navigate(this.path);
-    cy.url().should("include", this.path);
-  }
-
-  checkReqLastPage() {
-    let currentPage: number;
-    cy.xpath(this.xpathPaginationBox)
-      .invoke("text")
-      .then(($counter) => {
-        currentPage = parseInt($counter);
-      });
-    cy.xpath(this.xpathCounterList)
-      .invoke("text")
-      .then(($counter) => {
-        let counterOnFooter = $counter.split(" ");
-        let page = Math.ceil(parseInt(counterOnFooter[3]) / currentPage);
-        cy.visit(this.baseUrl + this.path, {
-          qs: {
-            page: page.toString(),
-          },
-        });
-        cy.location("search").should("include", "page=" + page);
-      });
-  }
 
   searchRequest() {
     cy.xpath(this.xpathFirstIdxReqData)
@@ -158,7 +132,7 @@ export default class OutboundRequestListPage extends BasePage {
             .find(">div")
             .its("length")
             .then(($div) => {
-              $div === 2
+              $div < 2
                 ? cy
                     .xpath(this.xpathNotFound)
                     .should("contain.text", this.xpathNotFoundMsg)
