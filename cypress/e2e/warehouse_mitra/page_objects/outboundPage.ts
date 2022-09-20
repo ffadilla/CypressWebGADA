@@ -24,8 +24,6 @@ export default class OutboundPage extends BasePage {
   xpathDelivMethodSaveButton = '//button[contains(text(), "Simpan")]';
   xpathPaginationBox = '//div[contains(@class, "MuiSelect-select")]';
   xpathDatepickerSetToday = '//button[contains(@class,"MuiPickersDay-today")]';
-  xpathDatepickerSetYesterday =
-    '//button[contains(@class,"MuiPickersDay-today")]/preceding::div[1]/button[text()=';
   xpathCounterList = '//span[contains(@class, "MuiTypography-bodyRegular")]';
   xpathPageDD = '//ul[@role="listbox"]/li[@data-value=';
   xpathResetDP = '//button[text()="Reset"]';
@@ -78,7 +76,7 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "page=2");
   }
 
-  selectPageDropdown(value: number) {
+  selectTotalPage(value: number) {
     cy.xpath(this.xpathPaginationBox).click();
     switch (value) {
       case 10:
@@ -137,9 +135,7 @@ export default class OutboundPage extends BasePage {
           .invoke("text")
           .then(($todayDate) => {
             cy.xpath(
-              this.xpathDatepickerSetYesterday +
-                (parseInt($todayDate) - 1) +
-                "]"
+              this.xpathDatePicker + (parseInt($todayDate) - 1) + "]"
             ).click();
           });
         cy.get(this.deliveryDateDP).should("contain.value", this.yesterdayDate);

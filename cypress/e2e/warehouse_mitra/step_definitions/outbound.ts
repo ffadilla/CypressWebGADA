@@ -24,7 +24,7 @@ When("user filters delivery_method by {string}", (value: string) => {
 });
 
 When("user chooses total {int} data per page", (value: number) => {
-  outboundPage.selectPageDropdown(value);
+  outboundPage.selectTotalPage(value);
 });
 
 And("the previous page button will be disabled", () => {
