@@ -3,6 +3,10 @@ import InboundReceiptListPage from "../page_objects/inboundReceiptListPage";
 
 const inboundReceiptListPage = new InboundReceiptListPage();
 
+When("user clicks inbound Receipt list tab", () => {
+  inboundReceiptListPage.clickReceiptTab();
+});
+
 When(
   "user applies {string} to find related inbound Receipt",
   (keyword: string) => {
@@ -48,6 +52,10 @@ When(
     inboundReceiptListPage.setPageAmount(value);
   }
 );
+
+When("user clicks the first data on inbound Receipt table", () => {
+  inboundReceiptListPage.clickFirstReceipt();
+});
 
 Then("user should be at inbound Receipt list", () => {
   expect(cy.url().should("include", inboundReceiptListPage.path));
