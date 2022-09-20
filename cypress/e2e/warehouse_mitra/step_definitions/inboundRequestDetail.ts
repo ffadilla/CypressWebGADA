@@ -3,6 +3,10 @@ import InboundRequestDetailPage from "../page_objects/inboundRequestDetailPage";
 
 const inboundRequestDetailPage = new InboundRequestDetailPage();
 
+When("user retrieves data from inbound Request detail page", () => {
+  inboundRequestDetailPage.invokeRequestDetail();
+});
+
 When("user click create Receipt data at inbound Request detail page", () => {
   inboundRequestDetailPage.clickCreateReceipt();
 });

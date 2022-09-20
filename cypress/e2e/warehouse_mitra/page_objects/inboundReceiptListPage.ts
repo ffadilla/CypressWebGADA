@@ -2,6 +2,14 @@ import InboundListPage from "./inboundListPage";
 
 export default class InboundReceiptListPage extends InboundListPage {
   path = "/inventory/inbound/receipt/list";
+  createReceiptButton =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
+  createReceiptWarehouseNameDropdown =
+    'input[placeholder="Pilih lokasi gudang"]';
+  createReceiptStoreNameDropdown = 'input[placeholder="Pilih toko"]';
+  createReceiptRequestIDDropdown = 'input[placeholder="Pilih no. permintaan"]';
+  dropdownOptionsItem = '[role="option"]';
+  createReceiptCTAButton = "[type=button]";
   tableBody = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]';
   accordionParent = "#panel[index]a-header";
   accordionParentReceiptIDPointer =
@@ -53,6 +61,24 @@ export default class InboundReceiptListPage extends InboundListPage {
   firstRowAccordionDeliveryMethod = this.firstRowAccordionChild.concat(
     this.accordionChildDeliveryMethodPointer
   );
+
+  submitCreateReceiptPopup() {
+    cy.get("@requestDetailWarehouseName").then((warehouseName) => {
+      cy.get(this.createReceiptWarehouseNameDropdown).click();
+      cy.get(this.dropdownOptionsItem).contains(String(warehouseName)).click();
+    });
+    cy.get("@requestDetailStoreName").then((storeName) => {
+      cy.get(this.createReceiptStoreNameDropdown).click();
+      cy.get(this.dropdownOptionsItem).contains(String(storeName)).click();
+    });
+    cy.get("@requestDetailRequestID").then((requestID) => {
+      cy.get(this.createReceiptRequestIDDropdown).click();
+      cy.get(this.dropdownOptionsItem)
+        .contains(String(requestID).substring(6, 15))
+        .click();
+    });
+    cy.get(this.createReceiptCTAButton).contains("Simpan").click();
+  }
 
   clickFirstReceipt() {
     cy.get(this.firstRowAccordionParent).click({ force: true });

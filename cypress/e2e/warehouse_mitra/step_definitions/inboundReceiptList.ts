@@ -7,6 +7,17 @@ When("user clicks inbound Receipt list tab", () => {
   inboundReceiptListPage.clickReceiptTab();
 });
 
+When("user clicks create inbound Receipt button", () => {
+  cy.xpath(inboundReceiptListPage.createReceiptButton).click();
+});
+
+When(
+  "user fills create inbound Receipt popup with 1 retrieved Request data",
+  () => {
+    inboundReceiptListPage.submitCreateReceiptPopup();
+  }
+);
+
 When(
   "user applies {string} to find related inbound Receipt",
   (keyword: string) => {
