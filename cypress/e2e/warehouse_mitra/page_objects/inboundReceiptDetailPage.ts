@@ -3,6 +3,7 @@ import BasePage from "./basePage";
 export default class InboundReceiptDetailPage extends BasePage {
   path = "https://warehouse-dev.gudangada.com/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
+  receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
 
   receiptIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/p';
@@ -94,6 +95,57 @@ export default class InboundReceiptDetailPage extends BasePage {
       );
     });
     cy.get("@receiptListDeliveryMethod").then((deliveryMethod) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.deliveryMethodInfo)
+          .should("contain", deliveryMethod)
+      );
+    });
+  }
+
+  assertReceiptDataByRequestDetail() {
+    expect(
+      cy.xpath(this.receiptIDInfo).should("contain", this.receiptIDPrefix)
+    );
+    expect(cy.xpath(this.createdDateInfo).should("contain", this.date));
+    cy.get("@requestDetailSourceID").then((sourceID) => {
+      expect(cy.xpath(this.sourceInfo).should("contain", sourceID));
+    });
+    cy.xpath(this.requestInfo)
+      .invoke("text")
+      .then((actualRequestID) => {
+        expect(
+          cy.get("@requestDetailRequestID").should("contain", actualRequestID)
+        );
+      });
+    expect(cy.xpath(this.receiptStatusInfo).should("contain", "Belum Selesai"));
+    /**
+     * FE still render incorrect format
+    cy.xpath(this.singleRequestInfo.sourceTypeInfo)
+      .invoke("text")
+      .then((actualSourceType) => {
+        expect(
+          cy.get("@requestDetailSourceType").should("contain", actualSourceType)
+        );
+      });
+    cy.xpath(this.singleRequestInfo.deliveryDateInfo)
+      .invoke("text")
+      .then((actualDeliveryDate) => {
+        expect(
+          cy
+            .get("@requestDetailDeliveryDate")
+            .should("contain", actualDeliveryDate)
+        );
+      });
+     */
+    cy.get("@requestDetailTargetStore").then((targetStore) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.targetStoreInfo)
+          .should("contain", targetStore)
+      );
+    });
+    cy.get("@requestDetailDeliveryMethod").then((deliveryMethod) => {
       expect(
         cy
           .xpath(this.singleRequestInfo.deliveryMethodInfo)

@@ -17,3 +17,10 @@ Then(
     inboundReceiptDetailPage.assertReceiptDataByReceiptList();
   }
 );
+
+Then(
+  "user should see similar inbound Receipt data between detail page and Request data",
+  () => {
+    inboundReceiptDetailPage.assertReceiptDataByRequestDetail();
+  }
+);

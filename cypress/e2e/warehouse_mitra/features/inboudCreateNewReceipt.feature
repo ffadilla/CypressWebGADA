@@ -9,4 +9,6 @@ Feature: Get Inbound Receipt
     And user applies "Cyp" to find related inbound Request
     And user clicks the first data on inbound Request table
     And user click create Receipt data at inbound Request detail page
+    Then user should be at "Belum Selesai" inbound Receipt detail page
+    And user should see similar inbound Receipt data between detail page and Request data
     When user logs out from WMS
