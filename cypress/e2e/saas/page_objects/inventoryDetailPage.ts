@@ -7,6 +7,7 @@ export default class InventoryDetail extends BasePage {
   productVariantNameInput = "#input_inventory_detail_product_variant_name";
   productDisplayNameInput = "#nput_displayName";
   productImageInputButton = "#input_inventory_detail_product_image";
+  inventoryEditNameUbahButton = "#button_inventory_edit_name_ubah";
 
   // principal, brand, category, subcategory
   principalAndBrandButton = "#button_choose_principal_and_brand";
@@ -42,6 +43,7 @@ export default class InventoryDetail extends BasePage {
   isConsignedToggleButton = "#button_toggle_is_consigned_product";
   chooseSupplierButton = "#button_choose_supplier";
   supplierSearchModalInput = "#input_supplier_search_modal";
+  supplierModalCloseButton = "#button_supplier_modal_close";
   addCustomSupplierButton = "#button_add_custom_supplier";
   addCustomSupplierNamaTokoInput = "#input_add_custom_supplier_nama_toko";
   addCustomSupplierNamaSalesInput = "#input_add_custom_supplier_nama_sales";
@@ -74,6 +76,31 @@ export default class InventoryDetail extends BasePage {
   // stock uom
   unitStockQuantityInput = "#input_stock_card_available_stock_";
   unitPriceInput = "#input_stock_card_price_";
+  inventoryEditStockCardUbahButton =
+    "#button_inventory_edit_ubah_stock_card_popover";
+  tambahStokBaruButton = "[id^=button_topup_stock_]";
+  tambahStokBaruUomPopoverButton = "#button_topup_product_unit_uom_popover";
+  tambahStokBaruStokMasukInput = "#input_topup_new_stock_";
+  tambahStokBaruCogsInput = "#input_topup_unit_price_";
+  tambahStokBaruSubmitButton = "#button_topup_modal_submit";
+  tambahStokBaruCloseModalButton = "#button_topup_modal_close";
+  hitungUlangStokButton = "[id^=button_restock_]";
+  currentGoodStockInput = "#input_restock_current_good_stock_";
+  currentBadStockKadaluwarsaInput = "#input_restock_current_kedaluwarsa_stock_";
+  currentBadStockRusakInput = "#input_restock_current_rusak_stock_";
+  goodStockInput = "#input_restock_new_good_stock_";
+  badStockKadaluwarsaInput = "#input_restock_new_kedaluwarsa_stock_";
+  badStockRusakInput = "#input_restock_new_rusak_stock_";
+  hitungUlangStokSubmitButton = "#button_restock_modal_submit";
+  hitungUlangStokCloseButton = "#button_restock_modal_close";
+  ubahStatusButton = "[id^=button_edit_good_stock_]";
+  totalStokFisikText = "#p_total_stok_fisik_";
+  goodStockText = "#p_good_stock_";
+  badStockText = "#p_bad_stock_";
+  totalGoodStockText = "#p_total_good_stock";
+  totalGoodStockYangSedangDipesanText =
+    "#p_total_good_stock_yang_sedang_dipesan";
+  totalGoodStockYangBisaDijualText = "#p_total_good_stock_yang_bisa_dijual";
 
   // selling uom
   expandSellingUnitButton = "#button_choose_selling_unit";
@@ -82,14 +109,20 @@ export default class InventoryDetail extends BasePage {
   unitPriceTierSellingPriceInput = "#input_price_tier_modal_unit_price_";
   unitPriceTierMinimumQuantityInput = "#input_price_tier_modal_min_quantity_";
   unitPriceTierAddMoreRowButton = "#button_price_tier_modal_add_row";
-  unitSellingPriceInput = "input[id='priceTiers[0].unitPrice']";
+  unitSellingPriceInput = "#input_price_tier_modal_unit_price_0";
   saveUnitSellingPriceButton = "#button_price_tier_modal_simpan";
   addBarcodeButton = "#button_selling_card_barcode_edit_";
   inputBarcodeManuallyButton = "#button_barcode_modal_manual_input";
   barcodeValueInput = "#input_barcode_modal";
   saveBarcodeButton = "#button_barcode_modal_simpan";
+  editSellingPriceButton = "#button_selling_card_price_tier_edit_";
+  barcodeMoreOptionsButton = "#button_selling_card_barcode_more_options_";
+  barcodeMoreOptionsUbahButton = "#button_selling_card_barcode_option_ubah_";
+  barcodeMoreOptionsHapusButton = "#button_selling_card_barcode_option_hapus_";
+  bisaDijualText = "#p_bisa_dijual_";
 
   submitAddInventoryButton = "#button_save_inventory_header";
+  deleteInventoryButton = "#button_inventory_edit_delete";
 
   visitInventoryDetail() {
     cy.visit(this.baseUrl + this.path);
@@ -106,6 +139,10 @@ export default class InventoryDetail extends BasePage {
 
   clickProductImageInputButton() {
     cy.get(this.productImageInputButton).click();
+  }
+
+  clickInventoryEditNameUbahButton() {
+    cy.get(this.inventoryEditNameUbahButton).click();
   }
 
   // principal, brand, category, subcategory
@@ -212,6 +249,10 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.supplierSearchModalInput).type(input);
   }
 
+  clickSupplierModalCloseButton() {
+    cy.get(this.supplierModalCloseButton).click();
+  }
+
   clickAddCustomSupplierButton() {
     cy.get(this.addCustomSupplierButton).click();
   }
@@ -305,7 +346,65 @@ export default class InventoryDetail extends BasePage {
   }
 
   typeUnitPrice(id: string, input: string) {
-    cy.get(this.unitPriceInput + id).type(input);
+    cy.get(this.unitPriceInput + id)
+      .clear()
+      .type(input);
+  }
+
+  clickInventoryEditStockCardUbahButton() {
+    cy.get(this.inventoryEditStockCardUbahButton).click();
+  }
+
+  clickTambahStokBaruButton() {
+    cy.get(this.tambahStokBaruButton).click();
+  }
+
+  clickTambahStokBaruUomPopoverButton() {
+    cy.get(this.tambahStokBaruUomPopoverButton).click();
+  }
+
+  typeTambahStokBaruStokMasukInput(id: string, input: string) {
+    cy.get(this.tambahStokBaruStokMasukInput + id).type(input);
+  }
+
+  typeTambahStokBaruCogsInput(id: string, input: string) {
+    cy.get(this.tambahStokBaruCogsInput + id).type(input);
+  }
+
+  clickTambahStokBaruSubmitButton() {
+    cy.get(this.tambahStokBaruSubmitButton).click();
+  }
+
+  clickTambahStokBaruCloseModalButton() {
+    cy.get(this.tambahStokBaruCloseModalButton).click();
+  }
+
+  clickHitungUlangStokButton() {
+    cy.get(this.hitungUlangStokButton).click();
+  }
+
+  typeGoodStockInput(id: string, input: string) {
+    cy.get(this.goodStockInput + id).type(input);
+  }
+
+  typeBadStockKadaluwarsaInput(id: string, input: string) {
+    cy.get(this.badStockKadaluwarsaInput + id).type(input);
+  }
+
+  typeBadStockRusakInput(id: string, input: string) {
+    cy.get(this.badStockRusakInput + id).type(input);
+  }
+
+  clickHitungUlangStokSubmitButton() {
+    cy.get(this.hitungUlangStokSubmitButton).click();
+  }
+
+  clickHitungUlangStokCloseButton() {
+    cy.get(this.hitungUlangStokCloseButton).click();
+  }
+
+  clickUbahStatusButton() {
+    cy.get(this.ubahStatusButton).click();
   }
 
   // selling uom
@@ -334,7 +433,7 @@ export default class InventoryDetail extends BasePage {
   }
 
   typeUnitSellingPrice(input: string) {
-    cy.get(this.unitSellingPriceInput).type(input);
+    cy.get(this.unitSellingPriceInput).clear().type(input);
   }
 
   clickSaveUnitSellingPriceButton() {
@@ -357,7 +456,27 @@ export default class InventoryDetail extends BasePage {
     cy.get(this.saveBarcodeButton).click();
   }
 
+  clickEditSellingPriceButton(id: string) {
+    cy.get(this.editSellingPriceButton + id).click();
+  }
+
+  clickBarcodeMoreOptionsButton() {
+    cy.get(this.barcodeMoreOptionsButton).click();
+  }
+
+  clickBarcodeMoreOptionsUbahButton() {
+    cy.get(this.barcodeMoreOptionsUbahButton).click();
+  }
+
+  clickBarcodeMoreOptionsHapusButton() {
+    cy.get(this.barcodeMoreOptionsHapusButton).click();
+  }
+
   clickSubmitAddInventoryButton() {
     cy.get(this.submitAddInventoryButton).click();
+  }
+
+  clickDeleteInventoryButton() {
+    cy.get(this.deleteInventoryButton).click();
   }
 }

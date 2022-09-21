@@ -4,14 +4,19 @@
   },
   "saas": {
     "baseUrl": "https://saas.gudangada.online/",
-    "baseApiUrl": "https://saas-api.gudangada.online/api/"
+    "baseApiUrl": "https://saas-api.gudangada.online/api/",
+    "testUserAccount": {
+      "phoneNumber": "8408418423",
+      "canonicalId": "1200581",
+      "storeId": "ae4440c6-3a02-4f17-8b6a-61b4430b2ee0",
+      "userId": "8eae0e9b-f18a-41b5-8813-a726739d788e"
+    }
   },
   "inventory": {
     "baseApiUrl": "https://inventory-api.gudangada.online/api/"
   },
   "bms": {
-    "baseUrl": "https://bms.gudangada.online/",
-    "localStorage": {}
+    "baseUrl": "https://bms.gudangada.online/"
   },
   "warehouseMitra": {
     "baseUrl": "https://warehouse-dev.gudangada.com/",
@@ -24,10 +29,6 @@
         "email": "cypress_renter@mail.com",
         "password": "warehouse"
       }
-    },
-    "credentials": {
-      "email": "cypress_su@mail.com",
-      "password": "warehouse"
     }
   },
   "watchForFileChanges": false

@@ -3,31 +3,44 @@ import gadaConfig from "../../utils/gadaConfig";
 export default class BasePage {
   baseURL = gadaConfig.bms.baseUrl;
   snackBarAlert = ".SnackbarContent-root";
+  text = ".MuiTypography-root";
+  accountSettingsButton = "button[aria-label='Account settings']";
+  logoutButton = ".MuiMenuItem-root:contains('Logout')";
+  bmsText = ".MuiTypography-root";
+  menuButton = ".MuiListItemButton-root";
 
-  navigate(path: string) {
+  visitPage(path: string) {
     cy.visit(this.baseURL + path);
   }
 
-  setLocalStorage(userRole: string) {
-    let users = gadaConfig.bms.users;
-    let user = users[userRole];
-
-    window.localStorage.setItem("username", user.username);
-    window.localStorage.setItem("userImage", user.userImage);
-    window.localStorage.setItem("userEmail", user.userEmail);
-    window.localStorage.setItem("auth-token", user.authToken);
-    window.localStorage.setItem(
-      "user-permissions",
-      JSON.stringify(user.userPermissions)
-    );
-    window.localStorage.setItem("user-roles", JSON.stringify(user.userRole));
+  openPage(selector: string, menu: string, subMenu: string) {
+    if (Cypress.$(selector + ` .isOpen:contains('${menu}')`).length > 0) {
+      cy.contains(selector, subMenu);
+    } else {
+      cy.contains(selector, menu);
+      cy.contains(selector, subMenu);
+    }
   }
 
-  getPageTitle() {
-    return cy.title();
+  assertValueIsNotEmpty(selector: string, field: string, index: number = 0) {
+    cy.get(selector)
+      .eq(index)
+      .invoke("val")
+      .should("not.be.empty")
+      .then((value: any) => {
+        return cy.wrap(value).as(field);
+      });
   }
 
-  checkSnackBar(message: string) {
-    cy.get(this.snackBarAlert + `:contains('${message}')`).should("be.visible");
+  assertValueEqualTo(
+    selector: string,
+    value: string | number,
+    index: number = 0
+  ) {
+    cy.get(selector).eq(index).invoke("val").should("eq", value);
+  }
+
+  assertTextContains(selector: string, message: string, index: number = 0) {
+    cy.contains(selector, message).eq(index).should("be.visible");
   }
 }

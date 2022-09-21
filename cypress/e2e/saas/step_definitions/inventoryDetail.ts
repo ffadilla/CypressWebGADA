@@ -1,7 +1,6 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
 import * as utils from "./utils";
-import { numberWithSeparators } from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
 let uomName: string;
@@ -26,11 +25,13 @@ When("user clicks on principal and brand button", () => {
 
 When("user types random principal name on principal searchbar input", () => {
   principalName = utils.generateRandomString(5);
-  inventoryDetailPage.typePrincipalSearchbarInput("Principal " + principalName);
+  inventoryDetailPage.typePrincipalSearchbarInput(
+    "Web Automation Principal " + principalName
+  );
 
   cy.get(inventoryDetailPage.principalSearchbarInput).should(
     "have.value",
-    "Principal " +
+    "Web Automation Principal " +
       principalName.charAt(0).toUpperCase() +
       principalName.slice(1)
   );
@@ -39,7 +40,7 @@ When("user types random principal name on principal searchbar input", () => {
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Principal " +
+    "Web Automation Principal " +
       principalName.charAt(0).toUpperCase() +
       principalName.slice(1)
   );
@@ -56,18 +57,24 @@ When("user clicks on submit add custom principal or brand modal button", () => {
 
 When("user types random brand name on brand searchbar input", () => {
   let brandName = utils.generateRandomString(5);
-  inventoryDetailPage.typeBrandSearchbarInput("Brand " + brandName);
+  inventoryDetailPage.typeBrandSearchbarInput(
+    "Web Automation Brand " + brandName
+  );
 
   cy.get(inventoryDetailPage.brandSearchbarInput).should(
     "have.value",
-    "Brand " + brandName.charAt(0).toUpperCase() + brandName.slice(1)
+    "Web Automation Brand " +
+      brandName.charAt(0).toUpperCase() +
+      brandName.slice(1)
   );
   cy.get(
     inventoryDetailPage.addCustomBrandButton +
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Brand " + brandName.charAt(0).toUpperCase() + brandName.slice(1)
+    "Web Automation Brand " +
+      brandName.charAt(0).toUpperCase() +
+      brandName.slice(1)
   );
 });
 
@@ -85,18 +92,24 @@ When("user clicks on category and subcategory button", () => {
 
 When("user types random category name on category searchbar input", () => {
   categoryName = utils.generateRandomString(5);
-  inventoryDetailPage.typeCategorySearchbarInput("Category " + categoryName);
+  inventoryDetailPage.typeCategorySearchbarInput(
+    "Web Automation Category " + categoryName
+  );
 
   cy.get(inventoryDetailPage.categorySearchbarInput).should(
     "have.value",
-    "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    "Web Automation Category " +
+      categoryName.charAt(0).toUpperCase() +
+      categoryName.slice(1)
   );
   cy.get(
     inventoryDetailPage.addCustomCategoryButton +
       " > .MuiButton-label > .MuiTypography-root"
   ).should(
     "include.text",
-    "Category " + categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+    "Web Automation Category " +
+      categoryName.charAt(0).toUpperCase() +
+      categoryName.slice(1)
   );
 });
 
@@ -117,12 +130,12 @@ When(
   () => {
     subcategoryName = utils.generateRandomString(5);
     inventoryDetailPage.typeSubcategorySearchbarInput(
-      "Subcategory " + subcategoryName
+      "Web Automation Subcategory " + subcategoryName
     );
 
     cy.get(inventoryDetailPage.subcategorySearchbarInput).should(
       "have.value",
-      "Subcategory " +
+      "Web Automation Subcategory " +
         subcategoryName.charAt(0).toUpperCase() +
         subcategoryName.slice(1)
     );
@@ -131,7 +144,7 @@ When(
         " > .MuiButton-label > .MuiTypography-root"
     ).should(
       "include.text",
-      "Subcategory " +
+      "Web Automation Subcategory " +
         subcategoryName.charAt(0).toUpperCase() +
         subcategoryName.slice(1)
     );
@@ -158,6 +171,7 @@ When("user types {string} on search unit field", (input: string) => {
   } else {
     uomName = input;
     inventoryDetailPage.typeUnitSearch(uomName);
+    cy.get(inventoryDetailPage.unitSearchInput).should("have.value", uomName);
   }
   cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
 });
@@ -169,6 +183,95 @@ When("user types recently created unit name on search unit field", () => {
     customUomName
   );
   cy.get(inventoryDetailPage.clearUomSearchButton).should("be.visible");
+});
+
+When("user clicks on update stock card ubah button", () => {
+  inventoryDetailPage.clickInventoryEditStockCardUbahButton();
+});
+
+When("user clicks on tambah stok baru button", () => {
+  cy.wait(1000);
+  inventoryDetailPage.clickTambahStokBaruButton();
+});
+
+When("user clicks on tambah stok baru uom popover button", () => {
+  inventoryDetailPage.clickTambahStokBaruUomPopoverButton();
+});
+
+When(
+  "user types {string} on tambah stok baru stok masuk input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeTambahStokBaruStokMasukInput(uomId, input);
+      cy.get(inventoryDetailPage.tambahStokBaruStokMasukInput + uomId).should(
+        "have.value",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+When(
+  "user types {string} on tambah stok baru cogs input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeTambahStokBaruCogsInput(uomId, input);
+      cy.get(inventoryDetailPage.tambahStokBaruCogsInput + uomId).should(
+        "have.value",
+        "Rp " + utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+When("user clicks on tambah stok baru submit button", () => {
+  inventoryDetailPage.clickTambahStokBaruSubmitButton();
+  cy.wait(1000);
+});
+
+When("user clicks on tambah stok baru close modal button", () => {
+  inventoryDetailPage.clickTambahStokBaruCloseModalButton();
+});
+
+When("user clicks on hitung ulang stok button", () => {
+  inventoryDetailPage.clickHitungUlangStokButton();
+});
+
+When(
+  "user types {string} on good stock input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeGoodStockInput(uomId, input);
+    });
+  }
+);
+
+When(
+  "user types {string} on bad stock kadaluwarsa input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeBadStockKadaluwarsaInput(uomId, input);
+    });
+  }
+);
+
+When(
+  "user types {string} on bad stock rusak input field of unit {string}",
+  (input: string, uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.typeBadStockRusakInput(uomId, input);
+    });
+  }
+);
+
+When("user clicks on hitung ulang stok submit button", () => {
+  inventoryDetailPage.clickHitungUlangStokSubmitButton();
+  cy.wait(600);
 });
 
 When("user clicks on first stock unit checkbox", () => {
@@ -187,12 +290,12 @@ When("user clicks on {string} unit checkbox", (uomName: string) => {
 });
 
 When("user clicks on add new unit button", () => {
+  cy.wait(1500);
   cy.get(inventoryDetailPage.addNewUnitButton)
     .children(".MuiButton-label")
     .children(".MuiTypography-root")
     .should("have.text", "Webautouom " + uomName);
   inventoryDetailPage.clickAddNewUnitButton();
-  cy.wait(1500);
 });
 
 When("user clicks on choose unit button", () => {
@@ -303,7 +406,7 @@ When(
           inventoryDetailPage.typeUnitPrice(uomId, input);
           cy.get(inventoryDetailPage.unitPriceInput + uomId).should(
             "have.value",
-            "Rp " + numberWithSeparators(input)
+            "Rp " + utils.numberWithSeparators(input)
           );
         });
     }
@@ -379,6 +482,7 @@ When("user clicks on add more price tier button", () => {
 
 When("user clicks on save unit selling price button", () => {
   inventoryDetailPage.clickSaveUnitSellingPriceButton();
+  cy.wait(500);
 });
 
 When(
@@ -414,8 +518,62 @@ When("user clicks on save barcode button", () => {
   inventoryDetailPage.clickSaveBarcodeButton();
 });
 
+When(
+  "user clicks on edit selling price button of unit {string}",
+  (uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      inventoryDetailPage.clickEditSellingPriceButton(uomId);
+    });
+  }
+);
+
+When("user clicks on is consign toggle button", () => {
+  inventoryDetailPage.clickIsConsignedToggleButton();
+});
+
+When("user clicks on choose supplier button", () => {
+  inventoryDetailPage.clickChooseSupplierButton();
+});
+
+When("user types {string} on input supplier search modal", (input: string) => {
+  inventoryDetailPage.typeSupplierSearchModalInput(input);
+});
+
+When("user clicks on {string} supplier checkbox", (supplierName: string) => {
+  utils.retrieveSupplierId(supplierName);
+  cy.get("@supplierId").then((supplierId: any) => {
+    cy.get("input[value='" + supplierId + "']").click();
+  });
+});
+
+When("user clicks on supplier modal close button", () => {
+  inventoryDetailPage.clickSupplierModalCloseButton();
+});
+
 When("user clicks on submit add inventory button", () => {
   inventoryDetailPage.clickSubmitAddInventoryButton();
+});
+
+When("user clicks on delete inventory button", () => {
+  inventoryDetailPage.clickDeleteInventoryButton();
+});
+
+When("user clicks on delete reason = {string}", (input: string) => {
+  switch (input) {
+    case "wrong input":
+      cy.get("input[value='MISTAKE']").click();
+      break;
+    case "other":
+      cy.get("input[value='OTHER']").click();
+      break;
+  }
+});
+
+When("user clicks on confirm delete inventory button", () => {
+  cy.get(
+    ".MuiDialogActions-root > .MuiButtonBase-root > .MuiButton-label"
+  ).click();
 });
 
 // assertions
@@ -448,3 +606,168 @@ Then(
     cy.contains("p", subcategoryName);
   }
 );
+
+Then("cogs of unit {string} is {string}", (uomName: string, input: string) => {
+  utils.retrieveUomId(uomName);
+  cy.get("@uomId").then((uomId: any) => {
+    cy.get("#p_stock_card_harga_modal_rata_rata_per_unit_" + uomId).should(
+      "contain",
+      utils.numberWithSeparators(input)
+    );
+  });
+});
+
+Then(
+  "selling price of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      expect(
+        cy
+          .get("#p_selling_card_price_tier_price_unit_price_" + uomId + "_0")
+          .contains("Rp " + utils.numberWithSeparators(input))
+      );
+      // cy.get("#p_selling_card_price_tier_price_unit_price_"+uomId+"_0").should('text',"Rp " + utils.numberWithSeparators(input));
+    });
+  }
+);
+
+Then(
+  "bisa dijual of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get("#td_selling_card_bisa_dijual_" + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "good stock of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.goodStockText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "bad stock of unit {string} is updated to {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.badStockText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "total stok fisik of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.totalStokFisikText + uomId).should(
+        "have.text",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then("total good stock of the product is {string}", (input: string) => {
+  cy.get(inventoryDetailPage.totalGoodStockText).should("have.text", input);
+});
+
+Then(
+  "total good stock yang sedang dipesan of the product is {string}",
+  (input: string) => {
+    cy.get(inventoryDetailPage.totalGoodStockYangSedangDipesanText).should(
+      "have.text",
+      input
+    );
+  }
+);
+
+Then(
+  "total good stock yang bisa dijual of the product is {string}",
+  (input: string) => {
+    cy.get(inventoryDetailPage.totalGoodStockYangBisaDijualText).should(
+      "have.text",
+      input
+    );
+  }
+);
+
+Then("lainnya text is not displayed", () => {
+  cy.get("#text_lainnya").should("not.exist");
+});
+
+Then("is consign toggle button is not displayed", () => {
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("not.exist");
+});
+
+Then("is consign toggle button is displayed", () => {
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("exist");
+  cy.get(inventoryDetailPage.isConsignedToggleButton).should("be.disabled");
+});
+
+Then("delete inventory options are not displayed", () => {
+  cy.get("input[value='MISTAKE']").should("not.exist");
+  cy.get("input[value='OTHER']").should("not.exist");
+});
+
+Then(
+  "current good stock of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.currentGoodStockInput + uomId).should(
+        "have.value",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then(
+  "current bad stock kadaluwarsa of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(
+        inventoryDetailPage.currentBadStockKadaluwarsaInput + uomId
+      ).should("have.value", utils.numberWithSeparators(input));
+    });
+  }
+);
+
+Then(
+  "current bad stock rusak of unit {string} is {string}",
+  (uomName: string, input: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.get(inventoryDetailPage.currentBadStockRusakInput + uomId).should(
+        "have.value",
+        utils.numberWithSeparators(input)
+      );
+    });
+  }
+);
+
+Then("user is redirected to create purchase transaction page", () => {
+  cy.url().should("eq", inventoryDetailPage.baseUrl + "purchase/add");
+});
+
+Then("restock button text is {string}", (input: string) => {
+  cy.get(inventoryDetailPage.tambahStokBaruButton).should("contain", input);
+});

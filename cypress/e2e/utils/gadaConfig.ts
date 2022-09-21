@@ -5,22 +5,18 @@ type config = {
   saas: {
     baseUrl: string;
     baseApiUrl: string;
+    testUserAccount: {
+      phoneNumber: string;
+      canonicalId: string;
+      storeId: string;
+      userId: string;
+    };
   };
   inventory: {
     baseApiUrl: string;
   };
   bms: {
     baseUrl: string;
-    users: {
-      [userRole: string]: {
-        username: string;
-        userImage: string;
-        userEmail: string;
-        authToken: string;
-        userRole: string;
-        userPermissions: [string];
-      };
-    };
   };
   warehouseMitra: {
     baseUrl: string;
