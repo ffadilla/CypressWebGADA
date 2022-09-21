@@ -11,6 +11,10 @@ When("user click create Receipt data at inbound Request detail page", () => {
   inboundRequestDetailPage.clickCreateReceipt();
 });
 
+When("user clicks Source CTA button at inbound Request detail", () => {
+  inboundRequestDetailPage.clickSourceCTA();
+});
+
 Then(
   "user should be at {string} inbound Request detail page",
   (status: string) => {
