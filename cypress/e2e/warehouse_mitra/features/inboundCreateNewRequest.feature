@@ -10,7 +10,7 @@ Feature: Create Inbound Source
     And user clicks new inbound request form submission button
     Then empty error messages for single Request should appear at create new inbound Request form
     When user logs out from WMS
-@focus 
+
   Scenario: User successfully create a new inbound Source/Request
     When user redirects to inbound menu
     And user clicks create inbound request button
