@@ -35,9 +35,9 @@ export default class InboundReceiptDetailPage extends BasePage {
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[1]/table/thead/tr',
     tableBodyContainer:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[1]/table/tbody',
-    productNameQtyBodyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[2]',
-    productVariantQtyBodyContainer:
+    productNameBodyContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[1]',
+    productQtyBodyContainer:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[2]',
     allocatedInputBodyContainer:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]',
@@ -150,6 +150,32 @@ export default class InboundReceiptDetailPage extends BasePage {
         cy
           .xpath(this.singleRequestInfo.deliveryMethodInfo)
           .should("contain", deliveryMethod)
+      );
+    });
+    cy.get("@requestDetailStoreName").then((storeName) => {
+      expect(
+        cy.xpath(this.singleRequestInfo.storeName).should("contain", storeName)
+      );
+    });
+    cy.get("@requestDetailWarehouseName").then((warehouseName) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.warehouseName)
+          .should("contain", warehouseName)
+      );
+    });
+    cy.get("@requestDetailProductName").then((productName) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productNameBodyContainer)
+          .should("contain", productName)
+      );
+    });
+    cy.get("@requestDetailProductQty").then((productQty) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productQtyBodyContainer)
+          .should("contain", productQty)
       );
     });
   }
