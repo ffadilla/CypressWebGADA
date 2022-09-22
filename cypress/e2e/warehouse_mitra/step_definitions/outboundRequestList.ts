@@ -16,7 +16,7 @@ Then("show valid requestId search result", () => {
 });
 
 Then("show the outbound request default list", () => {
-  outboundRequestListPage.assertListDefault();
+  outboundRequestListPage.assertRequestDefaultList();
 });
 
 Then("show outbound requests result with status {string}", (value: string) => {

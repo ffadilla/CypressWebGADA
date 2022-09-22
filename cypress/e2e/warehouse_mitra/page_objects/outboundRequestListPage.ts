@@ -2,13 +2,11 @@ import OutboundPage from "./outboundPage";
 import { generateDateTime } from "../common/utils";
 
 export default class OutboundRequestListPage extends OutboundPage {
-  path = "inventory/outbound/request/list";
+  requestListpath = "inventory/outbound/request/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
-  requestStatus =
-    "tr:nth-child(1) > td:nth-child(5) > span > span.MuiTypography-root";
   //xpath start here
-  xpathFirstIdxReqData = "//tr[1]/td[2]/a/div[1]";
+  xpathFirstRequestId = "//table/tbody/tr[1]/td[2]/a/div[1]";
   xpathListParent = "//div/div[3]/div[2]/div/div/div[4]";
   xpathNotFound = '//div[text()="Pencarian Tidak Ditemukan"]';
   xpathNotFoundMsg = "Pencarian Tidak Ditemukan";
@@ -23,6 +21,11 @@ export default class OutboundRequestListPage extends OutboundPage {
   xpathCounterStatusCanceled =
     '//div[contains(text(), "Dibatalkan")]/following-sibling::div[1]';
   xpathPaginationBox = '//div[contains(@class, "MuiSelect-select")]';
+  xpathFirstOutboundId = "//table/tbody/tr[1]/td[1]/div[1]";
+  xpathFirstRecipientName = "//table/tbody/tr[1]/td[3]/div";
+  xpathFirstDeliveryMethod = "//table/tbody/tr[1]/td[4]/div";
+  xpathFirstRequestStatus = "//table/tbody/tr[1]/td[5]/span/span[2]";
+  xpathFirstDeliveryDate = "//table/tbody/tr[1]/td[2]/a/div[2]/span";
   //variables start here
   todayDate = generateDateTime(0, "YYYY-MM-DD");
   yesterdayDate = generateDateTime(-1, "YYYY-MM-DD");
@@ -33,7 +36,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   yesterdayDF2 = generateDateTime(-1, "D MMM YYYY");
 
   searchRequest() {
-    cy.xpath(this.xpathFirstIdxReqData)
+    cy.xpath(this.xpathFirstRequestId)
       .invoke("text")
       .then(($text) => {
         cy.get(this.searchInputBox)
@@ -155,7 +158,7 @@ export default class OutboundRequestListPage extends OutboundPage {
       });
   }
 
-  assertListDefault() {
+  assertRequestDefaultList() {
     cy.xpath(this.xpathReqList).should("be.visible");
   }
 
@@ -164,7 +167,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertResultStatus(value: string) {
-    cy.get(this.requestStatus).should("contain.text", value);
+    cy.xpath(this.xpathFirstRequestStatus).should("contain.text", value);
   }
 
   assertTotalData() {

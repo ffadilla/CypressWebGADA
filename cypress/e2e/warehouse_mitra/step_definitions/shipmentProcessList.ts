@@ -24,7 +24,7 @@ Then("show valid shipmentId search result", () => {
 });
 
 Then("show the outbound shipment default list", () => {
-  shipmentProcessListPage.assertListDefault();
+  shipmentProcessListPage.assertShipmentDefaultList();
 });
 
 Then("show outbound shipments result with status {string}", (value: string) => {

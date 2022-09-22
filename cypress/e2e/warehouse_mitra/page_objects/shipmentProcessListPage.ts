@@ -2,7 +2,7 @@ import OutboundPage from "./outboundPage";
 import { generateDateTime } from "../common/utils";
 
 export default class ShipmentProcessListPage extends OutboundPage {
-  path = "inventory/outbound/shipment/list";
+  shipmentListPath = "inventory/outbound/shipment/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
   //xpath start here
@@ -20,8 +20,25 @@ export default class ShipmentProcessListPage extends OutboundPage {
     '//div[contains(text(), "Sedang Diproses")]/following-sibling::div[1]';
   xpathCounterStatusComplete =
     '//div[contains(text(), "Sudah Selesai")]/following-sibling::div[1]';
-  xpathFirstIdxShipData = '//div[@id="panel0a-header"]//a/span';
+  xpathFirstShipmentId = '//div[@id="panel0a-header"]//a/span';
   xpathPaginationBox = '//div[contains(@class, "MuiSelect-select")]';
+  xpathFirstAccordionButton = "//div[@id='panel0a-header']/div[2]";
+  xpathFirstOutboundType =
+    "//div[@id='panel0a-content']/div/div/table/tbody/tr/td[1]/div[2]/span";
+  xpathFirstOutboundId =
+    "//div[@id='panel0a-content']/div/div/table/tbody/tr/td[1]/div[1]/div";
+  xpathFirstRequestDeliveryDate =
+    "//div[@id='panel0a-content']/div/div/table/tbody/tr/td[2]/div[2]/span";
+  xpathFirstRecipientName =
+    "//div[@id='panel0a-content']/div/div/table/tbody/tr/td[3]/div";
+  xpathFirstDeliveryMethod =
+    "//div[@id='panel0a-content']/div/div/table/tbody/tr/td[4]/div";
+  xpathFirstRequestDate =
+    "//div[@id='panel0a-header']/div[1]/div/div[2]/span[1]";
+  xpathFirstShipmentStatus =
+    "//div[@id='panel0a-header']/div[1]/div/div[2]/span[3]";
+  xpathFirstTotalOutboundRequest =
+    "//div[@id='panel0a-header']/div[1]/div/div[2]/span[2]";
   //variables start here
   todayDate = generateDateTime(0, "YYYY-MM-DD");
   yesterdayDate = generateDateTime(-1, "YYYY-MM-DD");
@@ -33,7 +50,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
 
   selectShipmentProcess() {
     cy.xpath(this.xpathShipmentProcessButton).click();
-    cy.url().should("include", this.path);
+    cy.url().should("include", this.shipmentListPath);
   }
 
   checkShipLastPage() {
@@ -48,7 +65,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
       .then(($counter) => {
         let counterOnFooter = $counter.split(" ");
         let page = Math.ceil(parseInt(counterOnFooter[3]) / currentPage);
-        cy.visit(this.baseUrl + this.path, {
+        cy.visit(this.baseUrl + this.shipmentListPath, {
           qs: {
             page: page.toString(),
           },
@@ -58,7 +75,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
   }
 
   searchFirstShipment() {
-    cy.xpath(this.xpathFirstIdxShipData)
+    cy.xpath(this.xpathFirstShipmentId)
       .invoke("text")
       .then(($text) => {
         cy.get(this.searchInputBox)
@@ -172,7 +189,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
     }
   }
 
-  assertListDefault() {
+  assertShipmentDefaultList() {
     cy.xpath(this.xpathShipList).should("be.visible");
   }
 
