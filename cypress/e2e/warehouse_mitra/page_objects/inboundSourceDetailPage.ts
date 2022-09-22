@@ -58,32 +58,7 @@ export default class InboundSourceDetailPage extends BasePage {
     }
   }
 
-  assertSourceDataByRequestDetail(requestStatus: string) {
-    cy.get("@requestDetailSourceID").then((sourceID) => {
-      expect(cy.xpath(this.sourceIDInfo).should("contain", sourceID));
-    });
-    /*
-       * FE still render incorrect format
-      cy.xpath(this.sourceTypeInfo)
-        .invoke("text")
-        .then((actualSourceType) => {
-          expect(
-            cy.get("@requestDetailSourceType").should("contain", actualSourceType)
-          );
-        });
-        */
-    cy.get("@requestDetailStoreName").then((storeName) => {
-      expect(cy.xpath(this.storeNameInfo).should("contain", storeName));
-    });
-    cy.get("@requestDetailWarehouseName").then((warehouseName) => {
-      expect(cy.xpath(this.warehouseNameInfo).should("contain", warehouseName));
-    });
-    cy.get("@requestDetailTargetStore").then((targetStore) => {
-      expect(cy.xpath(this.targetStoreNameInfo).should("contain", targetStore));
-    });
-
-    if (requestStatus === "Dibatalkan") return;
-
+  assertRequestData(requestStatus: string) {
     cy.get("@requestDetailRequestID").then((requestID) => {
       let processedRequestID = String(requestID).trim().split(" - ")[0];
       cy.xpath(this.sourceRequestListContainer)
@@ -144,5 +119,98 @@ export default class InboundSourceDetailPage extends BasePage {
           }
         });
     });
+  }
+
+  assertSourceDataByRequestDetail(requestStatus: string) {
+    cy.get("@requestDetailSourceID").then((sourceID) => {
+      expect(cy.xpath(this.sourceIDInfo).should("contain", sourceID));
+    });
+    /*
+       * FE still render incorrect format
+      cy.xpath(this.sourceTypeInfo)
+        .invoke("text")
+        .then((actualSourceType) => {
+          expect(
+            cy.get("@requestDetailSourceType").should("contain", actualSourceType)
+          );
+        });
+        */
+    cy.get("@requestDetailStoreName").then((storeName) => {
+      expect(cy.xpath(this.storeNameInfo).should("contain", storeName));
+    });
+    cy.get("@requestDetailWarehouseName").then((warehouseName) => {
+      expect(cy.xpath(this.warehouseNameInfo).should("contain", warehouseName));
+    });
+    cy.get("@requestDetailTargetStore").then((targetStore) => {
+      expect(cy.xpath(this.targetStoreNameInfo).should("contain", targetStore));
+    });
+
+    if (requestStatus === "Dibatalkan") return;
+    this.assertRequestData(requestStatus);
+  }
+
+  assertSourceDataByInboundForm() {
+    cy.get("@inboundFormSourceID").then((sourceID) => {
+      expect(cy.xpath(this.sourceIDInfo).should("contain", sourceID));
+    });
+    cy.xpath(this.sourceTypeInfo)
+      .invoke("text")
+      .then((actualSourceType) => {
+        expect(
+          cy.get("@inboundFormSourceType").should("contain", actualSourceType)
+        );
+      });
+    cy.get("@inboundFormStoreName").then((storeName) => {
+      expect(cy.xpath(this.storeNameInfo).should("contain", storeName));
+    });
+    cy.get("@inboundFormWarehouseName").then((warehouseName) => {
+      expect(cy.xpath(this.warehouseNameInfo).should("contain", warehouseName));
+    });
+    cy.xpath(this.targetStoreNameInfo)
+      .invoke("text")
+      .then((actualTargetStoreName) => {
+        expect(
+          cy
+            .get("@inboundFormTargetStoreName")
+            .should("contain", actualTargetStoreName)
+        );
+      });
+    cy.get("@inboundFormTargetStoreAddress").then((targetStoreAddress) => {
+      expect(
+        cy
+          .xpath(this.targetStoreAddressInfo)
+          .should("contain", targetStoreAddress)
+      );
+    });
+    cy.get("@inboundFormSourceDate").then((sourceDate) => {
+      let strSourceDate = String(sourceDate);
+      let formattedSourceDate = this.utils.reformatDate(
+        strSourceDate,
+        "YYYY-MM-DD",
+        "DD MMM YYYY"
+      );
+      expect(
+        cy.xpath(this.sourceDateInfo).should("contain", formattedSourceDate)
+      );
+    });
+    cy.xpath(this.sourceProductNameInfo)
+      .invoke("text")
+      .then((actualProductName) => {
+        expect(
+          cy
+            .get("@inboundFormFirstProductName")
+            .should("contain", actualProductName)
+        );
+      });
+    cy.xpath(this.sourceProductQuantityInfo)
+      .invoke("text")
+      .then((actualProductQty) => {
+        expect(
+          cy
+            .get("@inboundFormFirstProductQty")
+            .should("contain", actualProductQty)
+        );
+      });
+    this.assertRequestData("Belum Selesai");
   }
 }

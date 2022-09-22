@@ -10,7 +10,7 @@ Feature: Create Inbound Source
     And user clicks new inbound request form submission button
     Then empty error messages for single Request should appear at create new inbound Request form
     When user logs out from WMS
-
+@focus 
   Scenario: User successfully create a new inbound Source/Request
     When user redirects to inbound menu
     And user clicks create inbound request button
@@ -28,9 +28,15 @@ Feature: Create Inbound Source
     And user clicks new inbound request form submission button
     Then user should be at inbound Request list
     And user should able to see created Request at inbound Request list
+
     When user clicks the first data on inbound Request table
     Then user should be at 'Belum Selesai' inbound Request detail page
     And user should see similar inbound Request data between detail page and inbound form
+
+    When user clicks Source CTA button at inbound Request detail
+    Then user should be at inbound Source detail page with 'Belum Selesai' Request
+    And user should see similar inbound Source data between detail page and inbound form
+    
     When user logs out from WMS
 
     Examples:

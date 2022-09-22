@@ -17,3 +17,10 @@ Then(
     inboundSourceDetailPage.assertSourceDataByRequestDetail(status);
   }
 );
+
+Then(
+  "user should see similar inbound Source data between detail page and inbound form",
+  () => {
+    inboundSourceDetailPage.assertSourceDataByInboundForm();
+  }
+);

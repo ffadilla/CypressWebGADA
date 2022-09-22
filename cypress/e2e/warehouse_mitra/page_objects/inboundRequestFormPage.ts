@@ -62,7 +62,7 @@ export default class InboundRequestFormPage extends BasePage {
 
   firstAutocompleteItem = '[data-option-index="0"]';
   dropdownOptionsList = '[role="listbox"]';
-  datepickerItem = '[role="cell"]';
+  datepickerItem = '[role="gridcell"]';
 
   sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmm");
 
