@@ -10,7 +10,11 @@ When("user clicks inbound Request list tab", () => {
 When(
   "user applies {string} to find related inbound Request",
   (keyword: string) => {
-    inboundRequestListPage.setSearchKeyword(keyword);
+    if (keyword === "canceled Source ID") {
+      cy.get("@sourceDetailSourceID").then((sourceID) => {
+        inboundRequestListPage.setSearchKeyword(String(sourceID));
+      });
+    } else inboundRequestListPage.setSearchKeyword(keyword);
   }
 );
 
@@ -69,6 +73,10 @@ Then("user should be at inbound Request list", () => {
   expect(cy.url().should("include", inboundRequestListPage.path));
 });
 
+Then("user should able to see succeeded cancelation message", () => {
+  inboundRequestListPage.assertSnackbar();
+});
+
 Then(
   "query param for {string} {string} should be added to inbound Request list URL",
   (val: string, attribute: string) => {
@@ -124,6 +132,11 @@ Then("user should able to see empty inbound Requests list", () => {
   inboundRequestListPage.assertEmptyList();
 });
 
-Then("user should able to see created Request at inbound Request list", () => {
-  inboundRequestListPage.assertCreatedRequestItem();
-});
+Then(
+  "user should able to see {string} Request at inbound Request list",
+  (value: string) => {
+    if (value === "created") inboundRequestListPage.assertCreatedRequestItem();
+    else if (value === "canceled")
+      inboundRequestListPage.assertCanceledRequestItem();
+  }
+);

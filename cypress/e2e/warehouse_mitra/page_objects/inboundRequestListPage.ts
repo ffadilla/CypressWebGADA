@@ -36,10 +36,7 @@ export default class InboundRequestListPage extends InboundListPage {
   firstRequestItemStatus = this.requestItemListBody.concat(
     this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
-
-  clickStatusChip(status: string) {
-    cy.get(this.chipContainer).contains(status).click();
-  }
+  snackbar = "#notistack-snackbar";
 
   clickFirstRequest() {
     cy.xpath(this.firstRequestItemSourceID)
@@ -65,6 +62,12 @@ export default class InboundRequestListPage extends InboundListPage {
       .as("requestListStatus");
 
     cy.xpath(this.firstRequestItemSourceID).click();
+  }
+
+  assertSnackbar() {
+    let succeededMessage = "Berhasil membatalkan barang masuk";
+
+    expect(cy.get(this.snackbar).should("contain", succeededMessage));
   }
 
   assertCreatedRequestItem() {
@@ -117,6 +120,17 @@ export default class InboundRequestListPage extends InboundListPage {
     });
     expect(
       cy.xpath(this.firstRequestItemStatus).should("contain", "Belum Selesai")
+    );
+  }
+
+  assertCanceledRequestItem() {
+    cy.get("@sourceDetailSourceID").then((sourceID) => {
+      expect(
+        cy.xpath(this.firstRequestItemSourceID).should("contain", sourceID)
+      );
+    });
+    expect(
+      cy.xpath(this.firstRequestItemStatus).should("contain", "Dibatalkan")
     );
   }
 

@@ -73,9 +73,9 @@ export default class InboundListPage extends BasePage {
   }
 
   clickStatusChip(status: string) {
-    cy.intercept("GET", "/inbound/receipts/list/*").as("shipmentListAPI");
+    cy.intercept("GET", "/inbound/**").as("inboundListAPI");
     cy.get(this.chipContainer).contains(status).click();
-    cy.wait("@shipmentListAPI");
+    cy.wait("@inboundListAPI").its("response.statusCode").should("equal", 200);
   }
 
   assertStatusQueryParam(value: string) {
