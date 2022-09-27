@@ -11,26 +11,26 @@ And("user goes back to the outbound request list page", () => {
   outboundRequestDetailPage.clickBackToRequestList();
 });
 
-Then("the outboundId should be correct", () => {
+Then("the outboundId shall be correct", () => {
   outboundRequestDetailPage.assertFirstOutboundId();
 });
 
-And("the requestId should be correct", () => {
+And("the requestId shall be correct", () => {
   outboundRequestDetailPage.assertFirstReqId();
 });
 
-And("the recipient name should be correct", () => {
+And("the recipient name shall be correct", () => {
   outboundRequestDetailPage.assertFirstRecipientName();
 });
 
-And("the delivery method should be correct", () => {
+And("the delivery method shall be correct", () => {
   outboundRequestDetailPage.assertFirstDeliveryMethod();
 });
 
-And("the request status should be correct", () => {
+And("the request status shall be correct", () => {
   outboundRequestDetailPage.assertFirstRequestStatus();
 });
 
-And("the shipment date should be correct", () => {
+And("the shipment date on the outbound request list shall be correct", () => {
   outboundRequestDetailPage.assertFirstShipmentDate();
 });

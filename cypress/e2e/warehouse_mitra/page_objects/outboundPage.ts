@@ -96,6 +96,16 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "&search=" + modVal);
   }
 
+  inputRequest() {
+    cy.get("@shipmentId").then((shipmentId: any) => {
+      cy.get(this.searchInputBox)
+        .click()
+        .type(shipmentId + "{enter}");
+      let modVal = shipmentId.replace("/", "%2F");
+      cy.location("search").should("include", "&search=" + modVal);
+    });
+  }
+
   selectStatus(value: string) {
     switch (value) {
       case "Belum Selesai":

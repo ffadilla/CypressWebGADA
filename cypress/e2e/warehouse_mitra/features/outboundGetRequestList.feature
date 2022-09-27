@@ -1,4 +1,4 @@
-Feature: Checking the menu outbound request page
+Feature: Checking the outbound request page
 
   Scenario: Login before test
     Given user already logged in to WMS as "superuser"
@@ -18,7 +18,7 @@ Feature: Checking the menu outbound request page
   Scenario Outline: Check outbound request pagination by <rows>
     When user chooses menu Barang Keluar
     And user chooses total <rows> data per page
-    Then show total <rows> data request per page
+    Then the total row of the outbound request list will be <rows> rows per page
 
   Examples:
     | rows  |
@@ -30,24 +30,24 @@ Feature: Checking the menu outbound request page
   Scenario: Search valid requestId
     When user chooses menu Barang Keluar
     And user inputs valid requestId
-    Then show valid requestId search result
+    Then the requestId result will be showed
 
   Scenario: Search invalid requestId
     When user chooses menu Barang Keluar
     And user inputs ID "INVALID/00112233"
-    Then show invalid ID search result "Pencarian Tidak Ditemukan"
+    Then the error message "Pencarian Tidak Ditemukan" will be showed
 
   Scenario: Reset search requestId
     When user chooses menu Barang Keluar
     And user inputs ID "INVALID/00112233"
     And user deletes the search input
-    Then show the outbound request default list
+    Then the outbound request default list will be showed
 
   Scenario Outline: Filter outbound requests by status <status>
     When user chooses menu Barang Keluar
     And user filters status by <status>
     Then show outbound requests result with status <status>
-    And the total data with status <status> should be correct
+    And the total data with status <status> shall be correct
   
   Examples:
     | status            |
@@ -59,24 +59,24 @@ Feature: Checking the menu outbound request page
   Scenario Outline: Filter outbound request by selected delivery_date on <date>
     When user chooses menu Barang Keluar
     And user filters delivery_date by <date>
-    Then show outbound request delivery_date on <date>
+    Then the outbound request delivery_date on <date> will be showed
   
   Examples:
     | date        |
     | "today"     |
     | "yesterday" |
-    | "9"         |
+    | "6"         |
 
   Scenario: Reset the applied outbound request delivery_date filter
     When user chooses menu Barang Keluar
     And user filters delivery_date by "yesterday"
     And user resets the delivery_date filter back to default
-    Then show default list with delivery_date filter as "Semua Hari"
+    Then the default list with delivery_date as "Semua Hari" for the "outbound request" will be showed
 
   Scenario Outline: Filter outbound request delivery_method by <method>
     When user chooses menu Barang Keluar
     And user filters delivery_method by <method>
-    Then show outbound request delivery_method by <method>
+    Then the outbound request delivery_method by <method> will be showed
 
   Examples:
     | method          |
@@ -88,7 +88,7 @@ Feature: Checking the menu outbound request page
     When user chooses menu Barang Keluar
     And user filters delivery_method by "GADA LOGISTIC"
     And user changes delivery_method filter back to default
-    Then show default list with delivery_method filter as "all"
+    Then the default list with delivery_method filter as "all" for the "outbound request" will be showed
 
   Scenario: Logout after test
     Then user should be logged out

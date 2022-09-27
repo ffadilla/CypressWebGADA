@@ -19,30 +19,42 @@ Then("show valid shipmentId search result {string}", (value: string) => {
   shipmentProcessListPage.assertSearchResultWithArg(value);
 });
 
-Then("show valid shipmentId search result", () => {
+Then("the shipmentId result will be showed", () => {
   shipmentProcessListPage.assertSearchResult();
 });
 
-Then("show the outbound shipment default list", () => {
+Then("the outbound shipment default list will be showed", () => {
   shipmentProcessListPage.assertShipmentDefaultList();
 });
 
-Then("show outbound shipments result with status {string}", (value: string) => {
-  shipmentProcessListPage.assertResultStatus(value);
-});
+Then(
+  "the outbound shipment result with status {string} will be showed",
+  (value: string) => {
+    shipmentProcessListPage.assertResultStatus(value);
+  }
+);
 
-Then("the total outbound shipment should be correct", () => {
+Then("the total outbound shipment shall be correct", () => {
   shipmentProcessListPage.assertTotalData();
 });
 
-Then("show total {int} data shipment per page", () => {
-  shipmentProcessListPage.assertTotalDataPerPage();
-});
+Then(
+  "the total row of the outbound shipment list will be {int} rows per page",
+  () => {
+    shipmentProcessListPage.assertTotalDataPerPage();
+  }
+);
 
-Then("show outbound shipment delivery_date on {string}", (value: string) => {
-  shipmentProcessListPage.assertDeliveryDate(value);
-});
+Then(
+  "the outbound shipment delivery_date on {string} will be showed",
+  (value: string) => {
+    shipmentProcessListPage.assertDeliveryDate(value);
+  }
+);
 
-Then("show outbound shipment delivery_method by {string}", (value: string) => {
-  shipmentProcessListPage.assertDelivMethodWithArg(value);
-});
+Then(
+  "the outbound shipment delivery_method by {string} will be showed",
+  (value: string) => {
+    shipmentProcessListPage.assertDelivMethodWithArg(value);
+  }
+);

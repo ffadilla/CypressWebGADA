@@ -33,7 +33,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   todayDF1 = generateDateTime(0, "D MMM YYYY");
   todayDF2 = generateDateTime(0, "DD MMM YYYY");
   yesterdayDF1 = generateDateTime(-1, "D MMM YYYY");
-  yesterdayDF2 = generateDateTime(-1, "D MMM YYYY");
+  yesterdayDF2 = generateDateTime(-1, "DD MMM YYYY");
 
   searchRequest() {
     cy.xpath(this.xpathFirstRequestId)
@@ -114,7 +114,7 @@ export default class OutboundRequestListPage extends OutboundPage {
         let dateVal = parseInt(value);
         let todayDateVal = parseInt(this.dateOnly);
         let targetDate = todayDateVal - dateVal;
-        if (targetDate < 10) {
+        if (dateVal < 10) {
           cy.xpath(this.xpathListParent)
             .find(">div")
             .its("length")
