@@ -3,6 +3,21 @@ import InboundReceiptListPage from "../page_objects/inboundReceiptListPage";
 
 const inboundReceiptListPage = new InboundReceiptListPage();
 
+When("user clicks inbound Receipt list tab", () => {
+  inboundReceiptListPage.clickReceiptTab();
+});
+
+When("user clicks create inbound Receipt button", () => {
+  cy.xpath(inboundReceiptListPage.createReceiptButton).click();
+});
+
+When(
+  "user fills create inbound Receipt popup with 1 retrieved Request data",
+  () => {
+    inboundReceiptListPage.submitCreateReceiptPopup();
+  }
+);
+
 When(
   "user applies {string} to find related inbound Receipt",
   (keyword: string) => {
@@ -48,6 +63,10 @@ When(
     inboundReceiptListPage.setPageAmount(value);
   }
 );
+
+When("user clicks the first data on inbound Receipt table", () => {
+  inboundReceiptListPage.clickFirstReceipt();
+});
 
 Then("user should be at inbound Receipt list", () => {
   expect(cy.url().should("include", inboundReceiptListPage.path));

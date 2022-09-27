@@ -1,3 +1,4 @@
+import { setHasCompletedRequest } from "../common/helper";
 import BasePage from "./basePage";
 
 export default class InboundRequestDetailPage extends BasePage {
@@ -11,6 +12,8 @@ export default class InboundRequestDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div/div[2]/span[1]';
   requestIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div/div[2]/span[2]';
+  sourceCTAButton =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div/div[3]/a/p';
   sourceTypeInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[2]/div/div[1]/div[1]/div/div[2]';
   targetStoreInfo =
@@ -29,6 +32,52 @@ export default class InboundRequestDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[1]/table/tbody';
   requestCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[2]';
+
+  invokeRequestDetail() {
+    cy.xpath(this.sourceIDInfo).invoke("text").as("requestDetailSourceID");
+    cy.xpath(this.requestIDInfo).invoke("text").as("requestDetailRequestID");
+    cy.xpath(this.sourceTypeInfo).invoke("text").as("requestDetailSourceType");
+    cy.xpath(this.targetStoreInfo)
+      .invoke("text")
+      .as("requestDetailTargetStore");
+    cy.xpath(this.storeName).invoke("text").as("requestDetailStoreName");
+    cy.xpath(this.deliveryDateInfo)
+      .invoke("text")
+      .as("requestDetailDeliveryDate");
+    cy.xpath(this.deliveryMethodInfo)
+      .invoke("text")
+      .as("requestDetailDeliveryMethod");
+    cy.xpath(this.warehouseName)
+      .invoke("text")
+      .as("requestDetailWarehouseName");
+    cy.xpath(this.tableBodyContainer + "/tr[1]/td[1]")
+      .invoke("text")
+      .as("requestDetailProductName");
+    cy.xpath(this.tableBodyContainer + "/tr[1]/td[2]")
+      .invoke("text")
+      .as("requestDetailProductQty");
+    /**
+     * TO DO:
+     * Invoke allocated product quantity
+     */
+  }
+
+  clickCreateReceipt() {
+    this.invokeRequestDetail();
+    cy.xpath(this.requestCTAButtonContainer).contains("Terima Barang").click();
+  }
+
+  clickSourceCTA() {
+    this.invokeRequestDetail();
+    cy.intercept("GET", "/inbound/sources/*/detail").as("sourceDetailAPI");
+    cy.xpath(this.sourceCTAButton).click();
+    cy.wait("@sourceDetailAPI").then(($API) => {
+      for (let i = 0; i < $API.response?.body.inbound_requests.length; i++) {
+        if ($API.response?.body.inbound_requests[i].status === true)
+          setHasCompletedRequest(true);
+      }
+    });
+  }
 
   assertRequestTableUI(status: string) {
     if (status === "Sudah Selesai") {
