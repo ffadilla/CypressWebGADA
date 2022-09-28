@@ -47,6 +47,41 @@ export default class OutboundRequestListPage extends OutboundPage {
       });
   }
 
+  clickFirstRequestDetail() {
+    cy.xpath(this.xpathFirstOutboundId)
+      .invoke("text")
+      .then(($outboundId) => {
+        cy.wrap($outboundId).as("outboundId");
+      });
+    cy.xpath(this.xpathFirstRequestId)
+      .invoke("text")
+      .then(($requestId) => {
+        cy.wrap($requestId).as("requestId");
+      });
+    cy.xpath(this.xpathFirstRecipientName)
+      .invoke("text")
+      .then(($recipientName) => {
+        cy.wrap($recipientName).as("recipientName");
+      });
+    cy.xpath(this.xpathFirstDeliveryMethod)
+      .invoke("text")
+      .then(($deliveryMethod) => {
+        cy.wrap($deliveryMethod).as("deliveryMethod");
+      });
+    cy.xpath(this.xpathFirstRequestStatus)
+      .invoke("text")
+      .then(($requestStatus) => {
+        cy.wrap($requestStatus).as("requestStatus");
+      });
+    cy.xpath(this.xpathFirstDeliveryDate)
+      .invoke("text")
+      .then(($deliveryDate) => {
+        cy.wrap($deliveryDate).as("deliveryDate");
+      });
+    cy.xpath(this.xpathFirstRequestId).click();
+    cy.url().should("include", "inventory/outbound/request/detail");
+  }
+
   assertDeliveryDate(value: string) {
     cy.wait(500);
     switch (value) {

@@ -8,8 +8,8 @@ const shipmentProcessListPage = new ShipmentProcessListPage();
 const outboundPage = new OutboundPage();
 
 When("user wants to view the shipment detail data", () => {
-  shipmentProcessDetailPage.clickExpandShipmentId();
-  shipmentProcessDetailPage.clickFirstShipmentDetail();
+  shipmentProcessListPage.clickExpandShipmentId();
+  shipmentProcessListPage.clickFirstShipmentDetail();
 });
 
 And("user downloads the travel document file", () => {

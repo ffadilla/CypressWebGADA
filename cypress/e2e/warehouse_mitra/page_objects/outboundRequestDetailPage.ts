@@ -1,7 +1,7 @@
-import OutboundRequestListPage from "./outboundRequestListPage";
 import { reformatDate } from "../common/utils";
+import BasePage from "./basePage";
 
-export default class OutboundRequestDetailPage extends OutboundRequestListPage {
+export default class OutboundRequestDetailPage extends BasePage {
   requestDetailPath = "inventory/outbound/request/detail";
 
   //xpath start here
@@ -14,44 +14,9 @@ export default class OutboundRequestDetailPage extends OutboundRequestListPage {
   xpathBackButtonOnDetail = "//a[text()='Kembali']";
   xpathSendButtonOnDetail = "//button[text()='Kirim Barang']";
 
-  clickFirstRequestDetail() {
-    cy.xpath(this.xpathFirstOutboundId)
-      .invoke("text")
-      .then(($outboundId) => {
-        cy.wrap($outboundId).as("outboundId");
-      });
-    cy.xpath(this.xpathFirstRequestId)
-      .invoke("text")
-      .then(($requestId) => {
-        cy.wrap($requestId).as("requestId");
-      });
-    cy.xpath(this.xpathFirstRecipientName)
-      .invoke("text")
-      .then(($recipientName) => {
-        cy.wrap($recipientName).as("recipientName");
-      });
-    cy.xpath(this.xpathFirstDeliveryMethod)
-      .invoke("text")
-      .then(($deliveryMethod) => {
-        cy.wrap($deliveryMethod).as("deliveryMethod");
-      });
-    cy.xpath(this.xpathFirstRequestStatus)
-      .invoke("text")
-      .then(($requestStatus) => {
-        cy.wrap($requestStatus).as("requestStatus");
-      });
-    cy.xpath(this.xpathFirstDeliveryDate)
-      .invoke("text")
-      .then(($deliveryDate) => {
-        cy.wrap($deliveryDate).as("deliveryDate");
-      });
-    cy.xpath(this.xpathFirstRequestId).click();
-    cy.url().should("include", this.requestDetailPath);
-  }
-
   clickBackToRequestList() {
     cy.xpath(this.xpathBackButtonOnDetail).click();
-    cy.url().should("include", this.requestListpath);
+    cy.url().should("include", "inventory/outbound/request/list");
   }
 
   clickSendRequest() {

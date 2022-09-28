@@ -1,6 +1,6 @@
-import ShipmentProcessListPage from "./shipmentProcessListPage";
+import BasePage from "./basePage";
 
-export default class ShipmentProcessDetailPage extends ShipmentProcessListPage {
+export default class ShipmentProcessDetailPage extends BasePage {
   shipmentDetailPath = "inventory/outbound/shipment/detail";
 
   // xpath start here
@@ -37,10 +37,6 @@ export default class ShipmentProcessDetailPage extends ShipmentProcessListPage {
   xpathPopUpConfirmButton = "//div/div[2]/button[2]";
   xpathSucceedNotificationSnackbar = "//div[@id='notistack-snackbar']";
 
-  clickExpandShipmentId() {
-    cy.xpath(this.xpathFirstAccordionButton).click();
-  }
-
   clickDownloadOutboundList() {
     cy.xpath(this.xpathOutboundListDownloader).click();
   }
@@ -62,55 +58,6 @@ export default class ShipmentProcessDetailPage extends ShipmentProcessListPage {
     cy.wait(500);
     cy.xpath(this.xpathPopUpConfirmButton).click();
     cy.xpath(this.xpathSucceedNotificationSnackbar).should("be.visible");
-  }
-
-  clickFirstShipmentDetail() {
-    cy.xpath(this.xpathFirstShipmentId)
-      .invoke("text")
-      .then(($shipmentId) => {
-        cy.wrap($shipmentId).as("shipmentId");
-      });
-    cy.xpath(this.xpathFirstOutboundType)
-      .invoke("text")
-      .then(($outboundType) => {
-        cy.wrap($outboundType).as("outboundType");
-      });
-    cy.xpath(this.xpathFirstRequestDeliveryDate)
-      .invoke("text")
-      .then(($deliveryDate) => {
-        cy.wrap($deliveryDate).as("deliveryDate");
-      });
-    cy.xpath(this.xpathFirstRecipientName)
-      .invoke("text")
-      .then(($recipientName) => {
-        cy.wrap($recipientName).as("recipientName");
-      });
-    cy.xpath(this.xpathFirstDeliveryMethod)
-      .invoke("text")
-      .then(($deliveryMethod) => {
-        cy.wrap($deliveryMethod).as("deliveryMethod");
-      });
-    cy.xpath(this.xpathFirstOutboundId)
-      .invoke("text")
-      .then(($outboundId) => {
-        cy.wrap($outboundId).as("outboundId");
-      });
-    cy.xpath(this.xpathFirstRequestDate)
-      .invoke("text")
-      .then(($requestDate) => {
-        cy.wrap($requestDate).as("requestDate");
-      });
-    cy.xpath(this.xpathFirstShipmentStatus)
-      .invoke("text")
-      .then(($shipmentStatus) => {
-        cy.wrap($shipmentStatus).as("shipmentStatus");
-      });
-    cy.xpath(this.xpathFirstTotalOutboundRequest)
-      .invoke("text")
-      .then(($totalOutboundReq) => {
-        cy.wrap($totalOutboundReq).as("totalOutboundReq");
-      });
-    cy.xpath(this.xpathFirstShipmentId).click();
   }
 
   attachTravelDoc() {

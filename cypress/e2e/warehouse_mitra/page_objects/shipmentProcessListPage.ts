@@ -53,6 +53,59 @@ export default class ShipmentProcessListPage extends OutboundPage {
     cy.url().should("include", this.shipmentListPath);
   }
 
+  clickExpandShipmentId() {
+    cy.xpath(this.xpathFirstAccordionButton).click();
+  }
+
+  clickFirstShipmentDetail() {
+    cy.xpath(this.xpathFirstShipmentId)
+      .invoke("text")
+      .then(($shipmentId) => {
+        cy.wrap($shipmentId).as("shipmentId");
+      });
+    cy.xpath(this.xpathFirstOutboundType)
+      .invoke("text")
+      .then(($outboundType) => {
+        cy.wrap($outboundType).as("outboundType");
+      });
+    cy.xpath(this.xpathFirstRequestDeliveryDate)
+      .invoke("text")
+      .then(($deliveryDate) => {
+        cy.wrap($deliveryDate).as("deliveryDate");
+      });
+    cy.xpath(this.xpathFirstRecipientName)
+      .invoke("text")
+      .then(($recipientName) => {
+        cy.wrap($recipientName).as("recipientName");
+      });
+    cy.xpath(this.xpathFirstDeliveryMethod)
+      .invoke("text")
+      .then(($deliveryMethod) => {
+        cy.wrap($deliveryMethod).as("deliveryMethod");
+      });
+    cy.xpath(this.xpathFirstOutboundId)
+      .invoke("text")
+      .then(($outboundId) => {
+        cy.wrap($outboundId).as("outboundId");
+      });
+    cy.xpath(this.xpathFirstRequestDate)
+      .invoke("text")
+      .then(($requestDate) => {
+        cy.wrap($requestDate).as("requestDate");
+      });
+    cy.xpath(this.xpathFirstShipmentStatus)
+      .invoke("text")
+      .then(($shipmentStatus) => {
+        cy.wrap($shipmentStatus).as("shipmentStatus");
+      });
+    cy.xpath(this.xpathFirstTotalOutboundRequest)
+      .invoke("text")
+      .then(($totalOutboundReq) => {
+        cy.wrap($totalOutboundReq).as("totalOutboundReq");
+      });
+    cy.xpath(this.xpathFirstShipmentId).click();
+  }
+
   checkShipLastPage() {
     let currentPage: number;
     cy.xpath(this.xpathPaginationBox)
