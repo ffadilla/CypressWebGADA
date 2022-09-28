@@ -1,5 +1,4 @@
 import BasePage from "./basePage";
-import * as utils from "../common/utils";
 
 export default class InboundRequestFormPage extends BasePage {
   path = "/inventory/inbound/request/create";
@@ -30,6 +29,9 @@ export default class InboundRequestFormPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[5]/div/div/div/div/input';
   errorStoreTargetName =
     ":nth-child(1) > :nth-child(5) > .MuiFormControl-root > .MuiFormHelperText-root";
+
+  targetStoreAddressField =
+    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[6]/div/div/input';
   errorStoreTargetAddress =
     ":nth-child(1) > :nth-child(6) > .MuiFormControl-root > .MuiFormHelperText-root";
 
@@ -60,107 +62,125 @@ export default class InboundRequestFormPage extends BasePage {
 
   firstAutocompleteItem = '[data-option-index="0"]';
   dropdownOptionsList = '[role="listbox"]';
-  datepickerItem = '[role="cell"]';
+  datepickerItem = '[role="gridcell"]';
 
-  sourceID = "Cyp-" + utils.generateDateTime(0, "YYMMDD_HHmm");
+  sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmm");
 
   typeSourceID() {
     cy.get(this.sourceIDField).type(this.sourceID);
-    utils.setSourceID(this.sourceID);
+    cy.get(this.sourceIDField).invoke("val").as("inboundFormSourceID");
   }
 
   setSourceType(keyword: string) {
     cy.xpath(this.sourceTypeField).click();
-    cy.contains(this.dropdownOptionsList, keyword).click();
+    cy.get(this.dropdownOptionsList).contains(keyword).click();
+    cy.xpath(this.sourceTypeField).invoke("text").as("inboundFormSourceType");
   }
 
   setStore(keyword: string) {
     cy.xpath(this.storeNameField).click();
     cy.xpath(this.storeNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
+    cy.xpath(this.storeNameField).invoke("val").as("inboundFormStoreName");
   }
 
   setWarehouse(keyword: string) {
     cy.xpath(this.warehouseNameField).click();
     cy.xpath(this.warehouseNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
+    cy.xpath(this.warehouseNameField)
+      .invoke("val")
+      .as("inboundFormWarehouseName");
   }
 
   setTargetStore(keyword: string) {
     cy.xpath(this.targetStoreNameField).click();
     cy.xpath(this.targetStoreNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
+    cy.xpath(this.targetStoreNameField)
+      .invoke("val")
+      .as("inboundFormTargetStoreName");
+    cy.xpath(this.targetStoreAddressField)
+      .invoke("val")
+      .as("inboundFormTargetStoreAddress");
   }
 
   setSourceDate(date: number) {
     cy.xpath(this.sourceDateField).click();
     cy.contains(this.datepickerItem, date).click();
+    cy.xpath(this.sourceDateField).invoke("val").as("inboundFormSourceDate");
   }
 
   setDeliveryDate(date: number) {
     cy.xpath(this.deliveryDateField).click();
     cy.contains(this.datepickerItem, date).click();
+    cy.xpath(this.deliveryDateField)
+      .invoke("val")
+      .as("inboundFormDeliveryDate");
   }
 
   setDeliveryMethod(keyword: string) {
     cy.xpath(this.deliveryMethodField).click();
     cy.get(this.dropdownOptionsList).contains(keyword).click();
+    cy.xpath(this.deliveryMethodField)
+      .invoke("text")
+      .as("inboundFormDeliveryMethod");
   }
 
   setRequestFirstProductName(keyword: string) {
     cy.xpath(this.requestProductNameField).click();
     cy.xpath(this.requestProductNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
+    cy.xpath(this.requestProductNameField)
+      .invoke("val")
+      .as("inboundFormFirstProductName");
   }
 
   setRequestFirstProductAmount(input: number) {
     cy.xpath(this.requestProductQuantityField).click();
     cy.xpath(this.requestProductQuantityField).type(input.toString());
+    cy.xpath(this.requestProductQuantityField)
+      .invoke("val")
+      .as("inboundFormFirstProductQty");
   }
 
-  assertErrorSourceID(err: string) {
-    expect(cy.get(this.errorSourceID).should("contain.text", err));
-  }
-
-  assertErrorSourceType(err: string) {
-    expect(cy.get(this.errorSourceType).should("contain.text", err));
-  }
-
-  assertErrorStoreName(err: string) {
-    expect(cy.get(this.errorStoreName).should("contain.text", err));
-  }
-
-  assertErrorWarehouseName(err: string) {
-    expect(cy.get(this.errorWarehouseName).should("contain.text", err));
-  }
-
-  assertErrorStoreTargetName(err: string) {
-    expect(cy.get(this.errorStoreTargetName).should("contain.text", err));
-  }
-
-  assertErrorStoreTargetAddress(err: string) {
-    expect(cy.get(this.errorStoreTargetAddress).should("contain.text", err));
-  }
-
-  assertErrorSourceDate(err: string) {
-    expect(cy.get(this.errorSourceDate).should("contain.text", err));
-  }
-
-  assertErrorSourceDeliveryDate(err: string) {
-    expect(cy.get(this.errorSourceDeliveryDate).should("contain.text", err));
-  }
-
-  assertErrorSourceDeliveryMethod(err: string) {
-    expect(cy.get(this.errorSourceDeliveryMethod).should("contain.text", err));
-  }
-
-  assertErrorRequestProductName(err: string) {
-    expect(cy.get(this.errorRequestProductName).should("contain.text", err));
-  }
-
-  assertErrorRequestProductQuantity(err: string) {
-    expect(
-      cy.get(this.errorRequestProductQuantity).should("contain.text", err)
-    );
+  assertErrorInboundRequestForm(field: string, err: string) {
+    let pointer = "";
+    switch (field) {
+      case "source ID":
+        pointer = this.errorSourceID;
+        break;
+      case "source type":
+        pointer = this.errorSourceType;
+        break;
+      case "store name":
+        pointer = this.errorStoreName;
+        break;
+      case "warehouse name":
+        pointer = this.errorWarehouseName;
+        break;
+      case "store target name":
+        pointer = this.errorStoreTargetName;
+        break;
+      case "store target address":
+        pointer = this.errorStoreTargetAddress;
+        break;
+      case "source date":
+        pointer = this.errorSourceDate;
+        break;
+      case "source delivery date":
+        pointer = this.errorSourceDeliveryDate;
+        break;
+      case "source delivery method":
+        pointer = this.errorSourceDeliveryMethod;
+        break;
+      case "request product name":
+        pointer = this.errorRequestProductName;
+        break;
+      case "request product quantity":
+        pointer = this.errorRequestProductQuantity;
+        break;
+    }
+    expect(cy.get(pointer).should("contain.text", err));
   }
 }
