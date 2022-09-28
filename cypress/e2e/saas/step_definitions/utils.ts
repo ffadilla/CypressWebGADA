@@ -648,6 +648,51 @@ export function retrieveUomId(uomName: string) {
   });
 }
 
+export function retrieveSalesEmployeeId(salesName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "employee",
+    qs: {
+      page_size: 30,
+      page: 1,
+      query: salesName,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let salesId = "";
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].name.toLowerCase() === salesName.toLowerCase()) {
+        salesId = data[i].id;
+      }
+    }
+    cy.wrap(salesId.toString()).as("salesId");
+  });
+}
+
+export function retrieveBankAccountId(
+  bankName: string,
+  bankAccountNumber: string
+) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "user/userinfo",
+  }).then((resp) => {
+    let bankAccountId = "";
+    let bankAccountList =
+      resp.body.data.user_store_list[0].store_bank_account_list;
+    for (let i = 0; i < bankAccountList.length; i++) {
+      if (
+        bankAccountList[i].bank.name.toLowerCase() === bankName &&
+        bankAccountList[i].bank_account_number === bankAccountNumber
+      ) {
+        bankAccountId = bankAccountList[i].bank_account_id;
+      }
+    }
+    cy.wrap(bankAccountId).as("bankAccountId");
+  });
+}
+
 export function retrieveSupplierId(supplierName: string) {
   cy.request({
     method: "GET",
