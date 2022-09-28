@@ -1,10 +1,10 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import InboundRequestListPage from "../page_objects/inboundRequestListPage";
+import RequestListPage from "../../page_objects/inbound/requestListPage";
 
-const inboundRequestListPage = new InboundRequestListPage();
+const requestListPage = new RequestListPage();
 
 When("user clicks inbound Request list tab", () => {
-  inboundRequestListPage.clickRequestTab();
+  requestListPage.clickRequestTab();
 });
 
 When(
@@ -12,71 +12,71 @@ When(
   (keyword: string) => {
     if (keyword === "canceled Source ID") {
       cy.get("@sourceDetailSourceID").then((sourceID) => {
-        inboundRequestListPage.setSearchKeyword(String(sourceID));
+        requestListPage.setSearchKeyword(String(sourceID));
       });
     } else if (keyword === "created Source ID") {
       cy.get("@inboundFormSourceID").then((sourceID) => {
-        inboundRequestListPage.setSearchKeyword(String(sourceID));
+        requestListPage.setSearchKeyword(String(sourceID));
       });
-    } else inboundRequestListPage.setSearchKeyword(keyword);
+    } else requestListPage.setSearchKeyword(keyword);
   }
 );
 
 When("user resets any applied keyword filter at inbound Request list", () => {
-  inboundRequestListPage.resetSearchKeyword();
+  requestListPage.resetSearchKeyword();
 });
 
 When(
   "user applies {string} as delivery date filter at inbound Request list",
   (deliveryDate: string) => {
-    inboundRequestListPage.setDeliveryDateFilter(deliveryDate);
+    requestListPage.setDeliveryDateFilter(deliveryDate);
   }
 );
 
 When(
   "user resets any applied delivery date filter at inbound Request list",
   () => {
-    inboundRequestListPage.resetDeliveryDate();
+    requestListPage.resetDeliveryDate();
   }
 );
 
 When(
   "user applies {string} as delivery method filter at inbound Request list",
   (deliveryMethod: string) => {
-    inboundRequestListPage.setDeliveryMethodFilter(deliveryMethod);
+    requestListPage.setDeliveryMethodFilter(deliveryMethod);
   }
 );
 
 When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
-    inboundRequestListPage.clickStatusChip(status);
+    requestListPage.clickStatusChip(status);
   }
 );
 
 When(
   "user applies {string} as page amount at inbound Request list",
   (value: string) => {
-    inboundRequestListPage.setPageAmount(value);
+    requestListPage.setPageAmount(value);
   }
 );
 
 When("user clicks create new inbound request button", () => {
-  inboundRequestListPage.clickCreateNewRequest();
+  requestListPage.clickCreateNewRequest();
 });
 
 When("user clicks the first data on inbound Request table", () => {
-  inboundRequestListPage.clickFirstRequest();
+  requestListPage.clickFirstRequest();
 });
 
 Then("user should be at inbound Request list", () => {
-  expect(cy.url().should("include", inboundRequestListPage.path));
+  expect(cy.url().should("include", requestListPage.path));
 });
 
 Then(
   "user should able to see {string} snackbar at inbound Request list",
   (value: string) => {
-    inboundRequestListPage.assertSnackbar(value);
+    requestListPage.assertSnackbar(value);
   }
 );
 
@@ -89,13 +89,13 @@ Then(
       attribute === "delivery method" ? val.split(" ").join("_") : val;
 
     if (attribute === "status") {
-      inboundRequestListPage.assertStatusQueryParam(value);
+      requestListPage.assertStatusQueryParam(value);
     } else if (attribute === "delivery date") {
-      inboundRequestListPage.assertDateQueryParam(target, value);
+      requestListPage.assertDateQueryParam(target, value);
     } else if (attribute === "delivery method" && val === "Semua Metode") {
-      inboundRequestListPage.assertQueryParam(target, "all");
+      requestListPage.assertQueryParam(target, "all");
     } else {
-      inboundRequestListPage.assertQueryParam(target, value);
+      requestListPage.assertQueryParam(target, value);
     }
   }
 );
@@ -103,14 +103,14 @@ Then(
 Then(
   "user should only able to see inbound Requests with {string} matched {string}",
   (attribute: string, value: string) => {
-    inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
+    requestListPage.assertRequestItemsBySearchFilter(attribute, value);
   }
 );
 
 Then(
   "user should only able to see {string} inbound Request per page maximum",
   (value: string) => {
-    inboundRequestListPage.assertTotalPageAmount(value);
+    requestListPage.assertTotalPageAmount(value);
   }
 );
 
@@ -119,27 +119,27 @@ Then(
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
     else if (attribute === "delivery date") {
-      const expectedDeliveryDate =
-        inboundRequestListPage.setExpectedDeliveryDate(parseInt(value));
-      inboundRequestListPage.assertRequestItemsBySearchFilter(
+      const expectedDeliveryDate = requestListPage.setExpectedDeliveryDate(
+        parseInt(value)
+      );
+      requestListPage.assertRequestItemsBySearchFilter(
         "delivery date",
         expectedDeliveryDate
       );
     } else {
-      inboundRequestListPage.assertRequestItemsBySearchFilter(attribute, value);
+      requestListPage.assertRequestItemsBySearchFilter(attribute, value);
     }
   }
 );
 
 Then("user should able to see empty inbound Requests list", () => {
-  inboundRequestListPage.assertEmptyList();
+  requestListPage.assertEmptyList();
 });
 
 Then(
   "user should able to see {string} Request at inbound Request list",
   (value: string) => {
-    if (value === "created") inboundRequestListPage.assertCreatedRequestItem();
-    else if (value === "canceled")
-      inboundRequestListPage.assertCanceledRequestItem();
+    if (value === "created") requestListPage.assertCreatedRequestItem();
+    else if (value === "canceled") requestListPage.assertCanceledRequestItem();
   }
 );

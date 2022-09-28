@@ -87,7 +87,7 @@ Feature: Get Inbound Receipt List
     | deliveryDate    |
     | "22"            |
 
-   Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
+   Scenario Outline: User successfully filters inbound Receipt list by <pageAmount> page amount
     //TODO: Precondition to create inbound Receipt with 22 as delivery date
     When user redirects to inbound menu
     And user clicks inbound Receipt list tab

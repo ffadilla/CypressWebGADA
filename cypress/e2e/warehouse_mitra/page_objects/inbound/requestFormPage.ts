@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import BasePage from "../basePage";
 
-export default class InboundRequestFormPage extends BasePage {
+export default class RequestFormPage extends BasePage {
   path = "/inventory/inbound/request/create";
   submitRequestFormButton =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[2]/div/div/button[2]';

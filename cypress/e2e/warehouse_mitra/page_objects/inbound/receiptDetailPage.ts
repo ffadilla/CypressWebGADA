@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import BasePage from "../basePage";
 
-export default class InboundReceiptDetailPage extends BasePage {
+export default class ReceiptDetailPage extends BasePage {
   path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";

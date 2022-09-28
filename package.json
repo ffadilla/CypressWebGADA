@@ -35,7 +35,8 @@
       "formatted": "cucumber-json-formatter"
     },
     "stepDefinitions": [
-      "cypress/e2e/[filepart]/step_definitions/*.{js,ts}"
+      "cypress/e2e/[filepart]/step_definitions/*.{js,ts}",
+      "cypress/e2e/[filepart]/step_definitions/**/*.{js,ts}"
     ]
   },
   "lint-staged": {
