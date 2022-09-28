@@ -38,6 +38,11 @@ export default class InboundRequestListPage extends InboundListPage {
   );
   snackbar = "#notistack-snackbar";
 
+  clickCreateNewRequest() {
+    cy.xpath(this.createRequestButton).click();
+    cy.contains(this.createNewRequestButtonOption).click();
+  }
+
   clickFirstRequest() {
     cy.xpath(this.firstRequestItemSourceID)
       .invoke("text")

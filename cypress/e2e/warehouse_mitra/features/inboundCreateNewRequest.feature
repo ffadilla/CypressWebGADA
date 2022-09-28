@@ -2,19 +2,16 @@ Feature: Create Inbound Source
 
   Background: 
     Given user already logged in to WMS as "superuser"
+    And user redirects to inbound menu
 
   Scenario: Fail to create a new inbound Source/Request with null form
-    When user redirects to inbound menu
-    And user clicks create inbound request button
-    And user selects new inbound request dropdown
+    And user clicks create new inbound request button
     And user clicks new inbound request form submission button
     Then empty error messages for single Request should appear at create new inbound Request form
     When user logs out from WMS
 
   Scenario: User successfully create a new inbound Source/Request
-    When user redirects to inbound menu
-    And user clicks create inbound request button
-    And user selects new inbound request dropdown
+    And user clicks create new inbound request button
     And user fills inbound Source ID at new inbound request form
     And user selects the first options of <storeKeyword> on store name dropdown at new inbound request form
     And user selects <inboundType> as inbound type at new inbound request form
@@ -27,7 +24,7 @@ Feature: Create Inbound Source
     And user inputs <productQty> as first product amount at new inbound request form
     And user clicks new inbound request form submission button
     Then user should be at inbound Request list
-    And user should able to see created Request at inbound Request list
+    And user should able to see 'created' Request at inbound Request list
 
     When user clicks the first data on inbound Request table
     Then user should be at 'Belum Selesai' inbound Request detail page
@@ -37,7 +34,8 @@ Feature: Create Inbound Source
     Then user should be at inbound Source detail page with 'Belum Selesai' Request
     And user should see similar inbound Source data between detail page and inbound form
     
-    When user logs out from WMS
+    When user cancels Source at inbound Source detail
+    And user logs out from WMS
 
     Examples:
       | inboundType | storeKeyword  | warehouseKeyword  | targetStoreKeyword  | sourceDate  | deliveryDate | deliveryMethod | productName | productQty |

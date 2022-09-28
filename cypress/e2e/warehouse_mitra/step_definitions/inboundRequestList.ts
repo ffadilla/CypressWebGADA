@@ -14,6 +14,10 @@ When(
       cy.get("@sourceDetailSourceID").then((sourceID) => {
         inboundRequestListPage.setSearchKeyword(String(sourceID));
       });
+    } else if (keyword === "created Source ID") {
+      cy.get("@inboundFormSourceID").then((sourceID) => {
+        inboundRequestListPage.setSearchKeyword(String(sourceID));
+      });
     } else inboundRequestListPage.setSearchKeyword(keyword);
   }
 );
@@ -57,12 +61,8 @@ When(
   }
 );
 
-When("user clicks create inbound request button", () => {
-  cy.xpath(inboundRequestListPage.createRequestButton).click();
-});
-
-When("user selects new inbound request dropdown", () => {
-  cy.contains(inboundRequestListPage.createNewRequestButtonOption).click();
+When("user clicks create new inbound request button", () => {
+  inboundRequestListPage.clickCreateNewRequest();
 });
 
 When("user clicks the first data on inbound Request table", () => {
