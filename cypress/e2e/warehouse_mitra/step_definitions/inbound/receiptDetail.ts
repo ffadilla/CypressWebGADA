@@ -7,6 +7,21 @@ When("user cancels Receipt at inbound Receipt detail page", () => {
   receiptDetailPage.cancelReceipt();
 });
 
+When("user deletes allocated quantity on inbound Receipt form", () => {
+  receiptDetailPage.deleteAllocatedQuantity();
+});
+
+When("user clicks submit inbound Receipt button", () => {
+  receiptDetailPage.submitReceipt();
+});
+
+Then("user should be able to see error messages on mandatory fields", () => {
+  receiptDetailPage.assertErrorAllocatedQty();
+  receiptDetailPage.assertErrorExpDate();
+  receiptDetailPage.assertErrorDiscrepancyRemark();
+  receiptDetailPage.assertErrorAttachments();
+});
+
 Then(
   "user should be at {string} inbound Receipt detail page",
   (status: string) => {

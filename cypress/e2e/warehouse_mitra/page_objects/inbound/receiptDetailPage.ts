@@ -15,6 +15,8 @@ export default class ReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/p[3]';
   receiptStatusInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/span';
+  attachmentContainer =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div';
   receiptCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
   nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
@@ -52,8 +54,14 @@ export default class ReceiptDetailPage extends BasePage {
       '[id="mui-component-select-inbound_requests[0].product_variant_request_items[0].active_unit_items[0].product_unit_id"]',
     addAllocatedUOMButton:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/div/div[2]/span/button',
+    expDateContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]',
     expiryDateDropdown:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]/div/div/div/div',
+    discrepancyQtyContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[5]',
+    discrepancyRemarksContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[6]',
   };
 
   cancelPopupContent = "/html/body/div[10]/div[3]/div/h2";
@@ -87,6 +95,46 @@ export default class ReceiptDetailPage extends BasePage {
       .find("button")
       .contains("Batalkan")
       .click();
+  }
+
+  deleteAllocatedQuantity() {
+    cy.get(this.singleRequestInfo.allocatedQtyField)
+      .type("{backspace}")
+      .type("{backspace}")
+      .type("{backspace}")
+      .type("{backspace}");
+  }
+
+  submitReceipt() {
+    this.invokeSourceDetail();
+    cy.xpath(this.receiptCTAButtonContainer).contains("Submit").click();
+  }
+
+  assertErrorAllocatedQty() {
+    let emptyErrorMessage = "Harap masukkan jumlah produk yang diterima";
+    cy.xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorExpDate() {
+    let emptyErrorMessage = "Harap pilih tanggal expired";
+    cy.xpath(this.singleRequestInfo.expDateContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorDiscrepancyRemark() {
+    let emptyErrorMessage =
+      "Harap masukkan keterangan untuk perbedaan jumlah barang";
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorAttachments() {
+    let emptyErrorMessage = "Harap upload foto Surat Jalan";
+    cy.xpath(this.attachmentContainer).should("contain", emptyErrorMessage);
   }
 
   assertReceiptDataByReceiptList() {
