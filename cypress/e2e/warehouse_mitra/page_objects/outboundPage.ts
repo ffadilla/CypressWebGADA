@@ -96,7 +96,7 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "&search=" + modVal);
   }
 
-  inputRequest() {
+  inputShipmentRequest() {
     cy.get("@shipmentId").then((shipmentId: any) => {
       cy.get(this.searchInputBox)
         .click()

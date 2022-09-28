@@ -19,7 +19,7 @@ export default class OutboundRequestDetailPage extends BasePage {
     cy.url().should("include", "inventory/outbound/request/list");
   }
 
-  clickSendRequest() {
+  clickSubmitOutbound() {
     cy.xpath(this.xpathSendButtonOnDetail).click();
     cy.url().should("include", "inventory/outbound/shipment/detail");
   }

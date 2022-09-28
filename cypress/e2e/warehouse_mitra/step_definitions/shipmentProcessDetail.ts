@@ -43,7 +43,7 @@ Then("the outbound list file shall be downloaded successfully", () => {
 
 Then("the shipment status will be changed to {string}", (status: string) => {
   shipmentProcessDetailPage.assertSuccessSnackBar();
-  outboundPage.inputRequest();
+  outboundPage.inputShipmentRequest();
   shipmentProcessListPage.assertResultStatus(status);
 });
 

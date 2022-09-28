@@ -56,7 +56,7 @@ export default class ShipmentProcessDetailPage extends BasePage {
   clickSubmitShipmentProcess() {
     cy.xpath(this.xpathSubmitShipmentButton).click();
     cy.wait(500);
-    cy.xpath(this.xpathPopUpConfirmButton).click();
+    this.clickConfirm();
     cy.xpath(this.xpathSucceedNotificationSnackbar).should("be.visible");
   }
 
