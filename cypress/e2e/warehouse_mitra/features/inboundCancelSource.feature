@@ -12,7 +12,7 @@ Feature: Cancel Inbound Source Detail
   Scenario: User successfully redirects to inbound Source detail page from <status> Request
     When user cancels Source at inbound Source detail
     Then user should be at inbound Request list
-    And user should able to see succeeded cancelation message
+    And user should able to see "succeeded Source cancelation" snackbar at inbound Request list
 
     When user applies "canceled Source ID" to find related inbound Request
     Then user should able to see "canceled" Request at inbound Request list

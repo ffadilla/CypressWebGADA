@@ -73,9 +73,12 @@ Then("user should be at inbound Request list", () => {
   expect(cy.url().should("include", inboundRequestListPage.path));
 });
 
-Then("user should able to see succeeded cancelation message", () => {
-  inboundRequestListPage.assertSnackbar();
-});
+Then(
+  "user should able to see {string} snackbar at inbound Request list",
+  (value: string) => {
+    inboundRequestListPage.assertSnackbar(value);
+  }
+);
 
 Then(
   "query param for {string} {string} should be added to inbound Request list URL",

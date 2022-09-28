@@ -32,6 +32,10 @@ When("user redirects to inbound menu", () => {
   cy.xpath(basePage.inboundMenuButton).click();
 });
 
+When("user redirects to the previous visited page", () => {
+  cy.go("back");
+});
+
 Then("user should be logged out", () => {
   basePage.logout();
 });

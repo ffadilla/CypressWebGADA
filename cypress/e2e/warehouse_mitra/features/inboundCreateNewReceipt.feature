@@ -15,7 +15,9 @@ Feature: Get Inbound Receipt
 
     When user redirects to inbound menu
     And user clicks the first data on inbound Request table
-    And user clicks Source CTA button at inbound Request detail
+    Then user should be at "Sedang Diproses" inbound Request detail page
+
+    When user clicks Source CTA button at inbound Request detail
     And user cancels Source at inbound Source detail
     And user logs out from WMS
 
@@ -30,6 +32,8 @@ Feature: Get Inbound Receipt
 
     When user redirects to inbound menu
     And user clicks the first data on inbound Request table
-    And user clicks Source CTA button at inbound Request detail
+    Then user should be at "Sedang Diproses" inbound Request detail page
+
+    When user clicks Source CTA button at inbound Request detail
     And user cancels Source at inbound Source detail
     And user logs out from WMS

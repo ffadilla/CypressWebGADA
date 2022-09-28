@@ -1,7 +1,11 @@
-import { Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InboundReceiptDetailPage from "../page_objects/inboundReceiptDetailPage";
 
 const inboundReceiptDetailPage = new InboundReceiptDetailPage();
+
+When("user cancels Receipt at inbound Receipt detail page", () => {
+  inboundReceiptDetailPage.cancelReceipt();
+});
 
 Then(
   "user should be at {string} inbound Receipt detail page",

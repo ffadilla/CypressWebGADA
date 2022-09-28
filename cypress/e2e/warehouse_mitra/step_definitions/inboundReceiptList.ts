@@ -73,6 +73,13 @@ Then("user should be at inbound Receipt list", () => {
 });
 
 Then(
+  "user should able to see {string} snackbar at inbound Receipt list",
+  (value: string) => {
+    inboundReceiptListPage.assertSnackbar(value);
+  }
+);
+
+Then(
   "query param for {string} {string} should be added to inbound Receipt list URL",
   (val: string, attribute: string) => {
     const target =

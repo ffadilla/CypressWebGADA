@@ -36,7 +36,6 @@ export default class InboundRequestListPage extends InboundListPage {
   firstRequestItemStatus = this.requestItemListBody.concat(
     this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
-  snackbar = "#notistack-snackbar";
 
   clickCreateNewRequest() {
     cy.xpath(this.createRequestButton).click();
@@ -67,12 +66,6 @@ export default class InboundRequestListPage extends InboundListPage {
       .as("requestListStatus");
 
     cy.xpath(this.firstRequestItemSourceID).click();
-  }
-
-  assertSnackbar() {
-    let succeededMessage = "Berhasil membatalkan barang masuk";
-
-    expect(cy.get(this.snackbar).should("contain", succeededMessage));
   }
 
   assertCreatedRequestItem() {
