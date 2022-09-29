@@ -746,7 +746,8 @@ export function retrieveInventoryId(
       sort_type: "asc",
       exclude_empty_price_tiers: false,
     },
-  }).then(() => {
+  }).then((resp) => {
+    let listResp = resp.body;
     cy.request({
       method: "GET",
       url: gadaConfig.saas.baseApiUrl + "product/uom",
@@ -759,18 +760,18 @@ export function retrieveInventoryId(
     }).then((resp) => {
       let inventoryId = "";
       let uomId = resp.body.data[0].id;
-      for (let i = 0; i < resp.body.data.length; i++) {
+      for (let i = 0; i < listResp.data.length; i++) {
         if (
-          resp.body.data[i].product_variant_name.toLowerCase() ===
+          listResp.data[i].product_variant_name.toLowerCase() ===
           productVariantName.toLowerCase()
         ) {
-          for (let j = 0; j < resp.body.data[i].inventories.length; j++) {
+          for (let j = 0; j < listResp.data[i].inventories.length; j++) {
             if (
-              resp.body.data[i].inventories[
+              listResp.data[i].inventories[
                 j
-              ].unit_of_measurement.id.toString() === uomId
+              ].unit_of_measurement.id.toString() === uomId.toString()
             ) {
-              inventoryId = resp.body.data[i].inventories[j].inventory_id;
+              inventoryId = listResp.data[i].inventories[j].inventory_id;
               cy.wrap(inventoryId.toString()).as("inventoryId");
             }
           }

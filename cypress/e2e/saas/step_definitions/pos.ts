@@ -11,6 +11,7 @@ When("user visits pos page", () => {
 When("user searches for {string} on pos search input", (input: string) => {
   posPage.typeSearchProductInput(input);
   cy.get(posPage.searchProductInput).should("have.value", input);
+  cy.wait(500);
 });
 
 When(

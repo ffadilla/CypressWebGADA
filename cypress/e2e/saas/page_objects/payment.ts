@@ -38,8 +38,8 @@ export default class PaymentPage extends BasePage {
   customerModalSelectSales = "#input_autocomplete_select_sales_customer_modal";
   customerModalDeleteButton = "#button_secondary_customer_modal";
   customerModalSubmitButton = "#button_primary_customer_modal";
-  customerModalSalesDiv = "#div_customer_modal_select_sales_";
-  customerModalSalesResetButton = "#div_reset_customer_modal_sales";
+  customerModalSalesText = "#p_customer_modal_select_sales_";
+  customerModalSalesResetButton = "#p_reset_customer_modal_sales";
 
   // bank transfer section
   bankAccountRadioButton = "#label_bank_account_";
@@ -185,7 +185,7 @@ export default class PaymentPage extends BasePage {
   }
 
   clickCustomerModalSalesDiv(id: string) {
-    cy.get(this.customerModalSalesDiv + id).click();
+    cy.get(this.customerModalSalesText + id).click();
   }
 
   clickCustomerModalSalesResetButton() {

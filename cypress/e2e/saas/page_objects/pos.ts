@@ -86,6 +86,7 @@ export default class PosPage extends BasePage {
   itemDiscountFreeItemIncrementButton = "#button_increment_discount_item";
 
   visitPos() {
+    cy.viewport(1920, 1080);
     cy.visit(this.baseUrl + this.path);
   }
 
@@ -128,7 +129,7 @@ export default class PosPage extends BasePage {
   }
 
   typeCustomItemNameInput(input: string) {
-    cy.get(this.customItemNameInput).type(input);
+    cy.get(this.customItemNameInput).clear().type(input);
   }
 
   clickCloseCalculatorIconButton() {
@@ -216,7 +217,10 @@ export default class PosPage extends BasePage {
   }
 
   typeInventoryNumberCartItemInput(inventoryId: string, input: string) {
-    cy.get(this.inventoryNumberCartItemInput + inventoryId).type(input);
+    cy.get(this.inventoryNumberCartItemInput + inventoryId).clear();
+    cy.get(this.inventoryNumberCartItemInput + inventoryId).type(
+      "{selectAll}" + input
+    );
   }
 
   clickInventoryCartItemButton(inventoryId: string) {
@@ -253,7 +257,7 @@ export default class PosPage extends BasePage {
   }
 
   typeSaveCartSearchCustomerInput(input: string) {
-    cy.get(this.saveCartSearchCustomerInput).type(input);
+    cy.get(this.saveCartSearchCustomerInput).clear().type(input);
   }
 
   clickSaveCartAddNewCustomerButton() {
@@ -303,11 +307,11 @@ export default class PosPage extends BasePage {
   }
 
   typeItemDiscountAmountInput(input: string) {
-    cy.get(this.itemDiscountAmountInput).type(input);
+    cy.get(this.itemDiscountAmountInput).clear().type(input);
   }
 
   typeItemDiscountNameInput(input: string) {
-    cy.get(this.itemDiscountNameInput).type(input);
+    cy.get(this.itemDiscountNameInput).clear().type(input);
   }
 
   clickItemDiscountHapusButton() {
@@ -323,7 +327,9 @@ export default class PosPage extends BasePage {
   }
 
   typeItemDiscountFreeItemNumberInput(input: string) {
-    cy.get(this.itemDiscountFreeItemNumberInput).type(input);
+    cy.get(this.itemDiscountFreeItemNumberInput)
+      .clear()
+      .type("{selectAll}" + input);
   }
 
   clickItemDiscountFreeItemIncrementButton() {

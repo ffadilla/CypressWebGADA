@@ -10,8 +10,8 @@ Feature: POS - Add to Cart
     When user searches for "Web Automation Custom Inventory 1 (Single UOM)" on pos search input
     And user adds "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" to cart
     Then "1" is displayed on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" on pos shopping cart
-    And user types "5" on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" quantity input field on pos inventory list
-    Then "5" is displayed on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" on pos shopping cart
-    And user types "3" on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" quantity input field on pos shopping cart
-    Then "3" is displayed on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" on pos inventory list
+    And user types "15" on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" quantity input field on pos inventory list
+    Then "15" is displayed on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" on pos shopping cart
+    And user types "13" on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" quantity input field on pos shopping cart
+    Then "13" is displayed on "Web Automation Custom Inventory 1 (Single UOM)" unit "Pieces" on pos inventory list
     Then user deletes test data
