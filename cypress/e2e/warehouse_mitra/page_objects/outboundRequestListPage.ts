@@ -1,14 +1,12 @@
-import BasePage from "./basePage";
+import OutboundPage from "./outboundPage";
 import { generateDateTime } from "../common/utils";
 
-export default class OutboundRequestListPage extends BasePage {
-  path = "inventory/outbound/request/list";
+export default class OutboundRequestListPage extends OutboundPage {
+  requestListpath = "inventory/outbound/request/list";
   searchInputBox =
     'input[placeholder="No. permintaan barang atau nama produk..."]';
-  requestStatus =
-    "tr:nth-child(1) > td:nth-child(5) > span > span.MuiTypography-root";
   //xpath start here
-  xpathFirstIdxReqData = "//tr[1]/td[2]/a/div[1]";
+  xpathFirstRequestId = "//table/tbody/tr[1]/td[2]/a/div[1]";
   xpathListParent = "//div/div[3]/div[2]/div/div/div[4]";
   xpathNotFound = '//div[text()="Pencarian Tidak Ditemukan"]';
   xpathNotFoundMsg = "Pencarian Tidak Ditemukan";
@@ -23,6 +21,11 @@ export default class OutboundRequestListPage extends BasePage {
   xpathCounterStatusCanceled =
     '//div[contains(text(), "Dibatalkan")]/following-sibling::div[1]';
   xpathPaginationBox = '//div[contains(@class, "MuiSelect-select")]';
+  xpathFirstOutboundId = "//table/tbody/tr[1]/td[1]/div[1]";
+  xpathFirstRecipientName = "//table/tbody/tr[1]/td[3]/div";
+  xpathFirstDeliveryMethod = "//table/tbody/tr[1]/td[4]/div";
+  xpathFirstRequestStatus = "//table/tbody/tr[1]/td[5]/span/span[2]";
+  xpathFirstDeliveryDate = "//table/tbody/tr[1]/td[2]/a/div[2]/span";
   //variables start here
   todayDate = generateDateTime(0, "YYYY-MM-DD");
   yesterdayDate = generateDateTime(-1, "YYYY-MM-DD");
@@ -30,36 +33,10 @@ export default class OutboundRequestListPage extends BasePage {
   todayDF1 = generateDateTime(0, "D MMM YYYY");
   todayDF2 = generateDateTime(0, "DD MMM YYYY");
   yesterdayDF1 = generateDateTime(-1, "D MMM YYYY");
-  yesterdayDF2 = generateDateTime(-1, "D MMM YYYY");
-
-  selectMenuOutbound() {
-    this.navigate(this.path);
-    cy.url().should("include", this.path);
-  }
-
-  checkReqLastPage() {
-    let currentPage: number;
-    cy.xpath(this.xpathPaginationBox)
-      .invoke("text")
-      .then(($counter) => {
-        currentPage = parseInt($counter);
-      });
-    cy.xpath(this.xpathCounterList)
-      .invoke("text")
-      .then(($counter) => {
-        let counterOnFooter = $counter.split(" ");
-        let page = Math.ceil(parseInt(counterOnFooter[3]) / currentPage);
-        cy.visit(this.baseUrl + this.path, {
-          qs: {
-            page: page.toString(),
-          },
-        });
-        cy.location("search").should("include", "page=" + page);
-      });
-  }
+  yesterdayDF2 = generateDateTime(-1, "DD MMM YYYY");
 
   searchRequest() {
-    cy.xpath(this.xpathFirstIdxReqData)
+    cy.xpath(this.xpathFirstRequestId)
       .invoke("text")
       .then(($text) => {
         cy.get(this.searchInputBox)
@@ -68,6 +45,41 @@ export default class OutboundRequestListPage extends BasePage {
         let modVal = $text.replace("/", "%2F");
         cy.location("search").should("include", "&search=" + modVal);
       });
+  }
+
+  clickFirstRequestDetail() {
+    cy.xpath(this.xpathFirstOutboundId)
+      .invoke("text")
+      .then(($outboundId) => {
+        cy.wrap($outboundId).as("outboundId");
+      });
+    cy.xpath(this.xpathFirstRequestId)
+      .invoke("text")
+      .then(($requestId) => {
+        cy.wrap($requestId).as("requestId");
+      });
+    cy.xpath(this.xpathFirstRecipientName)
+      .invoke("text")
+      .then(($recipientName) => {
+        cy.wrap($recipientName).as("recipientName");
+      });
+    cy.xpath(this.xpathFirstDeliveryMethod)
+      .invoke("text")
+      .then(($deliveryMethod) => {
+        cy.wrap($deliveryMethod).as("deliveryMethod");
+      });
+    cy.xpath(this.xpathFirstRequestStatus)
+      .invoke("text")
+      .then(($requestStatus) => {
+        cy.wrap($requestStatus).as("requestStatus");
+      });
+    cy.xpath(this.xpathFirstDeliveryDate)
+      .invoke("text")
+      .then(($deliveryDate) => {
+        cy.wrap($deliveryDate).as("deliveryDate");
+      });
+    cy.xpath(this.xpathFirstRequestId).click();
+    cy.url().should("include", "inventory/outbound/request/detail");
   }
 
   assertDeliveryDate(value: string) {
@@ -137,7 +149,7 @@ export default class OutboundRequestListPage extends BasePage {
         let dateVal = parseInt(value);
         let todayDateVal = parseInt(this.dateOnly);
         let targetDate = todayDateVal - dateVal;
-        if (targetDate < 10) {
+        if (dateVal < 10) {
           cy.xpath(this.xpathListParent)
             .find(">div")
             .its("length")
@@ -158,7 +170,7 @@ export default class OutboundRequestListPage extends BasePage {
             .find(">div")
             .its("length")
             .then(($div) => {
-              $div === 2
+              $div < 2
                 ? cy
                     .xpath(this.xpathNotFound)
                     .should("contain.text", this.xpathNotFoundMsg)
@@ -181,7 +193,7 @@ export default class OutboundRequestListPage extends BasePage {
       });
   }
 
-  assertListDefault() {
+  assertRequestDefaultList() {
     cy.xpath(this.xpathReqList).should("be.visible");
   }
 
@@ -190,7 +202,7 @@ export default class OutboundRequestListPage extends BasePage {
   }
 
   assertResultStatus(value: string) {
-    cy.get(this.requestStatus).should("contain.text", value);
+    cy.xpath(this.xpathFirstRequestStatus).should("contain.text", value);
   }
 
   assertTotalData() {
