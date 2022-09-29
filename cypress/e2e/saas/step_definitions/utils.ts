@@ -791,6 +791,22 @@ export function retrieveUserInfo() {
   });
 }
 
+export function retrieveCustomerId(customerName: string) {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "customer",
+    qs: {
+      keyword: customerName,
+      page_size: 30,
+      page: 1,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let result = resp.body.data[0].id;
+    cy.wrap(result).as("customerId");
+  });
+}
+
 export function retrieveStoreId(storeName: string) {
   cy.request({
     method: "GET",

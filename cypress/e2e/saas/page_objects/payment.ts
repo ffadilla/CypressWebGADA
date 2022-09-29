@@ -1,7 +1,7 @@
 import BasePage from "./basePage";
 
 export default class PaymentPage extends BasePage {
-  path = "payment";
+  path = "pos/payment";
 
   backButton = "#button_icon_back_payment";
   selectCustomerButton = "#div_select_customer_payment";
@@ -10,7 +10,7 @@ export default class PaymentPage extends BasePage {
   bankTransferPaymentMethodButton = "#li_payment_method_bank_transfer";
   giroPaymentMethodButton = "#li_payment_method_giro";
   piutangPaymentMethodButton = "#li_payment_method_piutang";
-  cashPaymentInput = "#li_payment_method_piutang";
+  cashPaymentInput = "#input_amount_cash_payment";
   submitButton = "#button_submit_payment";
   amountSuggestionOneButton = "#button_amount_suggestion_0";
   amountSuggestionTwoButton = "#button_amount_suggestion_1";
@@ -51,6 +51,9 @@ export default class PaymentPage extends BasePage {
   giroNomorBilyetGiroInput = "#input_reference_no_giro_payment";
 
   // piutang section
+  downPaymentSwitch = "#switch_down_payment_amount";
+  downPaymentAmountInput = "#input_number_down_payment_amount";
+  downPaymentCashRadioButton = "#label_down_payment_cash";
   piutangDueDateInput = "#input_number_amount_due_date";
   piutangDownPaymentSwitch = "#switch_down_payment_amount";
 
@@ -215,6 +218,18 @@ export default class PaymentPage extends BasePage {
   }
 
   // piutang section
+  clickDownPaymentSwitch() {
+    cy.get(this.downPaymentSwitch).click();
+  }
+
+  typeDownPaymentAmountInput(input: string) {
+    cy.get(this.downPaymentAmountInput).type(input);
+  }
+
+  clickDownPaymentCashRadioButton() {
+    cy.get(this.downPaymentCashRadioButton).click();
+  }
+
   typePiutangDueDateInput(input: string) {
     cy.get(this.piutangDueDateInput).type(input);
   }

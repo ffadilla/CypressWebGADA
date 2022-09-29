@@ -15,11 +15,31 @@ When("user searches for {string} on pos search input", (input: string) => {
 });
 
 When(
+  "user clicks on inventory list decrement button of {string} unit {string}",
+  (productVariantName: string, productUnit: string) => {
+    utils.retrieveInventoryId(productVariantName, productUnit);
+    cy.get("@inventoryId").then((inventoryId: any) => {
+      posPage.clickDecrementInventoryButton(inventoryId);
+    });
+  }
+);
+
+When(
   "user adds {string} unit {string} to cart",
   (productVariantName: string, productUnit: string) => {
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.clickAddInventoryButton(inventoryId);
+    });
+  }
+);
+
+When(
+  "user removes {string} unit {string} from cart",
+  (productVariantName: string, productUnit: string) => {
+    utils.retrieveInventoryId(productVariantName, productUnit);
+    cy.get("@inventoryId").then((inventoryId: any) => {
+      posPage.clickDeleteCartItemButton(inventoryId);
     });
   }
 );
@@ -44,8 +64,11 @@ When(
   }
 );
 
-// Assertions
+When("user clicks on checkout button", () => {
+  posPage.clickPrimaryCheckoutButton();
+});
 
+// Assertions
 Then(
   "{string} is displayed on {string} unit {string} on pos shopping cart",
   (cartQuantity: string, productVariantName: string, productUnit: string) => {
@@ -71,3 +94,17 @@ Then(
     });
   }
 );
+
+Then(
+  "{string} unit {string} is not displayed on shopping cart",
+  (productVariantName: string, productUnit: string) => {
+    utils.retrieveInventoryId(productVariantName, productUnit);
+    cy.get("@inventoryId").then((inventoryId: any) => {
+      cy.get(posPage.inventoryNumberInput + inventoryId).should("not.exist");
+    });
+  }
+);
+
+Then("stok tidak cukup message displayed", () => {
+  cy.contains("Stok Tidak Cukup");
+});
