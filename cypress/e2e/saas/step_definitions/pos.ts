@@ -64,6 +64,38 @@ When(
   }
 );
 
+When("user clicks on secondary cart button", () => {
+  posPage.clickSecondaryCartButton();
+});
+
+// transaction discount
+When("user clicks on transaction discount flat toggle button", () => {
+  posPage.clickTransactionDiscountFlatToggleButton();
+});
+
+When("user clicks on transaction discount percentage toggle button", () => {
+  posPage.clickTransactionDiscountPercentageToggleButton();
+});
+
+When(
+  "user types {string} on transaction discount amount input",
+  (input: string) => {
+    posPage.typeTransactionDiscountAmountInput(input);
+  }
+);
+
+When(
+  "user types {string} on transaction discount name input",
+  (input: string) => {
+    posPage.typeTransactionDiscountNameInput(input);
+  }
+);
+
+When("user clicks on transaction discount submit button", () => {
+  posPage.clickTransactionDiscountSubmitButton();
+  cy.wait(500);
+});
+
 When("user clicks on checkout button", () => {
   posPage.clickPrimaryCheckoutButton();
 });
@@ -105,6 +137,24 @@ Then(
   }
 );
 
-Then("stok tidak cukup message displayed", () => {
-  cy.contains("Stok Tidak Cukup");
+Then("{string} is displayed", (input: string) => {
+  cy.contains(input);
+});
+
+Then("{string} transaction discount is displayed", (input: string) => {
+  cy.contains("Diskon Transaksi")
+    .next()
+    .should("contain.text", utils.numberWithSeparators(input));
+});
+
+Then("{string} tax excluded is displayed", (input: string) => {
+  cy.contains("Pajak")
+    .next()
+    .should("contain.text", utils.numberWithSeparators(input));
+});
+
+Then("{string} total is displayed", (input: string) => {
+  cy.contains("Total")
+    .next()
+    .should("contain.text", utils.numberWithSeparators(input));
 });

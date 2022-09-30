@@ -568,6 +568,43 @@ export function setDefaultTaxAndCustomerDebtSettings() {
   });
 }
 
+export function setCustomTaxSettings(
+  taxType: string,
+  taxBeforeDiscount: string,
+  taxAmount: string
+) {
+  let taxTypeRes = false;
+  let taxBeforeDiscountRes = true;
+  if (taxType.toLowerCase() === "excluded") {
+    taxTypeRes = false;
+  } else if (taxType.toLowerCase() === "included") {
+    taxTypeRes = true;
+  }
+
+  if (taxBeforeDiscount.toLowerCase() === "before discount") {
+    taxBeforeDiscountRes = false;
+  } else if (taxBeforeDiscount.toLowerCase() === "after discount") {
+    taxBeforeDiscountRes = true;
+  }
+
+  cy.request({
+    method: "PATCH",
+    url: gadaConfig.saas.baseApiUrl + "store/setting",
+    body: {
+      is_tax_active: true,
+      is_tax_after_discount: taxBeforeDiscountRes,
+      is_tax_include_in_price: taxTypeRes,
+      tax_percentage_amount: taxAmount,
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      duration: 7,
+      cumulative_max_amount: 0,
+      invoice_max_amount: 0,
+      is_max_amount_active: false,
+      is_allow_multiple_top: false,
+    },
+  });
+}
+
 export function setDefaultRefundSettings() {
   cy.request({
     method: "PUT",

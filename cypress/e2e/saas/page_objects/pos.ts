@@ -70,6 +70,15 @@ export default class PosPage extends BasePage {
     "#button_secondary_clear_cart_confirmation";
   clearCartConfirmationHapusButton = "#button_primary_clear_cart_confirmation";
 
+  // transaction discount
+  transactionDiscountFlatToggleButton =
+    "#toggle_button_transaction_discount_flat";
+  transactionDiscountPercentageToggleButton =
+    "#toggle_button_transaction_discount_percentage";
+  transactionDiscountAmountInput = "#input_number_transaction_discount";
+  transactionDiscountNameInput = "#input_name_transaction_discount";
+  transactionDiscountSubmitButton = "#button_primary_transaction_discount";
+
   // item discount
   itemDiscountCloseButton = "#button_icon_close_discount_item";
   itemDiscountFlatDiscountRadioButton = "#label_radio_discount_flat";
@@ -283,6 +292,27 @@ export default class PosPage extends BasePage {
 
   clickClearCartConfirmationHapusButton() {
     cy.get(this.clearCartConfirmationHapusButton).click();
+  }
+
+  // transaction discount
+  clickTransactionDiscountFlatToggleButton() {
+    cy.get(this.transactionDiscountFlatToggleButton).click();
+  }
+
+  clickTransactionDiscountPercentageToggleButton() {
+    cy.get(this.transactionDiscountPercentageToggleButton).click();
+  }
+
+  typeTransactionDiscountAmountInput(input: string) {
+    cy.get(this.transactionDiscountAmountInput).type(input);
+  }
+
+  typeTransactionDiscountNameInput(input: string) {
+    cy.get(this.transactionDiscountNameInput).type(input);
+  }
+
+  clickTransactionDiscountSubmitButton() {
+    cy.get(this.transactionDiscountSubmitButton).click();
   }
 
   // item discount
