@@ -5,8 +5,7 @@ import * as utils from "./utils";
 const registrationPage = new RegistrationPage();
 
 Given("a user is on registration page", () => {
-  cy.clearCookies();
-  registrationPage.visitRegistration();
+  registrationPage.navigate(registrationPage.path);
 });
 
 When("user fills phone number with random phone number", () => {

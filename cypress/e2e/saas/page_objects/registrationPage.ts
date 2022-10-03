@@ -17,11 +17,6 @@ export default class RegistrationPage extends BasePage {
   submitRegistrationButton = "#button_submit_step_three";
   invalidRegexErrorMessage = "p[id='input_phone_number']";
 
-  // common
-  visitRegistration() {
-    cy.visit(this.baseUrl + this.path);
-  }
-
   typeNumber(number: string) {
     cy.get(this.numberInput).type(number);
   }

@@ -5,7 +5,7 @@ import PosPage from "../page_objects/pos";
 const posPage = new PosPage();
 
 When("user visits pos page", () => {
-  posPage.visitPos();
+  posPage.navigate(posPage.path);
 });
 
 When("user searches for {string} on pos search input", (input: string) => {

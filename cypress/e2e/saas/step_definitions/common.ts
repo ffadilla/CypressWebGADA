@@ -22,7 +22,7 @@ Given("a new user is registered", () => {
   cy.clearLocalStorage();
   cy.clearCookies();
   cy.reload(true);
-  registrationPage.visitRegistration();
+  registrationPage.navigate(registrationPage.path);
   registrationPage.typeNumber(utils.generateRandomNumber());
   registrationPage.clickRegisterLanjutkan1();
   loginPage.selectWhatsappOtpType();

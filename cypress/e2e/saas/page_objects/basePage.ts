@@ -5,6 +5,7 @@ export default class BasePage {
   snackbarMessage = "#notistack-snackbar";
 
   navigate(path: string) {
+    cy.viewport(1920, 1080);
     cy.visit(this.baseUrl + path);
   }
 

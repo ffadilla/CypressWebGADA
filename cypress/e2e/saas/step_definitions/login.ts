@@ -7,8 +7,7 @@ const loginPage = new LoginPage();
 const basePage = new BasePage();
 
 Given("a user is on log in page", () => {
-  cy.clearCookies();
-  loginPage.visitLogin();
+  loginPage.navigate(loginPage.path);
 });
 
 When("user clicks on start registration button", () => {

@@ -63,10 +63,6 @@ export default class AccountPage extends BasePage {
   refundRangeSubmitButton = "button_submit_refund_range";
   refundRangeCancelButton = "button_cancel_refund_range";
 
-  visitUserAccount() {
-    cy.visit(this.baseUrl + this.path);
-  }
-
   clickUserAccountButton() {
     cy.get(this.userAccountButton).click();
   }

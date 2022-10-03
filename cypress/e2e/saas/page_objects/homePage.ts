@@ -12,11 +12,6 @@ export default class HomePage extends BasePage {
   inventorySideMenuButton = "h4:contains(Inventori)";
   inventoryListSideMenuButton = "h4:contains(Daftar Barang)";
 
-  // common
-  visitHomePage() {
-    cy.visit(this.baseUrl + this.path);
-  }
-
   clickCloseTutorialButton() {
     cy.get(this.h4text).next().click();
   }

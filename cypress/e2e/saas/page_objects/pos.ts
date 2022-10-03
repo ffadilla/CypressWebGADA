@@ -94,11 +94,6 @@ export default class PosPage extends BasePage {
   itemDiscountFreeItemNumberInput = "#input_number_free_discount_item";
   itemDiscountFreeItemIncrementButton = "#button_increment_discount_item";
 
-  visitPos() {
-    cy.viewport(1920, 1080);
-    cy.visit(this.baseUrl + this.path);
-  }
-
   // inventory list section
   typeSearchProductInput(input: string) {
     cy.get(this.searchProductInput).type(input);
