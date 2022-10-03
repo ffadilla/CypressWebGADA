@@ -1,7 +1,21 @@
-import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, Given } from "@badeball/cypress-cucumber-preprocessor";
 import InboundRequestFormPage from "../page_objects/inboundRequestFormPage";
 
 const inboundRequestFormPage = new InboundRequestFormPage();
+
+Given("user creates a new inbound Source Request", () => {
+  inboundRequestFormPage.typeSourceID();
+  inboundRequestFormPage.setStore("Faris");
+  inboundRequestFormPage.setSourceType("Retur");
+  inboundRequestFormPage.setWarehouse("Warehouse");
+  inboundRequestFormPage.setTargetStore("Faris");
+  inboundRequestFormPage.setSourceDate(13);
+  inboundRequestFormPage.setDeliveryDate(23);
+  inboundRequestFormPage.setDeliveryMethod("STORE COURIER");
+  inboundRequestFormPage.setRequestFirstProductName("Beng");
+  inboundRequestFormPage.setRequestFirstProductAmount(10);
+  inboundRequestFormPage.submitRequestForm();
+});
 
 When("user fills inbound Source ID at new inbound request form", () => {
   inboundRequestFormPage.typeSourceID();
@@ -78,7 +92,7 @@ When(
 );
 
 When("user clicks new inbound request form submission button", () => {
-  cy.xpath(inboundRequestFormPage.submitRequestFormButton).click();
+  inboundRequestFormPage.submitRequestForm();
 });
 
 Then(

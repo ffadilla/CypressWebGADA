@@ -20,6 +20,7 @@ export default class InboundListPage extends BasePage {
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
   emptyResultText =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
+  snackbar = "#notistack-snackbar";
 
   setSearchKeyword(keyword: string) {
     cy.xpath(this.searchbox).type(keyword);
@@ -73,9 +74,9 @@ export default class InboundListPage extends BasePage {
   }
 
   clickStatusChip(status: string) {
-    cy.intercept("GET", "/inbound/receipts/list/*").as("shipmentListAPI");
+    cy.intercept("GET", "/inbound/**").as("inboundListAPI");
     cy.get(this.chipContainer).contains(status).click();
-    cy.wait("@shipmentListAPI");
+    cy.wait("@inboundListAPI").its("response.statusCode").should("equal", 200);
   }
 
   assertStatusQueryParam(value: string) {
@@ -122,5 +123,17 @@ export default class InboundListPage extends BasePage {
           "Silakan ganti filter/kata kunci lain yang lebih sesuai."
         )
     );
+  }
+
+  assertSnackbar(value: string) {
+    let succeededMessage = "";
+    if (value === "succeeded Source cancelation")
+      succeededMessage = "Berhasil membatalkan barang masuk";
+    else if (value === "succeeded Receipt cancelation") {
+      succeededMessage = "Sukses membatalkan penerimaan barang masuk";
+      cy.wait(1000); //waiting for inbound Receipt cancelation process
+    }
+
+    expect(cy.get(this.snackbar).should("contain", succeededMessage));
   }
 }

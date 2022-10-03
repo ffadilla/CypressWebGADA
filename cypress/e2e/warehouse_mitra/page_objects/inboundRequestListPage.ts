@@ -37,8 +37,9 @@ export default class InboundRequestListPage extends InboundListPage {
     this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
 
-  clickStatusChip(status: string) {
-    cy.get(this.chipContainer).contains(status).click();
+  clickCreateNewRequest() {
+    cy.xpath(this.createRequestButton).click();
+    cy.contains(this.createNewRequestButtonOption).click();
   }
 
   clickFirstRequest() {
@@ -117,6 +118,17 @@ export default class InboundRequestListPage extends InboundListPage {
     });
     expect(
       cy.xpath(this.firstRequestItemStatus).should("contain", "Belum Selesai")
+    );
+  }
+
+  assertCanceledRequestItem() {
+    cy.get("@sourceDetailSourceID").then((sourceID) => {
+      expect(
+        cy.xpath(this.firstRequestItemSourceID).should("contain", sourceID)
+      );
+    });
+    expect(
+      cy.xpath(this.firstRequestItemStatus).should("contain", "Dibatalkan")
     );
   }
 

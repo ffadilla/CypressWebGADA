@@ -1,7 +1,7 @@
 import BasePage from "./basePage";
 
 export default class InboundReceiptDetailPage extends BasePage {
-  path = "https://warehouse-dev.gudangada.com/inventory/inbound/receipt/detail";
+  path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
 
@@ -17,6 +17,7 @@ export default class InboundReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/span';
   receiptCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
+  nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
 
   singleRequestInfo = {
     sourceTypeInfo:
@@ -54,6 +55,39 @@ export default class InboundReceiptDetailPage extends BasePage {
     expiryDateDropdown:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]/div/div/div/div',
   };
+
+  cancelPopupContent = "/html/body/div[10]/div[3]/div/h2";
+  cancelPopupCTAContainer = "/html/body/div[10]/div[3]/div/div[2]";
+
+  invokeSourceDetail() {
+    cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
+    cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailSourceID");
+  }
+
+  cancelReceipt() {
+    let cancelPopupHeader =
+      "Batalkan Data Penerimaan Barang Masuk “{{ReceiptID}}”?";
+
+    this.invokeSourceDetail();
+    cy.xpath(this.receiptCTAButtonContainer)
+      .contains("Batalkan Penerimaan Barang")
+      .click();
+    cy.get("@receiptDetailSourceID").then((receiptID) => {
+      let processedReceiptID = String(receiptID).split(
+        " (No. Penerimaan Barang)"
+      )[0];
+      cy.xpath(this.cancelPopupContent)
+        .find("p")
+        .should(
+          "contain",
+          cancelPopupHeader.split("{{ReceiptID}}").join(processedReceiptID)
+        );
+    });
+    cy.xpath(this.cancelPopupCTAContainer)
+      .find("button")
+      .contains("Batalkan")
+      .click();
+  }
 
   assertReceiptDataByReceiptList() {
     cy.get("@receiptListReceiptID").then((receiptID) => {
@@ -248,6 +282,16 @@ export default class InboundReceiptDetailPage extends BasePage {
         cy.xpath(this.receiptCTAButtonContainer).should("contain", "Submit")
       );
     } else if (status === "Sudah Selesai") {
+      expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
+    } else if (status === "Dibatalkan") {
+      expect(
+        cy
+          .xpath(this.nonAccessibleInfo)
+          .should("contain", "Receipt telah di cancel")
+      );
+      expect(
+        cy.xpath(this.singleRequestInfo.tableBodyContainer).should("not.exist")
+      );
       expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
     }
   }

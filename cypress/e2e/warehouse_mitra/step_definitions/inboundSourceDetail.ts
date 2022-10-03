@@ -1,7 +1,11 @@
-import { Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import InboundSourceDetailPage from "../page_objects/inboundSourceDetailPage";
 
 const inboundSourceDetailPage = new InboundSourceDetailPage();
+
+When("user cancels Source at inbound Source detail", () => {
+  inboundSourceDetailPage.cancelSource();
+});
 
 Then(
   "user should be at inbound Source detail page with {string} Request",

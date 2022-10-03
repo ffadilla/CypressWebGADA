@@ -2,7 +2,7 @@ import { setHasCompletedRequest } from "../common/helper";
 import BasePage from "./basePage";
 
 export default class InboundRequestDetailPage extends BasePage {
-  path = "https://warehouse-dev.gudangada.com/inventory/inbound/request/detail";
+  path = "/inventory/inbound/request/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   sourceIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div/div[1]/span[1]';

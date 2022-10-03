@@ -2,8 +2,7 @@ import { hasCompletedRequest } from "../common/helper";
 import BasePage from "./basePage";
 
 export default class InboundSourceDetailPage extends BasePage {
-  path =
-    "https://warehouse-dev.gudangada.com/inventory/inbound/request/source/detail";
+  path = "/inventory/inbound/request/source/detail";
   sourceIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[1]/h3';
   sourceTypeInfo =
@@ -35,8 +34,37 @@ export default class InboundSourceDetailPage extends BasePage {
     ":nth-child(2) > div > :nth-child(2) > :nth-child(2)";
   completedRequestProductQtyContainer =
     ":nth-child(2) > div > :nth-child(2) > :nth-child(3)";
+  sourceButtons = ".MuiButtonBase-root";
+  cancelPopupContent = ".MuiDialogContent-root";
+  cancelPopupButtonContainer = ".MuiDialogActions-root";
   sourceHistoricalReceptionContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[2]/div[2]/div';
+
+  invokeSourceDetail() {
+    cy.xpath(this.sourceIDInfo).invoke("text").as("sourceDetailSourceID");
+  }
+
+  cancelSource() {
+    let cancelPopupHeader = "Hapus Data Barang Masuk “{{SourceID}}”?";
+    let cancelPopupBody =
+      "Dengan menghapus, data permintaan barang masuk yang ada akan otomatis terhapus.";
+    this.invokeSourceDetail();
+
+    cy.get(this.sourceButtons).contains("Hapus Barang Masuk").click();
+    cy.get("@sourceDetailSourceID").then((sourceID) => {
+      cy.get(this.cancelPopupContent)
+        .find("p")
+        .should(
+          "contain",
+          cancelPopupHeader.split("{{SourceID}}").join(String(sourceID))
+        )
+        .should("contain", cancelPopupBody);
+    });
+    cy.get(this.cancelPopupButtonContainer)
+      .find("button")
+      .contains("Hapus")
+      .click();
+  }
 
   assertSourceUI(requestStatus: string) {
     if (requestStatus === "Dibatalkan") {

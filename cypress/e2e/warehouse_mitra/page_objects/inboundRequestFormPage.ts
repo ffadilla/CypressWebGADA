@@ -144,6 +144,10 @@ export default class InboundRequestFormPage extends BasePage {
       .as("inboundFormFirstProductQty");
   }
 
+  submitRequestForm() {
+    cy.xpath(this.submitRequestFormButton).click();
+  }
+
   assertErrorInboundRequestForm(field: string, err: string) {
     let pointer = "";
     switch (field) {
