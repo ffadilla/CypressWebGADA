@@ -66,8 +66,8 @@ When("user clicks on inventory list side menu button", () => {
 
 When(
   "user updates tax settings to tax {string}, calculated {string}, tax amount is {string}",
-  (taxType: string, taxbBeforeDiscount: string, taxAmount: string) => {
-    utils.setCustomTaxSettings(taxType, taxbBeforeDiscount, taxAmount);
+  (taxType: string, taxBeforeDiscount: string, taxAmount: string) => {
+    utils.setCustomTaxSettings(taxType, taxBeforeDiscount, taxAmount);
   }
 );
 
