@@ -6,3 +6,4 @@
 /cypress/screenshots
 /cypress/reports
 /cucumber-messages.ndjson
+/cypress/downloads/
