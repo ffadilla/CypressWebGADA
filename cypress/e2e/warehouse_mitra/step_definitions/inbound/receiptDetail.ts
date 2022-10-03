@@ -3,6 +3,20 @@ import ReceiptDetailPage from "../../page_objects/inbound/receiptDetailPage";
 
 const receiptDetailPage = new ReceiptDetailPage();
 
+When(
+  "user selects {string} as expiry date on inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.selectExpDate(value);
+  }
+);
+
+When(
+  "user downloads Berkas Serah Terima document on inbound Receipt form",
+  () => {
+    receiptDetailPage.downloadPrintableDoc();
+  }
+);
+
 When("user cancels Receipt at inbound Receipt detail page", () => {
   receiptDetailPage.cancelReceipt();
 });

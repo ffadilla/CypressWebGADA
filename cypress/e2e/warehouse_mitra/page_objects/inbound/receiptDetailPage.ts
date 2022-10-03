@@ -15,6 +15,8 @@ export default class ReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/p[3]';
   receiptStatusInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/span';
+  printableDocButton =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[2]/span/button';
   attachmentContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div';
   receiptCTAButtonContainer =
@@ -64,12 +66,32 @@ export default class ReceiptDetailPage extends BasePage {
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[6]',
   };
 
+  dropdownOptions = 'li[role="option"]';
   cancelPopupContent = "/html/body/div[10]/div[3]/div/h2";
   cancelPopupCTAContainer = "/html/body/div[10]/div[3]/div/div[2]";
 
   invokeSourceDetail() {
     cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
     cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailSourceID");
+  }
+
+  downloadPrintableDoc() {
+    cy.server();
+    cy.route("GET", "/inbound/receipts/**/download/").as("printableDocAPI");
+    cy.xpath(this.printableDocButton)
+      .click()
+      .wait("@printableDocAPI")
+      .then(($API) => {
+        cy.wrap($API.response?.body.document_url).as("printableDocURL");
+      });
+    cy.get("@printableDocURL").then((asd) => {
+      cy.log(String(asd));
+    });
+  }
+
+  selectExpDate(value: string) {
+    cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
+    cy.get(this.dropdownOptions).contains(value).click();
   }
 
   cancelReceipt() {
@@ -98,11 +120,7 @@ export default class ReceiptDetailPage extends BasePage {
   }
 
   deleteAllocatedQuantity() {
-    cy.get(this.singleRequestInfo.allocatedQtyField)
-      .type("{backspace}")
-      .type("{backspace}")
-      .type("{backspace}")
-      .type("{backspace}");
+    cy.get(this.singleRequestInfo.allocatedQtyField).clear();
   }
 
   submitReceipt() {
