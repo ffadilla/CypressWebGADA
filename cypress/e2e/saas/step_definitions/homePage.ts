@@ -5,7 +5,7 @@ const homePage = new HomePage();
 
 Given("a user is on home page", () => {
   cy.clearCookies();
-  homePage.visitHomePage();
+  homePage.navigate(homePage.path);
 });
 
 When("user clicks close tutorial button", () => {

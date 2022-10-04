@@ -124,10 +124,6 @@ export default class InventoryDetail extends BasePage {
   submitAddInventoryButton = "#button_save_inventory_header";
   deleteInventoryButton = "#button_inventory_edit_delete";
 
-  visitInventoryDetail() {
-    cy.visit(this.baseUrl + this.path);
-  }
-
   // inventory basic info
   typeProductVariantName(input: string) {
     cy.get(this.productVariantNameInput).type(input);

@@ -8,7 +8,7 @@ const inventoryListPage = new InventoryListPage();
 const inventoryDetailPage = new InventoryDetail();
 
 When("user visits inventory list page", () => {
-  inventoryListPage.visitInventoryList();
+  inventoryListPage.navigate(inventoryListPage.path);
 });
 
 When(

@@ -22,7 +22,7 @@ Given("a new user is registered", () => {
   cy.clearLocalStorage();
   cy.clearCookies();
   cy.reload(true);
-  registrationPage.visitRegistration();
+  registrationPage.navigate(registrationPage.path);
   registrationPage.typeNumber(utils.generateRandomNumber());
   registrationPage.clickRegisterLanjutkan1();
   loginPage.selectWhatsappOtpType();
@@ -63,6 +63,13 @@ When("user clicks on inventory list side menu button", () => {
   homePage.clickInventorySideMenuButton();
   homePage.clickInventoryListSideMenuButton();
 });
+
+When(
+  "user updates tax settings to tax {string}, calculated {string}, tax amount is {string}",
+  (taxType: string, taxBeforeDiscount: string, taxAmount: string) => {
+    utils.setCustomTaxSettings(taxType, taxBeforeDiscount, taxAmount);
+  }
+);
 
 When("user created custom inventory with stock + selling uom", () => {
   // When user clicks on add inventory button
