@@ -129,10 +129,10 @@ export default class BaseListPage extends BasePage {
     let succeededMessage = "";
     if (value === "succeeded Source cancelation")
       succeededMessage = "Berhasil membatalkan barang masuk";
-    else if (value === "succeeded Receipt cancelation") {
+    else if (value === "succeeded Receipt cancelation")
       succeededMessage = "Sukses membatalkan penerimaan barang masuk";
-      cy.wait(1000); //waiting for inbound Receipt cancelation process
-    }
+    else if (value === "succeeded Receipt creation")
+      succeededMessage = "Berhasil menyimpan penerimaan barang masuk";
 
     expect(cy.get(this.snackbar).should("contain", succeededMessage));
   }

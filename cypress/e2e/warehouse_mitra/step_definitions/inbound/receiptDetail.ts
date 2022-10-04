@@ -17,16 +17,30 @@ When(
   }
 );
 
+When(
+  "user attaches downloaded document to {string} field on inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.setAttachment(value);
+  }
+);
+
+When(
+  "user types {string} on allocated quantity at inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.setAllocatedQuantity(value);
+  }
+);
+
 When("user cancels Receipt at inbound Receipt detail page", () => {
   receiptDetailPage.cancelReceipt();
 });
 
-When("user deletes allocated quantity on inbound Receipt form", () => {
-  receiptDetailPage.deleteAllocatedQuantity();
-});
-
 When("user clicks submit inbound Receipt button", () => {
   receiptDetailPage.submitReceipt();
+});
+
+When("user confirm inbound Receipt submission popup", () => {
+  receiptDetailPage.confirmReceiptSubmission();
 });
 
 Then("user should be able to see error messages on mandatory fields", () => {

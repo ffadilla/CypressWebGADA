@@ -4,6 +4,7 @@ export default class ReceiptDetailPage extends BasePage {
   path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
+  downloadedFileDir = "";
 
   receiptIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/p';
@@ -19,6 +20,16 @@ export default class ReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[2]/span/button';
   attachmentContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div';
+  suratJalanField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[1]/div/div';
+  RPBField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[2]/div/div';
+  platKendaraanField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[3]/div/div';
+  kirimanBarangField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[4]/div/div';
+  dokumenLainnyaField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[5]/div/div';
   receiptCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
   nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
@@ -67,31 +78,85 @@ export default class ReceiptDetailPage extends BasePage {
   };
 
   dropdownOptions = 'li[role="option"]';
-  cancelPopupContent = "/html/body/div[10]/div[3]/div/h2";
-  cancelPopupCTAContainer = "/html/body/div[10]/div[3]/div/div[2]";
+  popupHeader = ".MuiDialogTitle-root";
+  popupContent = ".MuiDialogContent-root";
+  popupCTAContainer = ".MuiDialogActions-root";
 
   invokeSourceDetail() {
     cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
     cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailSourceID");
+    cy.xpath(this.singleRequestInfo.productNameBodyContainer)
+      .invoke("text")
+      .as("receiptDetailProductName");
+    cy.xpath(this.singleRequestInfo.productQtyBodyContainer)
+      .invoke("text")
+      .as("receiptDetailProductQty");
+    cy.get(this.singleRequestInfo.allocatedQtyField)
+      .invoke("val")
+      .as("receiptDetailAllocatedQty");
+    cy.get(this.singleRequestInfo.allocatedUOMDropdown)
+      .invoke("text")
+      .as("receiptDetailAllocatedUOM");
   }
 
   downloadPrintableDoc() {
-    cy.server();
-    cy.route("GET", "/inbound/receipts/**/download/").as("printableDocAPI");
+    cy.server()
+      .route("GET", "/inbound/receipts/**/download/")
+      .as("printableDocAPI");
     cy.xpath(this.printableDocButton)
       .click()
       .wait("@printableDocAPI")
       .then(($API) => {
         cy.wrap($API.response?.body.document_url).as("printableDocURL");
       });
-    cy.get("@printableDocURL").then((asd) => {
-      cy.log(String(asd));
+
+    cy.get("@printableDocURL").then((url) => {
+      this.downloadedFileDir =
+        "cypress/downloads/" +
+        String(url).replace(
+          "https://warehouse-uploads-dev.gudangada.com/INBOUND/INBOUND_PICTURE/PDF/",
+          ""
+        );
+      cy.readFile(this.downloadedFileDir, { timeout: 10000 }).should("exist");
     });
+  }
+
+  setAllocatedQuantity(value: string) {
+    cy.get(this.singleRequestInfo.allocatedQtyField).clear().type(value);
   }
 
   selectExpDate(value: string) {
     cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
     cy.get(this.dropdownOptions).contains(value).click();
+  }
+
+  setAttachment(value: string) {
+    let xPath = "";
+    switch (value) {
+      case "Surat Jalan":
+        xPath = this.suratJalanField;
+        break;
+      case "RPB":
+        xPath = this.RPBField;
+        break;
+      case "Plat Kendaraan":
+        xPath = this.platKendaraanField;
+        break;
+      case "Kiriman Barang":
+        xPath = this.kirimanBarangField;
+        break;
+      case "Dokumen Lainnya":
+        xPath = this.dokumenLainnyaField;
+        break;
+    }
+
+    cy.xpath(xPath)
+      .find("input")
+      .selectFile(this.downloadedFileDir, { force: true });
+    cy.xpath(xPath)
+      .find("svg")
+      .should("have.attr", "data-testid")
+      .and("equal", "DescriptionOutlinedIcon");
   }
 
   cancelReceipt() {
@@ -106,26 +171,69 @@ export default class ReceiptDetailPage extends BasePage {
       let processedReceiptID = String(receiptID).split(
         " (No. Penerimaan Barang)"
       )[0];
-      cy.xpath(this.cancelPopupContent)
+      cy.get(this.popupHeader)
         .find("p")
         .should(
           "contain",
           cancelPopupHeader.split("{{ReceiptID}}").join(processedReceiptID)
         );
     });
-    cy.xpath(this.cancelPopupCTAContainer)
-      .find("button")
-      .contains("Batalkan")
-      .click();
-  }
-
-  deleteAllocatedQuantity() {
-    cy.get(this.singleRequestInfo.allocatedQtyField).clear();
+    cy.get(this.popupCTAContainer).find("button").contains("Batalkan").click();
   }
 
   submitReceipt() {
     this.invokeSourceDetail();
     cy.xpath(this.receiptCTAButtonContainer).contains("Submit").click();
+  }
+
+  confirmReceiptSubmission() {
+    let submissionPopupHeader = "Submit Proses Penerimaan Stok?";
+    let submissionPopupContent =
+      "Total stok order yang Anda terima akan disimpan ke dalam inventori gudang dan tidak bisa diubah lagi.";
+
+    cy.get(this.popupHeader).find("p").should("contain", submissionPopupHeader);
+    cy.get(this.popupContent)
+      .find("p")
+      .should("contain", submissionPopupContent);
+    cy.intercept("PUT", "/inbound/receipts/**/bulk-submit/").as(
+      "submitReceiptAPI"
+    );
+    cy.get(this.popupCTAContainer).find("button").contains("Simpan").click();
+
+    // check auto roll-up popup
+    cy.wait("@submitReceiptAPI", { timeout: 10000 }).then((API) => {
+      let autoRollUpPopupHeader = "Konfirmasi Penyesuaian Stok Otomatis";
+      let autoRollupPopupSubHeader =
+        "Terdapat penyesuaian stok secara otomatis terhadap produk-produk di bawah ini. Jika jumlah perhitungannya tidak sesuai, silakan sesuaikan stok secara manual.";
+
+      if (API.response?.body.auto_roll_up[0]) {
+        cy.get(this.popupHeader)
+          .find("p")
+          .should("contain", autoRollUpPopupHeader)
+          .should("contain", autoRollupPopupSubHeader);
+        cy.get("@receiptDetailProductName").then((productName) => {
+          cy.get(this.popupContent)
+            .find("td")
+            .eq(0)
+            .should("contain", productName);
+        });
+        cy.get("@receiptDetailAllocatedQty").then((productQty) => {
+          cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
+            cy.get(this.popupContent)
+              .find("td")
+              .eq(1)
+              .should("contain", productQty + " " + expDate);
+          });
+        });
+        cy.get("@receiptDetailProductQty").then((productQty) => {
+          cy.get(this.popupContent)
+            .find("td")
+            .eq(1)
+            .should("contain", "Dari order " + productQty);
+        });
+        cy.get(this.popupCTAContainer).contains("Konfirmasi Stok").click();
+      }
+    });
   }
 
   assertErrorAllocatedQty() {
