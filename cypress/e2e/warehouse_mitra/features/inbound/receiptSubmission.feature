@@ -13,7 +13,8 @@ Feature: Get Inbound Receipt
     When user clicks submit inbound Receipt button
     Then user should be able to see error messages on mandatory fields
     
-    When user logs out from WMS
+    When user cancels Receipt at inbound Receipt detail page
+    And user logs out from WMS
 
   Scenario: User successfully submits inbound Receipt
     When user downloads Berkas Serah Terima document on inbound Receipt form
@@ -43,5 +44,7 @@ Feature: Get Inbound Receipt
 
     #TO DO: add assertion for historical source data
     When user clicks Source CTA button at inbound Request detail
+    And user clicks historical reception data at inbound Source detail
+    Then user should see similar inbound Source data between historical reception and submitted data
 
     When user logs out from WMS
