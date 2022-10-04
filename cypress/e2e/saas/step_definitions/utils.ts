@@ -350,7 +350,7 @@ export function createSeedInventory() {
       product_information: {
         brand_id: null,
         consignor_id: null,
-        product_category_id: 179,
+        product_category_id: null,
         image: null,
       },
       product_name: "Web Automation Custom Inventory 3 (Jual Rugi)",

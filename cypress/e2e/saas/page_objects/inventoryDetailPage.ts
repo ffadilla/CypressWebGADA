@@ -10,6 +10,8 @@ export default class InventoryDetail extends BasePage {
   inventoryEditNameUbahButton = "#button_inventory_edit_name_ubah";
 
   // principal, brand, category, subcategory
+  changeProductBrandAndCategoryButton =
+    "#button_change_product_brand_category_info";
   principalAndBrandButton = "#button_choose_principal_and_brand";
   closePrincipalAndBrandModalButton = "#button_principal_or_brand_modal_close";
   principalSearchbarInput = "#input_principal_searchbar";
@@ -142,6 +144,10 @@ export default class InventoryDetail extends BasePage {
   }
 
   // principal, brand, category, subcategory
+  clickChangeProductBrandAndCategoryButton() {
+    cy.get(this.changeProductBrandAndCategoryButton).click();
+  }
+
   clickPrincipalAndBrandButton() {
     cy.get(this.principalAndBrandButton).click();
   }
