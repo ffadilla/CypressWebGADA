@@ -5,6 +5,8 @@ export default class ReceiptDetailPage extends BasePage {
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
   downloadedFileDir = "";
+  expectedAttachmentXPath = "";
+  expectedAttachmentURL = "";
 
   receiptIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/p';
@@ -20,15 +22,15 @@ export default class ReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[2]/span/button';
   attachmentContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div';
-  suratJalanField =
+  inboundAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[1]/div/div';
-  RPBField =
+  RPBAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[2]/div/div';
-  platKendaraanField =
+  vehicleAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[3]/div/div';
-  kirimanBarangField =
+  goodsAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[4]/div/div';
-  dokumenLainnyaField =
+  additionalAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[5]/div/div';
   receiptCTAButtonContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
@@ -78,13 +80,42 @@ export default class ReceiptDetailPage extends BasePage {
   };
 
   dropdownOptions = 'li[role="option"]';
+  attachmentKebabButton = '[data-testid="MoreVertIcon"]';
+  popoverContainer = ".MuiPopover-paper";
+  popoverItem = 'li[role="menuitem"]';
   popupHeader = ".MuiDialogTitle-root";
   popupContent = ".MuiDialogContent-root";
   popupCTAContainer = ".MuiDialogActions-root";
 
+  switchAttachment(value: string): string {
+    switch (value) {
+      case "Surat Jalan":
+        this.expectedAttachmentXPath = this.inboundAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/INBOUND_PICTURE/**";
+        break;
+      case "RPB":
+        this.expectedAttachmentXPath = this.RPBAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/RPB_PICTURE/**";
+        break;
+      case "Plat Kendaraan":
+        this.expectedAttachmentXPath = this.vehicleAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/VEHICLE_PICTURE/**";
+        break;
+      case "Kiriman Barang":
+        this.expectedAttachmentXPath = this.goodsAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/GOODS_PICTURE/**";
+        break;
+      case "Dokumen Lainnya":
+        this.expectedAttachmentXPath = this.additionalAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/ADDITIONAL_FILE/**";
+        break;
+    }
+    return "";
+  }
+
   invokeSourceDetail() {
     cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
-    cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailSourceID");
+    cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailReceiptID");
     cy.xpath(this.singleRequestInfo.productNameBodyContainer)
       .invoke("text")
       .as("receiptDetailProductName");
@@ -97,6 +128,9 @@ export default class ReceiptDetailPage extends BasePage {
     cy.get(this.singleRequestInfo.allocatedUOMDropdown)
       .invoke("text")
       .as("receiptDetailAllocatedUOM");
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+      .invoke("text")
+      .as("receiptDetailDiscrepancyRemarks");
   }
 
   downloadPrintableDoc() {
@@ -126,37 +160,45 @@ export default class ReceiptDetailPage extends BasePage {
   }
 
   selectExpDate(value: string) {
+    /**
+     * TO DO
+     * Check has expiry date on selected product variant through API
+     */
     cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
     cy.get(this.dropdownOptions).contains(value).click();
   }
 
   setAttachment(value: string) {
-    let xPath = "";
-    switch (value) {
-      case "Surat Jalan":
-        xPath = this.suratJalanField;
-        break;
-      case "RPB":
-        xPath = this.RPBField;
-        break;
-      case "Plat Kendaraan":
-        xPath = this.platKendaraanField;
-        break;
-      case "Kiriman Barang":
-        xPath = this.kirimanBarangField;
-        break;
-      case "Dokumen Lainnya":
-        xPath = this.dokumenLainnyaField;
-        break;
-    }
+    this.switchAttachment(value);
 
-    cy.xpath(xPath)
+    cy.xpath(this.expectedAttachmentXPath)
       .find("input")
       .selectFile(this.downloadedFileDir, { force: true });
-    cy.xpath(xPath)
+    cy.xpath(this.expectedAttachmentXPath)
       .find("svg")
       .should("have.attr", "data-testid")
       .and("equal", "DescriptionOutlinedIcon");
+  }
+
+  downloadAttachment(value: string) {
+    this.switchAttachment(value);
+
+    cy.xpath(this.expectedAttachmentXPath)
+      .click({ force: true })
+      .within(() => {
+        cy.get(this.attachmentKebabButton).click();
+      });
+    cy.intercept("GET", this.expectedAttachmentURL).as("downloadAttachmentAPI");
+    cy.get("body")
+      .find(this.popoverContainer)
+      .last()
+      .find(this.popoverItem)
+      .contains("Unduh")
+      .click()
+      .wait("@downloadAttachmentAPI")
+      .then((API) => {
+        expect(cy.wrap(API.response?.statusCode).should("equal", 200));
+      });
   }
 
   cancelReceipt() {
@@ -167,7 +209,7 @@ export default class ReceiptDetailPage extends BasePage {
     cy.xpath(this.receiptCTAButtonContainer)
       .contains("Batalkan Penerimaan Barang")
       .click();
-    cy.get("@receiptDetailSourceID").then((receiptID) => {
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
       let processedReceiptID = String(receiptID).split(
         " (No. Penerimaan Barang)"
       )[0];
@@ -217,12 +259,12 @@ export default class ReceiptDetailPage extends BasePage {
             .eq(0)
             .should("contain", productName);
         });
-        cy.get("@receiptDetailAllocatedQty").then((productQty) => {
+        cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
           cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
             cy.get(this.popupContent)
               .find("td")
               .eq(1)
-              .should("contain", productQty + " " + expDate);
+              .should("contain", allocatedQty + " " + expDate);
           });
         });
         cy.get("@receiptDetailProductQty").then((productQty) => {
@@ -307,6 +349,42 @@ export default class ReceiptDetailPage extends BasePage {
         cy
           .xpath(this.singleRequestInfo.deliveryMethodInfo)
           .should("contain", deliveryMethod)
+      );
+    });
+  }
+
+  assertReceiptDataByReceiptSubmission() {
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
+      expect(cy.xpath(this.receiptIDInfo).should("contain", receiptID));
+    });
+    cy.get("@receiptDetailProductName").then((productName) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productNameBodyContainer)
+          .should("contain", productName)
+      );
+    });
+    cy.get("@receiptDetailProductQty").then((productQty) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productQtyBodyContainer)
+          .should("contain", productQty)
+      );
+    });
+    cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
+      cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
+        expect(
+          cy
+            .xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+            .should("contain", allocatedQty + " " + expDate)
+        );
+      });
+    });
+    cy.get("@receiptDetailDiscrepancyRemarks").then((remarks) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+          .should("contain", remarks)
       );
     });
   }

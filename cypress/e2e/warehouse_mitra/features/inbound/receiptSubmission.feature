@@ -3,7 +3,7 @@ Feature: Get Inbound Receipt
   Background: 
     Given user already logged in to WMS as "superuser"
     And user redirects to inbound menu
-    And user applies "Cyp" to find related inbound Request
+    And user applies "Silverqueen" to find related inbound Request
     And user clicks "Belum Selesai" status chip at inbound Request list
     And user clicks the first data on inbound Request table
     And user click create Receipt data at inbound Request detail page
@@ -30,13 +30,18 @@ Feature: Get Inbound Receipt
     
     When user redirects to the previous visited page
     Then user should be at "Sudah Selesai" inbound Receipt detail page
-    #TO DO: assert submitted data
+    And user should see similar inbound Receipt data between detail page and submitted data
+    And user should be able to download "Surat Jalan" document on inbound Receipt form
+    And user should be able to download "RPB" document on inbound Receipt form
+    And user should be able to download "Plat Kendaraan" document on inbound Receipt form
+    And user should be able to download "Kiriman Barang" document on inbound Receipt form
+    And user should be able to download "Dokumen Lainnya" document on inbound Receipt form
     
-    When user redirects to inbound menu
-    And user applies "created Source ID" to find related inbound Request
-    And user clicks the first data on inbound Request table
+    When user redirects to the previous visited page
     Then user should be at "Sudah Selesai" inbound Request detail page
-    #TO DO: assert submitted data
+    And user should see similar inbound Request data between detail page and submitted data
+
     #TO DO: add assertion for historical source data
+    When user clicks Source CTA button at inbound Request detail
 
     When user logs out from WMS

@@ -51,6 +51,13 @@ Then("user should be able to see error messages on mandatory fields", () => {
 });
 
 Then(
+  "user should be able to download {string} document on inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.downloadAttachment(value);
+  }
+);
+
+Then(
   "user should be at {string} inbound Receipt detail page",
   (status: string) => {
     expect(cy.url().should("include", receiptDetailPage.path));
@@ -62,6 +69,13 @@ Then(
   "user should see similar inbound Receipt data between detail page and receipt list",
   () => {
     receiptDetailPage.assertReceiptDataByReceiptList();
+  }
+);
+
+Then(
+  "user should see similar inbound Receipt data between detail page and submitted data",
+  () => {
+    receiptDetailPage.assertReceiptDataByReceiptSubmission();
   }
 );
 
