@@ -179,54 +179,6 @@ Feature: Inventory Detail - Create Inventory
     Then user is redirected to inventory list page
     And user deletes test data
 
-  Scenario: User adds new principal
-    When user clicks on add inventory button
-    And user clicks on add single inventory button
-    And user clicks on first time add inventory button
-    And user types add inventory search inventory input field with "web automation test product"
-    And user clicks on add custom inventory button
-    And user clicks on principal and brand button
-    And user types random principal name on principal searchbar input
-    And user clicks on add custom principal button
-    And user clicks on submit add custom principal or brand modal button
-    And user clicks on brand back button
-    Then new principal is displayed on the principal list
-    And user deletes test data
-
-  Scenario: User adds new category with new subcategory
-    When user clicks on add inventory button
-    And user clicks on add single inventory button
-    And user clicks on first time add inventory button
-    And user types add inventory search inventory input field with "web automation test product"
-    And user clicks on add custom inventory button
-    And user clicks on category and subcategory button
-    And user types random category name on category searchbar input
-    And user clicks on add custom category button
-    And user clicks on submit add custom category or subcategory modal button
-    And user types random subcategory name on subcategory searchbar input
-    And user clicks on add custom subcategory button
-    And user clicks on submit add custom category or subcategory modal button
-    Then new subcategory is displayed on the subcategory list
-    And user clicks on subcategory back button
-    Then new category is displayed on the category list
-#    And user deletes test data
-
-  Scenario: User adds new brand
-    When user clicks on add inventory button
-    And user clicks on add single inventory button
-    And user clicks on first time add inventory button
-    And user types add inventory search inventory input field with "web automation test product"
-    And user clicks on add custom inventory button
-    And user clicks on principal and brand button
-    And user types random principal name on principal searchbar input
-    And user clicks on add custom principal button
-    And user clicks on submit add custom principal or brand modal button
-    And user types random brand name on brand searchbar input
-    And user clicks on add custom brand button
-    And user clicks on submit add custom principal or brand modal button
-    Then new brand is displayed on the brand list
-#    And user deletes test data
-
   Scenario: User adds new custom inventory with selling UOM different with stock UOM
     When user clicks on add inventory button
     And user clicks on add single inventory button

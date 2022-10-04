@@ -123,7 +123,49 @@ Feature: Inventory Detail - Update Inventory
     And user deletes test data
 
   Scenario: User views inventory details of consign inventory
-    When user types search inventory input field with "Web Automation Custom Inventory 1 (Single UOM)"
-    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 (Single UOM)"
+    When user types search inventory input field with "Web Automation Custom Inventory 4 (Consign)"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 4 (Consign)"
     Then is consign toggle button is displayed
+    And user deletes test data
+
+  Scenario: User adds new principal
+    When user types search inventory input field with "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on change product category and brand button
+    And user clicks on principal and brand button
+    And user types random principal name on principal searchbar input
+    And user clicks on add custom principal button
+    And user clicks on submit add custom principal or brand modal button
+    And user clicks on brand back button
+    Then new principal is displayed on the principal list
+    And user deletes test data
+
+  Scenario: User adds new category with new subcategory
+    When user types search inventory input field with "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on change product category and brand button
+    And user clicks on category and subcategory button
+    And user types random category name on category searchbar input
+    And user clicks on add custom category button
+    And user clicks on submit add custom category or subcategory modal button
+    And user types random subcategory name on subcategory searchbar input
+    And user clicks on add custom subcategory button
+    And user clicks on submit add custom category or subcategory modal button
+    Then new subcategory is displayed on the subcategory list
+    And user clicks on subcategory back button
+    Then new category is displayed on the category list
+    And user deletes test data
+
+  Scenario: User adds new brand
+    When user types search inventory input field with "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 3 (Jual Rugi)"
+    And user clicks on change product category and brand button
+    And user clicks on principal and brand button
+    And user types random principal name on principal searchbar input
+    And user clicks on add custom principal button
+    And user clicks on submit add custom principal or brand modal button
+    And user types random brand name on brand searchbar input
+    And user clicks on add custom brand button
+    And user clicks on submit add custom principal or brand modal button
+    Then new brand is displayed on the brand list
     And user deletes test data

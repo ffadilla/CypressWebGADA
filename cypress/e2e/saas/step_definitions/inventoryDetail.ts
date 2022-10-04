@@ -19,6 +19,10 @@ When("user types search unit field with {string}", (input: string) => {
   cy.get(inventoryDetailPage.unitSearchInput).should("have.value", uomName);
 });
 
+When("user clicks on change product category and brand button", () => {
+  inventoryDetailPage.clickChangeProductBrandAndCategoryButton();
+});
+
 When("user clicks on principal and brand button", () => {
   inventoryDetailPage.clickPrincipalAndBrandButton();
 });
