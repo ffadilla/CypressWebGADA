@@ -32,6 +32,7 @@ Feature: Get Inbound Receipt
     When user redirects to the previous visited page
     Then user should be at "Sudah Selesai" inbound Receipt detail page
     And user should see similar inbound Receipt data between detail page and submitted data
+    And user should see "unchecked" partial checkbox on inbound Receipt form
     And user should be able to download "Surat Jalan" document on inbound Receipt form
     And user should be able to download "RPB" document on inbound Receipt form
     And user should be able to download "Plat Kendaraan" document on inbound Receipt form
@@ -44,7 +45,32 @@ Feature: Get Inbound Receipt
 
     #TO DO: add assertion for historical source data
     When user clicks Source CTA button at inbound Request detail
-    And user clicks historical reception data at inbound Source detail
-    Then user should see similar inbound Source data between historical reception and submitted data
+
+    When user logs out from WMS
+
+  Scenario: User successfully submits inbound Receipt with is_partial flag
+    When user downloads Berkas Serah Terima document on inbound Receipt form
+    And user reduces allocated quantity on inbound Receipt form
+    And user selects "Tidak tersedia" as expiry date on inbound Receipt form
+    And user applies "Cypress Remark" as discrepancy remarks on inbound Receipt form
+    And user checks partial checkbox on inbound Receipt form
+    And user attaches downloaded document to "Surat Jalan" field on inbound Receipt form
+    And user clicks submit inbound Receipt button
+    And user confirm inbound Receipt submission popup
+    Then user should be at inbound Receipt list
+    And user should able to see "succeeded Receipt creation" snackbar at inbound Receipt list
+    
+    When user redirects to the previous visited page
+    Then user should be at "Sudah Selesai" inbound Receipt detail page
+    And user should see similar inbound Receipt data between detail page and submitted data
+    And user should see "checked" partial checkbox on inbound Receipt form
+    And user should be able to download "Surat Jalan" document on inbound Receipt form
+    
+    When user redirects to the previous visited page
+    Then user should be at "Sudah Selesai" inbound Request detail page
+    And user should see similar inbound Request data between detail page and submitted data
+
+    #TO DO: add assertion for historical source data
+    When user clicks Source CTA button at inbound Request detail
 
     When user logs out from WMS

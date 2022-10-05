@@ -77,6 +77,9 @@ export default class ReceiptDetailPage extends BasePage {
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[5]',
     discrepancyRemarksContainer:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[6]',
+    discrepancyRemarksField:
+      '[name="inbound_requests[0].product_variant_request_items[0].rejected_reason"]',
+    partialCheckbox: '[name="inbound_requests[0].is_partial"]',
   };
 
   dropdownOptions = 'li[role="option"]';
@@ -113,7 +116,7 @@ export default class ReceiptDetailPage extends BasePage {
     return "";
   }
 
-  invokeSourceDetail() {
+  invokeReceiptDetail() {
     cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
     cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailReceiptID");
     cy.xpath(this.singleRequestInfo.productNameBodyContainer)
@@ -130,7 +133,13 @@ export default class ReceiptDetailPage extends BasePage {
       .as("receiptDetailAllocatedUOM");
     cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
       .invoke("text")
-      .as("receiptDetailDiscrepancyRemarks");
+      .then((text) => {
+        if (text === "-") cy.wrap(text).as("receiptDetailDiscrepancyRemarks");
+        else
+          cy.get(this.singleRequestInfo.discrepancyRemarksField)
+            .invoke("val")
+            .as("receiptDetailDiscrepancyRemarks");
+      });
   }
 
   downloadPrintableDoc() {
@@ -159,6 +168,10 @@ export default class ReceiptDetailPage extends BasePage {
     cy.get(this.singleRequestInfo.allocatedQtyField).clear().type(value);
   }
 
+  clickReduceAllocatedQty() {
+    cy.xpath(this.singleRequestInfo.substractAllocatedQtyButton).click();
+  }
+
   selectExpDate(value: string) {
     /**
      * TO DO
@@ -166,6 +179,14 @@ export default class ReceiptDetailPage extends BasePage {
      */
     cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
     cy.get(this.dropdownOptions).contains(value).click();
+  }
+
+  setDiscrepancyRemarks(value: string) {
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer).type(value);
+  }
+
+  clickPartialChecklist() {
+    cy.get(this.singleRequestInfo.partialCheckbox).click();
   }
 
   setAttachment(value: string) {
@@ -205,7 +226,7 @@ export default class ReceiptDetailPage extends BasePage {
     let cancelPopupHeader =
       "Batalkan Data Penerimaan Barang Masuk “{{ReceiptID}}”?";
 
-    this.invokeSourceDetail();
+    this.invokeReceiptDetail();
     cy.xpath(this.receiptCTAButtonContainer)
       .contains("Batalkan Penerimaan Barang")
       .click();
@@ -224,7 +245,7 @@ export default class ReceiptDetailPage extends BasePage {
   }
 
   submitReceipt() {
-    this.invokeSourceDetail();
+    this.invokeReceiptDetail();
     cy.xpath(this.receiptCTAButtonContainer).contains("Submit").click();
   }
 
@@ -546,5 +567,19 @@ export default class ReceiptDetailPage extends BasePage {
       );
       expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
     }
+  }
+
+  assertPartialCheckbox(value: string) {
+    if (value === "checked")
+      expect(
+        cy
+          .get(this.singleRequestInfo.partialCheckbox)
+          .invoke("val")
+          .should("contain", "true")
+      );
+    else if (value === "unchecked")
+      expect(
+        cy.get(this.singleRequestInfo.partialCheckbox).should("not.exist")
+      );
   }
 }

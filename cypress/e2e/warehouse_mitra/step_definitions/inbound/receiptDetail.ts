@@ -31,6 +31,21 @@ When(
   }
 );
 
+When("user reduces allocated quantity on inbound Receipt form", () => {
+  receiptDetailPage.clickReduceAllocatedQty();
+});
+
+When(
+  "user applies {string} as discrepancy remarks on inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.setDiscrepancyRemarks(value);
+  }
+);
+
+When("user checks partial checkbox on inbound Receipt form", () => {
+  receiptDetailPage.clickPartialChecklist();
+});
+
 When("user cancels Receipt at inbound Receipt detail page", () => {
   receiptDetailPage.cancelReceipt();
 });
@@ -83,5 +98,12 @@ Then(
   "user should see similar inbound Receipt data between detail page and Request data",
   () => {
     receiptDetailPage.assertReceiptDataByRequestDetail();
+  }
+);
+
+Then(
+  "user should see {string} partial checkbox on inbound Receipt form",
+  (value: string) => {
+    receiptDetailPage.assertPartialCheckbox(value);
   }
 );
