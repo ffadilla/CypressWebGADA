@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import BasePage from "../basePage";
 
-export default class InboundListPage extends BasePage {
+export default class BaseListPage extends BasePage {
   searchbox =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
@@ -11,7 +11,7 @@ export default class InboundListPage extends BasePage {
     ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
   deliveryDateFilterButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div/div/input';
-  deliveryDateCell = 'div[role="cell"]';
+  deliveryDateCell = '[role="gridcell"]';
   deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
   chipContainer = "#chips-container";

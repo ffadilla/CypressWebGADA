@@ -1,86 +1,86 @@
 import { When, Then, Given } from "@badeball/cypress-cucumber-preprocessor";
-import InboundRequestFormPage from "../page_objects/inboundRequestFormPage";
+import RequestFormPage from "../../page_objects/inbound/requestFormPage";
 
-const inboundRequestFormPage = new InboundRequestFormPage();
+const requestFormPage = new RequestFormPage();
 
 Given("user creates a new inbound Source Request", () => {
-  inboundRequestFormPage.typeSourceID();
-  inboundRequestFormPage.setStore("Faris");
-  inboundRequestFormPage.setSourceType("Retur");
-  inboundRequestFormPage.setWarehouse("Warehouse");
-  inboundRequestFormPage.setTargetStore("Faris");
-  inboundRequestFormPage.setSourceDate(13);
-  inboundRequestFormPage.setDeliveryDate(23);
-  inboundRequestFormPage.setDeliveryMethod("STORE COURIER");
-  inboundRequestFormPage.setRequestFirstProductName("Beng");
-  inboundRequestFormPage.setRequestFirstProductAmount(10);
-  inboundRequestFormPage.submitRequestForm();
+  requestFormPage.typeSourceID();
+  requestFormPage.setStore("Faris");
+  requestFormPage.setSourceType("Retur");
+  requestFormPage.setWarehouse("Warehouse");
+  requestFormPage.setTargetStore("Faris");
+  requestFormPage.setSourceDate(13);
+  requestFormPage.setDeliveryDate(23);
+  requestFormPage.setDeliveryMethod("STORE COURIER");
+  requestFormPage.setRequestFirstProductName("Beng");
+  requestFormPage.setRequestFirstProductAmount(10);
+  requestFormPage.submitRequestForm();
 });
 
 When("user fills inbound Source ID at new inbound request form", () => {
-  inboundRequestFormPage.typeSourceID();
+  requestFormPage.typeSourceID();
 });
 
 When(
   "user selects {string} as inbound type at new inbound request form",
   (inboundType: string) => {
-    inboundRequestFormPage.setSourceType(inboundType);
+    requestFormPage.setSourceType(inboundType);
   }
 );
 
 When(
   "user selects the first options of {string} on store name dropdown at new inbound request form",
   (storeKeyword: string) => {
-    inboundRequestFormPage.setStore(storeKeyword);
+    requestFormPage.setStore(storeKeyword);
   }
 );
 
 When(
   "user selects the first options of {string} on warehouse name dropdown at new inbound request form",
   (warehouseKeyword: string) => {
-    inboundRequestFormPage.setWarehouse(warehouseKeyword);
+    requestFormPage.setWarehouse(warehouseKeyword);
   }
 );
 
 When(
   "user selects the first options of {string} on target store name dropdown at new inbound request form",
   (targetStoreKeyword: string) => {
-    inboundRequestFormPage.setTargetStore(targetStoreKeyword);
+    requestFormPage.setTargetStore(targetStoreKeyword);
   }
 );
 
 When(
   "user selects date {int} as Source date at new inbound request form",
   (sourceDate: number) => {
-    inboundRequestFormPage.setSourceDate(sourceDate);
+    requestFormPage.setSourceDate(sourceDate);
   }
 );
 
 When(
   "user selects date {int} as delivery date at new inbound request form",
   (deliveryDate: number) => {
-    inboundRequestFormPage.setDeliveryDate(deliveryDate);
+    requestFormPage.setDeliveryDate(deliveryDate);
   }
 );
 
 When(
   "user selects {string} as delivery method at new inbound request form",
   (deliveryMethod: string) => {
-    inboundRequestFormPage.setDeliveryMethod(deliveryMethod);
+    requestFormPage.setDeliveryMethod(deliveryMethod);
   }
 );
 
 When(
   "user selects the first options of {string} as first product name at new inbound request form",
   (productName: string) => {
-    inboundRequestFormPage.setRequestFirstProductName(productName);
+    requestFormPage.setRequestFirstProductName(productName);
   }
 );
 
 When(
   "user inputs {int} as first product amount at new inbound request form",
   (productAmount: number) => {
-    inboundRequestFormPage.setRequestFirstProductAmount(productAmount);
+    requestFormPage.setRequestFirstProductAmount(productAmount);
   }
 );
 
@@ -92,53 +92,53 @@ When(
 );
 
 When("user clicks new inbound request form submission button", () => {
-  inboundRequestFormPage.submitRequestForm();
+  requestFormPage.submitRequestForm();
 });
 
 Then(
   "empty error messages for single Request should appear at create new inbound Request form",
   () => {
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "source ID",
       "Harap masukkan nomor referensi"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "source type",
       "Harap pilih tipe barang masuk"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "store name",
       "Harap pilih toko penerima"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "warehouse name",
       "Harap pilih lokasi gudang penerima"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "store target name",
       "Harap pilih nama perusahaan pengirim"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "store target address",
       "Harap masukkan alamat perusahaan pengirim"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "source date",
       "Harap pilih tanggal barang masuk"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "source delivery date",
       "Harap pilih tanggal pengiriman"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "source delivery method",
       "Harap pilih metode pengiriman"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "request product name",
       "Harap pilih nama produk"
     );
-    inboundRequestFormPage.assertErrorInboundRequestForm(
+    requestFormPage.assertErrorInboundRequestForm(
       "request product quantity",
       "Harap masukkan jumlah produk"
     );

@@ -1,6 +1,6 @@
-import InboundListPage from "./inboundListPage";
+import BaseListPage from "./baseListPage";
 
-export default class InboundReceiptListPage extends InboundListPage {
+export default class ReceiptListPage extends BaseListPage {
   path = "/inventory/inbound/receipt/list";
   createReceiptButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';

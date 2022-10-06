@@ -1,7 +1,7 @@
-import { hasCompletedRequest } from "../common/helper";
-import BasePage from "./basePage";
+import { hasCompletedRequest } from "../../common/helper";
+import BasePage from "../basePage";
 
-export default class InboundSourceDetailPage extends BasePage {
+export default class SourceDetailPage extends BasePage {
   path = "/inventory/inbound/request/source/detail";
   sourceIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[1]/h3';

@@ -1,30 +1,30 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import InboundReceiptDetailPage from "../page_objects/inboundReceiptDetailPage";
+import ReceiptDetailPage from "../../page_objects/inbound/receiptDetailPage";
 
-const inboundReceiptDetailPage = new InboundReceiptDetailPage();
+const receiptDetailPage = new ReceiptDetailPage();
 
 When("user cancels Receipt at inbound Receipt detail page", () => {
-  inboundReceiptDetailPage.cancelReceipt();
+  receiptDetailPage.cancelReceipt();
 });
 
 Then(
   "user should be at {string} inbound Receipt detail page",
   (status: string) => {
-    expect(cy.url().should("include", inboundReceiptDetailPage.path));
-    inboundReceiptDetailPage.assertReceiptUI(status);
+    expect(cy.url().should("include", receiptDetailPage.path));
+    receiptDetailPage.assertReceiptUI(status);
   }
 );
 
 Then(
   "user should see similar inbound Receipt data between detail page and receipt list",
   () => {
-    inboundReceiptDetailPage.assertReceiptDataByReceiptList();
+    receiptDetailPage.assertReceiptDataByReceiptList();
   }
 );
 
 Then(
   "user should see similar inbound Receipt data between detail page and Request data",
   () => {
-    inboundReceiptDetailPage.assertReceiptDataByRequestDetail();
+    receiptDetailPage.assertReceiptDataByRequestDetail();
   }
 );

@@ -1,0 +1,8 @@
+{
+  "cucumberautocomplete.steps": [
+    "cypress/e2e/bms/step_definitions/*.ts",
+    "cypress/e2e/saas/step_definitions/*.ts",
+    "cypress/e2e/warehouse_mitra/step_definitions/**/*.ts",
+    "cypress/e2e/google/step_definitions/*.ts"
+  ]
+}

@@ -1,7 +1,7 @@
-import { setHasCompletedRequest } from "../common/helper";
-import BasePage from "./basePage";
+import { setHasCompletedRequest } from "../../common/helper";
+import BasePage from "../basePage";
 
-export default class InboundRequestDetailPage extends BasePage {
+export default class RequestDetailPage extends BasePage {
   path = "/inventory/inbound/request/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   sourceIDInfo =
