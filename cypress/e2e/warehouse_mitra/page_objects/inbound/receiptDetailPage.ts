@@ -32,8 +32,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[4]/div/div';
   additionalAttachmentField =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[5]/div/div';
-  receiptCTAButtonContainer =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
+  receiptButtons = ".MuiButtonBase-root";
   nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
 
   singleRequestInfo = {
@@ -114,8 +113,16 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   }
 
   invokeReceiptDetail() {
-    cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
-    cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailReceiptID");
+    cy.xpath(this.singleRequestInfo.productNameBodyContainer); //waiting detail page rendering
+    cy.xpath(this.receiptIDInfo)
+      .invoke("text")
+      .then((text) => {
+        cy.wrap(text.split(" ")[0]).as("receiptDetailReceiptID");
+      });
+    cy.xpath(this.requestInfo).invoke("text").as("receiptDetailRequestID");
+    cy.xpath(this.singleRequestInfo.deliveryDateInfo)
+      .invoke("text")
+      .as("receiptDetailDeliveryDate");
     cy.xpath(this.singleRequestInfo.productNameBodyContainer)
       .invoke("text")
       .as("receiptDetailProductName");
@@ -211,18 +218,13 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       "Batalkan Data Penerimaan Barang Masuk “{{ReceiptID}}”?";
 
     this.invokeReceiptDetail();
-    cy.xpath(this.receiptCTAButtonContainer)
-      .contains("Batalkan Penerimaan Barang")
-      .click();
+    cy.get(this.receiptButtons).contains("Batalkan Penerimaan Barang").click();
     cy.get("@receiptDetailReceiptID").then((receiptID) => {
-      let processedReceiptID = String(receiptID).split(
-        " (No. Penerimaan Barang)"
-      )[0];
       cy.get(this.popupHeader)
         .find("p")
         .should(
           "contain",
-          cancelPopupHeader.split("{{ReceiptID}}").join(processedReceiptID)
+          cancelPopupHeader.split("{{ReceiptID}}").join(String(receiptID))
         );
     });
     cy.get(this.popupCTAContainer).find("button").contains("Batalkan").click();
@@ -230,7 +232,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
 
   submitReceipt() {
     this.invokeReceiptDetail();
-    cy.xpath(this.receiptCTAButtonContainer).contains("Submit").click();
+    cy.get(this.receiptButtons).contains("Submit").click();
   }
 
   confirmReceiptSubmission() {
@@ -532,14 +534,20 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     if (status === "Belum Selesai") {
       expect(
         cy
-          .xpath(this.receiptCTAButtonContainer)
+          .get(this.receiptButtons)
           .should("contain", "Batalkan Penerimaan Barang")
       );
-      expect(
-        cy.xpath(this.receiptCTAButtonContainer).should("contain", "Submit")
-      );
+      expect(cy.get(this.receiptButtons).should("contain", "Submit"));
     } else if (status === "Sudah Selesai") {
-      expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
+      expect(
+        cy
+          .get(this.receiptButtons)
+          .contains("Batalkan Penerimaan Barang")
+          .should("not.exist")
+      );
+      expect(
+        cy.get(this.receiptButtons).contains("Submit").should("not.exist")
+      );
     } else if (status === "Dibatalkan") {
       expect(
         cy
@@ -549,7 +557,15 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       expect(
         cy.xpath(this.singleRequestInfo.tableBodyContainer).should("not.exist")
       );
-      expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
+      expect(
+        cy
+          .get(this.receiptButtons)
+          .contains("Batalkan Penerimaan Barang")
+          .should("not.exist")
+      );
+      expect(
+        cy.get(this.receiptButtons).contains("Submit").should("not.exist")
+      );
     }
   }
 

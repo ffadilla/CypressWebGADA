@@ -3,6 +3,8 @@ import BaseDetailPage from "../baseDetailPage";
 
 export default class SourceDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/request/source/detail";
+  date = this.utils.generateDateTime(0, "DD MMM YYYY");
+
   sourceIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[1]/h3';
   sourceTypeInfo =
@@ -337,6 +339,76 @@ export default class SourceDetailPage extends BaseDetailPage {
     });
     cy.get("@requestDetailProductQty").then((productQty) => {
       expect(cy.get(this.historyProductQty).should("contain", productQty));
+    });
+  }
+
+  assertHistoryDataByReceiptSubmission() {
+    let processedDate =
+      this.date.charAt(0) === "0" ? this.date.substring(1) : this.date;
+
+    cy.get(this.historyAccordionHeader)
+      .find("div")
+      .contains("Diterima ")
+      .invoke("text")
+      .should("contain", "Diterima " + processedDate);
+    cy.get(this.historyAccordionHeader)
+      .find("div")
+      .contains("Oleh ")
+      .invoke("text")
+      .then((accordionSubHeader) => {
+        expect(
+          cy
+            .xpath(this.xPathAccountDropdown)
+            .find("p")
+            .should("contain", String(accordionSubHeader).replace("Oleh ", ""))
+        );
+      });
+    cy.get("@receiptDetailRequestID").then((requestID) => {
+      expect(
+        cy
+          .get(this.historyRequestID)
+          .should("contain", String(requestID).trim())
+      );
+    });
+    cy.get("@receiptDetailDeliveryDate").then((deliveryDate) => {
+      expect(
+        cy
+          .get(this.historyAccordionSubtitle)
+          .find("span")
+          .eq(0)
+          .should("contain", deliveryDate)
+      );
+    });
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
+      expect(
+        cy
+          .get(this.historyAccordionSubtitle)
+          .find("span")
+          .eq(1)
+          .should("contain", receiptID)
+      );
+    });
+    expect(
+      cy
+        .get(this.historyAccordionSubtitle)
+        .find("span")
+        .eq(2)
+        .should("contain", "Sudah Selesai")
+    );
+    cy.get("@receiptDetailProductName").then((productName) => {
+      expect(cy.get(this.historyProductName).should("contain", productName));
+    });
+    cy.get("@receiptDetailProductQty").then((productQty) => {
+      expect(cy.get(this.historyProductQty).should("contain", productQty));
+    });
+    cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
+      cy.get("@receiptDetailAllocatedUOM").then((allocatedUOM) => {
+        expect(
+          cy
+            .get(this.historyAllocatedQty)
+            .should("contain", allocatedQty + " " + allocatedUOM)
+        );
+      });
     });
   }
 }

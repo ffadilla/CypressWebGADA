@@ -69,6 +69,7 @@ When("user clicks the first data on inbound Receipt table", () => {
 });
 
 Then("user should be at inbound Receipt list", () => {
+  cy.get(receiptListPage.firstRowAccordionStatus);
   expect(cy.url().should("include", receiptListPage.path));
 });
 

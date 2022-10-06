@@ -50,3 +50,10 @@ Then(
     sourceDetailPage.assertHistoryDataByRequestDetail();
   }
 );
+
+Then(
+  "user should see similar inbound Source data between historical reception and submitted Receipt data",
+  () => {
+    sourceDetailPage.assertHistoryDataByReceiptSubmission();
+  }
+);

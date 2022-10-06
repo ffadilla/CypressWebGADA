@@ -283,7 +283,7 @@ export default class RequestDetailPage extends BasePage {
           .xpath(this.headerSubtextContainer)
           .find("span")
           .eq(2)
-          .should("contain", String(receiptID).split(" ")[0])
+          .should("contain", receiptID)
       );
     });
     cy.get("@receiptDetailProductName").then((productName) => {

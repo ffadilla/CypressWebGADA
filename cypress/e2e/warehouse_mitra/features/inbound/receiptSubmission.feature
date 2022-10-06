@@ -14,6 +14,7 @@ Feature: Get Inbound Receipt
     Then user should be able to see error messages on mandatory fields
     
     When user cancels Receipt at inbound Receipt detail page
+    Then user should be at inbound Receipt list
     And user logs out from WMS
 
   Scenario: User successfully submits inbound Receipt
@@ -43,10 +44,17 @@ Feature: Get Inbound Receipt
     Then user should be at "Sudah Selesai" inbound Request detail page
     And user should see similar inbound Request data between detail page and submitted data
 
-    #TO DO: add assertion for historical source data
     When user clicks Source CTA button at inbound Request detail
+    And user clicks historical reception button at inbound Source detail
+    Then user should see similar inbound Source data between historical reception and submitted Receipt data
+    And user should be able to download "Surat Jalan" document on inbound Source detail's history popup
+    And user should be able to download "RPB" document on inbound Source detail's history popup
+    And user should be able to download "Plat Kendaraan" document on inbound Source detail's history popup
+    And user should be able to download "Kiriman Barang" document on inbound Source detail's history popup
+    And user should be able to download "Dokumen Lainnya" document on inbound Source detail's history popup
 
-    When user logs out from WMS
+    When user closes historical reception popup at inbound Source detail
+    And user logs out from WMS
 
   Scenario: User successfully submits inbound Receipt with is_partial flag
     When user downloads Berkas Serah Terima document on inbound Receipt form
@@ -70,7 +78,10 @@ Feature: Get Inbound Receipt
     Then user should be at "Sudah Selesai" inbound Request detail page
     And user should see similar inbound Request data between detail page and submitted data
 
-    #TO DO: add assertion for historical source data
     When user clicks Source CTA button at inbound Request detail
+    And user clicks historical reception button at inbound Source detail
+    And user should be able to download "Surat Jalan" document on inbound Source detail's history popup
+    Then user should see similar inbound Source data between historical reception and submitted Receipt data
 
-    When user logs out from WMS
+    When user closes historical reception popup at inbound Source detail
+    And user logs out from WMS

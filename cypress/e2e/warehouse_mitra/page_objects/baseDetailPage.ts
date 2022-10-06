@@ -9,7 +9,7 @@ export default class BaseDetailPage extends BasePage {
     cy.xpath(fieldXPath)
       .click({ force: true })
       .within(() => {
-        cy.get(this.attachmentKebabButton).click();
+        cy.get(this.attachmentKebabButton).click({ force: true });
       });
     cy.intercept("GET", downloadAPI).as("downloadAttachmentAPI");
     cy.get("body")
