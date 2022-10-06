@@ -64,10 +64,9 @@ export default class RequestFormPage extends BasePage {
   dropdownOptionsList = '[role="listbox"]';
   datepickerItem = '[role="gridcell"]';
 
-  sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmm");
-
   typeSourceID() {
-    cy.get(this.sourceIDField).type(this.sourceID);
+    let sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmmss");
+    cy.get(this.sourceIDField).type(sourceID);
     cy.get(this.sourceIDField).invoke("val").as("inboundFormSourceID");
   }
 
