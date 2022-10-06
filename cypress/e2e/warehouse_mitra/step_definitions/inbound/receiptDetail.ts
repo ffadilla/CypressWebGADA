@@ -68,7 +68,7 @@ Then("user should be able to see error messages on mandatory fields", () => {
 Then(
   "user should be able to download {string} document on inbound Receipt form",
   (value: string) => {
-    receiptDetailPage.downloadAttachment(value);
+    receiptDetailPage.downloadReceiptAttachment(value);
   }
 );
 

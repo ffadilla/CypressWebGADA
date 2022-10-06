@@ -1,6 +1,6 @@
-import BasePage from "../basePage";
+import BaseDetailPage from "../baseDetailPage";
 
-export default class ReceiptDetailPage extends BasePage {
+export default class ReceiptDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
@@ -83,9 +83,6 @@ export default class ReceiptDetailPage extends BasePage {
   };
 
   dropdownOptions = 'li[role="option"]';
-  attachmentKebabButton = '[data-testid="MoreVertIcon"]';
-  popoverContainer = ".MuiPopover-paper";
-  popoverItem = 'li[role="menuitem"]';
   popupHeader = ".MuiDialogTitle-root";
   popupContent = ".MuiDialogContent-root";
   popupCTAContainer = ".MuiDialogActions-root";
@@ -201,25 +198,12 @@ export default class ReceiptDetailPage extends BasePage {
       .and("equal", "DescriptionOutlinedIcon");
   }
 
-  downloadAttachment(value: string) {
+  downloadReceiptAttachment(value: string) {
     this.switchAttachment(value);
-
-    cy.xpath(this.expectedAttachmentXPath)
-      .click({ force: true })
-      .within(() => {
-        cy.get(this.attachmentKebabButton).click();
-      });
-    cy.intercept("GET", this.expectedAttachmentURL).as("downloadAttachmentAPI");
-    cy.get("body")
-      .find(this.popoverContainer)
-      .last()
-      .find(this.popoverItem)
-      .contains("Unduh")
-      .click()
-      .wait("@downloadAttachmentAPI")
-      .then((API) => {
-        expect(cy.wrap(API.response?.statusCode).should("equal", 200));
-      });
+    this.downloadAttachment(
+      this.expectedAttachmentXPath,
+      this.expectedAttachmentURL
+    );
   }
 
   cancelReceipt() {

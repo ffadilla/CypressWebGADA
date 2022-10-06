@@ -1,7 +1,7 @@
 import { hasCompletedRequest } from "../../common/helper";
-import BasePage from "../basePage";
+import BaseDetailPage from "../baseDetailPage";
 
-export default class SourceDetailPage extends BasePage {
+export default class SourceDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/request/source/detail";
   sourceIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[1]/h3';
@@ -37,8 +37,36 @@ export default class SourceDetailPage extends BasePage {
   sourceButtons = ".MuiButtonBase-root";
   cancelPopupContent = ".MuiDialogContent-root";
   cancelPopupButtonContainer = ".MuiDialogActions-root";
-  sourceHistoricalReceptionContainer =
+  historicalReceptionContainer =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[2]/div[2]/div';
+  historyPopup = '[aria-labelledby="history-modal"]';
+  historyAccordionHeader = "#panel1a-header";
+  historyAccordionContent = "#panel1a-content";
+  historyRequestID =
+    this.historyAccordionContent +
+    "> div > div > :nth-child(1) >  :nth-child(1) > :nth-child(1) > span";
+  historyAccordionSubtitle =
+    this.historyAccordionContent +
+    "> div > div > :nth-child(1) >  :nth-child(1) > :nth-child(2)";
+  historyProductName =
+    this.historyAccordionContent +
+    "> div > div > :nth-child(1) >  :nth-child(2) > div > :nth-child(2) > div";
+  historyProductQty =
+    this.historyAccordionContent +
+    "> div > div > :nth-child(1) >  :nth-child(2) > div > :nth-child(3) > div > :nth-child(1) > div > div";
+  historyAllocatedQty =
+    this.historyAccordionContent +
+    "> div > div > :nth-child(1) >  :nth-child(2) > div > :nth-child(3) > div > :nth-child(2) > div > div";
+  inboundAttachmentField =
+    '//*[@id="panel1a-content"]/div/div/div[2]/div/div[1]/div/div';
+  RPBAttachmentField =
+    '//*[@id="panel1a-content"]/div/div/div[2]/div/div[2]/div/div';
+  vehicleAttachmentField =
+    '//*[@id="panel1a-content"]/div/div/div[2]/div/div[3]/div/div';
+  goodsAttachmentField =
+    '//*[@id="panel1a-content"]/div/div/div[2]/div/div[4]/div/div';
+  additionalAttachmentField =
+    '//*[@id="panel1a-content"]/div/div/div[2]/div/div[4]/div/div';
 
   invokeSourceDetail() {
     cy.xpath(this.sourceIDInfo).invoke("text").as("sourceDetailSourceID");
@@ -66,22 +94,59 @@ export default class SourceDetailPage extends BasePage {
       .click();
   }
 
+  clickHistoryCTA() {
+    cy.xpath(this.historicalReceptionContainer)
+      .find(this.sourceButtons)
+      .contains("Lihat Detail")
+      .click();
+  }
+
+  downloadSourceAttachment(value: string) {
+    let expectedAttachmentXPath = "";
+    let expectedAttachmentURL = "";
+    switch (value) {
+      case "Surat Jalan":
+        expectedAttachmentXPath = this.inboundAttachmentField;
+        expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/INBOUND_PICTURE/**";
+        break;
+      case "RPB":
+        expectedAttachmentXPath = this.RPBAttachmentField;
+        expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/RPB_PICTURE/**";
+        break;
+      case "Plat Kendaraan":
+        expectedAttachmentXPath = this.vehicleAttachmentField;
+        expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/VEHICLE_PICTURE/**";
+        break;
+      case "Kiriman Barang":
+        expectedAttachmentXPath = this.goodsAttachmentField;
+        expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/GOODS_PICTURE/**";
+        break;
+      case "Dokumen Lainnya":
+        expectedAttachmentXPath = this.additionalAttachmentField;
+        expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/ADDITIONAL_FILE/**";
+        break;
+    }
+
+    this.downloadAttachment(expectedAttachmentXPath, expectedAttachmentURL);
+  }
+
+  closeHistoryPopup() {
+    cy.get(this.historyPopup)
+      .find(this.sourceButtons)
+      .contains("Kembali")
+      .click({ force: true });
+  }
+
   assertSourceUI(requestStatus: string) {
     if (requestStatus === "Dibatalkan") {
       expect(cy.xpath(this.sourceRequestListContainer).should("not.exist"));
-      expect(
-        cy.xpath(this.sourceHistoricalReceptionContainer).should("not.exist")
-      );
+      expect(cy.xpath(this.historicalReceptionContainer).should("not.exist"));
     } else {
       expect(cy.xpath(this.sourceRequestListContainer).should("exist"));
       if (requestStatus === "Sudah Selesai" || hasCompletedRequest()) {
-        expect(
-          cy.xpath(this.sourceHistoricalReceptionContainer).should("exist")
-        );
+        expect(cy.xpath(this.historicalReceptionContainer).should("exist"));
       } else {
-        expect(
-          cy.xpath(this.sourceHistoricalReceptionContainer).should("not.exist")
-        );
+        expect(cy.xpath(this.historicalReceptionContainer).should("not.exist"));
       }
     }
   }
@@ -240,5 +305,38 @@ export default class SourceDetailPage extends BasePage {
         );
       });
     this.assertRequestData("Belum Selesai");
+  }
+
+  assertHistoryDataByRequestDetail() {
+    cy.get("@requestDetailRequestID").then((requestID) => {
+      expect(
+        cy
+          .get(this.historyRequestID)
+          .should("contain", String(requestID).trim())
+      );
+    });
+    /**
+     * FE still renders incorrect date format
+    cy.get('@requestDetailDeliveryDate').then((deliveryDate) => {
+      expect(
+        cy.get(this.historyAccordionSubtitle)
+          .find('span').eq(0)
+          .should('contain', deliveryDate)
+      );
+    }); 
+     */
+    expect(
+      cy
+        .get(this.historyAccordionSubtitle)
+        .find("span")
+        .eq(2)
+        .should("contain", "Sudah Selesai")
+    );
+    cy.get("@requestDetailProductName").then((productName) => {
+      expect(cy.get(this.historyProductName).should("contain", productName));
+    });
+    cy.get("@requestDetailProductQty").then((productQty) => {
+      expect(cy.get(this.historyProductQty).should("contain", productQty));
+    });
   }
 }
