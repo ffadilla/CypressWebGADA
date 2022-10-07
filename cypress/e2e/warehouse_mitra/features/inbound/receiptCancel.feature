@@ -1,4 +1,4 @@
-Feature: Get Inbound Receipt
+Feature: Cancel Inbound Receipt
 
   Background: 
     Given user already logged in to WMS as "superuser"
@@ -8,7 +8,7 @@ Feature: Get Inbound Receipt
     And user clicks the first data on inbound Request table
     And user click create Receipt data at inbound Request detail page
 
-  Scenario Outline: User successfully creates new inbound receipt from request detail page
+  Scenario: User successfully cancels created inbound receipt
     When user cancels Receipt at inbound Receipt detail page
     Then user should be at inbound Receipt list
     Then user should able to see "succeeded Receipt cancelation" snackbar at inbound Receipt list

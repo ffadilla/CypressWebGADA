@@ -84,7 +84,7 @@ Feature: Get Inbound Request List
     | deliveryDate    |
     | "22"            |
 
-   Scenario Outline: User successfully filters inbound Request list by <deliveryDate> deliveryDate
+   Scenario Outline: User successfully filters inbound Request list by <pageAmount> page amount
     //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound menu
     And user clicks inbound Request list tab

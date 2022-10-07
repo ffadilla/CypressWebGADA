@@ -14,10 +14,6 @@ export default class LoginPage extends BasePage {
   otpInput4 = "input[data-testid='input_otp-3']";
   submitOtpButton = "#button_otp_submit";
 
-  visitLogin() {
-    cy.visit(this.baseUrl + this.path);
-  }
-
   clickStartRegisterButton() {
     cy.get(this.startRegisterButton).click();
   }

@@ -41,7 +41,7 @@ export default defineConfig({
   e2e: {
     setupNodeEvents,
     // This param is enabled due to the usage of cy.session() for storing a session
-    experimentalSessionAndOrigin: true,
+    experimentalSessionAndOrigin: false,
     excludeSpecPattern: ["*.js", "*.md"],
     specPattern: "cypress/e2e/**/*.feature",
   },

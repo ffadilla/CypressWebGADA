@@ -18,12 +18,6 @@ export default class InventoryListPage extends BasePage {
   isConsignLabel = "div[property='is_consigned_";
   moreOptionsButton = "#button_inventory_list_extra_options_popover_";
 
-  // common
-  visitInventoryList() {
-    cy.viewport(1200, 800);
-    cy.visit(this.baseUrl + this.path);
-  }
-
   clickAddInventoryButton() {
     cy.get(this.addInventoryButton).click();
   }

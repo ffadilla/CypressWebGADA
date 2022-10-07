@@ -10,6 +10,7 @@ export default class BasePage {
   logoutDropdownItem = "/html/body/div[4]/div[3]/ul/li[3]";
   inboundMenuButton =
     '//*[@id="__next"]/div/div[2]/div/div/div/nav/div[1]/a[2]/div';
+  outboundMenuButton = "//div[2]/div/div/div/nav/div[1]/a[3]";
 
   dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
 
@@ -37,5 +38,10 @@ export default class BasePage {
           this.dateQueryBaseFormat +
           this.utils.padTo2Digits(parseInt(value));
     expect(cy.url().should("include", queryParam));
+  }
+
+  clickMenuOutbound() {
+    cy.xpath(this.outboundMenuButton).click();
+    cy.url().should("include", "inventory/outbound/request/list");
   }
 }

@@ -20,10 +20,6 @@ Given("user already logged in to WMS as {string}", (role: string) => {
   loginPage.loginAs(role);
 });
 
-Given("user is already logged in", () => {
-  loginPage.silentLogin();
-});
-
 When("user logs out from WMS", () => {
   basePage.logout();
 });
@@ -34,6 +30,10 @@ When("user redirects to inbound menu", () => {
 
 When("user redirects to the previous visited page", () => {
   cy.go("back");
+});
+
+When("user chooses menu Barang Keluar", () => {
+  basePage.clickMenuOutbound();
 });
 
 Then("user should be logged out", () => {

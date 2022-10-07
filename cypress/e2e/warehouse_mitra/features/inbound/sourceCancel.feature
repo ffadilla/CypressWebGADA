@@ -1,4 +1,4 @@
-Feature: Cancel Inbound Source Detail
+Feature: Cancel Inbound Source
 
   Background: 
     Given user already logged in to WMS as "superuser"
@@ -9,7 +9,7 @@ Feature: Cancel Inbound Source Detail
     And user clicks the first data on inbound Request table
     And user clicks Source CTA button at inbound Request detail
 
-  Scenario: User successfully redirects to inbound Source detail page from <status> Request
+  Scenario: User successfully cancels created inbound Source
     When user cancels Source at inbound Source detail
     Then user should be at inbound Request list
     And user should able to see "succeeded Source cancelation" snackbar at inbound Request list

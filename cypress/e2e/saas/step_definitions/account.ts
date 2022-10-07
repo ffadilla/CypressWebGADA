@@ -8,7 +8,7 @@ let bankAccountNumber: string;
 let bankAccountOwnerName: string;
 
 When("user visits user account page", () => {
-  accountPage.visitUserAccount();
+  accountPage.navigate(accountPage.path);
 });
 
 When(
