@@ -64,10 +64,9 @@ export default class RequestFormPage extends BasePage {
   dropdownOptionsList = '[role="listbox"]';
   datepickerItem = '[role="gridcell"]';
 
-  sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmm");
-
   typeSourceID() {
-    cy.get(this.sourceIDField).type(this.sourceID);
+    let sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmmss");
+    cy.get(this.sourceIDField).type(sourceID);
     cy.get(this.sourceIDField).invoke("val").as("inboundFormSourceID");
   }
 
@@ -95,7 +94,12 @@ export default class RequestFormPage extends BasePage {
 
   setTargetStore(keyword: string) {
     cy.xpath(this.targetStoreNameField).click();
+    cy.intercept(
+      "GET",
+      "/store/store-list/?search=" + keyword + "&suggest_by=inbound&store_id=**"
+    ).as("storeListAPI");
     cy.xpath(this.targetStoreNameField).type(keyword);
+    cy.wait("@storeListAPI"); //waiting for dropdown autocomplete
     cy.get(this.firstAutocompleteItem).click();
     cy.xpath(this.targetStoreNameField)
       .invoke("val")

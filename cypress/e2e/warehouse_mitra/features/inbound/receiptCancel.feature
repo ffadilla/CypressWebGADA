@@ -10,6 +10,7 @@ Feature: Cancel Inbound Receipt
 
   Scenario: User successfully cancels created inbound receipt
     When user cancels Receipt at inbound Receipt detail page
+    Then user should be at inbound Receipt list
     Then user should able to see "succeeded Receipt cancelation" snackbar at inbound Receipt list
 
     When user redirects to the previous visited page

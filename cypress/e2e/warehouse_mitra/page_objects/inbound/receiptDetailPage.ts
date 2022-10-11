@@ -1,9 +1,12 @@
-import BasePage from "../basePage";
+import BaseDetailPage from "../baseDetailPage";
 
-export default class ReceiptDetailPage extends BasePage {
+export default class ReceiptDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
+  downloadedFileDir = "";
+  expectedAttachmentXPath = "";
+  expectedAttachmentURL = "";
 
   receiptIDInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/p';
@@ -15,8 +18,21 @@ export default class ReceiptDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/p[3]';
   receiptStatusInfo =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[1]/div/div/span';
-  receiptCTAButtonContainer =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[2]';
+  printableDocButton =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[1]/div[2]/span/button';
+  attachmentContainer =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div';
+  inboundAttachmentField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[1]/div/div';
+  RPBAttachmentField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[2]/div/div';
+  vehicleAttachmentField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[3]/div/div';
+  goodsAttachmentField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[4]/div/div';
+  additionalAttachmentField =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div[3]/div[2]/div/div[1]/div[5]/div/div';
+  receiptButtons = ".MuiButtonBase-root";
   nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
 
   singleRequestInfo = {
@@ -52,41 +68,248 @@ export default class ReceiptDetailPage extends BasePage {
       '[id="mui-component-select-inbound_requests[0].product_variant_request_items[0].active_unit_items[0].product_unit_id"]',
     addAllocatedUOMButton:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/div/div[2]/span/button',
+    expDateContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]',
     expiryDateDropdown:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]/div/div/div/div',
+    discrepancyQtyContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[5]',
+    discrepancyRemarksContainer:
+      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[6]',
+    discrepancyRemarksField:
+      '[name="inbound_requests[0].product_variant_request_items[0].rejected_reason"]',
+    partialCheckbox: '[name="inbound_requests[0].is_partial"]',
   };
 
-  cancelPopupContent = "/html/body/div[10]/div[3]/div/h2";
-  cancelPopupCTAContainer = "/html/body/div[10]/div[3]/div/div[2]";
+  dropdownOptions = 'li[role="option"]';
+  popupHeader = ".MuiDialogTitle-root";
+  popupContent = ".MuiDialogContent-root";
+  popupCTAContainer = ".MuiDialogActions-root";
 
-  invokeSourceDetail() {
-    cy.xpath(this.receiptCTAButtonContainer); //waiting detail page rendering
-    cy.xpath(this.receiptIDInfo).invoke("text").as("receiptDetailSourceID");
+  switchAttachment(value: string): string {
+    switch (value) {
+      case "Surat Jalan":
+        this.expectedAttachmentXPath = this.inboundAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/INBOUND_PICTURE/**";
+        break;
+      case "RPB":
+        this.expectedAttachmentXPath = this.RPBAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/RPB_PICTURE/**";
+        break;
+      case "Plat Kendaraan":
+        this.expectedAttachmentXPath = this.vehicleAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/VEHICLE_PICTURE/**";
+        break;
+      case "Kiriman Barang":
+        this.expectedAttachmentXPath = this.goodsAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/GOODS_PICTURE/**";
+        break;
+      case "Dokumen Lainnya":
+        this.expectedAttachmentXPath = this.additionalAttachmentField;
+        this.expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/ADDITIONAL_FILE/**";
+        break;
+    }
+    return "";
+  }
+
+  invokeReceiptDetail() {
+    cy.xpath(this.singleRequestInfo.productNameBodyContainer); //waiting detail page rendering
+    cy.xpath(this.receiptIDInfo)
+      .invoke("text")
+      .then((text) => {
+        cy.wrap(text.split(" ")[0]).as("receiptDetailReceiptID");
+      });
+    cy.xpath(this.requestInfo).invoke("text").as("receiptDetailRequestID");
+    cy.xpath(this.singleRequestInfo.deliveryDateInfo)
+      .invoke("text")
+      .as("receiptDetailDeliveryDate");
+    cy.xpath(this.singleRequestInfo.productNameBodyContainer)
+      .invoke("text")
+      .as("receiptDetailProductName");
+    cy.xpath(this.singleRequestInfo.productQtyBodyContainer)
+      .invoke("text")
+      .as("receiptDetailProductQty");
+    cy.get(this.singleRequestInfo.allocatedQtyField)
+      .invoke("val")
+      .as("receiptDetailAllocatedQty");
+    cy.get(this.singleRequestInfo.allocatedUOMDropdown)
+      .invoke("text")
+      .as("receiptDetailAllocatedUOM");
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+      .invoke("text")
+      .then((text) => {
+        if (text === "-") cy.wrap(text).as("receiptDetailDiscrepancyRemarks");
+        else
+          cy.get(this.singleRequestInfo.discrepancyRemarksField)
+            .invoke("val")
+            .as("receiptDetailDiscrepancyRemarks");
+      });
+  }
+
+  downloadPrintableDoc() {
+    cy.server()
+      .route("GET", "/inbound/receipts/**/download/")
+      .as("printableDocAPI");
+    cy.xpath(this.printableDocButton)
+      .click()
+      .wait("@printableDocAPI")
+      .then(($API) => {
+        cy.wrap($API.response?.body.document_url).as("printableDocURL");
+      });
+
+    cy.get("@printableDocURL").then((url) => {
+      this.downloadedFileDir =
+        "cypress/downloads/" +
+        String(url).replace(
+          "https://warehouse-uploads-dev.gudangada.com/INBOUND/INBOUND_PICTURE/PDF/",
+          ""
+        );
+      cy.readFile(this.downloadedFileDir, { timeout: 10000 }).should("exist");
+    });
+  }
+
+  setAllocatedQuantity(value: string) {
+    cy.get(this.singleRequestInfo.allocatedQtyField).clear().type(value);
+  }
+
+  clickReduceAllocatedQty() {
+    cy.xpath(this.singleRequestInfo.substractAllocatedQtyButton).click();
+  }
+
+  selectExpDate(value: string) {
+    /**
+     * TO DO
+     * Check has expiry date on selected product variant through API
+     */
+    cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
+    cy.get(this.dropdownOptions).contains(value).click();
+  }
+
+  setDiscrepancyRemarks(value: string) {
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer).type(value);
+  }
+
+  clickPartialChecklist() {
+    cy.get(this.singleRequestInfo.partialCheckbox).click();
+  }
+
+  setAttachment(value: string) {
+    this.switchAttachment(value);
+
+    cy.xpath(this.expectedAttachmentXPath)
+      .find("input")
+      .selectFile(this.downloadedFileDir, { force: true });
+    cy.xpath(this.expectedAttachmentXPath)
+      .find("svg")
+      .should("have.attr", "data-testid")
+      .and("equal", "DescriptionOutlinedIcon");
+  }
+
+  downloadReceiptAttachment(value: string) {
+    this.switchAttachment(value);
+    this.downloadAttachment(
+      this.expectedAttachmentXPath,
+      this.expectedAttachmentURL
+    );
   }
 
   cancelReceipt() {
     let cancelPopupHeader =
       "Batalkan Data Penerimaan Barang Masuk “{{ReceiptID}}”?";
 
-    this.invokeSourceDetail();
-    cy.xpath(this.receiptCTAButtonContainer)
-      .contains("Batalkan Penerimaan Barang")
-      .click();
-    cy.get("@receiptDetailSourceID").then((receiptID) => {
-      let processedReceiptID = String(receiptID).split(
-        " (No. Penerimaan Barang)"
-      )[0];
-      cy.xpath(this.cancelPopupContent)
+    this.invokeReceiptDetail();
+    cy.get(this.receiptButtons).contains("Batalkan Penerimaan Barang").click();
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
+      cy.get(this.popupHeader)
         .find("p")
         .should(
           "contain",
-          cancelPopupHeader.split("{{ReceiptID}}").join(processedReceiptID)
+          cancelPopupHeader.split("{{ReceiptID}}").join(String(receiptID))
         );
     });
-    cy.xpath(this.cancelPopupCTAContainer)
-      .find("button")
-      .contains("Batalkan")
-      .click();
+    cy.get(this.popupCTAContainer).find("button").contains("Batalkan").click();
+  }
+
+  submitReceipt() {
+    this.invokeReceiptDetail();
+    cy.get(this.receiptButtons).contains("Submit").click();
+  }
+
+  confirmReceiptSubmission() {
+    let submissionPopupHeader = "Submit Proses Penerimaan Stok?";
+    let submissionPopupContent =
+      "Total stok order yang Anda terima akan disimpan ke dalam inventori gudang dan tidak bisa diubah lagi.";
+
+    cy.get(this.popupHeader).find("p").should("contain", submissionPopupHeader);
+    cy.get(this.popupContent)
+      .find("p")
+      .should("contain", submissionPopupContent);
+    cy.intercept("PUT", "/inbound/receipts/**/bulk-submit/").as(
+      "submitReceiptAPI"
+    );
+    cy.get(this.popupCTAContainer).find("button").contains("Simpan").click();
+
+    // check auto roll-up popup
+    cy.wait("@submitReceiptAPI", { timeout: 10000 }).then((API) => {
+      let autoRollUpPopupHeader = "Konfirmasi Penyesuaian Stok Otomatis";
+      let autoRollupPopupSubHeader =
+        "Terdapat penyesuaian stok secara otomatis terhadap produk-produk di bawah ini. Jika jumlah perhitungannya tidak sesuai, silakan sesuaikan stok secara manual.";
+
+      if (API.response?.body.auto_roll_up[0]) {
+        cy.get(this.popupHeader)
+          .find("p")
+          .should("contain", autoRollUpPopupHeader)
+          .should("contain", autoRollupPopupSubHeader);
+        cy.get("@receiptDetailProductName").then((productName) => {
+          cy.get(this.popupContent)
+            .find("td")
+            .eq(0)
+            .should("contain", productName);
+        });
+        cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
+          cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
+            cy.get(this.popupContent)
+              .find("td")
+              .eq(1)
+              .should("contain", allocatedQty + " " + expDate);
+          });
+        });
+        cy.get("@receiptDetailProductQty").then((productQty) => {
+          cy.get(this.popupContent)
+            .find("td")
+            .eq(1)
+            .should("contain", "Dari order " + productQty);
+        });
+        cy.get(this.popupCTAContainer).contains("Konfirmasi Stok").click();
+      }
+    });
+  }
+
+  assertErrorAllocatedQty() {
+    let emptyErrorMessage = "Harap masukkan jumlah produk yang diterima";
+    cy.xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorExpDate() {
+    let emptyErrorMessage = "Harap pilih tanggal expired";
+    cy.xpath(this.singleRequestInfo.expDateContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorDiscrepancyRemark() {
+    let emptyErrorMessage =
+      "Harap masukkan keterangan untuk perbedaan jumlah barang";
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+      .find("p")
+      .should("contain", emptyErrorMessage);
+  }
+
+  assertErrorAttachments() {
+    let emptyErrorMessage = "Harap upload foto Surat Jalan";
+    cy.xpath(this.attachmentContainer).should("contain", emptyErrorMessage);
   }
 
   assertReceiptDataByReceiptList() {
@@ -133,6 +356,42 @@ export default class ReceiptDetailPage extends BasePage {
         cy
           .xpath(this.singleRequestInfo.deliveryMethodInfo)
           .should("contain", deliveryMethod)
+      );
+    });
+  }
+
+  assertReceiptDataByReceiptSubmission() {
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
+      expect(cy.xpath(this.receiptIDInfo).should("contain", receiptID));
+    });
+    cy.get("@receiptDetailProductName").then((productName) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productNameBodyContainer)
+          .should("contain", productName)
+      );
+    });
+    cy.get("@receiptDetailProductQty").then((productQty) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.productQtyBodyContainer)
+          .should("contain", productQty)
+      );
+    });
+    cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
+      cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
+        expect(
+          cy
+            .xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+            .should("contain", allocatedQty + " " + expDate)
+        );
+      });
+    });
+    cy.get("@receiptDetailDiscrepancyRemarks").then((remarks) => {
+      expect(
+        cy
+          .xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+          .should("contain", remarks)
       );
     });
   }
@@ -275,14 +534,20 @@ export default class ReceiptDetailPage extends BasePage {
     if (status === "Belum Selesai") {
       expect(
         cy
-          .xpath(this.receiptCTAButtonContainer)
+          .get(this.receiptButtons)
           .should("contain", "Batalkan Penerimaan Barang")
       );
-      expect(
-        cy.xpath(this.receiptCTAButtonContainer).should("contain", "Submit")
-      );
+      expect(cy.get(this.receiptButtons).should("contain", "Submit"));
     } else if (status === "Sudah Selesai") {
-      expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
+      expect(
+        cy
+          .get(this.receiptButtons)
+          .contains("Batalkan Penerimaan Barang")
+          .should("not.exist")
+      );
+      expect(
+        cy.get(this.receiptButtons).contains("Submit").should("not.exist")
+      );
     } else if (status === "Dibatalkan") {
       expect(
         cy
@@ -292,7 +557,29 @@ export default class ReceiptDetailPage extends BasePage {
       expect(
         cy.xpath(this.singleRequestInfo.tableBodyContainer).should("not.exist")
       );
-      expect(cy.xpath(this.receiptCTAButtonContainer).should("not.exist"));
+      expect(
+        cy
+          .get(this.receiptButtons)
+          .contains("Batalkan Penerimaan Barang")
+          .should("not.exist")
+      );
+      expect(
+        cy.get(this.receiptButtons).contains("Submit").should("not.exist")
+      );
     }
+  }
+
+  assertPartialCheckbox(value: string) {
+    if (value === "checked")
+      expect(
+        cy
+          .get(this.singleRequestInfo.partialCheckbox)
+          .invoke("val")
+          .should("contain", "true")
+      );
+    else if (value === "unchecked")
+      expect(
+        cy.get(this.singleRequestInfo.partialCheckbox).should("not.exist")
+      );
   }
 }
