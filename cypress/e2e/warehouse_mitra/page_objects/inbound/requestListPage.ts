@@ -2,8 +2,6 @@ import BaseListPage from "./baseListPage";
 
 export default class RequestListPage extends BaseListPage {
   path = "/inventory/inbound/request/list";
-  createRequestButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
   requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';
   requestItemSourceIDPointer = "/td[1]/div[1]";
@@ -37,7 +35,8 @@ export default class RequestListPage extends BaseListPage {
   );
 
   clickCreateNewRequest() {
-    cy.xpath(this.createRequestButton).click();
+    cy.wait(500); //TODO: Request implement test-id on FE
+    cy.get(this.inboundListButtons).contains("Permintaan Barang Masuk").click();
     cy.contains(this.createNewRequestButtonOption).click();
   }
 

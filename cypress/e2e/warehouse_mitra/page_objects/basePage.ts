@@ -42,6 +42,7 @@ export default class BasePage {
 
   // TODO: Request test-id for both request and receipt menu
   clickInboundRequestMenu() {
+    cy.wait(1000);
     cy.get(this.sidebarMenuButton)
       .find("span")
       .contains("Barang Masuk")

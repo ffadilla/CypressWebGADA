@@ -6,8 +6,6 @@ export default class BaseListPage extends BasePage {
   deliveryMethodFilterButton = "#filter-modal";
   deliveryMethodDropdown = "#mui-component-select-delivery_method";
   deliveryMethodDropdownItem = 'li[role="option"]';
-  submitDeliveryMethodFilterButton =
-    ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
   deliveryDateFilterButton = 'input[placeholder="Tanggal"]';
   deliveryDateCell = '[role="gridcell"]';
   deliveryDateCTAContainer = ".MuiDialogActions-root";
@@ -19,6 +17,7 @@ export default class BaseListPage extends BasePage {
   emptyResultText =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div[2]/div';
   snackbar = "#notistack-snackbar";
+  inboundListButtons = ".MuiButtonBase-root";
 
   setSearchKeyword(keyword: string) {
     cy.get(this.searchbox).type(keyword);
@@ -33,7 +32,7 @@ export default class BaseListPage extends BasePage {
     cy.get(this.deliveryMethodFilterButton).click();
     cy.get(this.deliveryMethodDropdown).click();
     cy.get(this.deliveryMethodDropdownItem).contains(deliveryMethod).click();
-    cy.get(this.submitDeliveryMethodFilterButton).click();
+    cy.get(this.inboundListButtons).contains("Simpan").click();
   }
 
   setDeliveryDateFilter(deliveryDate: string) {

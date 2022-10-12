@@ -2,61 +2,52 @@ import BasePage from "../basePage";
 
 export default class RequestFormPage extends BasePage {
   path = "/inventory/inbound/request/create";
-  submitRequestFormButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[2]/div/div/button[2]';
+  formButtons = ".MuiButtonBase-root";
 
   sourceIDField = 'input[name="source_data.reference_id"]';
   errorSourceID =
     ":nth-child(1) > :nth-child(1) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  sourceTypeField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[2]/div/div';
+  sourceTypeField = '[id="mui-component-select-source_data.source_type"]';
   sourceTypeDropdown = '[id="menu-source_data.source_type"]';
   errorSourceType =
     ":nth-child(1) > :nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  storeNameField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[3]/div/div/div/div/input';
+  storeNameField = 'input[placeholder="Pilih toko penerima"]';
   errorStoreName =
     ":nth-child(1) > :nth-child(3) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  warehouseNameField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[4]/div/div/div/div/input';
+  warehouseNameField = 'input[placeholder="Pilih lokasi gudang penerima"]';
   errorWarehouseName =
     ":nth-child(1) > :nth-child(4) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  targetStoreNameField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[5]/div/div/div/div/input';
+  targetStoreNameField = 'input[placeholder="Pilih nama perusahaan pengirim"]';
   errorStoreTargetName =
     ":nth-child(1) > :nth-child(5) > .MuiFormControl-root > .MuiFormHelperText-root";
 
   targetStoreAddressField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[6]/div/div/input';
+    'input[placeholder="Masukkan alamat perusahaan pengirim"]';
   errorStoreTargetAddress =
     ":nth-child(1) > :nth-child(6) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  sourceDateField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[7]/div/div/div/input';
+  sourceDateField = 'input[placeholder="Pilih tanggal permintaan masuk"]';
   errorSourceDate =
     ":nth-child(1) > :nth-child(7) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  deliveryDateField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[8]/div/div/div/input';
+  deliveryDateField = 'input[placeholder="Pilih tanggal pengiriman"]';
   errorSourceDeliveryDate =
     ":nth-child(1) > :nth-child(8) > .MuiFormControl-root > .MuiFormHelperText-root";
 
   deliveryMethodField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[1]/div[9]/div/div';
+    '[id="mui-component-select-inbound_requests[0].delivery_method"]';
   deliveryMethodDropdown = 'id=["menu-inbound_requests[0].delivery_method"]';
   errorSourceDeliveryMethod =
     ":nth-child(1) > :nth-child(9) > .MuiFormControl-root > .MuiFormHelperText-root";
 
-  requestProductNameField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[4]/div[2]/div[1]/div/div/div/div/input';
+  requestProductNameField = 'input[placeholder="Pilih nama produk"]';
   errorRequestProductName =
     ":nth-child(4) > .MuiGrid-container > :nth-child(1) > .MuiFormControl-root > .MuiFormHelperText-root";
-  requestProductQuantityField =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div/div[2]/div[4]/div[2]/div[2]/div/div/input';
+  requestProductQuantityField = 'input[placeholder="Masukkan jumlah produk"]';
   errorRequestProductQuantity =
     ":nth-child(4) > .MuiGrid-container > :nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root";
 
@@ -71,85 +62,87 @@ export default class RequestFormPage extends BasePage {
   }
 
   setSourceType(keyword: string) {
-    cy.xpath(this.sourceTypeField).click();
+    cy.get(this.sourceTypeField)
+      .contains("Pilih jenis permintaan masuk")
+      .click();
     cy.get(this.dropdownOptionsList).contains(keyword).click();
-    cy.xpath(this.sourceTypeField).invoke("text").as("inboundFormSourceType");
+    cy.get(this.sourceTypeField).invoke("text").as("inboundFormSourceType");
   }
 
   setStore(keyword: string) {
-    cy.xpath(this.storeNameField).click();
-    cy.xpath(this.storeNameField).type(keyword);
+    cy.get(this.storeNameField).click();
+    cy.get(this.storeNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
-    cy.xpath(this.storeNameField).invoke("val").as("inboundFormStoreName");
+    cy.get(this.storeNameField).invoke("val").as("inboundFormStoreName");
   }
 
   setWarehouse(keyword: string) {
-    cy.xpath(this.warehouseNameField).click();
-    cy.xpath(this.warehouseNameField).type(keyword);
+    cy.get(this.warehouseNameField).click();
+    cy.get(this.warehouseNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
-    cy.xpath(this.warehouseNameField)
+    cy.get(this.warehouseNameField)
       .invoke("val")
       .as("inboundFormWarehouseName");
   }
 
   setTargetStore(keyword: string) {
-    cy.xpath(this.targetStoreNameField).click();
+    cy.get(this.targetStoreNameField).click();
     cy.intercept(
       "GET",
       "/store/store-list/?search=" + keyword + "&suggest_by=inbound&store_id=**"
     ).as("storeListAPI");
-    cy.xpath(this.targetStoreNameField).type(keyword);
+    cy.get(this.targetStoreNameField).type(keyword);
     cy.wait("@storeListAPI"); //waiting for dropdown autocomplete
     cy.get(this.firstAutocompleteItem).click();
-    cy.xpath(this.targetStoreNameField)
+    cy.get(this.targetStoreNameField)
       .invoke("val")
       .as("inboundFormTargetStoreName");
-    cy.xpath(this.targetStoreAddressField)
+    cy.get(this.targetStoreAddressField)
       .invoke("val")
       .as("inboundFormTargetStoreAddress");
   }
 
   setSourceDate(date: number) {
-    cy.xpath(this.sourceDateField).click();
-    cy.contains(this.datepickerItem, date).click();
-    cy.xpath(this.sourceDateField).invoke("val").as("inboundFormSourceDate");
+    cy.get(this.sourceDateField).click();
+    cy.get(this.datepickerItem).contains(date).click();
+    cy.get(this.sourceDateField).invoke("val").as("inboundFormSourceDate");
   }
 
   setDeliveryDate(date: number) {
-    cy.xpath(this.deliveryDateField).click();
-    cy.contains(this.datepickerItem, date).click();
-    cy.xpath(this.deliveryDateField)
-      .invoke("val")
-      .as("inboundFormDeliveryDate");
+    cy.get(this.deliveryDateField).click();
+    cy.get(this.datepickerItem).contains(date).click();
+    cy.get(this.deliveryDateField).invoke("val").as("inboundFormDeliveryDate");
   }
 
   setDeliveryMethod(keyword: string) {
-    cy.xpath(this.deliveryMethodField).click();
+    cy.get(this.deliveryMethodField)
+      .contains("Pilih metode pengiriman")
+      .click();
     cy.get(this.dropdownOptionsList).contains(keyword).click();
-    cy.xpath(this.deliveryMethodField)
+    cy.get(this.deliveryMethodField)
       .invoke("text")
       .as("inboundFormDeliveryMethod");
   }
 
   setRequestFirstProductName(keyword: string) {
-    cy.xpath(this.requestProductNameField).click();
-    cy.xpath(this.requestProductNameField).type(keyword);
+    cy.get(this.requestProductNameField).click();
+    cy.get(this.requestProductNameField).type(keyword);
     cy.get(this.firstAutocompleteItem).click();
-    cy.xpath(this.requestProductNameField)
+    cy.get(this.requestProductNameField)
       .invoke("val")
       .as("inboundFormFirstProductName");
   }
 
   setRequestFirstProductAmount(input: number) {
-    cy.xpath(this.requestProductQuantityField).click();
-    cy.xpath(this.requestProductQuantityField).type(input.toString());
-    cy.xpath(this.requestProductQuantityField)
+    cy.get(this.requestProductQuantityField).click();
+    cy.get(this.requestProductQuantityField).type(input.toString());
+    cy.get(this.requestProductQuantityField)
       .invoke("val")
       .as("inboundFormFirstProductQty");
   }
 
   submitRequestForm() {
-    cy.xpath(this.submitRequestFormButton).click();
+    cy.get(this.formButtons).contains("Submit").click();
   }
 
   assertErrorInboundRequestForm(field: string, err: string) {

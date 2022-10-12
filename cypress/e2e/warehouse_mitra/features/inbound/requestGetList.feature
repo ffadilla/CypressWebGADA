@@ -68,10 +68,11 @@ Feature: Get Inbound Request List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-@focus 
+
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
-    //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound Request menu
+    And user clicks create new inbound request button
+    And user creates a new inbound Source Request
     And user applies <deliveryDate> as delivery date filter at inbound Request list
     Then user should be at inbound Request list
     And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
@@ -82,10 +83,9 @@ Feature: Get Inbound Request List
 
     Examples:
     | deliveryDate    |
-    | "22"            |
-
+    | "23"            |
+@focus 
    Scenario Outline: User successfully filters inbound Request list by <pageAmount> page amount
-    //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound Request menu
     And user applies <pageAmount> as page amount at inbound Request list
     Then user should be at inbound Request list
