@@ -4,7 +4,7 @@ import ReceiptListPage from "../../page_objects/inbound/receiptListPage";
 const receiptListPage = new ReceiptListPage();
 
 When("user clicks create inbound Receipt button", () => {
-  cy.xpath(receiptListPage.createReceiptButton).click();
+  receiptListPage.clickCreateNewReceipt();
 });
 
 When(
@@ -65,7 +65,6 @@ When("user clicks the first data on inbound Receipt table", () => {
 });
 
 Then("user should be at inbound Receipt list", () => {
-  cy.get(receiptListPage.firstRowAccordionStatus);
   expect(cy.url().should("include", receiptListPage.path));
 });
 

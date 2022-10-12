@@ -15,7 +15,7 @@ export default class BaseListPage extends BasePage {
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
   emptyResultText =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div[2]/div';
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div/div';
   snackbar = "#notistack-snackbar";
   inboundListButtons = ".MuiButtonBase-root";
 

@@ -2,15 +2,13 @@ import BaseListPage from "./baseListPage";
 
 export default class ReceiptListPage extends BaseListPage {
   path = "/inventory/inbound/receipt/list";
-  createReceiptButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createReceiptWarehouseNameDropdown =
     'input[placeholder="Pilih lokasi gudang"]';
   createReceiptStoreNameDropdown = 'input[placeholder="Pilih toko"]';
   createReceiptRequestIDDropdown = 'input[placeholder="Pilih no. permintaan"]';
   dropdownOptionsItem = '[role="option"]';
   createReceiptCTAButton = "[type=button]";
-  tableBody = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]';
+  tableBody = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]';
   accordionParent = "#panel[index]a-header";
   accordionParentReceiptIDPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(1) > a > .MuiTypography-root";
@@ -61,6 +59,11 @@ export default class ReceiptListPage extends BaseListPage {
   firstRowAccordionDeliveryMethod = this.firstRowAccordionChild.concat(
     this.accordionChildDeliveryMethodPointer
   );
+
+  clickCreateNewReceipt() {
+    cy.wait(500); //TODO: Request implement test-id on FE
+    cy.get(this.inboundListButtons).contains("Penerimaan Barang Masuk").click();
+  }
 
   submitCreateReceiptPopup() {
     cy.get("@requestDetailWarehouseName").then((warehouseName) => {
