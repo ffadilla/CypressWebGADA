@@ -9,6 +9,7 @@ export function deleteTestDataSequence() {
   deleteBrandTestData();
   deletePrincipalTestData();
   deleteSeedInventoryData();
+  deleteCustomerTestData();
 }
 
 export function insertTestDataSequence() {
@@ -154,6 +155,44 @@ export function deletePrincipalTestData() {
         body: {
           principal_id: principalId,
         },
+      });
+    }
+  });
+}
+
+export function deleteCustomerTestData() {
+  // delete customer name prefix web automation
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "customer",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      keyword: "web automation customer",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let customerIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      customerIdArray.push(data[i].id.toString());
+    }
+
+    for (let customerId of customerIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url:
+          gadaConfig.saas.baseApiUrl +
+          "customer" +
+          "/" +
+          customerId +
+          "/" +
+          gadaConfig.saas.testUserAccount.storeId,
+        failOnStatusCode: false,
       });
     }
   });
