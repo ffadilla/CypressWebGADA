@@ -2,7 +2,7 @@ Feature: Get Inbound Request List
 
   Background: 
     Given user already logged in to WMS as "superuser"
-@focus 
+
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound request list
     When user redirects to inbound Request menu
     And user clicks <status> status chip at inbound Request list
@@ -68,7 +68,7 @@ Feature: Get Inbound Request List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-
+@focus 
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Request with 22 as delivery date
     When user redirects to inbound Request menu

@@ -5,8 +5,7 @@ export default class RequestListPage extends BaseListPage {
   createRequestButton =
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
-  requestItemListBody =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[1]/table/tbody';
+  requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';
   requestItemSourceIDPointer = "/td[1]/div[1]";
   requestItemSourceTypePointer = "/td[1]/div[2]";
   requestItemRequestIDPointer = "/td[2]/a/div[1]";

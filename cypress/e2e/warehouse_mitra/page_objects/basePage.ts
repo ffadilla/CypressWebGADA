@@ -40,6 +40,7 @@ export default class BasePage {
     expect(cy.url().should("include", queryParam));
   }
 
+  // TODO: Request test-id for both request and receipt menu
   clickInboundRequestMenu() {
     cy.get(this.sidebarMenuButton)
       .find("span")

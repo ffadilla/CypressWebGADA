@@ -1,16 +1,14 @@
 import BasePage from "../basePage";
 
 export default class BaseListPage extends BasePage {
-  searchbox =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[1]/form/div/div/input';
+  searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";
   deliveryMethodDropdown = "#mui-component-select-delivery_method";
   deliveryMethodDropdownItem = 'li[role="option"]';
   submitDeliveryMethodFilterButton =
     ".MuiDialogActions-root > .MuiBox-root > .MuiButton-contained";
-  deliveryDateFilterButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div/div/input';
+  deliveryDateFilterButton = 'input[placeholder="Tanggal"]';
   deliveryDateCell = '[role="gridcell"]';
   deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
@@ -19,12 +17,12 @@ export default class BaseListPage extends BasePage {
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
   emptyResultText =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div/div';
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div[2]/div';
   snackbar = "#notistack-snackbar";
 
   setSearchKeyword(keyword: string) {
-    cy.xpath(this.searchbox).type(keyword);
-    cy.xpath(this.searchbox).type("{enter}");
+    cy.get(this.searchbox).type(keyword);
+    cy.get(this.searchbox).type("{enter}");
   }
 
   resetSearchKeyword() {
@@ -39,12 +37,12 @@ export default class BaseListPage extends BasePage {
   }
 
   setDeliveryDateFilter(deliveryDate: string) {
-    cy.xpath(this.deliveryDateFilterButton).click();
+    cy.get(this.deliveryDateFilterButton).click();
     cy.get(this.deliveryDateCell).contains(deliveryDate).click();
   }
 
   resetDeliveryDate() {
-    cy.xpath(this.deliveryDateFilterButton).click();
+    cy.get(this.deliveryDateFilterButton).click();
     cy.get(this.deliveryDateCTAContainer).contains("Reset").click();
   }
 
