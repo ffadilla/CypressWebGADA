@@ -68,23 +68,30 @@ Feature: Get Inbound Request List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-
+@focus 
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
-    When user redirects to inbound Request menu
+    Given user redirects to inbound Request menu
     And user clicks create new inbound request button
     And user creates a new inbound Source Request
-    And user applies <deliveryDate> as delivery date filter at inbound Request list
+    
+    When user applies <deliveryDate> as delivery date filter at inbound Request list
     Then user should be at inbound Request list
     And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
     And user should only able to see inbound Request with <deliveryDate> "delivery date"
+    
     When user resets any applied delivery date filter at inbound Request list
     Then query param for "null" "delivery date" should be added to inbound Request list URL
-    When user logs out from WMS
+
+    When user applies "created Source ID" to find related inbound Request
+    And user clicks the first data on inbound Request table
+    And user clicks Source CTA button at inbound Request detail
+    And user cancels Source at inbound Source detail
+    And user logs out from WMS
 
     Examples:
     | deliveryDate    |
     | "23"            |
-@focus 
+
    Scenario Outline: User successfully filters inbound Request list by <pageAmount> page amount
     When user redirects to inbound Request menu
     And user applies <pageAmount> as page amount at inbound Request list

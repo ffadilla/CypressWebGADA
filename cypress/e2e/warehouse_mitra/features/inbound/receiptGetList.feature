@@ -2,7 +2,7 @@ Feature: Get Inbound Receipt List
 
   Background: 
     Given user already logged in to WMS as "superuser"
-
+@focus 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound Receipt list
     When user redirects to inbound Receipt menu
     And user clicks <status> status chip at inbound Receipt list
@@ -48,7 +48,7 @@ Feature: Get Inbound Receipt List
 
     Examples:
     | keyword           | searchTarget    |
-    | "08220000"        | "receipt ID"    |
+    | "102200"          | "receipt ID"    |
     | "Toko"            | "supplier store"|
 
   Scenario Outline: User successfully filters inbound Receipt list by <deliveryMethod> deliveryMethod
@@ -66,24 +66,36 @@ Feature: Get Inbound Receipt List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-@focus 
+
  Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
-    //TODO: Precondition to create inbound Receipt with 22 as delivery date
+    Given user redirects to inbound Request menu
+    And user clicks create new inbound request button
+    And user creates a new inbound Source Request
+    And user applies "created Source ID" to find related inbound Request
+    And user clicks the first data on inbound Request table
+    And user click create Receipt data at inbound Request detail page
+
     When user redirects to inbound Receipt menu
     And user applies <deliveryDate> as delivery date filter at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <deliveryDate> "delivery date" should be added to inbound Receipt list URL
     And user should only able to see inbound Receipt with <deliveryDate> "delivery date"
+    
     When user resets any applied delivery date filter at inbound Receipt list
     Then query param for "null" "delivery date" should be added to inbound Receipt list URL
-    When user logs out from WMS
+    
+    When user redirects to inbound Request menu
+    And user applies "created Source ID" to find related inbound Request
+    And user clicks the first data on inbound Request table
+    And user clicks Source CTA button at inbound Request detail
+    And user cancels Source at inbound Source detail
+    And user logs out from WMS
 
     Examples:
     | deliveryDate    |
-    | "22"            |
+    | "23"            |
 
    Scenario Outline: User successfully filters inbound Receipt list by <pageAmount> page amount
-    //TODO: Precondition to create inbound Receipt with 22 as delivery date
     When user redirects to inbound Receipt menu
     And user applies <pageAmount> as page amount at inbound Receipt list
     Then user should be at inbound Receipt list
