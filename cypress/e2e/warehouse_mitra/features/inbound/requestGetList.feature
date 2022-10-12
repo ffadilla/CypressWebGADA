@@ -2,9 +2,9 @@ Feature: Get Inbound Request List
 
   Background: 
     Given user already logged in to WMS as "superuser"
-
+@focus 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound request list
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks <status> status chip at inbound Request list
     And user applies <keyword> to find related inbound Request
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
@@ -21,7 +21,7 @@ Feature: Get Inbound Request List
     | "Dibatalkan"   | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           |
 
   Scenario Outline: User successfully filters inbound request list by <status> status
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks <status> status chip at inbound Request list
     Then user should be at inbound Request list
     And query param for <status> "status" should be added to inbound Request list URL
@@ -38,7 +38,7 @@ Feature: Get Inbound Request List
     | "Dibatalkan"      |
 
   Scenario Outline: User successfully using <keyword> to search <searchTarget> for inbound request list
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user applies <keyword> to find related inbound Request
     Then user should be at inbound Request list
     And query param for <keyword> "keyword" should be added to inbound Request list URL
@@ -54,7 +54,7 @@ Feature: Get Inbound Request List
     | "Toko"            | "supplier store"|
 
   Scenario Outline: User successfully filters inbound request list by <deliveryMethod> deliveryMethod
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
     Then user should be at inbound Request list
     And query param for <deliveryMethod> "delivery method" should be added to inbound Request list URL
@@ -71,7 +71,7 @@ Feature: Get Inbound Request List
 
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Request with 22 as delivery date
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user applies <deliveryDate> as delivery date filter at inbound Request list
     Then user should be at inbound Request list
     And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
@@ -86,8 +86,7 @@ Feature: Get Inbound Request List
 
    Scenario Outline: User successfully filters inbound Request list by <pageAmount> page amount
     //TODO: Precondition to create inbound Request with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Request list tab
+    When user redirects to inbound Request menu
     And user applies <pageAmount> as page amount at inbound Request list
     Then user should be at inbound Request list
     And query param for <pageAmount> "rowsPerPage" should be added to inbound Request list URL

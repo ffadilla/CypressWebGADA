@@ -3,10 +3,6 @@ import RequestListPage from "../../page_objects/inbound/requestListPage";
 
 const requestListPage = new RequestListPage();
 
-When("user clicks inbound Request list tab", () => {
-  requestListPage.clickRequestTab();
-});
-
 When(
   "user applies {string} to find related inbound Request",
   (keyword: string) => {

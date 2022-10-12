@@ -2,7 +2,7 @@ Feature: Cancel Inbound Source
 
   Background: 
     Given user already logged in to WMS as "superuser"
-    And user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks create new inbound request button
     And user creates a new inbound Source Request
     And user applies "created Source ID" to find related inbound Request

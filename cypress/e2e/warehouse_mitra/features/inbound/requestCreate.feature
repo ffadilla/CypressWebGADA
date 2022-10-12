@@ -2,7 +2,7 @@ Feature: Create Inbound Source
 
   Background: 
     Given user already logged in to WMS as "superuser"
-    And user redirects to inbound menu
+    And user redirects to inbound Request menu
 
   Scenario: Fail to create a new inbound Source/Request with null form
     And user clicks create new inbound request button

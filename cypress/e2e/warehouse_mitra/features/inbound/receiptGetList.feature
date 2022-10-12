@@ -4,8 +4,7 @@ Feature: Get Inbound Receipt List
     Given user already logged in to WMS as "superuser"
 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound Receipt list
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user clicks <status> status chip at inbound Receipt list
     And user applies <keyword> to find related inbound Receipt
     And user applies <deliveryMethod> as delivery method filter at inbound Receipt list
@@ -22,8 +21,7 @@ Feature: Get Inbound Receipt List
     | "Sedang Diproses" | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           |
 
   Scenario Outline: User successfully filters inbound Receipt list by <status> status
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user clicks <status> status chip at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <status> "status" should be added to inbound Receipt list URL
@@ -39,8 +37,7 @@ Feature: Get Inbound Receipt List
     | "Sudah Selesai"   |
 
   Scenario Outline: User successfully using <keyword> to search <searchTarget> for inbound Receipt list
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <keyword> to find related inbound Receipt
     Then user should be at inbound Receipt list
     And query param for <keyword> "keyword" should be added to inbound Receipt list URL
@@ -55,8 +52,7 @@ Feature: Get Inbound Receipt List
     | "Toko"            | "supplier store"|
 
   Scenario Outline: User successfully filters inbound Receipt list by <deliveryMethod> deliveryMethod
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <deliveryMethod> as delivery method filter at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <deliveryMethod> "delivery method" should be added to inbound Receipt list URL
@@ -70,11 +66,10 @@ Feature: Get Inbound Receipt List
     | "SELF PICKUP"     |
     | "GADA LOGISTIC"   |
     | "STORE COURIER"   |
-
+@focus 
  Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
     //TODO: Precondition to create inbound Receipt with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <deliveryDate> as delivery date filter at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <deliveryDate> "delivery date" should be added to inbound Receipt list URL
@@ -89,8 +84,7 @@ Feature: Get Inbound Receipt List
 
    Scenario Outline: User successfully filters inbound Receipt list by <pageAmount> page amount
     //TODO: Precondition to create inbound Receipt with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <pageAmount> as page amount at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <pageAmount> "rowsPerPage" should be added to inbound Receipt list URL

@@ -59,20 +59,6 @@ export default class BaseListPage extends BasePage {
     cy.get(this.pageAmountDropdownOptions).contains(value).click();
   }
 
-  clickRequestTab() {
-    cy.intercept("GET", "/inbound/requests/list/*").as("requestListAPI");
-    cy.get(this.inboundTabContainer)
-      .contains("Permintaan Barang Masuk")
-      .click();
-    cy.wait("@requestListAPI");
-  }
-
-  clickReceiptTab() {
-    cy.intercept("GET", "/inbound/receipts/list/*").as("shipmentListAPI");
-    cy.get(this.inboundTabContainer).contains("Proses Penerimaan").click();
-    cy.wait("@shipmentListAPI");
-  }
-
   clickStatusChip(status: string) {
     cy.intercept("GET", "/inbound/**").as("inboundListAPI");
     cy.get(this.chipContainer).contains(status).click();

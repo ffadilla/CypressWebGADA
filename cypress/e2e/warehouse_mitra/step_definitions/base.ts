@@ -24,8 +24,12 @@ When("user logs out from WMS", () => {
   basePage.logout();
 });
 
-When("user redirects to inbound menu", () => {
-  cy.xpath(basePage.inboundMenuButton).click();
+When("user redirects to inbound Request menu", () => {
+  basePage.clickInboundRequestMenu();
+});
+
+When("user redirects to inbound Receipt menu", () => {
+  basePage.clickInboundReceiptMenu();
 });
 
 When("user redirects to the previous visited page", () => {

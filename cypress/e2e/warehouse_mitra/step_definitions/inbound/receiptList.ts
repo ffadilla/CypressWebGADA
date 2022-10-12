@@ -3,10 +3,6 @@ import ReceiptListPage from "../../page_objects/inbound/receiptListPage";
 
 const receiptListPage = new ReceiptListPage();
 
-When("user clicks inbound Receipt list tab", () => {
-  receiptListPage.clickReceiptTab();
-});
-
 When("user clicks create inbound Receipt button", () => {
   cy.xpath(receiptListPage.createReceiptButton).click();
 });
