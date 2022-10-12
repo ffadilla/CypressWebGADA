@@ -43,10 +43,16 @@ export default class BasePage {
   // TODO: Request test-id for both request and receipt menu
   clickInboundRequestMenu() {
     cy.wait(1000);
-    cy.get(this.sidebarMenuButton)
-      .find("span")
-      .contains("Barang Masuk")
-      .click();
+    cy.url().then((url) => {
+      if (
+        !url.includes("https://warehouse-dev.gudangada.com/inventory/inbound/")
+      ) {
+        cy.get(this.sidebarMenuButton)
+          .find("span")
+          .contains("Barang Masuk")
+          .click();
+      }
+    });
     cy.get(this.sidebarSubMenuButton)
       .find("span")
       .contains("Permintaan Barang")
@@ -54,10 +60,17 @@ export default class BasePage {
   }
 
   clickInboundReceiptMenu() {
-    cy.get(this.sidebarMenuButton)
-      .find("span")
-      .contains("Barang Masuk")
-      .click();
+    cy.wait(1000);
+    cy.url().then((url) => {
+      if (
+        !url.includes("https://warehouse-dev.gudangada.com/inventory/inbound/")
+      ) {
+        cy.get(this.sidebarMenuButton)
+          .find("span")
+          .contains("Barang Masuk")
+          .click();
+      }
+    });
     cy.get(this.sidebarSubMenuButton)
       .find("span")
       .contains("Penerimaan Barang")
