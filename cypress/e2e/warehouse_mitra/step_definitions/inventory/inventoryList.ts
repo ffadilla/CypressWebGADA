@@ -11,16 +11,16 @@ When("user resets any applied keyword filter at inventory list", () => {
   inventoryListPage.resetSearchKeyword();
 });
 
+When(
+  "user applies {string} as page amount at inventory list",
+  (value: string) => {
+    inventoryListPage.setPageAmount(value);
+  }
+);
+
 Then(
   "query param for {string} {string} should be added to inventory list URL",
-  (keyword: string, target: string) => {
-    let query = "";
-    switch (target) {
-      case "keyword":
-        query = "search";
-        break;
-    }
-
+  (keyword: string, query: string) => {
     inventoryListPage.assertQueryParam(query, keyword);
   }
 );
@@ -29,5 +29,12 @@ Then(
   "user should only able to see inventory with {string} matched {string}",
   (target: string, keyword: string) => {
     inventoryListPage.assertRequestItemsBySearchFilter(target, keyword);
+  }
+);
+
+Then(
+  "user should only able to see {string} inventory per page maximum",
+  (value: string) => {
+    inventoryListPage.assertTotalPageAmount(value);
   }
 );

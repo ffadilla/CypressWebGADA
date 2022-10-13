@@ -1,7 +1,7 @@
 import { replaceElementIndex } from "../../common/utils";
-import BasePage from "../basePage";
+import BaseListPage from "../baseListPage";
 
-export default class InventoryListPage extends BasePage {
+export default class InventoryListPage extends BaseListPage {
   path = "/inventory/list";
   searchbox = 'input[placeholder="Cari produk SKU dan nama produk..."]';
   resetSearchbox = 'svg[data-testid="CloseRoundedIcon"]';
@@ -11,6 +11,9 @@ export default class InventoryListPage extends BasePage {
     this.inventoryListXPath + "/tr[{{index}}]/td[2]/div[1]";
   inventoryProductSubTextXPath =
     this.inventoryListXPath + "/tr[{{index}}]/td[2]/div[2]";
+  pageAmountDropdown = '[aria-haspopup="listbox"]';
+  pageAmountDropdownOptions = 'ul[role="listbox"]';
+  tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
 
   setSearchKeyword(keyword: string) {
     cy.get(this.searchbox).type(keyword);
@@ -19,6 +22,11 @@ export default class InventoryListPage extends BasePage {
 
   resetSearchKeyword() {
     cy.get(this.resetSearchbox).click();
+  }
+
+  setPageAmount(value: string) {
+    cy.get(this.pageAmountDropdown).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
   }
 
   assertRequestItemsBySearchFilter(target: string, keyword: string) {
