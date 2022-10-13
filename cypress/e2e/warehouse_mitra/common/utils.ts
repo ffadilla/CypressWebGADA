@@ -15,3 +15,7 @@ export function reformatDate(
 export function padTo2Digits(num: number): string {
   return num.toString().padStart(2, "0");
 }
+
+export function replaceElementIndex(selector: string, index: number): string {
+  return selector.replace("{{index}}", index.toString());
+}
