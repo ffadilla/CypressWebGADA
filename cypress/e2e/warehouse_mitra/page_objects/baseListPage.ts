@@ -16,7 +16,7 @@ export default class BaseListPage extends BasePage {
       .invoke("text")
       .then((text) => {
         let dataPerPage = parseInt(text.split(" ")[1].split("-")[1]);
-        expect(dataPerPage).to.be.lessThan(parseInt(value));
+        expect(dataPerPage).to.be.lessThan(parseInt(value) + 1);
       });
   }
 }

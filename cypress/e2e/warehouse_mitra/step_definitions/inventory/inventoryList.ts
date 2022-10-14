@@ -11,6 +11,10 @@ When("user resets any applied keyword filter at inventory list", () => {
   inventoryListPage.resetSearchKeyword();
 });
 
+When("user clicks hide zero quantity toggle at inventory list", () => {
+  inventoryListPage.clickHideZeroQty();
+});
+
 When(
   "user applies {string} as page amount at inventory list",
   (value: string) => {
@@ -26,14 +30,21 @@ Then(
 );
 
 Then(
-  "user should only able to see inventory with {string} matched {string}",
+  "user should only able to see SKU with {string} matched {string}",
   (target: string, keyword: string) => {
-    inventoryListPage.assertRequestItemsBySearchFilter(target, keyword);
+    inventoryListPage.assertInventoryBySearchFilter(target, keyword);
   }
 );
 
 Then(
-  "user should only able to see {string} inventory per page maximum",
+  "user should only able to see SKU with {string} {string}",
+  (keyword: string, target: string) => {
+    inventoryListPage.assertInventoryBySearchFilter(target, keyword);
+  }
+);
+
+Then(
+  "user should only able to see {string} SKU per page maximum",
   (value: string) => {
     inventoryListPage.assertTotalPageAmount(value);
   }
