@@ -3,6 +3,13 @@ import InventoryListPage from "../../page_objects/inventory/inventoryList";
 
 const inventoryListPage = new InventoryListPage();
 
+When(
+  "user applies {string} as filter date at inventory list",
+  (deliveryDate: string) => {
+    inventoryListPage.setDeliveryDateFilter(deliveryDate);
+  }
+);
+
 When("user applies {string} to find related inventory", (value: string) => {
   inventoryListPage.setSearchKeyword(value);
 });
@@ -24,22 +31,26 @@ When(
 
 Then(
   "query param for {string} {string} should be added to inventory list URL",
-  (keyword: string, query: string) => {
-    inventoryListPage.assertQueryParam(query, keyword);
+  (keyword: string, attribute: string) => {
+    if (attribute === "updated_at" && keyword == "input")
+      inventoryListPage.assertDateQueryParam(attribute, inventoryListPage.date);
+    else if (attribute === "updated_at")
+      inventoryListPage.assertDateQueryParam(attribute, keyword);
+    else inventoryListPage.assertQueryParam(attribute, keyword);
   }
 );
 
 Then(
   "user should only able to see SKU with {string} matched {string}",
-  (target: string, keyword: string) => {
-    inventoryListPage.assertInventoryBySearchFilter(target, keyword);
+  (attribute: string, keyword: string) => {
+    inventoryListPage.assertInventoryBySearchFilter(attribute, keyword);
   }
 );
 
 Then(
   "user should only able to see SKU with {string} {string}",
-  (keyword: string, target: string) => {
-    inventoryListPage.assertInventoryBySearchFilter(target, keyword);
+  (keyword: string, attribute: string) => {
+    inventoryListPage.assertInventoryBySearchFilter(attribute, keyword);
   }
 );
 
