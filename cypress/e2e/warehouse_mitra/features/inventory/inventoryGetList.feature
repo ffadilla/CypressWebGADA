@@ -2,10 +2,10 @@ Feature: Get Inventory List
 
   Background: 
     Given user already logged in to WMS as "superuser"
-    And user redirects to inventory menu
 
   Scenario Outline: User successfully using <keyword> to search <searchTarget> for inventory list
-    When user applies <keyword> to find related inventory
+    When user redirects to inventory menu
+    And user applies <keyword> to find related inventory
     Then query param for <keyword> "search" should be added to inventory list URL
     And user should only able to see SKU with <searchTarget> matched <keyword>
 
@@ -20,7 +20,8 @@ Feature: Get Inventory List
     | "Indomie"         | "product name"   |
 
    Scenario Outline: User successfully filters inventory list by <pageAmount> page amount
-    When user applies <pageAmount> as page amount at inventory list
+    When user redirects to inventory menu
+    And user applies <pageAmount> as page amount at inventory list
     Then query param for <pageAmount> "rowsPerPage" should be added to inventory list URL
     And user should only able to see <pageAmount> SKU per page maximum
     
@@ -33,7 +34,8 @@ Feature: Get Inventory List
     | "25"          |
 
    Scenario: User successfully turn off and on hide zero quantity toggle at inventory list
-    When user applies '25' as page amount at inventory list
+    When user redirects to inventory menu
+    And user applies '25' as page amount at inventory list
     And user clicks hide zero quantity toggle at inventory list
     Then query param for "false" "hide_zero_qty" should be added to inventory list URL
     And user should only able to see SKU with "any" "quantity"
@@ -45,8 +47,16 @@ Feature: Get Inventory List
     When user logs out from WMS
 
    Scenario: User successfully filters inventory list based on latest movement date
-    # Add create any inventory movement as precondition
-    When user applies "today's date" as filter date at inventory list
+    When user redirects to inbound menu
+    And user clicks create new inbound request button
+    And user creates a new inbound Source Request
+    And user applies "created Source ID" to find related inbound Request
+    And user clicks the first data on inbound Request table
+    And user click create Receipt data at inbound Request detail page
+    And user submits created inbound Receipt
+    
+    When user redirects to inventory menu
+    And user applies "today's date" as filter date at inventory list
     Then query param for "input" "updated_at" should be added to inventory list URL
     And user should only able to see SKU with "today" "last updated"
     

@@ -1,7 +1,15 @@
-import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import ReceiptDetailPage from "../../page_objects/inbound/receiptDetailPage";
 
 const receiptDetailPage = new ReceiptDetailPage();
+
+Given("user submits created inbound Receipt", () => {
+  receiptDetailPage.downloadPrintableDoc();
+  receiptDetailPage.selectExpDate("Tidak Tersedia");
+  receiptDetailPage.setAttachment("Surat Jalan");
+  receiptDetailPage.submitReceipt();
+  receiptDetailPage.confirmReceiptSubmission();
+});
 
 When(
   "user selects {string} as expiry date on inbound Receipt form",
