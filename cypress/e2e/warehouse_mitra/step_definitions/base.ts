@@ -40,6 +40,10 @@ When("user chooses menu Barang Keluar", () => {
   basePage.clickMenuOutbound();
 });
 
+When("user redirects to inventory menu", () => {
+  basePage.clickInventoryMenu();
+});
+
 Then("user should be logged out", () => {
   basePage.logout();
 });
