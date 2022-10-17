@@ -2,7 +2,9 @@ Feature: Customer
 
   Background: 
     Given user "8408418423" is logged in
+    And user prepares test data
     And user visits customer page
+
   
   Scenario: User adds new customer without piutang settings
     When user click tambah pelanggan button
@@ -26,4 +28,19 @@ Feature: Customer
     Then pelanggan berhasil ditambahkan is displayed
     Then user deletes test data
 
-   
+  Scenario: User updates customer name, address & phone number
+    When user click customer name "Update Pelanggan Automation" on customer list
+    And user click ubah text button
+    And user type new customer name
+    And user type new customer phone number
+    And user type customer new address
+    And user click on simpan buttons
+    Then data pelanggan berhasil diubah is displayed
+
+  Scenario: User deletes customer
+    When user click customer name "Delete Pelanggan Automation" on customer list
+    And user click ubah text button 
+    And user click hapus button on edit customer modal
+    And user click yes button on confirmation modal
+    Then data pelanggan berhasil dihapus is displayed
+    Then user deletes test data
