@@ -49,11 +49,6 @@ export default class InventoryListPage extends BaseListPage {
     cy.get(this.hideZeroQtyToggle).click();
   }
 
-  setPageAmount(value: string) {
-    cy.get(this.pageAmountDropdown).click();
-    cy.get(this.pageAmountDropdownOptions).contains(value).click();
-  }
-
   assertInventoryBySearchFilter(target: string, keyword: string) {
     let element = "";
     let expectedHasZeroQty = false;
