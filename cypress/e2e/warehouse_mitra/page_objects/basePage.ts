@@ -14,6 +14,10 @@ export default class BasePage {
 
   dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
 
+  datepickerItem = '[role="gridcell"]';
+  monthpickerItem = "button.PrivatePickersMonth-root";
+  yearpickerItem = "button.PrivatePickersYear-yearButton";
+
   navigate(path: string) {
     cy.visit(this.baseUrl + path);
   }
@@ -92,5 +96,12 @@ export default class BasePage {
       }
     });
     cy.get(this.sidebarSubMenuButton).contains("Daftar Inventori").click();
+  }
+
+  setDatepicker(element: string, date: string, month: string, year: string) {
+    cy.get(element).click();
+    cy.get(this.datepickerItem).contains(date).click();
+    cy.get(this.monthpickerItem).contains(month).click();
+    cy.get(this.yearpickerItem).contains(year).click();
   }
 }

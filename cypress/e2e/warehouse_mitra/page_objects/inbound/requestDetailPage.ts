@@ -34,8 +34,8 @@ export default class RequestDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[2]';
 
   invokeRequestDetail() {
-    cy.xpath(this.sourceIDInfo).invoke("text").as("requestDetailSourceID");
     cy.xpath(this.requestIDInfo).invoke("text").as("requestDetailRequestID");
+    cy.xpath(this.sourceIDInfo).invoke("text").as("requestDetailSourceID");
     cy.xpath(this.sourceTypeInfo).invoke("text").as("requestDetailSourceType");
     cy.xpath(this.targetStoreInfo)
       .invoke("text")

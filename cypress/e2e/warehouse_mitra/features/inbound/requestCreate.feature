@@ -6,19 +6,21 @@ Feature: Create Inbound Source
 
   Scenario: Fail to create a new inbound Source/Request with null form
     And user clicks create new inbound request button
+    Then user should be at inbound Request form
     And user clicks new inbound request form submission button
     Then empty error messages for single Request should appear at create new inbound Request form
     When user logs out from WMS
 
   Scenario: User successfully create a new inbound Source/Request
     And user clicks create new inbound request button
+    Then user should be at inbound Request form
     And user fills inbound Source ID at new inbound request form
     And user selects the first options of <storeKeyword> on store name dropdown at new inbound request form
     And user selects <inboundType> as inbound type at new inbound request form
     And user selects the first options of <warehouseKeyword> on warehouse name dropdown at new inbound request form
     And user selects the first options of <targetStoreKeyword> on target store name dropdown at new inbound request form
-    And user selects date <sourceDate> as Source date at new inbound request form
-    And user selects date <deliveryDate> as delivery date at new inbound request form
+    And user selects <sourceDate> date, "Jun" month, "2021" year, as Source date at new inbound request form
+    And user selects <deliveryDate> date, "Jul" month, "2022" year, as delivery date at new inbound request form
     And user selects <deliveryMethod> as delivery method at new inbound request form
     And user selects the first options of <productName> as first product name at new inbound request form
     And user inputs <productQty> as first product amount at new inbound request form
@@ -39,4 +41,4 @@ Feature: Create Inbound Source
 
     Examples:
       | inboundType | storeKeyword  | warehouseKeyword  | targetStoreKeyword  | sourceDate  | deliveryDate | deliveryMethod | productName | productQty |
-      | "Pembelian" | "Faris"       | "Warehouse"       | "Faris"             | 11          | 22           | "SELF PICKUP"  | "Indo"      | 20         |
+      | "Pembelian" | "Faris"       | "Warehouse"       | "Faris"             | "11"        | "22"         | "SELF PICKUP"  | "Indo"      | 20         |

@@ -9,8 +9,8 @@ Given("user creates a new inbound Source Request", () => {
   requestFormPage.setSourceType("Retur");
   requestFormPage.setWarehouse("Warehouse");
   requestFormPage.setTargetStore("Faris");
-  requestFormPage.setSourceDate(13);
-  requestFormPage.setDeliveryDate(23);
+  requestFormPage.setSourceDate("13", "Jan", "2022");
+  requestFormPage.setDeliveryDate("23", "Nov", "2023");
   requestFormPage.setDeliveryMethod("STORE COURIER");
   requestFormPage.setRequestFirstProductName("Beng");
   requestFormPage.setRequestFirstProductAmount(10);
@@ -50,16 +50,16 @@ When(
 );
 
 When(
-  "user selects date {int} as Source date at new inbound request form",
-  (sourceDate: number) => {
-    requestFormPage.setSourceDate(sourceDate);
+  "user selects {string} date, {string} month, {string} year, as Source date at new inbound request form",
+  (date: string, month: string, year: string) => {
+    requestFormPage.setSourceDate(date, month, year);
   }
 );
 
 When(
-  "user selects date {int} as delivery date at new inbound request form",
-  (deliveryDate: number) => {
-    requestFormPage.setDeliveryDate(deliveryDate);
+  "user selects {string} date, {string} month, {string} year, as delivery date at new inbound request form",
+  (date: string, month: string, year: string) => {
+    requestFormPage.setDeliveryDate(date, month, year);
   }
 );
 
@@ -93,6 +93,11 @@ When(
 
 When("user clicks new inbound request form submission button", () => {
   requestFormPage.submitRequestForm();
+});
+
+When("user should be at inbound Request form", () => {
+  expect(cy.get(requestFormPage.sourceIDField).should("be.visible"));
+  expect(cy.url().should("contain", requestFormPage.path));
 });
 
 Then(

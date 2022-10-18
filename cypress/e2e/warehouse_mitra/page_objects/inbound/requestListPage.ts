@@ -4,34 +4,47 @@ export default class RequestListPage extends InboundBaseListPage {
   path = "/inventory/inbound/request/list";
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
   requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';
-  requestItemSourceIDPointer = "/td[1]/div[1]";
-  requestItemSourceTypePointer = "/td[1]/div[2]";
-  requestItemRequestIDPointer = "/td[2]/a/div[1]";
-  requestItemSupplierStorePointer = "/td[3]/div";
-  requestItemDeliveryMethodPointer = "/td[4]/div";
-  requestItemDeliveryDatePointer = "/td[2]/a/div[2]/span";
-  requestItemStatusPointer = "/td[5]/span/span[2]";
-  requestItemFirstElementPointer = "/tr[1]";
-  firstRequestItemSourceID = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSourceIDPointer
+  requestItemSourceIDXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[1]/div[1]";
+  requestItemSourceTypeXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[1]/div[2]";
+  requestItemRequestIDXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[2]/a/div[1]";
+  requestItemSupplierStoreXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[3]/div";
+  requestItemDeliveryMethodXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[4]/div";
+  requestItemDeliveryDateXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[2]/a/div[2]/span";
+  requestItemStatusXPath =
+    this.requestItemListBody + "/tr[{{index}}]/td[5]/span/span[2]";
+  firstRequestItemSourceID = this.utils.replaceElementIndex(
+    this.requestItemSourceIDXPath,
+    1
   );
-  firstRequestItemSourceType = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSourceTypePointer
+  firstRequestItemSourceType = this.utils.replaceElementIndex(
+    this.requestItemSourceTypeXPath,
+    1
   );
-  firstRequestItemRequestID = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemRequestIDPointer
+  firstRequestItemRequestID = this.utils.replaceElementIndex(
+    this.requestItemRequestIDXPath,
+    1
   );
-  firstRequestItemTargetStore = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSupplierStorePointer
+  firstRequestItemTargetStore = this.utils.replaceElementIndex(
+    this.requestItemSupplierStoreXPath,
+    1
   );
-  firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemDeliveryMethodPointer
+  firstRequestItemDeliveryMethod = this.utils.replaceElementIndex(
+    this.requestItemDeliveryMethodXPath,
+    1
   );
-  firstRequestItemDeliveryDate = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemDeliveryDatePointer
+  firstRequestItemDeliveryDate = this.utils.replaceElementIndex(
+    this.requestItemDeliveryDateXPath,
+    1
   );
-  firstRequestItemStatus = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemStatusPointer
+  firstRequestItemStatus = this.utils.replaceElementIndex(
+    this.requestItemStatusXPath,
+    1
   );
 
   waitSearchRender() {
@@ -135,34 +148,35 @@ export default class RequestListPage extends InboundBaseListPage {
   }
 
   assertRequestItemsBySearchFilter(target: string, value: string) {
-    let pointer = "";
+    let element = "";
     this.waitSearchRender();
 
     switch (target) {
       case "source ID":
-        pointer = this.requestItemSourceIDPointer;
+        element = this.requestItemSourceIDXPath;
         break;
       case "request ID":
-        pointer = this.requestItemRequestIDPointer;
+        element = this.requestItemRequestIDXPath;
         break;
       case "supplier store":
-        pointer = this.requestItemSupplierStorePointer;
+        element = this.requestItemSupplierStoreXPath;
         break;
       case "status":
-        pointer = this.requestItemStatusPointer;
+        element = this.requestItemStatusXPath;
         break;
       case "delivery method":
-        pointer = this.requestItemDeliveryMethodPointer;
+        element = this.requestItemDeliveryMethodXPath;
         break;
       case "delivery date":
-        pointer = this.requestItemDeliveryDatePointer;
+        element = this.requestItemDeliveryDateXPath;
         break;
     }
 
     cy.xpath(this.requestItemListBody).then(($list) => {
       for (let index = 1; index < $list.find("tr").length + 1; index++) {
-        const requestItemAttribute = this.requestItemListBody.concat(
-          "/tr[" + index + "]" + pointer
+        const requestItemAttribute = this.utils.replaceElementIndex(
+          element,
+          index
         );
         expect(cy.xpath(requestItemAttribute).should("contain", value));
       }

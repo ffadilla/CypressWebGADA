@@ -51,11 +51,6 @@ export default class InboundBaseListPage extends BaseListPage {
     );
   }
 
-  setPageAmount(value: string) {
-    cy.get(this.pageAmountDropdown).click();
-    cy.get(this.pageAmountDropdownOptions).contains(value).click();
-  }
-
   clickStatusChip(status: string) {
     cy.intercept("GET", "/inbound/**").as("inboundListAPI");
     cy.get(this.chipContainer).contains(status).click();
@@ -81,15 +76,6 @@ export default class InboundBaseListPage extends BaseListPage {
         expectedValue = "";
     }
     this.assertQueryParam("status", expectedValue);
-  }
-
-  assertTotalPageAmount(value: string) {
-    cy.get(this.tablePaginationInfoContainer)
-      .invoke("text")
-      .then((text) => {
-        let dataPerPage = parseInt(text.split(" ")[1].split("-")[1]);
-        expect(dataPerPage).to.be.lessThan(parseInt(value) + 1);
-      });
   }
 
   assertEmptyList() {

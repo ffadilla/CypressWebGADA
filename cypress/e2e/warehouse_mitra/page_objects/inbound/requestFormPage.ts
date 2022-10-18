@@ -102,15 +102,13 @@ export default class RequestFormPage extends BasePage {
       .as("inboundFormTargetStoreAddress");
   }
 
-  setSourceDate(date: number) {
-    cy.get(this.sourceDateField).click();
-    cy.get(this.datepickerItem).contains(date).click();
+  setSourceDate(date: string, month: string, year: string) {
+    this.setDatepicker(this.sourceDateField, date, month, year);
     cy.get(this.sourceDateField).invoke("val").as("inboundFormSourceDate");
   }
 
-  setDeliveryDate(date: number) {
-    cy.get(this.deliveryDateField).click();
-    cy.get(this.datepickerItem).contains(date).click();
+  setDeliveryDate(date: string, month: string, year: string) {
+    this.setDatepicker(this.deliveryDateField, date, month, year);
     cy.get(this.deliveryDateField).invoke("val").as("inboundFormDeliveryDate");
   }
 
