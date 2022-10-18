@@ -15,17 +15,20 @@ When(
         requestListPage.setSearchKeyword(String(sourceID));
       });
     } else requestListPage.setSearchKeyword(keyword);
+    requestListPage.waitSearchRender();
   }
 );
 
 When("user resets any applied keyword filter at inbound Request list", () => {
   requestListPage.resetSearchKeyword();
+  requestListPage.waitSearchRender();
 });
 
 When(
   "user applies {string} as delivery date filter at inbound Request list",
   (deliveryDate: string) => {
     requestListPage.setDeliveryDateFilter(deliveryDate);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -33,6 +36,7 @@ When(
   "user resets any applied delivery date filter at inbound Request list",
   () => {
     requestListPage.resetDeliveryDate();
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -40,6 +44,7 @@ When(
   "user applies {string} as delivery method filter at inbound Request list",
   (deliveryMethod: string) => {
     requestListPage.setDeliveryMethodFilter(deliveryMethod);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -47,6 +52,7 @@ When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
     requestListPage.clickStatusChip(status);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -54,6 +60,7 @@ When(
   "user applies {string} as page amount at inbound Request list",
   (value: string) => {
     requestListPage.setPageAmount(value);
+    requestListPage.waitSearchRender();
   }
 );
 

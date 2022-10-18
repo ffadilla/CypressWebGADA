@@ -5,37 +5,40 @@ export default class SourceDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/request/source/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
 
-  sourceIDInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[1]/h3';
-  sourceTypeInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[1]/p[2]';
-  sourceDateInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[2]/p[2]';
-  storeNameInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[3]/p[2]';
-  warehouseNameInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[4]/p[2]';
-  targetStoreNameInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[5]/p[2]';
-  targetStoreAddressInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[2]/div[6]/p[2]';
-  sourceProductNameInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[5]/div[2]/div[1]/p[2]';
-  sourceProductQuantityInfo =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[1]/div[2]/div[5]/div[2]/div[2]/div/p';
-  sourceRequestListContainer =
-    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/div[2]';
+  sourceIDInfoXPath =
+    '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/form/div/div/div[2]/div[1]/h3';
+
+  sourceDataContainerXPath =
+    '(//div[contains(@class, "MuiGrid-container")])[1]';
+  sourceTypeInfoXPath = this.sourceDataContainerXPath + "/div[1]/p[2]";
+  sourceDateInfoXPath = this.sourceDataContainerXPath + "/div[2]/p[2]";
+  storeNameInfoXPath = this.sourceDataContainerXPath + "/div[3]/p[2]";
+  warehouseNameInfoXPath = this.sourceDataContainerXPath + "/div[4]/p[2]";
+  targetstoreNameInfoXPath = this.sourceDataContainerXPath + "/div[5]/p[2]";
+  targetStoreAddressInfoXPath = this.sourceDataContainerXPath + "/div[6]/p[2]";
+
+  sourceProductContainerXPath =
+    '(//div[contains(@class, "MuiGrid-container")])[3]';
+  sourceProductNameInfoXPath =
+    this.sourceProductContainerXPath + "/div[1]/p[2]";
+  sourceProductQuantityInfoXPath =
+    this.sourceProductContainerXPath + "/div[2]/div/p";
   requestHeaderContainer = ".productInfo";
-  requestDeliveryMethodContainer =
-    ".formRequestBox > div > :nth-child(1) > :nth-child(2)";
-  requestDeliveryDateContainer =
-    ".formRequestBox > div > :nth-child(2) > :nth-child(2)";
-  requestProductNameContainer =
-    ":nth-child(2) > div > :nth-child(2) > :nth-child(1)";
-  nonCompletedRequestProductQtyContainer =
-    ":nth-child(2) > div > :nth-child(2) > :nth-child(2)";
-  completedRequestProductQtyContainer =
-    ":nth-child(2) > div > :nth-child(2) > :nth-child(3)";
+  requestDeliveryContainer = ".formRequestBox";
+  requestDeliveryMethodInfo =
+    this.requestDeliveryContainer + "> div > :nth-child(1) > :nth-child(2)";
+  requestDeliveryDateInfo =
+    this.requestDeliveryContainer + "> div > :nth-child(2) > :nth-child(2)";
+
+  requestProductDataContainerXPath =
+    '(//div[contains(@class, "MuiGrid-container")])[4]';
+  requestProductNameInfoXPath =
+    this.requestProductDataContainerXPath + "/div[1]/p[2]";
+  nonCompletedRequestProductQtyInfoXPath =
+    this.requestProductDataContainerXPath + "/div[2]/p[2]";
+  completedRequestProductQtyInfoXPath =
+    this.requestProductDataContainerXPath + "/div[3]/p[2]";
+
   sourceButtons = ".MuiButtonBase-root";
   cancelPopupContent = ".MuiDialogContent-root";
   cancelPopupButtonContainer = ".MuiDialogActions-root";
@@ -59,19 +62,19 @@ export default class SourceDetailPage extends BaseDetailPage {
   historyAllocatedQty =
     this.historyAccordionContent +
     "> div > div > :nth-child(1) >  :nth-child(2) > div > :nth-child(3) > div > :nth-child(2) > div > div";
-  inboundAttachmentField =
+  inboundAttachmentFieldXPath =
     '//*[@id="panel1a-content"]/div/div/div[2]/div/div[1]/div/div';
-  RPBAttachmentField =
+  RPBAttachmentFieldXPath =
     '//*[@id="panel1a-content"]/div/div/div[2]/div/div[2]/div/div';
-  vehicleAttachmentField =
+  vehicleAttachmentFieldXPath =
     '//*[@id="panel1a-content"]/div/div/div[2]/div/div[3]/div/div';
-  goodsAttachmentField =
+  goodsAttachmentFieldXPath =
     '//*[@id="panel1a-content"]/div/div/div[2]/div/div[4]/div/div';
-  additionalAttachmentField =
+  additionalAttachmentFieldXPath =
     '//*[@id="panel1a-content"]/div/div/div[2]/div/div[4]/div/div';
 
   invokeSourceDetail() {
-    cy.xpath(this.sourceIDInfo).invoke("text").as("sourceDetailSourceID");
+    cy.xpath(this.sourceIDInfoXPath).invoke("text").as("sourceDetailSourceID");
   }
 
   cancelSource() {
@@ -108,23 +111,23 @@ export default class SourceDetailPage extends BaseDetailPage {
     let expectedAttachmentURL = "";
     switch (value) {
       case "Surat Jalan":
-        expectedAttachmentXPath = this.inboundAttachmentField;
+        expectedAttachmentXPath = this.inboundAttachmentFieldXPath;
         expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/INBOUND_PICTURE/**";
         break;
       case "RPB":
-        expectedAttachmentXPath = this.RPBAttachmentField;
+        expectedAttachmentXPath = this.RPBAttachmentFieldXPath;
         expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/RPB_PICTURE/**";
         break;
       case "Plat Kendaraan":
-        expectedAttachmentXPath = this.vehicleAttachmentField;
+        expectedAttachmentXPath = this.vehicleAttachmentFieldXPath;
         expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/VEHICLE_PICTURE/**";
         break;
       case "Kiriman Barang":
-        expectedAttachmentXPath = this.goodsAttachmentField;
+        expectedAttachmentXPath = this.goodsAttachmentFieldXPath;
         expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/GOODS_PICTURE/**";
         break;
       case "Dokumen Lainnya":
-        expectedAttachmentXPath = this.additionalAttachmentField;
+        expectedAttachmentXPath = this.additionalAttachmentFieldXPath;
         expectedAttachmentURL = "/IMAGE_UPLOAD/INBOUND/ADDITIONAL_FILE/**";
         break;
     }
@@ -141,10 +144,10 @@ export default class SourceDetailPage extends BaseDetailPage {
 
   assertSourceUI(requestStatus: string) {
     if (requestStatus === "Dibatalkan") {
-      expect(cy.xpath(this.sourceRequestListContainer).should("not.exist"));
+      expect(cy.get(this.requestHeaderContainer).should("not.exist"));
       expect(cy.xpath(this.historicalReceptionContainer).should("not.exist"));
     } else {
-      expect(cy.xpath(this.sourceRequestListContainer).should("exist"));
+      expect(cy.get(this.requestHeaderContainer).should("exist"));
       if (requestStatus === "Sudah Selesai" || hasCompletedRequest()) {
         expect(cy.xpath(this.historicalReceptionContainer).should("exist"));
       } else {
@@ -156,8 +159,7 @@ export default class SourceDetailPage extends BaseDetailPage {
   assertRequestData(requestStatus: string) {
     cy.get("@requestDetailRequestID").then((requestID) => {
       let processedRequestID = String(requestID).trim().split(" - ")[0];
-      cy.xpath(this.sourceRequestListContainer)
-        .find(this.requestHeaderContainer)
+      cy.get(this.requestHeaderContainer)
         .contains(processedRequestID)
         .parent()
         .parent()
@@ -172,7 +174,7 @@ export default class SourceDetailPage extends BaseDetailPage {
           cy.get("@requestDetailDeliveryMethod").then((deliveryMethod) => {
             expect(
               cy
-                .get(this.requestDeliveryMethodContainer)
+                .get(this.requestDeliveryMethodInfo)
                 .should("contain", deliveryMethod)
             );
           });
@@ -191,7 +193,7 @@ export default class SourceDetailPage extends BaseDetailPage {
           cy.get("@requestDetailProductName").then((productName) => {
             expect(
               cy
-                .get(this.requestProductNameContainer)
+                .xpath(this.requestProductNameInfoXPath)
                 .should("contain", productName)
             );
           });
@@ -199,16 +201,16 @@ export default class SourceDetailPage extends BaseDetailPage {
             cy.get("@requestDetailProductQty").then((productQty) => {
               expect(
                 cy
-                  .get(this.completedRequestProductQtyContainer)
-                  .should("contain", productQty)
+                  .xpath(this.completedRequestProductQtyInfoXPath)
+                  .should("contain", String(productQty).split(" ")[0])
               );
             });
           } else {
             cy.get("@requestDetailProductQty").then((productQty) => {
               expect(
                 cy
-                  .get(this.nonCompletedRequestProductQtyContainer)
-                  .should("contain", productQty)
+                  .xpath(this.nonCompletedRequestProductQtyInfoXPath)
+                  .should("contain", String(productQty).split(" ")[0])
               );
             });
           }
@@ -218,11 +220,11 @@ export default class SourceDetailPage extends BaseDetailPage {
 
   assertSourceDataByRequestDetail(requestStatus: string) {
     cy.get("@requestDetailSourceID").then((sourceID) => {
-      expect(cy.xpath(this.sourceIDInfo).should("contain", sourceID));
+      expect(cy.xpath(this.sourceIDInfoXPath).should("contain", sourceID));
     });
     /*
        * FE still render incorrect format
-      cy.xpath(this.sourceTypeInfo)
+      cy.xpath(this.sourceTypeInfoXPath)
         .invoke("text")
         .then((actualSourceType) => {
           expect(
@@ -231,13 +233,17 @@ export default class SourceDetailPage extends BaseDetailPage {
         });
         */
     cy.get("@requestDetailStoreName").then((storeName) => {
-      expect(cy.xpath(this.storeNameInfo).should("contain", storeName));
+      expect(cy.xpath(this.storeNameInfoXPath).should("contain", storeName));
     });
     cy.get("@requestDetailWarehouseName").then((warehouseName) => {
-      expect(cy.xpath(this.warehouseNameInfo).should("contain", warehouseName));
+      expect(
+        cy.xpath(this.warehouseNameInfoXPath).should("contain", warehouseName)
+      );
     });
     cy.get("@requestDetailTargetStore").then((targetStore) => {
-      expect(cy.xpath(this.targetStoreNameInfo).should("contain", targetStore));
+      expect(
+        cy.xpath(this.targetstoreNameInfoXPath).should("contain", targetStore)
+      );
     });
 
     if (requestStatus === "Dibatalkan") return;
@@ -246,9 +252,9 @@ export default class SourceDetailPage extends BaseDetailPage {
 
   assertSourceDataByInboundForm() {
     cy.get("@inboundFormSourceID").then((sourceID) => {
-      expect(cy.xpath(this.sourceIDInfo).should("contain", sourceID));
+      expect(cy.xpath(this.sourceIDInfoXPath).should("contain", sourceID));
     });
-    cy.xpath(this.sourceTypeInfo)
+    cy.xpath(this.sourceTypeInfoXPath)
       .invoke("text")
       .then((actualSourceType) => {
         expect(
@@ -256,12 +262,14 @@ export default class SourceDetailPage extends BaseDetailPage {
         );
       });
     cy.get("@inboundFormStoreName").then((storeName) => {
-      expect(cy.xpath(this.storeNameInfo).should("contain", storeName));
+      expect(cy.xpath(this.storeNameInfoXPath).should("contain", storeName));
     });
     cy.get("@inboundFormWarehouseName").then((warehouseName) => {
-      expect(cy.xpath(this.warehouseNameInfo).should("contain", warehouseName));
+      expect(
+        cy.xpath(this.warehouseNameInfoXPath).should("contain", warehouseName)
+      );
     });
-    cy.xpath(this.targetStoreNameInfo)
+    cy.xpath(this.targetstoreNameInfoXPath)
       .invoke("text")
       .then((actualTargetStoreName) => {
         expect(
@@ -273,7 +281,7 @@ export default class SourceDetailPage extends BaseDetailPage {
     cy.get("@inboundFormTargetStoreAddress").then((targetStoreAddress) => {
       expect(
         cy
-          .xpath(this.targetStoreAddressInfo)
+          .xpath(this.targetStoreAddressInfoXPath)
           .should("contain", targetStoreAddress)
       );
     });
@@ -285,10 +293,12 @@ export default class SourceDetailPage extends BaseDetailPage {
         "DD MMM YYYY"
       );
       expect(
-        cy.xpath(this.sourceDateInfo).should("contain", formattedSourceDate)
+        cy
+          .xpath(this.sourceDateInfoXPath)
+          .should("contain", formattedSourceDate)
       );
     });
-    cy.xpath(this.sourceProductNameInfo)
+    cy.xpath(this.sourceProductNameInfoXPath)
       .invoke("text")
       .then((actualProductName) => {
         expect(
@@ -297,7 +307,7 @@ export default class SourceDetailPage extends BaseDetailPage {
             .should("contain", actualProductName)
         );
       });
-    cy.xpath(this.sourceProductQuantityInfo)
+    cy.xpath(this.sourceProductQuantityInfoXPath)
       .invoke("text")
       .then((actualProductQty) => {
         expect(

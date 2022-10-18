@@ -34,6 +34,10 @@ export default class RequestListPage extends InboundBaseListPage {
     this.requestItemFirstElementPointer + this.requestItemStatusPointer
   );
 
+  waitSearchRender() {
+    cy.xpath(this.firstRequestItemStatus).should("be.visible");
+  }
+
   clickCreateNewRequest() {
     cy.wait(500); //TODO: Request implement test-id on FE
     cy.get(this.inboundListButtons).contains("Permintaan Barang Masuk").click();
@@ -132,11 +136,7 @@ export default class RequestListPage extends InboundBaseListPage {
 
   assertRequestItemsBySearchFilter(target: string, value: string) {
     let pointer = "";
-    let firstRequestItemStatus = this.requestItemListBody.concat(
-      this.requestItemFirstElementPointer + this.requestItemStatusPointer
-    );
-
-    cy.xpath(firstRequestItemStatus).should("be.visible");
+    this.waitSearchRender();
 
     switch (target) {
       case "source ID":
