@@ -18,7 +18,7 @@ export default class SourceDetailPage extends BaseDetailPage {
   targetStoreAddressInfoXPath = this.sourceDataContainerXPath + "/div[6]/p[2]";
 
   sourceProductContainerXPath =
-    '(//div[contains(@class, "MuiGrid-container")])[3]';
+    '(//div[contains(@class, "MuiGrid-container")])[2]';
   sourceProductNameInfoXPath =
     this.sourceProductContainerXPath + "/div[1]/p[2]";
   sourceProductQuantityInfoXPath =
