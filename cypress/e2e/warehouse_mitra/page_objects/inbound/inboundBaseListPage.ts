@@ -1,6 +1,6 @@
-import BasePage from "../basePage";
+import BaseListPage from "../baseListPage";
 
-export default class BaseListPage extends BasePage {
+export default class InboundBaseListPage extends BaseListPage {
   searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";

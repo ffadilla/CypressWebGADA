@@ -1,6 +1,6 @@
-import BaseListPage from "./baseListPage";
+import InboundBaseListPage from "./inboundBaseListPage";
 
-export default class RequestListPage extends BaseListPage {
+export default class RequestListPage extends InboundBaseListPage {
   path = "/inventory/inbound/request/list";
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
   requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';

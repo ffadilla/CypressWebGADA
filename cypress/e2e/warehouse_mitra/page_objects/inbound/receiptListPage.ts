@@ -1,6 +1,6 @@
-import BaseListPage from "./baseListPage";
+import InboundBaseListPage from "./inboundBaseListPage";
 
-export default class ReceiptListPage extends BaseListPage {
+export default class ReceiptListPage extends InboundBaseListPage {
   path = "/inventory/inbound/receipt/list";
   createReceiptWarehouseNameDropdown =
     'input[placeholder="Pilih lokasi gudang"]';

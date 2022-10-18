@@ -9,8 +9,6 @@ export default class BasePage {
   xPathAccountDropdown = '//*[@id="__next"]/div/div[3]/div[1]/div[2]';
   logoutDropdownItem = "/html/body/div[4]/div[3]/ul/li[3]";
   sidebarMenuButton = ".MuiListItemButton-root";
-  inventoryMenuButton =
-    '//*[@id="__next"]/div/div[2]/div/div/div/nav/div[1]/div[3]';
   sidebarSubMenuButton = ".MuiCollapse-root";
   outboundMenuButton = "//div[2]/div/div/div/nav/div[1]/a[3]";
 
@@ -46,9 +44,7 @@ export default class BasePage {
   clickInboundRequestMenu() {
     cy.wait(1000);
     cy.url().then((url) => {
-      if (
-        !url.includes("https://warehouse-dev.gudangada.com/inventory/inbound/")
-      ) {
+      if (!url.includes(this.baseUrl + "inventory/inbound/")) {
         cy.get(this.sidebarMenuButton)
           .find("span")
           .contains("Barang Masuk")
@@ -64,9 +60,7 @@ export default class BasePage {
   clickInboundReceiptMenu() {
     cy.wait(1000);
     cy.url().then((url) => {
-      if (
-        !url.includes("https://warehouse-dev.gudangada.com/inventory/inbound/")
-      ) {
+      if (!url.includes(this.baseUrl + "inventory/inbound/")) {
         cy.get(this.sidebarMenuButton)
           .find("span")
           .contains("Barang Masuk")
@@ -86,14 +80,17 @@ export default class BasePage {
 
   clickInventoryMenu() {
     cy.wait(1000);
-    cy.xpath(this.inventoryMenuButton)
-      .find("svg")
-      .last()
-      .then((element) => {
-        if (element.attr("data-testid") === "ExpandMoreRoundedIcon") {
-          cy.xpath(this.inventoryMenuButton).click();
-        }
-      });
+    cy.url().then((url) => {
+      if (
+        !url.includes(this.baseUrl + "inventory/list/") ||
+        !url.includes(this.baseUrl + "inventory/detail/")
+      ) {
+        cy.get(this.sidebarMenuButton)
+          .find("span")
+          .contains("Inventori")
+          .click();
+      }
+    });
     cy.get(this.sidebarSubMenuButton).contains("Daftar Inventori").click();
   }
 }
