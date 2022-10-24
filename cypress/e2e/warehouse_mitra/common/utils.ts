@@ -17,5 +17,5 @@ export function padTo2Digits(num: number): string {
 }
 
 export function replaceElementIndex(selector: string, index: number): string {
-  return selector.replace("{{index}}", index.toString());
+  return selector.replace("index", index.toString());
 }

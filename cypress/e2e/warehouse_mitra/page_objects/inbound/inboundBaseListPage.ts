@@ -13,8 +13,8 @@ export default class InboundBaseListPage extends BaseListPage {
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
-  emptyResultText =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div/div';
+  notFoundRequestText = '[data-testid="empty_request_result"]';
+  notFoundReceiptText = '[data-testid="empty_receipt_result"]';
   snackbar = "#notistack-snackbar";
   inboundListButtons = ".MuiButtonBase-root";
 
@@ -78,19 +78,23 @@ export default class InboundBaseListPage extends BaseListPage {
   }
 
   assertEmptyList() {
-    expect(
-      cy
-        .xpath(this.emptyResultText)
-        .should("contain", "Pencarian Tidak Ditemukan")
-    );
-    expect(
-      cy
-        .xpath(this.emptyResultText)
-        .should(
-          "contain",
-          "Silakan ganti filter/kata kunci lain yang lebih sesuai."
-        )
-    );
+    cy.url().then((url) => {
+      let pointer = "";
+      if (url.includes("/inventory/inbound/request/list"))
+        pointer = this.notFoundRequestText;
+      if (url.includes("/inventory/inbound/receipt/list"))
+        pointer = this.notFoundReceiptText;
+
+      expect(cy.get(pointer).should("contain", "Pencarian Tidak Ditemukan"));
+      expect(
+        cy
+          .get(pointer)
+          .should(
+            "contain",
+            "Silakan ganti filter/kata kunci lain yang lebih sesuai."
+          )
+      );
+    });
   }
 
   assertSnackbar(value: string) {

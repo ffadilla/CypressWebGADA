@@ -5,19 +5,22 @@ export default class RequestListPage extends InboundBaseListPage {
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
   requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';
   requestItemSourceIDXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[1]/div[1]";
+    this.requestItemListBody + "/tr[index]/td[1]/div[1]";
   requestItemSourceTypeXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[1]/div[2]";
+    this.requestItemListBody + "/tr[index]/td[1]/div[2]";
   requestItemRequestIDXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[2]/a/div[1]";
+    this.requestItemListBody + "/tr[index]/td[2]/a/div[1]";
   requestItemSupplierStoreXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[3]/div";
+    this.requestItemListBody + "/tr[index]/td[3]/div";
   requestItemDeliveryMethodXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[4]/div";
-  requestItemDeliveryDateXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[2]/a/div[2]/span";
+    this.requestItemListBody + "/tr[index]/td[4]/div";
+  requestItemDeliveryDate = '[data-testid="inbound_list[index].delivery_date"]';
+  requestItemReceiptID = '[data-testid="inbound_list[index].receipt_id"]';
   requestItemStatusXPath =
-    this.requestItemListBody + "/tr[{{index}}]/td[5]/span/span[2]";
+    this.requestItemListBody + "/tr[index]/td[5]/span/span[2]";
+  requestItemLastUpdated =
+    '[data-testid="inbound_list[index].last_updated_time"]';
+
   firstRequestItemSourceID = this.utils.replaceElementIndex(
     this.requestItemSourceIDXPath,
     1
@@ -39,8 +42,8 @@ export default class RequestListPage extends InboundBaseListPage {
     1
   );
   firstRequestItemDeliveryDate = this.utils.replaceElementIndex(
-    this.requestItemDeliveryDateXPath,
-    1
+    this.requestItemDeliveryDate,
+    0
   );
   firstRequestItemStatus = this.utils.replaceElementIndex(
     this.requestItemStatusXPath,
@@ -48,24 +51,21 @@ export default class RequestListPage extends InboundBaseListPage {
   );
 
   waitSearchRender() {
+    cy.wait(500);
+    /**
+     * This lines still return inconsitent behavior
+     * 
     cy.intercept("GET", "/inbound/requests/list/?*").as(
       "inboundRequestListAPI"
     );
     cy.wait("@inboundRequestListAPI").then((API) => {
       const responseBody = API.response?.body;
-      cy.log(
-        responseBody.total_data +
-          " " +
-          responseBody.total_page +
-          " " +
-          responseBody.page +
-          " " +
-          responseBody.results.length
-      );
       if (responseBody.total_data === 0)
-        cy.xpath(this.emptyResultText).should("be.visible");
+        cy.get(this.notFoundRequestText).should("be.visible");
       else cy.xpath(this.firstRequestItemStatus).should("be.visible");
     });
+     *
+     */
   }
 
   clickCreateNewRequest() {
@@ -90,7 +90,7 @@ export default class RequestListPage extends InboundBaseListPage {
     cy.xpath(this.firstRequestItemDeliveryMethod)
       .invoke("text")
       .as("requestListDeliveryMethod");
-    cy.xpath(this.firstRequestItemDeliveryDate)
+    cy.get(this.firstRequestItemDeliveryDate)
       .invoke("text")
       .as("requestListDeliveryDate");
     cy.xpath(this.firstRequestItemStatus)
@@ -144,7 +144,7 @@ export default class RequestListPage extends InboundBaseListPage {
       );
       expect(
         cy
-          .xpath(this.firstRequestItemDeliveryDate)
+          .get(this.firstRequestItemDeliveryDate)
           .should("contain", formattedDeliveryDate)
       );
     });
@@ -184,7 +184,7 @@ export default class RequestListPage extends InboundBaseListPage {
         element = this.requestItemDeliveryMethodXPath;
         break;
       case "delivery date":
-        element = this.requestItemDeliveryDateXPath;
+        element = this.requestItemDeliveryDate;
         value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         break;
     }
@@ -195,7 +195,9 @@ export default class RequestListPage extends InboundBaseListPage {
           element,
           index
         );
-        expect(cy.xpath(requestItemAttribute).should("contain", value));
+        if (target === "delivery date")
+          expect(cy.get(requestItemAttribute).should("contain", value));
+        else expect(cy.xpath(requestItemAttribute).should("contain", value));
       }
     });
   }
