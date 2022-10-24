@@ -19,8 +19,8 @@ Feature: Create Inbound Source
     And user selects <inboundType> as inbound type at new inbound request form
     And user selects the first options of <warehouseKeyword> on warehouse name dropdown at new inbound request form
     And user selects the first options of <targetStoreKeyword> on target store name dropdown at new inbound request form
-    And user selects <sourceDate> date, "Jun" month, "2021" year, as Source date at new inbound request form
-    And user selects <deliveryDate> date, "Jul" month, "2022" year, as delivery date at new inbound request form
+    And user selects <sourceDate> date, "6" month, "2021" year, as Source date at new inbound request form
+    And user selects <deliveryDate> date, "7" month, "2022" year, as delivery date at new inbound request form
     And user selects <deliveryMethod> as delivery method at new inbound request form
     And user selects the first options of <productName> as first product name at new inbound request form
     And user inputs <productQty> as first product amount at new inbound request form

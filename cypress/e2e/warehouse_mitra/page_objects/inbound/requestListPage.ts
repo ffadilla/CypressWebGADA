@@ -48,7 +48,24 @@ export default class RequestListPage extends InboundBaseListPage {
   );
 
   waitSearchRender() {
-    cy.xpath(this.firstRequestItemStatus).should("be.visible");
+    cy.intercept("GET", "/inbound/requests/list/?*").as(
+      "inboundRequestListAPI"
+    );
+    cy.wait("@inboundRequestListAPI").then((API) => {
+      const responseBody = API.response?.body;
+      cy.log(
+        responseBody.total_data +
+          " " +
+          responseBody.total_page +
+          " " +
+          responseBody.page +
+          " " +
+          responseBody.results.length
+      );
+      if (responseBody.total_data === 0)
+        cy.xpath(this.emptyResultText).should("be.visible");
+      else cy.xpath(this.firstRequestItemStatus).should("be.visible");
+    });
   }
 
   clickCreateNewRequest() {
@@ -149,7 +166,6 @@ export default class RequestListPage extends InboundBaseListPage {
 
   assertRequestItemsBySearchFilter(target: string, value: string) {
     let element = "";
-    this.waitSearchRender();
 
     switch (target) {
       case "source ID":
@@ -169,11 +185,12 @@ export default class RequestListPage extends InboundBaseListPage {
         break;
       case "delivery date":
         element = this.requestItemDeliveryDateXPath;
+        value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         break;
     }
 
     cy.xpath(this.requestItemListBody).then(($list) => {
-      for (let index = 1; index < $list.find("tr").length + 1; index++) {
+      for (let index = 1; index < $list.children().length; index++) {
         const requestItemAttribute = this.utils.replaceElementIndex(
           element,
           index

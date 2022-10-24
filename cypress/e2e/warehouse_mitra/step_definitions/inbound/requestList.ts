@@ -25,9 +25,13 @@ When("user resets any applied keyword filter at inbound Request list", () => {
 });
 
 When(
-  "user applies {string} as delivery date filter at inbound Request list",
-  (deliveryDate: string) => {
-    requestListPage.setDeliveryDateFilter(deliveryDate);
+  "user applies {string} date, {string} month, {string} year as delivery date filter at inbound Request list",
+  (deliveryDate: string, deliveryMonth: string, deliveryYear: string) => {
+    requestListPage.setDeliveryDateFilter(
+      deliveryDate,
+      deliveryMonth,
+      deliveryYear
+    );
     requestListPage.waitSearchRender();
   }
 );
@@ -122,13 +126,7 @@ Then(
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
     else if (attribute === "delivery date") {
-      const expectedDeliveryDate = requestListPage.setExpectedDeliveryDate(
-        parseInt(value)
-      );
-      requestListPage.assertRequestItemsBySearchFilter(
-        "delivery date",
-        expectedDeliveryDate
-      );
+      requestListPage.assertRequestItemsBySearchFilter("delivery date", value);
     } else {
       requestListPage.assertRequestItemsBySearchFilter(attribute, value);
     }

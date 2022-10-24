@@ -7,7 +7,6 @@ export default class InboundBaseListPage extends BaseListPage {
   deliveryMethodDropdown = "#mui-component-select-delivery_method";
   deliveryMethodDropdownItem = 'li[role="option"]';
   deliveryDateFilterButton = 'input[placeholder="Tanggal"]';
-  deliveryDateCell = '[role="gridcell"]';
   deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
   chipContainer = "#chips-container";
@@ -35,9 +34,17 @@ export default class InboundBaseListPage extends BaseListPage {
     cy.get(this.inboundListButtons).contains("Simpan").click();
   }
 
-  setDeliveryDateFilter(deliveryDate: string) {
-    cy.get(this.deliveryDateFilterButton).click();
-    cy.get(this.deliveryDateCell).contains(deliveryDate).click();
+  setDeliveryDateFilter(
+    deliveryDate: string,
+    deliveryMonth: string,
+    deliveryYear: string
+  ) {
+    this.setDatepicker(
+      this.deliveryDateFilterButton,
+      deliveryDate,
+      deliveryMonth,
+      deliveryYear
+    );
   }
 
   resetDeliveryDate() {
@@ -45,16 +52,8 @@ export default class InboundBaseListPage extends BaseListPage {
     cy.get(this.deliveryDateCTAContainer).contains("Reset").click();
   }
 
-  setExpectedDeliveryDate(deliveryDate: number): string {
-    return (
-      "Dikirim " + deliveryDate + this.utils.generateDateTime(0, " MMM YYYY")
-    );
-  }
-
   clickStatusChip(status: string) {
-    cy.intercept("GET", "/inbound/**").as("inboundListAPI");
     cy.get(this.chipContainer).contains(status).click();
-    cy.wait("@inboundListAPI").its("response.statusCode").should("equal", 200);
   }
 
   assertStatusQueryParam(value: string) {

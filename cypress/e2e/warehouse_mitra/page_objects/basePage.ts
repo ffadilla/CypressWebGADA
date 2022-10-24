@@ -14,7 +14,7 @@ export default class BasePage {
 
   dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
 
-  datepickerItem = '[role="gridcell"]';
+  datepickerItem = 'button[role="gridcell"]';
   monthpickerItem = "button.PrivatePickersMonth-root";
   yearpickerItem = "button.PrivatePickersYear-yearButton";
 
@@ -34,13 +34,7 @@ export default class BasePage {
   }
 
   assertDateQueryParam(query: string, value: string) {
-    const queryParam =
-      value === "null"
-        ? ""
-        : query +
-          "=" +
-          this.dateQueryBaseFormat +
-          this.utils.padTo2Digits(parseInt(value));
+    const queryParam = value === "null" ? "" : query + "=" + value;
     expect(cy.url().should("include", queryParam));
   }
 
@@ -100,8 +94,24 @@ export default class BasePage {
 
   setDatepicker(element: string, date: string, month: string, year: string) {
     cy.get(element).click();
-    cy.get(this.datepickerItem).contains(date).click();
-    cy.get(this.monthpickerItem).contains(month).click();
+    cy.get(this.datepickerItem)
+      .eq(parseInt(date) - 1)
+      .click();
+    cy.get(this.monthpickerItem)
+      .eq(parseInt(month) - 1)
+      .click();
     cy.get(this.yearpickerItem).contains(year).click();
+    /**
+     * FE still renders wrong format
+    cy.get(element)
+      .should('have.value',
+      this.utils.reformatDate(
+        year+this.utils.padTo2Digits(parseInt(month))+this.utils.padTo2Digits(parseInt(date)),
+        "YYYYMMDD",
+        "D MMM YYYY"
+      )
+    );
+     *
+     */
   }
 }

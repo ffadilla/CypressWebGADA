@@ -3,7 +3,7 @@ Feature: Get Inbound Source History Data
   Background: 
     Given user already logged in to WMS as "superuser"
     When user redirects to inbound Request menu
-    And user applies "Cyp" to find related inbound Request
+    And user applies "Cyp-" to find related inbound Request
     And user clicks "Sudah Selesai" status chip at inbound Request list
     When user clicks the first data on inbound Request table
     And user clicks Source CTA button at inbound Request detail

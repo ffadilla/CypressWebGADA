@@ -9,8 +9,8 @@ Given("user creates a new inbound Source Request", () => {
   requestFormPage.setSourceType("Retur");
   requestFormPage.setWarehouse("Warehouse");
   requestFormPage.setTargetStore("Faris");
-  requestFormPage.setSourceDate("13", "Jan", "2022");
-  requestFormPage.setDeliveryDate("23", "Nov", "2023");
+  requestFormPage.setSourceDate("13", "1", "2022");
+  requestFormPage.setDeliveryDate("23", "11", "2023");
   requestFormPage.setDeliveryMethod("STORE COURIER");
   requestFormPage.setRequestFirstProductName("Beng");
   requestFormPage.setRequestFirstProductAmount(10);
