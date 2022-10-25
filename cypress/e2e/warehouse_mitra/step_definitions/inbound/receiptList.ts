@@ -18,17 +18,24 @@ When(
   "user applies {string} to find related inbound Receipt",
   (keyword: string) => {
     receiptListPage.setSearchKeyword(keyword);
+    receiptListPage.waitSearchRender();
   }
 );
 
 When("user resets any applied keyword filter at inbound Receipt list", () => {
   receiptListPage.resetSearchKeyword();
+  receiptListPage.waitSearchRender();
 });
 
 When(
-  "user applies {string} as delivery date filter at inbound Receipt list",
-  (deliveryDate: string) => {
-    receiptListPage.setDeliveryDateFilter(deliveryDate);
+  "user applies {string} date, {string} month, {string} year as delivery date filter at inbound Receipt list",
+  (deliveryDate: string, deliveryMonth: string, deliveryYear: string) => {
+    receiptListPage.setDeliveryDateFilter(
+      deliveryDate,
+      deliveryMonth,
+      deliveryYear
+    );
+    receiptListPage.waitSearchRender();
   }
 );
 
@@ -36,6 +43,7 @@ When(
   "user resets any applied delivery date filter at inbound Receipt list",
   () => {
     receiptListPage.resetDeliveryDate();
+    receiptListPage.waitSearchRender();
   }
 );
 
@@ -43,6 +51,7 @@ When(
   "user applies {string} as delivery method filter at inbound Receipt list",
   (deliveryMethod: string) => {
     receiptListPage.setDeliveryMethodFilter(deliveryMethod);
+    receiptListPage.waitSearchRender();
   }
 );
 
@@ -50,6 +59,7 @@ When(
   "user clicks {string} status chip at inbound Receipt list",
   (status: string) => {
     receiptListPage.clickStatusChip(status);
+    receiptListPage.waitSearchRender();
   }
 );
 
@@ -57,6 +67,7 @@ When(
   "user applies {string} as page amount at inbound Receipt list",
   (value: string) => {
     receiptListPage.setPageAmount(value);
+    receiptListPage.waitSearchRender();
   }
 );
 
@@ -114,13 +125,7 @@ Then(
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
     else if (attribute === "delivery date") {
-      const expectedDeliveryDate = receiptListPage.setExpectedDeliveryDate(
-        parseInt(value)
-      );
-      receiptListPage.assertReceiptItemsBySearchFilter(
-        "delivery date",
-        expectedDeliveryDate
-      );
+      receiptListPage.assertReceiptItemsBySearchFilter("delivery date", value);
     } else {
       receiptListPage.assertReceiptItemsBySearchFilter(attribute, value);
     }

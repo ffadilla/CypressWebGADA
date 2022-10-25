@@ -5,10 +5,11 @@ export default class ReceiptListPage extends InboundBaseListPage {
   createReceiptWarehouseNameDropdown =
     'input[placeholder="Pilih lokasi gudang"]';
   createReceiptStoreNameDropdown = 'input[placeholder="Pilih toko"]';
-  createReceiptRequestIDDropdown = 'input[placeholder="Pilih no. permintaan"]';
+  createReceiptRequestIDDropdown =
+    'input[placeholder="Pilih no. barang keluar"]';
   dropdownOptionsItem = '[role="option"]';
   createReceiptCTAButton = "[type=button]";
-  tableBody = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]';
+  tableBody = '[data-testid="inbound_list"]';
   accordionParent = "#panel[index]a-header";
   accordionParentReceiptIDPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(1) > a > .MuiTypography-root";
@@ -59,6 +60,24 @@ export default class ReceiptListPage extends InboundBaseListPage {
   firstRowAccordionDeliveryMethod = this.firstRowAccordionChild.concat(
     this.accordionChildDeliveryMethodPointer
   );
+
+  waitSearchRender() {
+    cy.wait(500);
+    /**
+     *  This lines still return inconsitent behavior
+     *  caused by intermittent behavior (API isn't called when clicking status chip)
+    cy.intercept("GET", "/inbound/requests/list/?*").as(
+      "inboundRequestListAPI"
+    );
+    cy.wait("@inboundRequestListAPI").then((API) => {
+      const responseBody = API.response?.body;
+      if (responseBody.total_data === 0)
+        cy.get(this.notFoundReceiptText).should("be.visible");
+      else cy.get(this.tablePaginationInfoContainer).should('contain', 'dari ' + responseBody.total_data);
+    });
+     * 
+     */
+  }
 
   clickCreateNewReceipt() {
     cy.wait(500); //TODO: Request implement test-id on FE
@@ -133,12 +152,13 @@ export default class ReceiptListPage extends InboundBaseListPage {
           this.accordionChild + this.accordionChildDeliveryMethodPointer;
         break;
       case "delivery date":
+        value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         pointer = this.accordionChild + this.accordionChildDeliveryDatePointer;
         break;
     }
 
-    cy.xpath(this.tableBody).then(($list) => {
-      for (let index = 0; index < $list.children().length - 1; index++) {
+    cy.get(this.tableBody).then(($list) => {
+      for (let index = 0; index < $list.children().length - 2; index++) {
         let accordionPointer = this.accordionParent
           .split("[index]")
           .join(index.toString());
