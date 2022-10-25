@@ -34,6 +34,11 @@ import { generateCurrentDateOTP } from "../e2e/saas/step_definitions/utils";
 Cypress.Commands.add("saasLogin", (phoneNumber: string): any => {
   cy.request({
     method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "authentication/logout",
+    failOnStatusCode: false,
+  });
+  cy.request({
+    method: "POST",
     url: gadaConfig.saas.baseApiUrl + "authentication/otp/start",
     body: {
       client_id: "zfS2K2_mgXnevZt0rO1No1OQm-8zZWbwwIuO",

@@ -19,6 +19,11 @@ export default class CustomerPage extends BasePage {
   customerModalSalesText = "#p_customer_modal_select_sales_";
   customerModalSalesResetButton = "#p_reset_customer_modal_sales";
   customerAddSnackbar = "#notistack-snackbar";
+  customerEditSnackbar = "#notistack-snackbar";
+  customerEditTextButton = "#span_edit_customer_personal_profile_setting";
+  customerListPage = "#tr_customer_";
+  customerDeleteButtonYes = "#button_primary_delete_customer_confirmation";
+  customerDeleteButtonBatal = "#button_secondary_delete_customer_confirmation";
 
   // customer modal
   clickCustomerModalAddButton() {
@@ -75,5 +80,21 @@ export default class CustomerPage extends BasePage {
 
   clickCustomerModalSalesResetButton() {
     cy.get(this.customerModalSalesResetButton).click();
+  }
+
+  clickCustomerEditTextButton() {
+    cy.get(this.customerEditTextButton).click();
+  }
+
+  clickCustomerListPage(id: string) {
+    cy.get(this.customerListPage + id).click();
+  }
+
+  clickEditCustomerTextButton() {
+    cy.get(this.customerEditTextButton).click();
+  }
+
+  clickYesButtonOnConfirmation() {
+    cy.get(this.customerDeleteButtonYes).click();
   }
 }

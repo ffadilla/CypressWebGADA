@@ -14,6 +14,7 @@ export function deleteTestDataSequence() {
 
 export function insertTestDataSequence() {
   createSeedInventory();
+  createSeedCustomer();
 }
 
 export function deleteCategoryTestData() {
@@ -265,6 +266,23 @@ export function deleteSeedInventoryData() {
     qs: {
       store_id: gadaConfig.saas.testUserAccount.storeId,
       variant_id: 22157,
+    },
+  });
+}
+
+export function createSeedCustomer() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "customer",
+    failOnStatusCode: false,
+    body: {
+      phone_number: "81287730101",
+      name: "Delete Pelanggan Automation",
+      address: "Jalan Mawar 3",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      top_duration: 0,
+      cumulative_max_amount: 0,
+      is_max_amount_active: false,
     },
   });
 }
