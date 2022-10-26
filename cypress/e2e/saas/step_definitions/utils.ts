@@ -9,6 +9,7 @@ export function deleteTestDataSequence() {
   deleteBrandTestData();
   deletePrincipalTestData();
   deleteSeedInventoryData();
+  deleteBulkAddInventoryData();
 }
 
 export function insertTestDataSequence() {
@@ -228,6 +229,23 @@ export function deleteSeedInventoryData() {
       variant_id: 22157,
     },
   });
+}
+
+export function deleteBulkAddInventoryData() {
+  let array = ["9216"];
+
+  for (let i = 0; i < array.length; i++) {
+    cy.request({
+      method: "DELETE",
+      url:
+        gadaConfig.saas.baseApiUrl + "product/variant/" + array[i] + "/delete",
+      failOnStatusCode: false,
+      qs: {
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+        variant_id: array[i],
+      },
+    });
+  }
 }
 
 export function createSeedInventory() {
@@ -978,4 +996,9 @@ export function convertOrdinalToCardinalNumber(input: any) {
 
 export function numberWithSeparators(input: any) {
   return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function replaceWhiteSpace(input: string) {
+  input = input.replace(/\s+/g, "_").toLowerCase();
+  return input;
 }
