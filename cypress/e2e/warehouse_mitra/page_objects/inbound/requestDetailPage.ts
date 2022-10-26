@@ -275,4 +275,55 @@ export default class RequestDetailPage extends BasePage {
       }
     );
   }
+
+  assertRequestDataByReceiptSubmission() {
+    cy.get("@receiptDetailReceiptID").then((receiptID) => {
+      expect(
+        cy
+          .xpath(this.headerSubtextContainer)
+          .find("span")
+          .eq(2)
+          .should("contain", receiptID)
+      );
+    });
+    cy.get("@receiptDetailProductName").then((productName) => {
+      expect(
+        cy
+          .xpath(this.tableBodyContainer)
+          .find("td")
+          .eq(0)
+          .should("contain", productName)
+      );
+    });
+    cy.get("@receiptDetailProductQty").then((productQty) => {
+      expect(
+        cy
+          .xpath(this.tableBodyContainer)
+          .find("td")
+          .eq(1)
+          .should("contain", productQty)
+      );
+    });
+    cy.get("@receiptDetailAllocatedQty").then((allocatedQty) => {
+      cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
+        expect(
+          cy
+            .xpath(this.tableBodyContainer)
+            .find("td")
+            .eq(2)
+            .find("li")
+            .should("contain", allocatedQty + " " + expDate)
+        );
+      });
+    });
+    cy.get("@receiptDetailDiscrepancyRemarks").then((remarks) => {
+      expect(
+        cy
+          .xpath(this.tableBodyContainer)
+          .find("td")
+          .eq(4)
+          .should("contain", remarks)
+      );
+    });
+  }
 }

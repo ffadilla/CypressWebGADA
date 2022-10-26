@@ -36,3 +36,10 @@ Then(
     requestDetailPage.assertRequestDataByInboundForm();
   }
 );
+
+Then(
+  "user should see similar inbound Request data between detail page and submitted data",
+  () => {
+    requestDetailPage.assertRequestDataByReceiptSubmission();
+  }
+);

@@ -10,10 +10,12 @@ export function deleteTestDataSequence() {
   deletePrincipalTestData();
   deleteSeedInventoryData();
   deleteBulkAddInventoryData();
+  deleteCustomerTestData();
 }
 
 export function insertTestDataSequence() {
   createSeedInventory();
+  createSeedCustomer();
 }
 
 export function deleteCategoryTestData() {
@@ -160,6 +162,44 @@ export function deletePrincipalTestData() {
   });
 }
 
+export function deleteCustomerTestData() {
+  // delete customer name prefix web automation
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "customer",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      keyword: "web automation customer",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let customerIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      customerIdArray.push(data[i].id.toString());
+    }
+
+    for (let customerId of customerIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url:
+          gadaConfig.saas.baseApiUrl +
+          "customer" +
+          "/" +
+          customerId +
+          "/" +
+          gadaConfig.saas.testUserAccount.storeId,
+        failOnStatusCode: false,
+      });
+    }
+  });
+}
+
 export function deleteSeedInventoryData() {
   // delete custom inventories with prefix web automation
   cy.request({
@@ -227,6 +267,23 @@ export function deleteSeedInventoryData() {
     qs: {
       store_id: gadaConfig.saas.testUserAccount.storeId,
       variant_id: 22157,
+    },
+  });
+}
+
+export function createSeedCustomer() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "customer",
+    failOnStatusCode: false,
+    body: {
+      phone_number: "81287730101",
+      name: "Delete Pelanggan Automation",
+      address: "Jalan Mawar 3",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      top_duration: 0,
+      cumulative_max_amount: 0,
+      is_max_amount_active: false,
     },
   });
 }
