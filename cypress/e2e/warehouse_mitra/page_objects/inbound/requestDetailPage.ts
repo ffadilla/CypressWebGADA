@@ -155,6 +155,11 @@ export default class RequestDetailPage extends BasePage {
     } else if (status === "Sedang Diproses" || status === "Sudah Selesai") {
       expect(
         cy
+          .xpath(this.requestCTAButtonContainerXPath)
+          .should("contain", "Lihat Detail Penerimaan Barang")
+      );
+      expect(
+        cy
           .xpath(this.headerSubtextContainerXPath)
           .find("span")
           .should("have.length", 4)
@@ -164,11 +169,6 @@ export default class RequestDetailPage extends BasePage {
           .xpath(this.requestCTAButtonContainerXPath)
           .find(".MuiButton-root")
           .should("have.length", 1)
-      );
-      expect(
-        cy
-          .xpath(this.requestCTAButtonContainerXPath)
-          .should("contain", "Lihat Detail Penerimaan Barang")
       );
     } else if (status === "Belum Selesai") {
       expect(

@@ -35,6 +35,9 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   receiptButtons = ".MuiButtonBase-root";
   nonAccessibleInfo = '//*[@id="__next"]/div/div[3]/div[2]/div/p';
 
+  receiptTableXPath = '(//table[contains(@class, "MuiTable-root")])[index]';
+  tableHeaderPointerXPath = "/thead/tr[1]";
+  tableBodyPointerXPath = "/tbody/tr[index]";
   singleRequestInfo = {
     sourceTypeInfo:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[2]/div/div/div[1]/div[1]/p[2]',
@@ -48,34 +51,54 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[2]/div/div/div[2]/div[2]/p[2]',
     warehouseName:
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[2]/div/div/div[3]/div[2]/p[2]',
-    tableHeaderContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[1]/table/thead/tr',
-    tableBodyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[1]/table/tbody',
-    productNameBodyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[1]',
-    productQtyBodyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[2]',
-    allocatedInputBodyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]',
+
+    tableBodyContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1),
+    productNameBodyContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[1]",
+    productQtyBodyContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[2]",
+    allocatedInputBodyContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[3]",
     allocatedQtyField:
       '[name="inbound_requests[0].product_variant_request_items[0].active_unit_items[0].allocated_quantity"]',
-    substractAllocatedQtyButton:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/div/div[1]/div/div/div[1]/button[1]',
-    addAllocatedQtyButton:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/div/div[1]/div/div/div[1]/button[2]',
+    substractAllocatedQtyButtonXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[3]/div/div[1]/div/div/div[1]/button[1]",
+    addAllocatedQtyButtonXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[3]/div/div[1]/div/div/div[1]/button[2]",
     allocatedUOMDropdown:
       '[id="mui-component-select-inbound_requests[0].product_variant_request_items[0].active_unit_items[0].product_unit_id"]',
-    addAllocatedUOMButton:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[3]/div/div[2]/span/button',
-    expDateContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]',
-    expiryDateDropdown:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[4]/div/div/div/div',
-    discrepancyQtyContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[5]',
-    discrepancyRemarksContainer:
-      '//*[@id="__next"]/div/div[3]/div[2]/div/div[2]/div[3]/table/tbody/tr[1]/td[6]',
+    addAllocatedUOMButtonXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[3]/div/div[2]/span/button",
+    expDateContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[4]",
+    expiryDateDropdownXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[4]/div/div/div/div",
+    discrepancyQtyContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[5]",
+    discrepancyRemarksContainerXPath:
+      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
+      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      "/td[6]",
     discrepancyRemarksField:
       '[name="inbound_requests[0].product_variant_request_items[0].rejected_reason"]',
     partialCheckbox: '[name="inbound_requests[0].is_partial"]',
@@ -113,7 +136,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   }
 
   invokeReceiptDetail() {
-    cy.xpath(this.singleRequestInfo.productNameBodyContainer); //waiting detail page rendering
+    cy.get(this.singleRequestInfo.partialCheckbox); //waiting for FE rendering
     cy.xpath(this.receiptIDInfo)
       .invoke("text")
       .then((text) => {
@@ -123,10 +146,10 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.xpath(this.singleRequestInfo.deliveryDateInfo)
       .invoke("text")
       .as("receiptDetailDeliveryDate");
-    cy.xpath(this.singleRequestInfo.productNameBodyContainer)
+    cy.xpath(this.singleRequestInfo.productNameBodyContainerXPath)
       .invoke("text")
       .as("receiptDetailProductName");
-    cy.xpath(this.singleRequestInfo.productQtyBodyContainer)
+    cy.xpath(this.singleRequestInfo.productQtyBodyContainerXPath)
       .invoke("text")
       .as("receiptDetailProductQty");
     cy.get(this.singleRequestInfo.allocatedQtyField)
@@ -135,7 +158,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get(this.singleRequestInfo.allocatedUOMDropdown)
       .invoke("text")
       .as("receiptDetailAllocatedUOM");
-    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainerXPath)
       .invoke("text")
       .then((text) => {
         if (text === "-") cy.wrap(text).as("receiptDetailDiscrepancyRemarks");
@@ -173,7 +196,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   }
 
   clickReduceAllocatedQty() {
-    cy.xpath(this.singleRequestInfo.substractAllocatedQtyButton).click();
+    cy.xpath(this.singleRequestInfo.substractAllocatedQtyButtonXPath).click();
   }
 
   selectExpDate(value: string) {
@@ -181,12 +204,14 @@ export default class ReceiptDetailPage extends BaseDetailPage {
      * TO DO
      * Check has expiry date on selected product variant through API
      */
-    cy.xpath(this.singleRequestInfo.expiryDateDropdown).click();
+    cy.xpath(this.singleRequestInfo.expiryDateDropdownXPath).click();
     cy.get(this.dropdownOptions).contains(value).click();
   }
 
   setDiscrepancyRemarks(value: string) {
-    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer).type(value);
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainerXPath).type(
+      value
+    );
   }
 
   clickPartialChecklist() {
@@ -287,14 +312,14 @@ export default class ReceiptDetailPage extends BaseDetailPage {
 
   assertErrorAllocatedQty() {
     let emptyErrorMessage = "Harap masukkan jumlah produk yang diterima";
-    cy.xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+    cy.xpath(this.singleRequestInfo.allocatedInputBodyContainerXPath)
       .find("p")
       .should("contain", emptyErrorMessage);
   }
 
   assertErrorExpDate() {
     let emptyErrorMessage = "Harap pilih tanggal expired";
-    cy.xpath(this.singleRequestInfo.expDateContainer)
+    cy.xpath(this.singleRequestInfo.expDateContainerXPath)
       .find("p")
       .should("contain", emptyErrorMessage);
   }
@@ -302,7 +327,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   assertErrorDiscrepancyRemark() {
     let emptyErrorMessage =
       "Harap masukkan keterangan untuk perbedaan jumlah barang";
-    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+    cy.xpath(this.singleRequestInfo.discrepancyRemarksContainerXPath)
       .find("p")
       .should("contain", emptyErrorMessage);
   }
@@ -367,14 +392,14 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get("@receiptDetailProductName").then((productName) => {
       expect(
         cy
-          .xpath(this.singleRequestInfo.productNameBodyContainer)
+          .xpath(this.singleRequestInfo.productNameBodyContainerXPath)
           .should("contain", productName)
       );
     });
     cy.get("@receiptDetailProductQty").then((productQty) => {
       expect(
         cy
-          .xpath(this.singleRequestInfo.productQtyBodyContainer)
+          .xpath(this.singleRequestInfo.productQtyBodyContainerXPath)
           .should("contain", productQty)
       );
     });
@@ -382,7 +407,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       cy.get("@receiptDetailAllocatedUOM").then((expDate) => {
         expect(
           cy
-            .xpath(this.singleRequestInfo.allocatedInputBodyContainer)
+            .xpath(this.singleRequestInfo.allocatedInputBodyContainerXPath)
             .should("contain", allocatedQty + " " + expDate)
         );
       });
@@ -390,7 +415,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get("@receiptDetailDiscrepancyRemarks").then((remarks) => {
       expect(
         cy
-          .xpath(this.singleRequestInfo.discrepancyRemarksContainer)
+          .xpath(this.singleRequestInfo.discrepancyRemarksContainerXPath)
           .should("contain", remarks)
       );
     });
@@ -460,14 +485,14 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get("@requestDetailProductName").then((productName) => {
       expect(
         cy
-          .xpath(this.singleRequestInfo.productNameBodyContainer)
+          .xpath(this.singleRequestInfo.productNameBodyContainerXPath)
           .should("contain", productName)
       );
     });
     cy.get("@requestDetailProductQty").then((productQty) => {
       expect(
         cy
-          .xpath(this.singleRequestInfo.productQtyBodyContainer)
+          .xpath(this.singleRequestInfo.productQtyBodyContainerXPath)
           .should("contain", productQty)
       );
     });
@@ -480,12 +505,12 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.substractAllocatedQtyButton)
+          .xpath(this.singleRequestInfo.substractAllocatedQtyButtonXPath)
           .should("be.visible")
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.addAllocatedQtyButton)
+          .xpath(this.singleRequestInfo.addAllocatedQtyButtonXPath)
           .should("be.visible")
       );
       expect(
@@ -493,11 +518,11 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.addAllocatedUOMButton)
+          .xpath(this.singleRequestInfo.addAllocatedUOMButtonXPath)
           .should("be.visible")
       );
       expect(
-        cy.xpath(this.singleRequestInfo.expiryDateDropdown).should("exist")
+        cy.xpath(this.singleRequestInfo.expiryDateDropdownXPath).should("exist")
       );
     } else if (status === "Sudah Selesai") {
       expect(
@@ -505,12 +530,12 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.substractAllocatedQtyButton)
+          .xpath(this.singleRequestInfo.substractAllocatedQtyButtonXPath)
           .should("not.exist")
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.addAllocatedQtyButton)
+          .xpath(this.singleRequestInfo.addAllocatedQtyButtonXPath)
           .should("not.exist")
       );
       expect(
@@ -518,11 +543,13 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       );
       expect(
         cy
-          .xpath(this.singleRequestInfo.addAllocatedUOMButton)
+          .xpath(this.singleRequestInfo.addAllocatedUOMButtonXPath)
           .should("not.exist")
       );
       expect(
-        cy.xpath(this.singleRequestInfo.expiryDateDropdown).should("not.exist")
+        cy
+          .xpath(this.singleRequestInfo.expiryDateDropdownXPath)
+          .should("not.exist")
       );
     }
   }
@@ -555,7 +582,9 @@ export default class ReceiptDetailPage extends BaseDetailPage {
           .should("contain", "Receipt telah di cancel")
       );
       expect(
-        cy.xpath(this.singleRequestInfo.tableBodyContainer).should("not.exist")
+        cy
+          .xpath(this.singleRequestInfo.tableBodyContainerXPath)
+          .should("not.exist")
       );
       expect(
         cy

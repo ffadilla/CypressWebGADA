@@ -3,21 +3,21 @@ import InboundBaseListPage from "./inboundBaseListPage";
 export default class RequestListPage extends InboundBaseListPage {
   path = "/inventory/inbound/request/list";
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
-  requestItemListBody = '//tbody[contains(@class, "MuiTableBody-root")]';
+  requestItemListBodyXPath = '//tbody[contains(@class, "MuiTableBody-root")]';
   requestItemSourceIDXPath =
-    this.requestItemListBody + "/tr[index]/td[1]/div[1]";
+    this.requestItemListBodyXPath + "/tr[index]/td[1]/div[1]";
   requestItemSourceTypeXPath =
-    this.requestItemListBody + "/tr[index]/td[1]/div[2]";
+    this.requestItemListBodyXPath + "/tr[index]/td[1]/div[2]";
   requestItemRequestIDXPath =
-    this.requestItemListBody + "/tr[index]/td[2]/a/div[1]";
+    this.requestItemListBodyXPath + "/tr[index]/td[2]/a/div[1]";
   requestItemSupplierStoreXPath =
-    this.requestItemListBody + "/tr[index]/td[3]/div";
+    this.requestItemListBodyXPath + "/tr[index]/td[3]/div";
   requestItemDeliveryMethodXPath =
-    this.requestItemListBody + "/tr[index]/td[4]/div";
+    this.requestItemListBodyXPath + "/tr[index]/td[4]/div";
   requestItemDeliveryDate = '[data-testid="inbound_list[index].delivery_date"]';
   requestItemReceiptID = '[data-testid="inbound_list[index].receipt_id"]';
   requestItemStatusXPath =
-    this.requestItemListBody + "/tr[index]/td[5]/span/span[2]";
+    this.requestItemListBodyXPath + "/tr[index]/td[5]/span/span[2]";
   requestItemLastUpdated =
     '[data-testid="inbound_list[index].last_updated_time"]';
 
@@ -189,7 +189,7 @@ export default class RequestListPage extends InboundBaseListPage {
         break;
     }
 
-    cy.xpath(this.requestItemListBody).then(($list) => {
+    cy.xpath(this.requestItemListBodyXPath).then(($list) => {
       for (let index = 1; index < $list.children().length; index++) {
         const requestItemAttribute = this.utils.replaceElementIndex(
           element,
