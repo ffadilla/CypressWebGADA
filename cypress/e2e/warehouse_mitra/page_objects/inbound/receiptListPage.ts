@@ -9,6 +9,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
     'input[placeholder="Pilih no. barang keluar"]';
   dropdownOptionsItem = '[role="option"]';
   createReceiptCTAButton = "[type=button]";
+
   tableBody = '[data-testid="inbound_list"]';
   accordionParent = "#panel[index]a-header";
   accordionParentReceiptIDPointer =
@@ -17,49 +18,42 @@ export default class ReceiptListPage extends InboundBaseListPage {
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(2) > :nth-child(2)";
   accordionParentStatusPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(2) > :nth-child(5)";
-  accordionChild = "#panel[index]a-content";
+
+  accordionChild = '[data-testid="inbound_list[index].request_table"]';
   accordionChildSourceIDPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(1) > :nth-child(1) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(1) > :nth-child(1) > .MuiTypography-root";
   accordionChildSourceTypePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(1) > :nth-child(2) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(1) > :nth-child(2) > .MuiTypography-root";
   accordionChildRequestIDPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(2) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(2) > .MuiTypography-root";
   accordionChildDeliveryDatePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(2) > .MuiBox-root > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(2) > .MuiBox-root > .MuiTypography-root";
   accordionChildSupplierStorePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(3)";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(3)";
   accordionChildDeliveryMethodPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(4)";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(4)";
 
   firstRowAccordionParent = this.accordionParent.split("[index]").join("0");
-  firstRowAccordionReceiptID = this.firstRowAccordionParent.concat(
-    this.accordionParentReceiptIDPointer
-  );
-  firstRowAccordionCreatedDate = this.firstRowAccordionParent.concat(
-    this.accordionParentCreatedDatePointer
-  );
-  firstRowAccordionStatus = this.firstRowAccordionParent.concat(
-    this.accordionParentStatusPointer
-  );
+  firstRowAccordionReceiptID =
+    this.firstRowAccordionParent + this.accordionParentReceiptIDPointer;
+  firstRowAccordionCreatedDate =
+    this.firstRowAccordionParent + this.accordionParentCreatedDatePointer;
+  firstRowAccordionStatus =
+    this.firstRowAccordionParent + this.accordionParentStatusPointer;
+
   firstRowAccordionChild = this.accordionChild.split("[index]").join("0");
-  firstRowAccordionSourceID = this.firstRowAccordionChild.concat(
-    this.accordionChildSourceIDPointer
-  );
-  firstRowAccordionSourceType = this.firstRowAccordionChild.concat(
-    this.accordionChildSourceTypePointer
-  );
-  firstRowAccordionRequestID = this.firstRowAccordionChild.concat(
-    this.accordionChildRequestIDPointer
-  );
-  firstRowAccordionDeliveryDate = this.firstRowAccordionChild.concat(
-    this.accordionChildDeliveryDatePointer
-  );
-  firstRowAccordionSupplierStore = this.firstRowAccordionChild.concat(
-    this.accordionChildSupplierStorePointer
-  );
-  firstRowAccordionDeliveryMethod = this.firstRowAccordionChild.concat(
-    this.accordionChildDeliveryMethodPointer
-  );
+  firstRowAccordionSourceID =
+    this.firstRowAccordionChild + this.accordionChildSourceIDPointer;
+  firstRowAccordionSourceType =
+    this.firstRowAccordionChild + this.accordionChildSourceTypePointer;
+  firstRowAccordionRequestID =
+    this.firstRowAccordionChild + this.accordionChildRequestIDPointer;
+  firstRowAccordionDeliveryDate =
+    this.firstRowAccordionChild + this.accordionChildDeliveryDatePointer;
+  firstRowAccordionSupplierStore =
+    this.firstRowAccordionChild + this.accordionChildSupplierStorePointer;
+  firstRowAccordionDeliveryMethod =
+    this.firstRowAccordionChild + this.accordionChildDeliveryMethodPointer;
 
   waitSearchRender() {
     cy.wait(500);
