@@ -3,6 +3,18 @@ import ReceiptListPage from "../../page_objects/inbound/receiptListPage";
 
 const receiptListPage = new ReceiptListPage();
 
+When(
+  "user applies {string} and its store as global filters at inbound Receipt list",
+  (warehouse: string) => {
+    receiptListPage.utils.interceptAPI(
+      "GET",
+      "/inbound/receipts/list/?*",
+      "inboundReceiptListAPI"
+    );
+    receiptListPage.setGlobalFilter(warehouse);
+  }
+);
+
 When("user clicks create inbound Receipt button", () => {
   receiptListPage.clickCreateNewReceipt();
 });
@@ -135,3 +147,19 @@ Then(
 Then("user should able to see empty inbound Receipts list", () => {
   receiptListPage.assertEmptyList();
 });
+
+Then(
+  "{string} UUID should be added as inbound Receipt list API headers",
+  (warehouse: string) => {
+    receiptListPage.assertAPIRequestHeaders(
+      "@inboundReceiptListAPI",
+      "warehouse-id",
+      receiptListPage.warehouseData[warehouse].warehouseUUID
+    );
+    receiptListPage.assertAPIRequestHeaders(
+      "@inboundReceiptListAPI",
+      "store-id",
+      receiptListPage.warehouseData[warehouse].stores[0].storeUUID
+    );
+  }
+);

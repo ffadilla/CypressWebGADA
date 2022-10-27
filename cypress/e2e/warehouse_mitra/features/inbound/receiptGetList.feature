@@ -9,6 +9,7 @@ Feature: Get Inbound Receipt List
     And user applies <keyword> to find related inbound Receipt
     And user applies <deliveryMethod> as delivery method filter at inbound Receipt list
     And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Receipt list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <status> "status" should be added to inbound Receipt list URL
     And query param for <keyword> "keyword" should be added to inbound Receipt list URL
@@ -95,3 +96,10 @@ Feature: Get Inbound Receipt List
     | "15"          |
     | "20"          |
     | "25"          |
+
+  Scenario: User successfully applies warehouse and store global filter at inbound request list
+    When user redirects to inbound Receipt menu
+    And user applies "25" as page amount at inbound Receipt list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Receipt list
+    Then "Warehouse Mitra Cypress" UUID should be added as inbound Receipt list API headers
+    When user logs out from WMS
