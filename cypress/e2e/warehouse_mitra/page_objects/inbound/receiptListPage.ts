@@ -75,8 +75,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
     cy.wait(500); //TODO: Request implement test-id on FE
     cy.get(this.inboundListButtons).contains("Penerimaan Barang Masuk").click();
   }
-
-  submitCreateReceiptPopup() {
+  selectWarehouseStoreAtCreatePopup() {
     cy.get("@requestDetailWarehouseName").then((warehouseName) => {
       cy.get(this.createReceiptWarehouseNameDropdown).click();
       cy.get(this.dropdownOptionsItem).contains(String(warehouseName)).click();
@@ -85,12 +84,16 @@ export default class ReceiptListPage extends InboundBaseListPage {
       cy.get(this.createReceiptStoreNameDropdown).click();
       cy.get(this.dropdownOptionsItem).contains(String(storeName)).click();
     });
+  }
+
+  submitCreateReceiptPopup() {
     cy.get("@requestDetailRequestID").then((requestID) => {
       cy.get(this.createReceiptRequestIDDropdown).click();
       cy.get(this.dropdownOptionsItem)
         .contains(String(requestID).substring(6, 15))
         .click();
     });
+    cy.get(this.createReceiptRequestIDDropdown).click();
     cy.get(this.createReceiptCTAButton).contains("Simpan").click();
   }
 
@@ -162,5 +165,24 @@ export default class ReceiptListPage extends InboundBaseListPage {
         expect(cy.get(receiptAttribute).should("contain", value));
       }
     });
+  }
+
+  assertReceiptPopupFilter(warehouseName: string, storeName: string) {
+    expect(
+      cy
+        .get(this.createReceiptWarehouseNameDropdown)
+        .invoke("val")
+        .should("contain", warehouseName)
+    );
+    expect(
+      cy.get(this.createReceiptWarehouseNameDropdown).should("be.disabled")
+    );
+    expect(
+      cy
+        .get(this.createReceiptStoreNameDropdown)
+        .invoke("val")
+        .should("contain", storeName)
+    );
+    expect(cy.get(this.createReceiptStoreNameDropdown).should("be.disabled"));
   }
 }

@@ -22,6 +22,14 @@ When("user clicks create inbound Receipt button", () => {
 When(
   "user fills create inbound Receipt popup with 1 retrieved Request data",
   () => {
+    receiptListPage.selectWarehouseStoreAtCreatePopup();
+    receiptListPage.submitCreateReceiptPopup();
+  }
+);
+
+When(
+  "user fills create inbound Receipt popup with 1 retrieved Request data when global filter was applied",
+  () => {
     receiptListPage.submitCreateReceiptPopup();
   }
 );
@@ -160,6 +168,16 @@ Then(
       "@inboundReceiptListAPI",
       "store-id",
       receiptListPage.warehouseData[warehouse].stores[0].storeUUID
+    );
+  }
+);
+
+Then(
+  "user should see {string} applied as warehouse store dropdown on inbound Receipt popup",
+  (warehouse: string) => {
+    receiptListPage.assertReceiptPopupFilter(
+      warehouse,
+      receiptListPage.warehouseData[warehouse].stores[0].storeName
     );
   }
 );

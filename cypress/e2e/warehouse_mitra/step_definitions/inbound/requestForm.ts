@@ -5,9 +5,9 @@ const requestFormPage = new RequestFormPage();
 
 Given("user creates a new inbound Source Request", () => {
   requestFormPage.typeSourceID();
-  requestFormPage.setStore("Faris");
+  requestFormPage.setWarehouse("Cypress");
   requestFormPage.setSourceType("Retur");
-  requestFormPage.setWarehouse("Warehouse");
+  requestFormPage.setStore("Cyp");
   requestFormPage.setTargetStore("Faris");
   requestFormPage.setSourceDate("13", "1", "2022");
   requestFormPage.setDeliveryDate("23", "11", "2023");
