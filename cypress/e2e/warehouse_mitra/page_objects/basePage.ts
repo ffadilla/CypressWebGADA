@@ -15,6 +15,7 @@ export default class BasePage {
 
   sidebarMenuButton = ".MuiListItemButton-root";
   sidebarSubMenuButton = ".MuiCollapse-root";
+  inboundMenuButton = 'div[data-testid="sidebar.inbound_menu"]';
   outboundMenuButton = "//div[2]/div/div/div/nav/div[1]/a[3]";
 
   dropdownPopOver = 'div.MuiAutocomplete-popper[role="presentation"]';
@@ -75,17 +76,15 @@ export default class BasePage {
     expect(cy.url().should("include", queryParam));
   }
 
-  // TODO: Request test-id for both request and receipt menu
-  clickInboundRequestMenu() {
-    cy.wait(1000);
+  clickInboundMenu() {
     cy.url().then((url) => {
       if (!url.includes(this.baseUrl + "inventory/inbound/")) {
-        cy.get(this.sidebarMenuButton)
-          .find("span")
-          .contains("Barang Masuk")
-          .click();
+        cy.get(this.inboundMenuButton).first().click();
       }
     });
+  }
+  clickInboundRequestMenu() {
+    this.clickInboundMenu();
     cy.get(this.sidebarSubMenuButton)
       .find("span")
       .contains("Permintaan Barang")
@@ -93,15 +92,7 @@ export default class BasePage {
   }
 
   clickInboundReceiptMenu() {
-    cy.wait(1000);
-    cy.url().then((url) => {
-      if (!url.includes(this.baseUrl + "inventory/inbound/")) {
-        cy.get(this.sidebarMenuButton)
-          .find("span")
-          .contains("Barang Masuk")
-          .click();
-      }
-    });
+    this.clickInboundMenu();
     cy.get(this.sidebarSubMenuButton)
       .find("span")
       .contains("Penerimaan Barang")
