@@ -9,6 +9,7 @@ Feature: Get Inbound Request List
     And user applies <keyword> to find related inbound Request
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
     And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Request list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Request list
     Then user should be at inbound Request list
     And query param for <status> "status" should be added to inbound Request list URL
     And query param for <keyword> "keyword" should be added to inbound Request list URL
@@ -97,3 +98,10 @@ Feature: Get Inbound Request List
     | "15"          |
     | "20"          |
     | "25"          |
+
+  Scenario: User successfully applies warehouse and store global filter at inbound request list
+    When user redirects to inbound Request menu
+    And user applies "25" as page amount at inbound Request list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Request list
+    Then "Warehouse Mitra Cypress" UUID should be added as inbound Request list API headers 
+    When user logs out from WMS

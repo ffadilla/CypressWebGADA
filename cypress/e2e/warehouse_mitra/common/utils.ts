@@ -19,3 +19,11 @@ export function padTo2Digits(num: number): string {
 export function replaceElementIndex(selector: string, index: number): string {
   return selector.replace("index", index.toString());
 }
+
+export function interceptAPI(
+  APIMethod: string,
+  APIEndpoint: string,
+  alias: string
+) {
+  cy.intercept(APIMethod, APIEndpoint).as(alias);
+}

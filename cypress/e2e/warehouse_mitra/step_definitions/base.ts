@@ -24,6 +24,13 @@ When("user logs out from WMS", () => {
   basePage.logout();
 });
 
+When(
+  "user applies {string} and its store as global filters",
+  (warehouse: string) => {
+    basePage.setGlobalFilter(warehouse);
+  }
+);
+
 When("user redirects to inbound Request menu", () => {
   basePage.clickInboundRequestMenu();
 });

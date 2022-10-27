@@ -5,15 +5,20 @@ export default class BasePage {
   utils = utils;
   baseUrl = gadaConfig.warehouseMitra.baseUrl;
   accountData = gadaConfig.warehouseMitra.accounts;
+  warehouseData = gadaConfig.warehouseMitra.warehouses;
+  dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
 
+  storeGlobalFilter = 'input[placeholder="Toko"]';
+  warehouseGlobalFilter = 'input[placeholder="Lokasi Gudang"]';
   xPathAccountDropdown = '//*[@id="__next"]/div/div[3]/div[1]/div[2]';
   logoutDropdownItem = "/html/body/div[4]/div[3]/ul/li[3]";
+
   sidebarMenuButton = ".MuiListItemButton-root";
   sidebarSubMenuButton = ".MuiCollapse-root";
   outboundMenuButton = "//div[2]/div/div/div/nav/div[1]/a[3]";
 
-  dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
-
+  dropdownPopOver = 'div.MuiAutocomplete-popper[role="presentation"]';
+  firstAutocompleteItem = '[data-option-index="0"]';
   datepickerItem = 'button[role="gridcell"]';
   monthpickerItem = "button.PrivatePickersMonth-root";
   yearpickerItem = "button.PrivatePickersYear-yearButton";
@@ -22,10 +27,42 @@ export default class BasePage {
     cy.visit(this.baseUrl + path);
   }
 
+  setGlobalFilter(warehouse: string) {
+    // SET WAREHOUSE GLOBAL FILTER
+    cy.get(this.warehouseGlobalFilter).click().type(warehouse);
+    cy.get(this.firstAutocompleteItem).click();
+    cy.get(this.warehouseGlobalFilter)
+      .invoke("val")
+      .should("contain", warehouse);
+
+    // SET STORE GLOBAL FILTER
+    cy.get(this.storeGlobalFilter).click();
+    cy.get(this.dropdownPopOver).should("contain", "Semua Toko");
+    for (let i = 0; i < this.warehouseData[warehouse].stores.length; i++) {
+      cy.get(this.dropdownPopOver).should(
+        "contain",
+        this.warehouseData[warehouse].stores[i].storeName
+      );
+    }
+    cy.get(this.storeGlobalFilter).type(
+      this.warehouseData[warehouse].stores[0].storeName
+    );
+    cy.get(this.firstAutocompleteItem).click();
+    cy.get(this.storeGlobalFilter)
+      .invoke("val")
+      .should("contain", this.warehouseData[warehouse].stores[0].storeName);
+  }
+
   logout() {
     cy.xpath(this.xPathAccountDropdown).click();
     cy.xpath(this.logoutDropdownItem).click();
     cy.url().should("contain", "login");
+  }
+
+  assertAPIRequestHeaders(APIAlias: string, attribute: string, value: string) {
+    cy.wait(APIAlias).then((API) => {
+      expect(API.request.headers[attribute]).to.include(value);
+    });
   }
 
   assertQueryParam(query: string, value: string) {

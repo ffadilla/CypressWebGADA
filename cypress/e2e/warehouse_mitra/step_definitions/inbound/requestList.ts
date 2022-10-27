@@ -4,6 +4,18 @@ import RequestListPage from "../../page_objects/inbound/requestListPage";
 const requestListPage = new RequestListPage();
 
 When(
+  "user applies {string} and its store as global filters at inbound Request list",
+  (warehouse: string) => {
+    requestListPage.utils.interceptAPI(
+      "GET",
+      "/inbound/requests/list/?*",
+      "inboundRequestListAPI"
+    );
+    requestListPage.setGlobalFilter(warehouse);
+  }
+);
+
+When(
   "user applies {string} to find related inbound Request",
   (keyword: string) => {
     if (keyword === "canceled Source ID") {
@@ -142,5 +154,21 @@ Then(
   (value: string) => {
     if (value === "created") requestListPage.assertCreatedRequestItem();
     else if (value === "canceled") requestListPage.assertCanceledRequestItem();
+  }
+);
+
+Then(
+  "{string} UUID should be added as inbound Request list API headers",
+  (warehouse: string) => {
+    requestListPage.assertAPIRequestHeaders(
+      "@inboundRequestListAPI",
+      "warehouse-id",
+      requestListPage.warehouseData[warehouse].warehouseUUID
+    );
+    requestListPage.assertAPIRequestHeaders(
+      "@inboundRequestListAPI",
+      "store-id",
+      requestListPage.warehouseData[warehouse].stores[0].storeUUID
+    );
   }
 );
