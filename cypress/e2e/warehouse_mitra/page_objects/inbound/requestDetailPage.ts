@@ -69,7 +69,11 @@ export default class RequestDetailPage extends BasePage {
 
   clickSourceCTA() {
     this.invokeRequestDetail();
-    cy.intercept("GET", "/inbound/sources/*/detail").as("sourceDetailAPI");
+    this.utils.interceptAPI(
+      "GET",
+      "/inbound/sources/*/detail",
+      "sourceDetailAPI"
+    );
     cy.xpath(this.sourceCTAButtonXPath).click();
     cy.wait("@sourceDetailAPI").then(($API) => {
       for (let i = 0; i < $API.response?.body.inbound_requests.length; i++) {

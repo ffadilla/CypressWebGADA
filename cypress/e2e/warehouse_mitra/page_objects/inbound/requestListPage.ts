@@ -55,9 +55,7 @@ export default class RequestListPage extends InboundBaseListPage {
     /**
      * This lines still return inconsitent behavior
      * 
-    cy.intercept("GET", "/inbound/requests/list/?*").as(
-      "inboundRequestListAPI"
-    );
+    this.utils.interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
     cy.wait("@inboundRequestListAPI").then((API) => {
       const responseBody = API.response?.body;
       if (responseBody.total_data === 0)

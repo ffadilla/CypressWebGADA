@@ -11,7 +11,7 @@ export default class BaseDetailPage extends BasePage {
       .within(() => {
         cy.get(this.attachmentKebabButton).click({ force: true });
       });
-    cy.intercept("GET", downloadAPI).as("downloadAttachmentAPI");
+    this.utils.interceptAPI("GET", downloadAPI, "downloadAttachmentAPI");
     cy.get("body")
       .find(this.popoverContainer)
       .last()

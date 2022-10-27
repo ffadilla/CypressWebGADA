@@ -87,10 +87,13 @@ export default class RequestFormPage extends BasePage {
 
   setTargetStore(keyword: string) {
     cy.get(this.targetStoreNameField).click();
-    cy.intercept(
+    this.utils.interceptAPI(
       "GET",
-      "/store/store-list/?search=" + keyword + "&suggest_by=inbound&store_id=**"
-    ).as("storeListAPI");
+      "/store/store-list/?search=" +
+        keyword +
+        "&suggest_by=inbound&store_id=**",
+      "storeListAPI"
+    );
     cy.get(this.targetStoreNameField).type(keyword);
     cy.wait("@storeListAPI"); //waiting for dropdown autocomplete
     cy.get(this.firstAutocompleteItem).click();

@@ -269,7 +269,9 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get(this.popupContent)
       .find("p")
       .should("contain", submissionPopupContent);
-    cy.intercept("PUT", "/inbound/receipts/**/bulk-submit/").as(
+    this.utils.interceptAPI(
+      "PUT",
+      "/inbound/receipts/**/bulk-submit/",
       "submitReceiptAPI"
     );
     cy.get(this.popupCTAContainer).find("button").contains("Simpan").click();

@@ -60,9 +60,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
     /**
      *  This lines still return inconsitent behavior
      *  caused by intermittent behavior (API isn't called when clicking status chip)
-    cy.intercept("GET", "/inbound/requests/list/?*").as(
-      "inboundRequestListAPI"
-    );
+    this.utils.interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
     cy.wait("@inboundRequestListAPI").then((API) => {
       const responseBody = API.response?.body;
       if (responseBody.total_data === 0)
