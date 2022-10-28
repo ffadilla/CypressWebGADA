@@ -149,3 +149,13 @@ Then(
     );
   }
 );
+
+Then(
+  "user should see {string} applied as warehouse store dropdown on inbound Request form",
+  (warehouse: string) => {
+    requestFormPage.assertAppliedWarehouseStore(
+      warehouse,
+      requestFormPage.warehouseData[warehouse].stores[0].storeName
+    );
+  }
+);

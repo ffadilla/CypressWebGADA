@@ -185,4 +185,23 @@ export default class RequestFormPage extends BasePage {
     }
     expect(cy.get(pointer).should("contain.text", err));
   }
+
+  assertAppliedWarehouseStore(warehouseName: string, storeName: string) {
+    expect(
+      cy
+        .get(this.warehouseNameField)
+        .invoke("val")
+        .should("contain", warehouseName)
+    );
+    expect(cy.get(this.warehouseNameField).should("be.disabled"));
+    cy.get(this.warehouseNameField)
+      .invoke("val")
+      .as("inboundFormWarehouseName");
+
+    expect(
+      cy.get(this.storeNameField).invoke("val").should("contain", storeName)
+    );
+    expect(cy.get(this.storeNameField).should("be.disabled"));
+    cy.get(this.storeNameField).invoke("val").as("inboundFormStoreName");
+  }
 }
