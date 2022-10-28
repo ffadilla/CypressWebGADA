@@ -9,6 +9,7 @@ Feature: Get Inbound Request Detail
     And user clicks the first data on inbound Request table
     Then user should be at <status> inbound Request detail page
     And user should see similar inbound Request data between detail page and request list
+    And user should see disabled global filter dropdown
     When user logs out from WMS
 
     Examples:

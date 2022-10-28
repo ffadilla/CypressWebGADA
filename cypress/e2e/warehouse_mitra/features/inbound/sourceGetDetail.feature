@@ -11,6 +11,7 @@ Feature: Get Inbound Source Detail
     And user clicks Source CTA button at inbound Request detail
     Then user should be at inbound Source detail page with <status> Request
     And user should see similar inbound Source data between detail page and <status> Request
+    And user should see disabled global filter dropdown
     When user logs out from WMS
 
     Examples:

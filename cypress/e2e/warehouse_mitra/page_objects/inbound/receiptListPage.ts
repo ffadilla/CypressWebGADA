@@ -11,7 +11,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
   createReceiptCTAButton = "[type=button]";
 
   tableBody = '[data-testid="inbound_list"]';
-  accordionParent = "#panel[index]a-header";
+  accordionParent = "#panelindexa-header";
   accordionParentReceiptIDPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(1) > a > .MuiTypography-root";
   accordionParentCreatedDatePointer =
@@ -33,7 +33,10 @@ export default class ReceiptListPage extends InboundBaseListPage {
   accordionChildDeliveryMethodPointer =
     " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(4)";
 
-  firstRowAccordionParent = this.accordionParent.split("[index]").join("0");
+  firstRowAccordionParent = this.utils.replaceElementIndex(
+    this.accordionParent,
+    0
+  );
   firstRowAccordionReceiptID =
     this.firstRowAccordionParent + this.accordionParentReceiptIDPointer;
   firstRowAccordionCreatedDate =
@@ -41,7 +44,10 @@ export default class ReceiptListPage extends InboundBaseListPage {
   firstRowAccordionStatus =
     this.firstRowAccordionParent + this.accordionParentStatusPointer;
 
-  firstRowAccordionChild = this.accordionChild.split("[index]").join("0");
+  firstRowAccordionChild = this.utils.replaceElementIndex(
+    this.accordionChild,
+    0
+  );
   firstRowAccordionSourceID =
     this.firstRowAccordionChild + this.accordionChildSourceIDPointer;
   firstRowAccordionSourceType =

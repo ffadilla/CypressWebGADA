@@ -51,6 +51,10 @@ When("user redirects to inventory menu", () => {
   basePage.clickInventoryMenu();
 });
 
+Then("user should see disabled global filter dropdown", () => {
+  basePage.assertDisabledGlobalFilter();
+});
+
 Then("user should be logged out", () => {
   basePage.logout();
 });

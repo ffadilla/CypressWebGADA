@@ -9,6 +9,7 @@ Feature: Get Inbound Receipt Detail
     And user clicks the first data on inbound Receipt table
     Then user should be at <status> inbound Receipt detail page
     And user should see similar inbound Receipt data between detail page and receipt list
+    And user should see disabled global filter dropdown
     When user logs out from WMS
 
     Examples:

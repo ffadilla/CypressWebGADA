@@ -7,6 +7,7 @@ Feature: Create Inbound Source
   Scenario: Fail to create a new inbound Source/Request with null form
     And user clicks create new inbound request button
     Then user should be at inbound Request form
+    And user should see disabled global filter dropdown
     And user clicks new inbound request form submission button
     Then empty error messages for single Request should appear at create new inbound Request form
     When user logs out from WMS
@@ -14,6 +15,7 @@ Feature: Create Inbound Source
   Scenario: User successfully create a new inbound Source/Request
     When user clicks create new inbound request button
     Then user should be at inbound Request form
+    And user should see disabled global filter dropdown
 
     When user fills inbound Source ID at new inbound request form
     And user selects the first options of <storeKeyword> on store name dropdown at new inbound request form
@@ -50,6 +52,7 @@ Feature: Create Inbound Source
     And user clicks create new inbound request button
     Then user should be at inbound Request form
     And user should see "Warehouse Mitra Cypress" applied as warehouse store dropdown on inbound Request form
+    And user should see disabled global filter dropdown
 
     When user fills inbound Source ID at new inbound request form
     And user selects <inboundType> as inbound type at new inbound request form

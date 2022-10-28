@@ -142,4 +142,9 @@ export default class BasePage {
      *
      */
   }
+
+  assertDisabledGlobalFilter() {
+    cy.get(this.storeGlobalFilter).should("be.disabled");
+    cy.get(this.warehouseGlobalFilter).should("be.disabled");
+  }
 }
