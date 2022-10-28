@@ -4,7 +4,7 @@ Feature: Cancel Inbound Source
     Given user already logged in to WMS as "superuser"
     When user redirects to inbound Request menu
     And user clicks create new inbound request button
-    And user creates a new inbound Source Request
+    Given user creates a new inbound Source Request to "Warehouse Mitra Cypress" - "Cyp" from "Faris" with product "Beng"
     And user applies "created Source ID" to find related inbound Request
     And user clicks the first data on inbound Request table
     And user clicks Source CTA button at inbound Request detail

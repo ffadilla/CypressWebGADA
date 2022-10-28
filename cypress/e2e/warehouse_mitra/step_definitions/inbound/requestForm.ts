@@ -3,19 +3,22 @@ import RequestFormPage from "../../page_objects/inbound/requestFormPage";
 
 const requestFormPage = new RequestFormPage();
 
-Given("user creates a new inbound Source Request", () => {
-  requestFormPage.typeSourceID();
-  requestFormPage.setWarehouse("Cypress");
-  requestFormPage.setSourceType("Retur");
-  requestFormPage.setStore("Cyp");
-  requestFormPage.setTargetStore("Faris");
-  requestFormPage.setSourceDate("13", "1", "2022");
-  requestFormPage.setDeliveryDate("23", "11", "2023");
-  requestFormPage.setDeliveryMethod("STORE COURIER");
-  requestFormPage.setRequestFirstProductName("Beng");
-  requestFormPage.setRequestFirstProductAmount(10);
-  requestFormPage.submitRequestForm();
-});
+Given(
+  "user creates a new inbound Source Request to {string} - {string} from {string} with product {string}",
+  (warehouse: string, store: string, targetStore: string, product: string) => {
+    requestFormPage.typeSourceID();
+    requestFormPage.setWarehouse(warehouse);
+    requestFormPage.setSourceType("Retur");
+    requestFormPage.setStore(store);
+    requestFormPage.setTargetStore(targetStore);
+    requestFormPage.setSourceDate("13", "1", "2022");
+    requestFormPage.setDeliveryDate("23", "11", "2023");
+    requestFormPage.setDeliveryMethod("STORE COURIER");
+    requestFormPage.setRequestFirstProductName(product);
+    requestFormPage.setRequestFirstProductAmount(10);
+    requestFormPage.submitRequestForm();
+  }
+);
 
 When("user fills inbound Source ID at new inbound request form", () => {
   requestFormPage.typeSourceID();
