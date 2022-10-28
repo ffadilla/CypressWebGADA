@@ -10,6 +10,7 @@ export function deleteTestDataSequence() {
   deletePrincipalTestData();
   deleteSeedInventoryData();
   deleteCustomerTestData();
+  deleteSupplierTestData();
 }
 
 export function insertTestDataSequence() {
@@ -1035,4 +1036,40 @@ export function convertOrdinalToCardinalNumber(input: any) {
 
 export function numberWithSeparators(input: any) {
   return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function deleteSupplierTestData() {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "consignor",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      name: "Web Automation Test Supplier",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      sort_by: "NAME",
+      sort_type: "asc",
+    },
+  }).then((resp) => {
+    const data = resp.body.data;
+    const supplierIds: string[] = [];
+
+    for (let i = 0; i < data.length; i++) {
+      supplierIds.push(data[i].id.toString());
+    }
+
+    for (let supplierId of supplierIds) {
+      cy.request({
+        method: "DELETE",
+        url: gadaConfig.saas.baseApiUrl + "consignor/" + supplierId,
+        failOnStatusCode: false,
+        qs: {
+          store_id: gadaConfig.saas.testUserAccount.storeId,
+        },
+      });
+    }
+  });
+
+  cy.reload(true);
 }
