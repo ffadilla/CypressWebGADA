@@ -80,7 +80,12 @@ When("user types {string} on input jumlah stock cell", (input: string) => {
   cy.get("@inventoryName").then((inventoryName: any) => {
     cy.get("@uomId").then((uomId: any) => {
       bulkAddPage.typeBulkAddInputJumlahStok(input, inventoryName, uomId);
-      //cy.get(bulkAddPage.bulkAddInputJumlahStok+inventoryName+"_"+uomId).should("have.text", "input");
+      cy.get(
+        bulkAddPage.bulkAddInputJumlahStok +
+          utils.replaceWhiteSpace(inventoryName) +
+          "_" +
+          uomId
+      ).should("have.value", input);
     });
   });
 });
@@ -95,7 +100,12 @@ When(
           inventoryName,
           uomId
         );
-        //cy.get(bulkAddPage.bulkAddInputHargaModalPerUnit+inventoryName+"_"+uomId).should("have.value", '120.000');
+        cy.get(
+          bulkAddPage.bulkAddInputHargaModalPerUnit +
+            utils.replaceWhiteSpace(inventoryName) +
+            "_" +
+            uomId
+        ).should("have.value", "Rp " + utils.numberWithSeparators(input));
       });
     });
   }
@@ -111,7 +121,12 @@ When(
           inventoryName,
           uomId
         );
-        //cy.get(bulkAddPage.bulkAddInputHargaJualPerUnit+inventoryName+"_"+uomId).should("have.value", '140.000');
+        cy.get(
+          bulkAddPage.bulkAddInputHargaJualPerUnit +
+            utils.replaceWhiteSpace(inventoryName) +
+            "_" +
+            uomId
+        ).should("have.value", "Rp " + utils.numberWithSeparators(input));
       });
     });
   }

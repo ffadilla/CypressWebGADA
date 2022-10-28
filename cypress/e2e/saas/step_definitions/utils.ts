@@ -289,7 +289,7 @@ export function createSeedCustomer() {
 }
 
 export function deleteBulkAddInventoryData() {
-  let array = ["9216"];
+  let array = ["9216", "20805"];
 
   for (let i = 0; i < array.length; i++) {
     cy.request({

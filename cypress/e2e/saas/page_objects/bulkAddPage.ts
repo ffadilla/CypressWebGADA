@@ -20,6 +20,7 @@ export default class BulkAddPage extends BasePage {
   bulkAddSimpanButton = "#button_bulk_add_simpan";
   bulkAddSuccessModalButtonPrimary = "#button_success_modal_primary";
   bulkAddSuccessModalButtonSecondary = "#button_success_modal_secondary";
+  bulkAddTambahBarangResult = "#div_tambah_barang_results";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
