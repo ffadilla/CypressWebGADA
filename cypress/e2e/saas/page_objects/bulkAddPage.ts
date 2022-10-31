@@ -21,6 +21,36 @@ export default class BulkAddPage extends BasePage {
   bulkAddSuccessModalButtonPrimary = "#button_success_modal_primary";
   bulkAddSuccessModalButtonSecondary = "#button_success_modal_secondary";
   bulkAddTambahBarangResult = "#div_tambah_barang_results";
+  bulkAddTambahCustomInventoryOption = "#input_add_custom_inventory-option-0";
+  bulkAddRemoveRow = "#button_0_0_remove";
+  bulkAddDisabledItem = "#div_tambah_barang_results";
+  bulkAddIsiManualInventory = "#button_tambah_barang_isi_manual";
+  bulkAddInputSearchCustomUomBuying = "#input_search_custom_uom_buying";
+  bulkAddInputSearchCustomUomSelling = "#input_search_custom_uom_selling";
+  bulkAddButtonCustomUomBuying = "#button_add_custom_uom_buying";
+  bulkAddInputAddCustomUomBuyingOption =
+    "#input_add_custom_uom_buying-option-0";
+  bulkAddInputUomPopoverChecboxSelling = "#input_uom_popover_checkbox_selling_";
+  bulkAddInputCheckboxTambahBarangOption =
+    "#input_checkbox_tambah_barang_option_";
+
+  //Multiple UOM
+  bulkAddInputStokMultipleKarton = "#input_jumlah_stok_djarum_coklat_12_2";
+  bulkAddInputStokMultipleBal = "#input_jumlah_stok_djarum_coklat_12_7";
+  bulkAddInputStokMultipleSlop = "#input_jumlah_stok_djarum_coklat_12_8";
+  bulkAddInputStokMultiplePieces = "#input_jumlah_stok_djarum_coklat_12_5";
+
+  bulkAddInputHargaModalKarton =
+    "#input_harga_modal_per_unit_djarum_coklat_12_2";
+  bulkAddInputHargaModalBal = "#input_harga_modal_per_unit_djarum_coklat_12_7";
+  bulkAddInputHargaModalSlop = "#input_harga_modal_per_unit_djarum_coklat_12_8";
+  bulkAddInputHargaModalPieces =
+    "#input_harga_modal_per_unit_djarum_coklat_12_5";
+
+  bulkAddInputHargaJualKarton = "#input_harga_jual_per_unit_djarum_coklat_12_2";
+  bulkAddInputHargaJualBal = "#input_harga_jual_per_unit_djarum_coklat_12_7";
+  bulkAddInputHargaJualSlop = "#input_harga_jual_per_unit_djarum_coklat_12_8";
+  bulkAddInputHargaJualPieces = "#input_harga_jual_per_unit_djarum_coklat_12_5";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
@@ -105,5 +135,97 @@ export default class BulkAddPage extends BasePage {
 
   clickBulkAddSuccessModalButtonSecondary() {
     cy.get(this.bulkAddSuccessModalButtonSecondary).click();
+  }
+
+  clickBulkAddRemoveRow() {
+    cy.get(this.bulkAddRemoveRow).click();
+  }
+
+  clickBulkAddIsiManualInventory() {
+    cy.get(this.bulkAddIsiManualInventory).click();
+  }
+
+  clickBulkAddTambahCustomInventoryOption() {
+    cy.get(this.bulkAddTambahCustomInventoryOption).click();
+  }
+
+  typesBulkAddInputSearchCustomUomBuying(input: string) {
+    cy.get(this.bulkAddInputSearchCustomUomBuying).type(input);
+  }
+
+  typesBulkAddInputSearchCustomUomSelling(input: string) {
+    cy.get(this.bulkAddInputSearchCustomUomSelling).type(input);
+  }
+
+  clickBulkAddInputUomPopoverChecboxSelling(uomId: string) {
+    cy.get(this.bulkAddInputUomPopoverChecboxSelling + uomId).check();
+  }
+
+  clickBulkAddButtonCustomUomBuying() {
+    cy.get(this.bulkAddButtonCustomUomBuying).click();
+  }
+
+  clickbulkAddInputAddCustomUomBuyingOption() {
+    cy.get(this.bulkAddInputAddCustomUomBuyingOption).click();
+  }
+
+  uncheckBulkAddInputCheckboxTambahBarangOption(inventoryName: string) {
+    cy.get(
+      this.bulkAddInputCheckboxTambahBarangOption + inventoryName
+    ).uncheck();
+  }
+
+  checkBulkAddInputCheckboxTambahBarangOption(inventoryName: string) {
+    cy.get(this.bulkAddInputCheckboxTambahBarangOption + inventoryName).check();
+  }
+
+  // Multiple UOM
+
+  typebulkAddInputStokMultipleKarton(input: string) {
+    cy.get(this.bulkAddInputStokMultipleKarton).type(input);
+  }
+
+  typebulkAddInputStokMultipleBal(input: string) {
+    cy.get(this.bulkAddInputStokMultipleBal).type(input);
+  }
+
+  typebulkAddInputStokMultipleSlop(input: string) {
+    cy.get(this.bulkAddInputStokMultipleSlop).type(input);
+  }
+
+  typebulkAddInputStokMultiplePieces(input: string) {
+    cy.get(this.bulkAddInputStokMultiplePieces).type(input);
+  }
+
+  typebulkAddInputHargaModalKarton(input: string) {
+    cy.get(this.bulkAddInputHargaModalKarton).type(input);
+  }
+
+  typebulkAddInputHargaModalBal(input: string) {
+    cy.get(this.bulkAddInputHargaModalBal).type(input);
+  }
+
+  typebulkAddInputHargaModalSlop(input: string) {
+    cy.get(this.bulkAddInputHargaModalSlop).type(input);
+  }
+
+  typebulkAddInputHargaModalPieces(input: string) {
+    cy.get(this.bulkAddInputHargaModalPieces).type(input);
+  }
+
+  typebulkAddInputHargaJualKarton(input: string) {
+    cy.get(this.bulkAddInputHargaJualKarton).type(input);
+  }
+
+  typebulkAddInputHargaJualBal(input: string) {
+    cy.get(this.bulkAddInputHargaJualBal).type(input);
+  }
+
+  typebulkAddInputHargaJualSlop(input: string) {
+    cy.get(this.bulkAddInputHargaJualSlop).type(input);
+  }
+
+  typebulkAddInputHargaJualPieces(input: string) {
+    cy.get(this.bulkAddInputHargaJualPieces).type(input);
   }
 }

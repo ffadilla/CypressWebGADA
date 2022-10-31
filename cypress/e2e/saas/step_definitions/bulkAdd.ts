@@ -1,8 +1,10 @@
-import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import BulkAddPage from "../../../e2e/saas/page_objects/bulkAddPage";
 import * as utils from "./utils";
 
 const bulkAddPage = new BulkAddPage();
+let uomName: string;
+let customUomName: string;
 
 Given("user visits bulk add inventory page", () => {
   bulkAddPage.navigate(bulkAddPage.path);
@@ -72,7 +74,7 @@ When("user clicks on {string} selling uom checkbox", (uomName: string) => {
 });
 
 When("user click lanjut on uom select popover", () => {
-  cy.wait(2000);
+  cy.wait(1000);
   bulkAddPage.clickBulkAddLanjutButtonSelectUom();
 });
 
@@ -135,10 +137,117 @@ When(
 When("user click simpan bulk add inventory", () => {
   cy.wait(1000);
   bulkAddPage.clickBulkAddSimpanButton();
-  cy.wait(2000);
+  cy.wait(1000);
 });
 
 When("user click kembali ke halaman daftar barang button", () => {
-  cy.wait(2000);
+  cy.wait(10000);
   bulkAddPage.clickBulkAddSuccessModalButtonPrimary();
+});
+
+When("user clicks on isi manual text button", () => {
+  bulkAddPage.clickBulkAddIsiManualInventory();
+});
+
+When("user click tambah barang on nama barang option field", () => {
+  bulkAddPage.clickBulkAddTambahCustomInventoryOption();
+});
+
+When("user click tambah unit baru", () => {
+  bulkAddPage.clickBulkAddButtonCustomUomBuying();
+});
+
+When("user click tambah nama unit baru option", () => {
+  bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
+});
+
+When("user type {string} on search custom buying", () => {
+  uomName = utils.generateRandomString(5);
+  customUomName = uomName;
+  bulkAddPage.typesBulkAddInputSearchCustomUomBuying("WebAutoUOM " + uomName);
+  cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
+    "have.value",
+    "WebAutoUOM " + uomName
+  );
+});
+
+When(
+  "user types recently created custom unit selling name on search unit field",
+  () => {
+    bulkAddPage.typesBulkAddInputSearchCustomUomSelling(customUomName);
+    cy.get(bulkAddPage.bulkAddInputSearchCustomUomSelling).should(
+      "have.value",
+      customUomName
+    );
+  }
+);
+
+When(
+  "user clicks on {string} selling custom uom checkbox",
+  (uomName: string) => {
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(
+        utils.replaceWhiteSpace(uomId)
+      );
+    });
+  }
+);
+
+When(
+  "user uncheck on {string} bulk add custom inventory checkbox",
+  (inventoryName: string) => {
+    cy.wait(1000);
+    bulkAddPage.uncheckBulkAddInputCheckboxTambahBarangOption(
+      utils.replaceWhiteSpace(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  }
+);
+
+When(
+  "user check on {string} bulk add custom inventory checkbox",
+  (inventoryName: string) => {
+    cy.wait(1000);
+    bulkAddPage.checkBulkAddInputCheckboxTambahBarangOption(
+      utils.replaceWhiteSpace(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  }
+);
+
+//Assertion
+
+Then("user delete all row on bulk add form", (rowCount: number) => {
+  if (rowCount < 1) return; // if no rows remain, terminate recursion
+  cy.get("#button_0_0_remove", { timeout: 10000 })
+    .first()
+    .click({ force: true });
+  cy.get("#button_0_0_remove", { timeout: 10000 })
+    .first()
+    .click({ force: true });
+  cy.get("#button_bulk_add_simpan").should("be.disabled");
+});
+
+Then(
+  "user can not clicks on {string} bulk add tambah barang input checkbox but disabled",
+  (inventoryName: string) => {
+    cy.wait(1000);
+    cy.get(
+      "#input_checkbox_tambah_barang_option_" +
+        utils.replaceWhiteSpace(inventoryName)
+    ).should("be.disabled");
+    cy.wrap(inventoryName).as("inventoryName");
+  }
+);
+
+Then("text barang sudah ada ditable is displayed on this item product", () => {
+  cy.get('[for="input_checkbox_tambah_barang_option_kukis_300gr"]').should(
+    "have.text",
+    "kukis 300grSudah ditambahkan ke tabel"
+  );
+});
+
+Then("tooltip is displayed on some cell that no input", () => {
+  cy.get("td").eq(2).should("have.css", "border-color", "rgb(218, 56, 54)");
 });
