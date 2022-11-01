@@ -17,6 +17,7 @@ When("user click nama barang atau scan barcode searchbox", () => {
 When("user types {string} on nama barang searchbox", (input: string) => {
   bulkAddPage.typeBulkAddTambahBarangSearchbar(input);
   cy.get(bulkAddPage.bulkAddTambahBarangSearchbar).should("have.value", input);
+  cy.wrap(input).as("inventoryName");
 });
 
 When(

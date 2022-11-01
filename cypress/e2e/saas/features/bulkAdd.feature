@@ -5,7 +5,6 @@ Background:
     And user deletes test data
     And user visits bulk add inventory page
 
-@ignore-this
 Scenario: User bulk adds 20 inventories with mandatory fields
     When user click nama barang atau scan barcode searchbox
     And user types "kukis 300gr" on nama barang searchbox
@@ -230,7 +229,7 @@ Scenario: User bulk adds 20 inventories with mandatory fields
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
-@ignore-this    
+
 Scenario: User deletes all product item row
     When user click nama barang atau scan barcode searchbox
     And user types "kukis 300gr" on nama barang searchbox
@@ -255,7 +254,7 @@ Scenario: User deletes all product item row
     And user types "14000" on input harga modal per unit cell
     And user types "18000" on input harga jual per unit cell
     Then user delete all row on bulk add form
-@ignore-this     
+
 Scenario: User adds product to form, product is already added to form
     When user click nama barang atau scan barcode searchbox
     And user types "kukis 300gr" on nama barang searchbox
@@ -272,7 +271,7 @@ Scenario: User adds product to form, product is already added to form
     Then user types "kukis 300gr" on nama barang searchbox
     Then user can not clicks on "kukis 300gr" bulk add tambah barang input checkbox but disabled
     Then text barang sudah ada ditable is displayed on this item product
-@ignore-this  
+
 Scenario: User bulk adds inventories with missing mandatory fields on rows
     When user click nama barang atau scan barcode searchbox
     And user types "Marlboro Merah 20 SLOP" on nama barang searchbox
@@ -298,8 +297,6 @@ Scenario: User adds custom inventory with single stock and selling unit
     And user types "web automation" on nama barang searchbox
     And user clicks on isi manual text button
     And user click tambah barang on nama barang option field
-    And user uncheck on "web automation" bulk add custom inventory checkbox
-    And user check on "web automation" bulk add custom inventory checkbox
     And user clicks on simpan button popover
     And user clicks on "empty" open uom select button of "web automation"
     And user type "WebAutoUom " on search custom buying
