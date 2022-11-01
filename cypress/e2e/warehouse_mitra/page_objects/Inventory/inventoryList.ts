@@ -10,15 +10,14 @@ export default class InventoryListPage extends BaseListPage {
   resetSearchbox = 'svg[data-testid="CloseRoundedIcon"]';
   hideZeroQtyToggle = 'input[type="checkbox"]';
   inventoryListXPath = '//tbody[contains(@class, "MuiTableBody-root")]';
-  inventorySKUXPath = this.inventoryListXPath + "/tr[{{index}}]/td[1]";
+  inventorySKUXPath = this.inventoryListXPath + "/tr[index]/td[1]";
   inventoryProductNameXPath =
-    this.inventoryListXPath + "/tr[{{index}}]/td[2]/div[1]";
+    this.inventoryListXPath + "/tr[index]/td[2]/div[1]";
   inventoryProductSubtextXPath =
-    this.inventoryListXPath + "/tr[{{index}}]/td[2]/div[2]";
-  inventoryProductQtyXPath =
-    this.inventoryListXPath + "/tr[{{index}}]/td[4]/div";
+    this.inventoryListXPath + "/tr[index]/td[2]/div[2]";
+  inventoryProductQtyXPath = this.inventoryListXPath + "/tr[index]/td[4]/div";
   inventoryLastUpdatedXPath =
-    this.inventoryListXPath + "/tr[{{index}}]/td[5]/div[1]";
+    this.inventoryListXPath + "/tr[index]/td[5]/div[1]";
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";

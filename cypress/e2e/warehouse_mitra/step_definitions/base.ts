@@ -24,8 +24,19 @@ When("user logs out from WMS", () => {
   basePage.logout();
 });
 
-When("user redirects to inbound menu", () => {
-  cy.xpath(basePage.inboundMenuButton).click();
+When(
+  "user applies {string} and its store as global filters",
+  (warehouse: string) => {
+    basePage.setGlobalFilter(warehouse);
+  }
+);
+
+When("user redirects to inbound Request menu", () => {
+  basePage.clickInboundRequestMenu();
+});
+
+When("user redirects to inbound Receipt menu", () => {
+  basePage.clickInboundReceiptMenu();
 });
 
 When("user redirects to the previous visited page", () => {
@@ -38,6 +49,10 @@ When("user chooses menu Barang Keluar", () => {
 
 When("user redirects to inventory menu", () => {
   basePage.clickInventoryMenu();
+});
+
+Then("user should see disabled global filter dropdown", () => {
+  basePage.assertDisabledGlobalFilter();
 });
 
 Then("user should be logged out", () => {

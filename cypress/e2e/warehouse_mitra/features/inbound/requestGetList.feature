@@ -4,24 +4,25 @@ Feature: Get Inbound Request List
     Given user already logged in to WMS as "superuser"
 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound request list
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks <status> status chip at inbound Request list
     And user applies <keyword> to find related inbound Request
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
-    And user applies <deliveryDate> as delivery date filter at inbound Request list
+    And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Request list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Request list
     Then user should be at inbound Request list
     And query param for <status> "status" should be added to inbound Request list URL
     And query param for <keyword> "keyword" should be added to inbound Request list URL
     And query param for <deliveryMethod> "delivery method" should be added to inbound Request list URL
-    And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
+    And query param for <expDeliveryDate> "delivery date" should be added to inbound Request list URL
     And user should able to see empty inbound Requests list
     When user logs out from WMS
     Examples:
-    | status         | keyword             | deliveryMethod   | deliveryDate  |
-    | "Dibatalkan"   | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           |
+    | status         | keyword             | deliveryMethod   | deliveryDate  | deliveryMonth | deliveryYear  | expDeliveryDate |
+    | "Dibatalkan"   | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           | "1"         | "1960"        | "1960-01-01"    |
 
   Scenario Outline: User successfully filters inbound request list by <status> status
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks <status> status chip at inbound Request list
     Then user should be at inbound Request list
     And query param for <status> "status" should be added to inbound Request list URL
@@ -38,7 +39,7 @@ Feature: Get Inbound Request List
     | "Dibatalkan"      |
 
   Scenario Outline: User successfully using <keyword> to search <searchTarget> for inbound request list
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user applies <keyword> to find related inbound Request
     Then user should be at inbound Request list
     And query param for <keyword> "keyword" should be added to inbound Request list URL
@@ -54,7 +55,7 @@ Feature: Get Inbound Request List
     | "Toko"            | "supplier store"|
 
   Scenario Outline: User successfully filters inbound request list by <deliveryMethod> deliveryMethod
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user applies <deliveryMethod> as delivery method filter at inbound Request list
     Then user should be at inbound Request list
     And query param for <deliveryMethod> "delivery method" should be added to inbound Request list URL
@@ -70,24 +71,23 @@ Feature: Get Inbound Request List
     | "STORE COURIER"   |
 
  Scenario Outline: User successfully filters inbound request list by <deliveryDate> deliveryDate
-    //TODO: Precondition to create inbound Request with 22 as delivery date
-    When user redirects to inbound menu
-    And user applies <deliveryDate> as delivery date filter at inbound Request list
+    Given user redirects to inbound Request menu
+    And user applies "25" as page amount at inbound Request list
+    And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Request list
     Then user should be at inbound Request list
-    And query param for <deliveryDate> "delivery date" should be added to inbound Request list URL
-    And user should only able to see inbound Request with <deliveryDate> "delivery date"
+    And query param for <expDeliveryDate> "delivery date" should be added to inbound Request list URL
+    And user should only able to see inbound Request with <expDeliveryDate> "delivery date"
+    
     When user resets any applied delivery date filter at inbound Request list
     Then query param for "null" "delivery date" should be added to inbound Request list URL
-    When user logs out from WMS
+    And user logs out from WMS
 
     Examples:
-    | deliveryDate    |
-    | "22"            |
+    | deliveryDate    | deliveryMonth | deliveryYear | expDeliveryDate  |
+    | "23"            | "11"          | "2023"       | "2023-11-23"     |
 
    Scenario Outline: User successfully filters inbound Request list by <pageAmount> page amount
-    //TODO: Precondition to create inbound Request with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Request list tab
+    When user redirects to inbound Request menu
     And user applies <pageAmount> as page amount at inbound Request list
     Then user should be at inbound Request list
     And query param for <pageAmount> "rowsPerPage" should be added to inbound Request list URL
@@ -98,3 +98,10 @@ Feature: Get Inbound Request List
     | "15"          |
     | "20"          |
     | "25"          |
+
+  Scenario: User successfully applies warehouse and store global filter at inbound request list
+    When user redirects to inbound Request menu
+    And user applies "25" as page amount at inbound Request list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Request list
+    Then "Warehouse Mitra Cypress" UUID should be added as inbound Request list API headers 
+    When user logs out from WMS

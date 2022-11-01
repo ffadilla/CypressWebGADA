@@ -1,44 +1,74 @@
-import BaseListPage from "./baseListPage";
+import InboundBaseListPage from "./inboundBaseListPage";
 
-export default class RequestListPage extends BaseListPage {
+export default class RequestListPage extends InboundBaseListPage {
   path = "/inventory/inbound/request/list";
-  createRequestButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
-  requestItemListBody =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[1]/table/tbody';
-  requestItemSourceIDPointer = "/td[1]/div[1]";
-  requestItemSourceTypePointer = "/td[1]/div[2]";
-  requestItemRequestIDPointer = "/td[2]/a/div[1]";
-  requestItemSupplierStorePointer = "/td[3]/div";
-  requestItemDeliveryMethodPointer = "/td[4]/div";
-  requestItemDeliveryDatePointer = "/td[2]/a/div[2]/span";
-  requestItemStatusPointer = "/td[5]/span/span[2]";
-  requestItemFirstElementPointer = "/tr[1]";
-  firstRequestItemSourceID = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSourceIDPointer
+  requestItemListBodyXPath = '//tbody[contains(@class, "MuiTableBody-root")]';
+  requestItemSourceIDXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[1]/div[1]";
+  requestItemSourceTypeXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[1]/div[2]";
+  requestItemRequestIDXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[2]/a/div[1]";
+  requestItemSupplierStoreXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[3]/div";
+  requestItemDeliveryMethodXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[4]/div";
+  requestItemDeliveryDate = '[data-testid="inbound_list[index].delivery_date"]';
+  requestItemReceiptID = '[data-testid="inbound_list[index].receipt_id"]';
+  requestItemStatusXPath =
+    this.requestItemListBodyXPath + "/tr[index]/td[5]/span/span[2]";
+  requestItemLastUpdated =
+    '[data-testid="inbound_list[index].last_updated_time"]';
+
+  firstRequestItemSourceID = this.utils.replaceElementIndex(
+    this.requestItemSourceIDXPath,
+    1
   );
-  firstRequestItemSourceType = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSourceTypePointer
+  firstRequestItemSourceType = this.utils.replaceElementIndex(
+    this.requestItemSourceTypeXPath,
+    1
   );
-  firstRequestItemRequestID = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemRequestIDPointer
+  firstRequestItemRequestID = this.utils.replaceElementIndex(
+    this.requestItemRequestIDXPath,
+    1
   );
-  firstRequestItemTargetStore = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemSupplierStorePointer
+  firstRequestItemTargetStore = this.utils.replaceElementIndex(
+    this.requestItemSupplierStoreXPath,
+    1
   );
-  firstRequestItemDeliveryMethod = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemDeliveryMethodPointer
+  firstRequestItemDeliveryMethod = this.utils.replaceElementIndex(
+    this.requestItemDeliveryMethodXPath,
+    1
   );
-  firstRequestItemDeliveryDate = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemDeliveryDatePointer
+  firstRequestItemDeliveryDate = this.utils.replaceElementIndex(
+    this.requestItemDeliveryDate,
+    0
   );
-  firstRequestItemStatus = this.requestItemListBody.concat(
-    this.requestItemFirstElementPointer + this.requestItemStatusPointer
+  firstRequestItemStatus = this.utils.replaceElementIndex(
+    this.requestItemStatusXPath,
+    1
   );
+
+  waitSearchRender() {
+    cy.wait(500);
+    /**
+     * This lines still return inconsitent behavior
+     * 
+    this.utils.interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
+    cy.wait("@inboundRequestListAPI").then((API) => {
+      const responseBody = API.response?.body;
+      if (responseBody.total_data === 0)
+        cy.get(this.notFoundRequestText).should("be.visible");
+      else cy.xpath(this.firstRequestItemStatus).should("be.visible");
+    });
+     *
+     */
+  }
 
   clickCreateNewRequest() {
-    cy.xpath(this.createRequestButton).click();
+    cy.wait(500); //TODO: Request implement test-id on FE
+    cy.get(this.inboundListButtons).contains("Permintaan Barang Masuk").click();
     cy.contains(this.createNewRequestButtonOption).click();
   }
 
@@ -58,7 +88,7 @@ export default class RequestListPage extends BaseListPage {
     cy.xpath(this.firstRequestItemDeliveryMethod)
       .invoke("text")
       .as("requestListDeliveryMethod");
-    cy.xpath(this.firstRequestItemDeliveryDate)
+    cy.get(this.firstRequestItemDeliveryDate)
       .invoke("text")
       .as("requestListDeliveryDate");
     cy.xpath(this.firstRequestItemStatus)
@@ -112,7 +142,7 @@ export default class RequestListPage extends BaseListPage {
       );
       expect(
         cy
-          .xpath(this.firstRequestItemDeliveryDate)
+          .get(this.firstRequestItemDeliveryDate)
           .should("contain", formattedDeliveryDate)
       );
     });
@@ -133,40 +163,39 @@ export default class RequestListPage extends BaseListPage {
   }
 
   assertRequestItemsBySearchFilter(target: string, value: string) {
-    let pointer = "";
-    let firstRequestItemStatus = this.requestItemListBody.concat(
-      this.requestItemFirstElementPointer + this.requestItemStatusPointer
-    );
-
-    cy.xpath(firstRequestItemStatus).should("be.visible");
+    let element = "";
 
     switch (target) {
       case "source ID":
-        pointer = this.requestItemSourceIDPointer;
+        element = this.requestItemSourceIDXPath;
         break;
       case "request ID":
-        pointer = this.requestItemRequestIDPointer;
+        element = this.requestItemRequestIDXPath;
         break;
       case "supplier store":
-        pointer = this.requestItemSupplierStorePointer;
+        element = this.requestItemSupplierStoreXPath;
         break;
       case "status":
-        pointer = this.requestItemStatusPointer;
+        element = this.requestItemStatusXPath;
         break;
       case "delivery method":
-        pointer = this.requestItemDeliveryMethodPointer;
+        element = this.requestItemDeliveryMethodXPath;
         break;
       case "delivery date":
-        pointer = this.requestItemDeliveryDatePointer;
+        element = this.requestItemDeliveryDate;
+        value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         break;
     }
 
-    cy.xpath(this.requestItemListBody).then(($list) => {
-      for (let index = 1; index < $list.find("tr").length + 1; index++) {
-        const requestItemAttribute = this.requestItemListBody.concat(
-          "/tr[" + index + "]" + pointer
+    cy.xpath(this.requestItemListBodyXPath).then(($list) => {
+      for (let index = 1; index < $list.children().length; index++) {
+        const requestItemAttribute = this.utils.replaceElementIndex(
+          element,
+          index
         );
-        expect(cy.xpath(requestItemAttribute).should("contain", value));
+        if (target === "delivery date")
+          expect(cy.get(requestItemAttribute).should("contain", value));
+        else expect(cy.xpath(requestItemAttribute).should("contain", value));
       }
     });
   }

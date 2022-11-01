@@ -26,6 +26,19 @@ type config = {
         password: string;
       };
     };
+    warehouses: {
+      [warehouseName: string]: {
+        warehouseCode: string;
+        warehouseUUID: string;
+        stores: [
+          {
+            storeName: string;
+            storeCode: string;
+            storeUUID: string;
+          }
+        ];
+      };
+    };
   };
 };
 
