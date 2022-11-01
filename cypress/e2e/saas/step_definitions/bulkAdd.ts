@@ -69,6 +69,37 @@ When("user clicks on {} multiple buying uom checkbox", (uomName: string) => {
   }
 });
 
+When("user clicks on {} multiple selling uom checkbox", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    cy.wrap(uomNameArr[i]).as("uomName " + i);
+    utils.retrieveUomId(uomNameArr[i]);
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.cliclBulkAddInputUomCheckBoxSelling(
+        utils.replaceWhiteSpace(uomId)
+      );
+    });
+  }
+});
+
+When("user types {} on multiple input jumlah stock cell", (input: string) => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get("@uomId").then((uomId: any) => {
+      let inputArr: Array<string> = input.replace(/"/g, "").split(",");
+      for (let i = 0; i < inputArr.length; i++) {
+        cy.wrap(inputArr[i]).as("input " + i);
+        bulkAddPage.typeBulkAddInputJumlahStok(input, inventoryName, uomId);
+        cy.get(
+          bulkAddPage.bulkAddInputJumlahStok +
+            utils.replaceWhiteSpace(inventoryName) +
+            "_" +
+            uomId
+        ).should("have.value", input);
+      }
+    });
+  });
+});
+
 When("user clicks on {string} buying uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
