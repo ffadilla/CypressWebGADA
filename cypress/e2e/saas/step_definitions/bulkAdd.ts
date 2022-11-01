@@ -56,10 +56,23 @@ When(
   }
 );
 
+When("user clicks on {} multiple buying uom checkbox", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    cy.wrap(uomNameArr[i]).as("uomName " + i);
+    utils.retrieveUomId(uomNameArr[i]);
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.clickBulkAddInputUomCheckboxBuying(
+        utils.replaceWhiteSpace(uomId)
+      );
+    });
+  }
+});
+
 When("user clicks on {string} buying uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
-    bulkAddPage.clickBulkAddInputUomCheckboxBuying(
+    bulkAddPage.cliclBulkAddInputUomCheckBoxSelling(
       utils.replaceWhiteSpace(uomId)
     );
   });
