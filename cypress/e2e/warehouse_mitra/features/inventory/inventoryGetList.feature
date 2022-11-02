@@ -45,14 +45,10 @@ Feature: Get Inventory List
     And user should only able to see SKU with "non null" "quantity"
     
     When user logs out from WMS
-
+@focus 
    Scenario: User successfully filters inventory list based on latest movement date
-    When user redirects to inbound Request menu
-    And user clicks create new inbound request button
-    And user creates a new inbound Source Request to "Warehouse Mitra Cypress" - "Cyp" from "Faris" with product "Beng"
-    And user applies "created Source ID" to find related inbound Request
-    And user clicks the first data on inbound Request table
-    And user click create Receipt data at inbound Request detail page
+    When user redirects to inbound Receipt menu
+    And user clicks the first data on inbound Receipt table
     And user submits created inbound Receipt
     
     When user redirects to inventory menu
@@ -60,4 +56,12 @@ Feature: Get Inventory List
     Then query param for "input" "updated_at" should be added to inventory list URL
     And user should only able to see SKU with "today" "last updated"
     
+    When user logs out from WMS
+
+  Scenario: User successfully applies warehouse and store global filter at inbound request list
+    When user redirects to inventory menu
+    And user applies '15' as page amount at inventory list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters
+    And user clicks hide zero quantity toggle at inventory list
+    Then user should only able to see SKU with "Warehouse Mitra Cypress" and its store
     When user logs out from WMS

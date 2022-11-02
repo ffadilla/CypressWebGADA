@@ -60,3 +60,10 @@ Then(
     inventoryListPage.assertTotalPageAmount(value);
   }
 );
+
+Then(
+  "user should only able to see SKU with {string} and its store",
+  (warehouse: string) => {
+    inventoryListPage.assertInventoryByGlobalFilter(warehouse);
+  }
+);

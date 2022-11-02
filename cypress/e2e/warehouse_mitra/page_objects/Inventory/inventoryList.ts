@@ -15,6 +15,7 @@ export default class InventoryListPage extends BaseListPage {
     this.inventoryListXPath + "/tr[index]/td[2]/div[1]";
   inventoryProductSubtextXPath =
     this.inventoryListXPath + "/tr[index]/td[2]/div[2]";
+  inventoryWarehouseStoreXPath = this.inventoryListXPath + "/tr[index]/td[3]";
   inventoryProductQtyXPath = this.inventoryListXPath + "/tr[index]/td[4]/div";
   inventoryLastUpdatedXPath =
     this.inventoryListXPath + "/tr[index]/td[5]/div[1]";
@@ -92,6 +93,26 @@ export default class InventoryListPage extends BaseListPage {
             } else if (target === "last updated") {
               expect(text).to.include(this.dateFullFormat);
             } else expect(text.toLowerCase()).to.include(keyword.toLowerCase());
+          });
+      }
+    });
+  }
+
+  assertInventoryByGlobalFilter(warehouse: string) {
+    cy.xpath(this.inventoryListXPath).then(($list) => {
+      for (let index = 1; index < $list.find("tr").length + 1; index++) {
+        cy.xpath(
+          this.utils.replaceElementIndex(
+            this.inventoryWarehouseStoreXPath,
+            index
+          )
+        )
+          .invoke("text")
+          .then((text) => {
+            expect(text.split(" - ")[0]).to.equal(
+              this.warehouseData[warehouse].stores[0].storeName
+            );
+            expect(text.split(" - ")[1]).to.equal(warehouse);
           });
       }
     });
