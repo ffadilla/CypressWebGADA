@@ -63,7 +63,7 @@ Feature: Get Inventory List
     
     When user logs out from WMS
 
-  Scenario: User successfully applies warehouse and store global filter at inbound request list
+  Scenario: User successfully applies warehouse and store global filter at inventory list
     When user redirects to inventory menu
     And user applies '15' as page amount at inventory list
     And user applies "Warehouse Mitra Cypress" and its store as global filters

@@ -36,6 +36,10 @@ When(
   }
 );
 
+When("user clicks any data on inventory list table", () => {
+  inventoryListPage.clickAnySKURow();
+});
+
 Then(
   "query param for {string} {string} should be added to inventory list URL",
   (keyword: string, attribute: string) => {

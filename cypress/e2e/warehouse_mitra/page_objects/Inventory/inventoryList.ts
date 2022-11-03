@@ -18,8 +18,10 @@ export default class InventoryListPage extends BaseListPage {
     this.inventoryListXPath + "/tr[index]/td[2]/div[2]";
   inventoryWarehouseStoreXPath = this.inventoryListXPath + "/tr[index]/td[3]";
   inventoryProductQtyXPath = this.inventoryListXPath + "/tr[index]/td[4]/div";
-  inventoryLastUpdatedXPath =
+  inventoryLastUpdatedTimeXPath =
     this.inventoryListXPath + "/tr[index]/td[5]/div[1]";
+  inventoryLastUpdatedByXPath =
+    this.inventoryListXPath + "/tr[index]/td[5]/div[2]";
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
@@ -70,6 +72,64 @@ export default class InventoryListPage extends BaseListPage {
     cy.get(this.hideZeroQtyToggle).click();
   }
 
+  clickAnySKURow() {
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
+    ); //waiting for FE render
+
+    cy.xpath(this.inventoryListXPath).then(($list) => {
+      const index = this.utils.getRandomIntInclusive(
+        1,
+        $list.find("tr").length
+      );
+      this.invokeSKUData(index);
+      cy.xpath(
+        this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
+      ).click();
+    });
+  }
+
+  invokeSKUData(index: number) {
+    cy.xpath(this.utils.replaceElementIndex(this.inventorySKUXPath, index))
+      .invoke("text")
+      .as("inventoryListSKUID");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListProductName");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListOwnership");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListProductName");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryWarehouseStoreXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListWarehouseStore");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryProductQtyXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListProductQty");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryLastUpdatedTimeXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListLastUpdatedTime");
+    cy.xpath(
+      this.utils.replaceElementIndex(this.inventoryLastUpdatedByXPath, index)
+    )
+      .invoke("text")
+      .as("inventoryListLastUpdatedBy");
+  }
+
   assertInventoryBySearchFilter(target: string, keyword: string) {
     let element = "";
     let expectedHasZeroQty = false;
@@ -79,7 +139,7 @@ export default class InventoryListPage extends BaseListPage {
 
     switch (target) {
       case "last updated":
-        element = this.inventoryLastUpdatedXPath;
+        element = this.inventoryLastUpdatedTimeXPath;
         break;
       case "SKU":
         element = this.inventorySKUXPath;
