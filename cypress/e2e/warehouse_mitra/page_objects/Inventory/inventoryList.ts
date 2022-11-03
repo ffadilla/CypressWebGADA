@@ -6,6 +6,7 @@ export default class InventoryListPage extends BaseListPage {
   dateFullFormat = "";
   dateFilterButton = 'input[placeholder="Tanggal"]';
   datepickerCell = '[role="gridcell"]';
+  datepickerCTAContainer = "div.MuiDialogActions-root";
   searchbox = 'input[placeholder="Cari produk SKU dan nama produk..."]';
   resetSearchbox = 'svg[data-testid="CloseRoundedIcon"]';
   hideZeroQtyToggle = 'input[type="checkbox"]';
@@ -23,14 +24,34 @@ export default class InventoryListPage extends BaseListPage {
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
 
-  setDeliveryDateFilter(deliveryDate: string) {
-    this.date =
-      deliveryDate === "today's date"
-        ? this.utils.generateDateTime(0, "D")
-        : deliveryDate;
+  interceptListAPI() {
+    this.utils.interceptAPI(
+      "GET",
+      "/inventory/inventory-list/?*",
+      "inventoryListAPI"
+    );
+  }
+
+  waitSearchRender() {
+    cy.wait("@inventoryListAPI").then((API) => {
+      const responseBody = API.response?.body;
+      if (responseBody.total_data === 0)
+        cy.xpath(
+          this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
+        ).should("be.visible");
+      else
+        cy.xpath(
+          this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
+        ).should("be.visible");
+    });
+  }
+
+  setTodayAsDeliveryDateFilter() {
+    this.date = this.utils.generateDateTime(0, "D");
+    let month = this.utils.generateDateTime(0, "M");
+    let year = this.utils.generateDateTime(0, "YYYY");
     this.dateFullFormat = this.utils.reformatDate(this.date, "D", "D MMM YYYY");
-    cy.get(this.dateFilterButton).first().click();
-    cy.get(this.datepickerCell).contains(this.date).click();
+    this.setDatepicker(this.dateFilterButton, this.date, month, year);
     cy.get(this.dateFilterButton)
       .invoke("val")
       .should("contain", this.dateFullFormat);

@@ -3,29 +3,36 @@ import InventoryListPage from "../../page_objects/inventory/inventoryList";
 
 const inventoryListPage = new InventoryListPage();
 
-When(
-  "user applies {string} as filter date at inventory list",
-  (deliveryDate: string) => {
-    inventoryListPage.setDeliveryDateFilter(deliveryDate);
-  }
-);
+When("user applies today's date as filter date at inventory list", () => {
+  inventoryListPage.interceptListAPI();
+  inventoryListPage.setTodayAsDeliveryDateFilter();
+  inventoryListPage.waitSearchRender();
+});
 
 When("user applies {string} to find related inventory", (value: string) => {
+  inventoryListPage.interceptListAPI();
   inventoryListPage.setSearchKeyword(value);
+  inventoryListPage.waitSearchRender();
 });
 
 When("user resets any applied keyword filter at inventory list", () => {
+  inventoryListPage.interceptListAPI();
   inventoryListPage.resetSearchKeyword();
+  inventoryListPage.waitSearchRender();
 });
 
 When("user clicks hide zero quantity toggle at inventory list", () => {
+  inventoryListPage.interceptListAPI();
   inventoryListPage.clickHideZeroQty();
+  inventoryListPage.waitSearchRender();
 });
 
 When(
   "user applies {string} as page amount at inventory list",
   (value: string) => {
+    inventoryListPage.interceptListAPI();
     inventoryListPage.setPageAmount(value);
+    inventoryListPage.waitSearchRender();
   }
 );
 
