@@ -1,6 +1,6 @@
 import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import InventoryListPage from "../../../e2e/saas/page_objects/InventoryListPage";
-import InventoryDetail from "../../../e2e/saas/page_objects/InventoryDetailPage";
+import InventoryListPage from "../../../e2e/saas/page_objects/inventoryListPage";
+import InventoryDetail from "../../../e2e/saas/page_objects/inventoryDetailPage";
 import * as utils from "./utils";
 import gadaConfig from "../../utils/gadaConfig";
 

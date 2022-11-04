@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import RegistrationPage from "../../../e2e/saas/page_objects/RegistrationPage";
+import RegistrationPage from "../../../e2e/saas/page_objects/registrationPage";
 import * as utils from "./utils";
 
 const registrationPage = new RegistrationPage();
