@@ -105,6 +105,62 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
   }
 });
 
+When(
+  "user types {} on multiple input harga modal per unit cell",
+  (buying: string) => {
+    let buyingArr: Array<string> = buying.replace(/"/g, "").split(",");
+    for (let i = 0; i < buyingArr.length; i++) {
+      cy.get("@inventoryName").then((inventoryName: any) => {
+        cy.get(`@uomId ${i}`).then((uomId: any) => {
+          bulkAddPage.typeBulkAddInputHargaModalPerUnit(
+            buyingArr[i],
+            inventoryName,
+            uomId
+          );
+          cy.get(
+            bulkAddPage.bulkAddInputHargaModalPerUnit +
+              utils.replaceWhiteSpace(inventoryName) +
+              "_" +
+              uomId
+          ).should(
+            "have.value",
+            "Rp " + utils.numberWithSeparators(buyingArr[i])
+          );
+          cy.wrap(buyingArr[i]).as("stock " + i);
+        });
+      });
+    }
+  }
+);
+
+When(
+  "user types {} on multiple input harga jual per unit cell",
+  (selling: string) => {
+    let sellingArr: Array<string> = selling.replace(/"/g, "").split(",");
+    for (let i = 0; i < sellingArr.length; i++) {
+      cy.get("@inventoryName").then((inventoryName: any) => {
+        cy.get(`@uomId ${i}`).then((uomId: any) => {
+          bulkAddPage.typeBulkAddInputHargaJualPerUnit(
+            sellingArr[i],
+            inventoryName,
+            uomId
+          );
+          cy.get(
+            bulkAddPage.bulkAddInputHargaJualPerUnit +
+              utils.replaceWhiteSpace(inventoryName) +
+              "_" +
+              uomId
+          ).should(
+            "have.value",
+            "Rp " + utils.numberWithSeparators(sellingArr[i])
+          );
+          cy.wrap(sellingArr[i]).as("stock " + i);
+        });
+      });
+    }
+  }
+);
+
 When("user clicks on {string} buying uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {

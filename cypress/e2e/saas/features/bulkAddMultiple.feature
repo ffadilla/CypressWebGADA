@@ -15,14 +15,8 @@ Scenario: User bulk adds inventories with with multiple uom
     And user clicks on "Karton","Bal","Slop","Pieces" multiple selling uom checkbox
     And user click lanjut on uom select popover
     And user types "5","10","20","50" on multiple input jumlah stock cell
-    And user types "1834000" on input harga modal per unit cell
-    And user types "1837000" on input harga jual per unit cell
-    And user types "834000" on input harga modal per unit cell
-    And user types "837000" on input harga jual per unit cell
-    And user types "534000" on input harga modal per unit cell
-    And user types "537000" on input harga jual per unit cell
-    And user types "34000" on input harga modal per unit cell
-    And user types "37000" on input harga jual per unit cell
+    And user types "1834000","834000","534000","34000" on multiple input harga modal per unit cell
+    And user types "1837000","837000","537000","37000" on multiple input harga jual per unit cell
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
