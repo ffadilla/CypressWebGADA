@@ -75,7 +75,7 @@ When("user clicks on {} multiple selling uom checkbox", (uomName: string) => {
     cy.wrap(uomNameArr[i]).as("uomName " + i);
     utils.retrieveUomId(uomNameArr[i]);
     cy.get("@uomId").then((uomId: any) => {
-      bulkAddPage.cliclBulkAddInputUomCheckBoxSelling(
+      bulkAddPage.clicklBulkAddInputUomCheckBoxSelling(
         utils.replaceWhiteSpace(uomId)
       );
     });
@@ -103,7 +103,7 @@ When("user types {} on multiple input jumlah stock cell", (input: string) => {
 When("user clicks on {string} buying uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
-    bulkAddPage.cliclBulkAddInputUomCheckBoxSelling(
+    bulkAddPage.clickBulkAddInputUomCheckboxBuying(
       utils.replaceWhiteSpace(uomId)
     );
   });
@@ -112,7 +112,7 @@ When("user clicks on {string} buying uom checkbox", (uomName: string) => {
 When("user clicks on {string} selling uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
-    bulkAddPage.cliclBulkAddInputUomCheckBoxSelling(
+    bulkAddPage.clicklBulkAddInputUomCheckBoxSelling(
       utils.replaceWhiteSpace(uomId)
     );
   });
@@ -260,6 +260,73 @@ When(
     cy.wrap(inventoryName).as("inventoryName");
   }
 );
+
+When("user click on stock reminder toggle", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.wait(500);
+    bulkAddPage.clickBulkAddButtonToggleIsStockReminderActive(
+      utils.replaceWhiteSpace(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  });
+});
+
+When("user types {string} on batas stock textbox", (input: string) => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    bulkAddPage.typeBulkAddInputBatasStock(input, inventoryName);
+    cy.get(
+      bulkAddPage.bulkAddInputBatasStock +
+        utils.replaceWhiteSpace(inventoryName)
+    ).should("have.value", input);
+  });
+});
+
+When("user click on simpan button stock reminder", () => {
+  bulkAddPage.clickBulkAddStockReminderSimpan();
+});
+
+When("user click on sell in MP gada toggle", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.clickBulkAddButtonToggleOnlineSellingActive(
+        inventoryName,
+        uomId
+      );
+    });
+  });
+});
+
+When("user types {string} on minimum pesanan textbox", (input: string) => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.typeBulkAddInputMinimumPesanan(input, inventoryName, uomId);
+      cy.get(
+        bulkAddPage.bulkAddInputMinimumPesanan +
+          utils.replaceWhiteSpace(inventoryName) +
+          "_" +
+          uomId
+      ).should("have.value", input);
+    });
+  });
+});
+
+When("user types {string} on minimum stock text box", (input: string) => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get("@uomId").then((uomId: any) => {
+      bulkAddPage.typeBulkAddInputMinumumStock(input, inventoryName, uomId);
+      cy.get(
+        bulkAddPage.bulkAddInputMinumumStock +
+          utils.replaceWhiteSpace(inventoryName) +
+          "_" +
+          uomId
+      ).should("have.value", input);
+    });
+  });
+});
+
+When("user click on simpan button sell in MP", () => {
+  bulkAddPage.clickBulkAddOnlineSellingSimpan();
+});
 
 //Assertion
 

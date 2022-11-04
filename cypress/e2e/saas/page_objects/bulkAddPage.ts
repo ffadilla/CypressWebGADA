@@ -33,6 +33,18 @@ export default class BulkAddPage extends BasePage {
   bulkAddInputUomPopoverChecboxSelling = "#input_uom_popover_checkbox_selling_";
   bulkAddInputCheckboxTambahBarangOption =
     "#input_checkbox_tambah_barang_option_";
+  bulkAddButtonToggleIsStockReminderActive =
+    "#button_toggle_is_stock_reminder_active_";
+  bulkAddInputBatasStock = "#input_batas_stock_";
+  bulkAddStockReminderSimpan = "#button_stock_reminder_simpan";
+  bulkAddButtonToggleOnlineSellingActive =
+    "#button_toggle_online_selling_active_";
+  bulkAddInputMinimumPesanan = "#input_min_pesanan_";
+  bulkAddInputMinumumStock = "#input_min_stock_";
+  bulkAddOnlineSellingSimpan = "#button_online_selling_simpan";
+  bulkAddToggleConsignedActive = "#button_toggle_consigned_active_";
+  bulkAddSupplierPopover = "#button_supplier_popover_";
+  bulkAddSupplierOption = "#supplier_option_";
 
   //Multiple UOM
   bulkAddInputStokMultipleKarton = "#input_jumlah_stok_djarum_coklat_12_2";
@@ -78,7 +90,7 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddInputUomCheckBoxBuying + uomId).check();
   }
 
-  cliclBulkAddInputUomCheckBoxSelling(uomId: string) {
+  clicklBulkAddInputUomCheckBoxSelling(uomId: string) {
     cy.get(this.bulkAddInputUomCheckBoxSelling + uomId).check();
   }
 
@@ -177,6 +189,64 @@ export default class BulkAddPage extends BasePage {
 
   checkBulkAddInputCheckboxTambahBarangOption(inventoryName: string) {
     cy.get(this.bulkAddInputCheckboxTambahBarangOption + inventoryName).check();
+  }
+
+  clickBulkAddButtonToggleIsStockReminderActive(inventoryName: string) {
+    cy.get(
+      this.bulkAddButtonToggleIsStockReminderActive + inventoryName
+    ).click();
+  }
+
+  typeBulkAddInputBatasStock(input: string, inventoryName: string) {
+    cy.get(
+      this.bulkAddInputBatasStock + utils.replaceWhiteSpace(inventoryName)
+    ).type(input);
+  }
+
+  clickBulkAddStockReminderSimpan() {
+    cy.get(this.bulkAddStockReminderSimpan).click();
+  }
+
+  clickBulkAddButtonToggleOnlineSellingActive(
+    inventoryName: string,
+    uomId: string
+  ) {
+    cy.get(
+      this.bulkAddButtonToggleOnlineSellingActive +
+        utils.replaceWhiteSpace(inventoryName) +
+        "_" +
+        uomId
+    ).click();
+  }
+
+  typeBulkAddInputMinimumPesanan(
+    input: string,
+    inventoryName: string,
+    uomId: string
+  ) {
+    cy.get(
+      this.bulkAddInputMinimumPesanan +
+        utils.replaceWhiteSpace(inventoryName) +
+        "_" +
+        uomId
+    ).type(input);
+  }
+
+  typeBulkAddInputMinumumStock(
+    input: string,
+    inventoryName: string,
+    uomId: string
+  ) {
+    cy.get(
+      this.bulkAddInputMinumumStock +
+        utils.replaceWhiteSpace(inventoryName) +
+        "_" +
+        uomId
+    ).type(input);
+  }
+
+  clickBulkAddOnlineSellingSimpan() {
+    cy.get(this.bulkAddOnlineSellingSimpan).click();
   }
 
   // Multiple UOM
