@@ -78,26 +78,31 @@ When("user clicks on {} multiple selling uom checkbox", (uomName: string) => {
       bulkAddPage.clicklBulkAddInputUomCheckBoxSelling(
         utils.replaceWhiteSpace(uomId)
       );
+      cy.wrap(uomId).as("uomId " + i);
     });
   }
 });
 
-When("user types {} on multiple input jumlah stock cell", (input: string) => {
-  cy.get("@inventoryName").then((inventoryName: any) => {
-    cy.get("@uomId").then((uomId: any) => {
-      let inputArr: Array<string> = input.replace(/"/g, "").split(",");
-      for (let i = 0; i < inputArr.length; i++) {
-        cy.wrap(inputArr[i]).as("input " + i);
-        bulkAddPage.typeBulkAddInputJumlahStok(input, inventoryName, uomId);
+When("user types {} on multiple input jumlah stock cell", (stock: string) => {
+  let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
+  for (let i = 0; i < stockArr.length; i++) {
+    cy.get("@inventoryName").then((inventoryName: any) => {
+      cy.get(`@uomId ${i}`).then((uomId: any) => {
+        bulkAddPage.typeBulkAddInputJumlahStok(
+          stockArr[i],
+          inventoryName,
+          uomId
+        );
         cy.get(
           bulkAddPage.bulkAddInputJumlahStok +
             utils.replaceWhiteSpace(inventoryName) +
             "_" +
             uomId
-        ).should("have.value", input);
-      }
+        ).should("have.value", stockArr[i]);
+        cy.wrap(stockArr[i]).as("stock " + i);
+      });
     });
-  });
+  }
 });
 
 When("user clicks on {string} buying uom checkbox", (uomName: string) => {
