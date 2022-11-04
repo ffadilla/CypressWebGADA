@@ -3,9 +3,9 @@ import {
   Given,
   When,
 } from "@badeball/cypress-cucumber-preprocessor";
-import LoginPage from "../../../e2e/saas/page_objects/LoginPage";
-import RegistrationPage from "../../../e2e/saas/page_objects/RegistrationPage";
-import HomePage from "../../../e2e/saas/page_objects/HomePage";
+import LoginPage from "../../../e2e/saas/page_objects/loginPage";
+import RegistrationPage from "../../../e2e/saas/page_objects/registrationPage";
+import HomePage from "../../../e2e/saas/page_objects/homePage";
 import * as utils from "./utils";
 import InventoryListPage from "../page_objects/inventoryListPage";
 import InventoryDetailPage from "../page_objects/inventoryDetailPage";
