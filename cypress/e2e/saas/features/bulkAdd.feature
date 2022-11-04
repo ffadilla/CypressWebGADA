@@ -311,3 +311,77 @@ Scenario: User adds custom inventory with single stock and selling unit
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
+
+Scenario: User add some product to bulk add form, and set stock reminder
+    When user click nama barang atau scan barcode searchbox
+    And user types "kukis 300gr" on nama barang searchbox
+    And user clicks on "kukis 300gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kukis 300gr"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "120000" on input harga modal per unit cell
+    And user types "140000" on input harga jual per unit cell
+    And user click on stock reminder toggle
+    And user types "10" on batas stock textbox 
+    And user click on simpan button stock reminder
+    And user click nama barang atau scan barcode searchbox
+    And user types "Madu TJ Murni 150 gr" on nama barang searchbox
+    And user clicks on "Madu TJ Murni 150 gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Madu TJ Murni 150 gr"
+    And user clicks on "Pieces" buying uom checkbox
+    And user clicks on "Pieces" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "14000" on input harga modal per unit cell
+    And user types "18000" on input harga jual per unit cell
+    And user click on stock reminder toggle
+    And user types "3" on batas stock textbox 
+    And user click on simpan button stock reminder
+    And user click simpan bulk add inventory
+    And user click kembali ke halaman daftar barang button
+    Then user deletes test data
+
+Scenario: User chooses sell in MP for an inventory
+    When user click nama barang atau scan barcode searchbox
+    And user types "Djarum Super 12 SLOP" on nama barang searchbox
+    And user clicks on "Djarum Super 12 SLOP" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Djarum Super 12 SLOP"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "10" on input jumlah stock cell
+    And user types "1120000" on input harga modal per unit cell
+    And user types "1140000" on input harga jual per unit cell
+    And user click on stock reminder toggle
+    And user types "5" on batas stock textbox 
+    And user click on simpan button stock reminder
+    And user click on sell in MP gada toggle
+    And user types "1" on minimum pesanan textbox
+    And user types "5" on minimum stock text box
+    And user click on simpan button sell in MP
+    And user click nama barang atau scan barcode searchbox
+    And user types "Dji Sam Soe Magnum Mild 20 SLOP" on nama barang searchbox
+    And user clicks on "Dji Sam Soe Magnum Mild 20 SLOP" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Dji Sam Soe Magnum Mild 20 SLOP"
+    And user clicks on "Slop" buying uom checkbox
+    And user clicks on "Slop" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "10" on input jumlah stock cell
+    And user types "414000" on input harga modal per unit cell
+    And user types "518000" on input harga jual per unit cell
+    And user click on stock reminder toggle
+    And user types "1" on batas stock textbox 
+    And user click on simpan button stock reminder
+    And user click on sell in MP gada toggle
+    And user types "5" on minimum pesanan textbox
+    And user types "5" on minimum stock text box
+    And user click on simpan button sell in MP
+    And user click simpan bulk add inventory
+    And user click kembali ke halaman daftar barang button
+    Then user deletes test data
