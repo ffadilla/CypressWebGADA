@@ -1,5 +1,5 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import InventoryDetailPage from "../../../e2e/saas/page_objects/InventoryDetailPage";
+import InventoryDetailPage from "../../../e2e/saas/page_objects/inventoryDetailPage";
 import * as utils from "./utils";
 
 const inventoryDetailPage = new InventoryDetailPage();
