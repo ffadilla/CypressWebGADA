@@ -3,7 +3,7 @@ Feature: Get Inventory Detail
   Background: 
     Given user already logged in to WMS as "superuser"
 
-  Scenario: User successfully redirects to 
+  Scenario: User successfully redirects to inventory detail page
     When user redirects to inventory menu
     And user applies '15' as page amount at inventory list
     And user applies "Warehouse Mitra Cypress" and its store as global filters
