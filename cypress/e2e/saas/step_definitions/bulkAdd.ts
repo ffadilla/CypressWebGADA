@@ -110,10 +110,10 @@ When(
   "user types {} on custom uom multiple input jumlah stock cell",
   (stock: string) => {
     let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
-    for (let i = 0; i < stockArr.length; i++) {
+    for (let i = 0; i < stock.length; i++) {
       cy.get("@inventoryName").then((inventoryName: any) => {
-        utils.retrieveUomId(customUomName + 1);
-        cy.get(`@uomId`).then((uomId: any) => {
+        utils.retrieveUomId(customUomName);
+        cy.get("@uomId").then((uomId: any) => {
           bulkAddPage.typeBulkAddInputJumlahStok(
             stockArr[i],
             inventoryName,
