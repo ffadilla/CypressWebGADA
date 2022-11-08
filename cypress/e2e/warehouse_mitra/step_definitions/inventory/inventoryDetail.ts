@@ -17,6 +17,14 @@ When(
   }
 );
 
+When(
+  "user sorts expiry batch table based on {string} at inventory detail page",
+  (value: string) => {
+    inventoryDetailPage.interceptExpiryBatchAPI();
+    inventoryDetailPage.sortExpiryBatchTable(value);
+  }
+);
+
 Then("user should be at inventory detail page", () => {
   inventoryDetailPage.assertInventoryDetail();
 });
@@ -32,5 +40,12 @@ Then(
   "query param for {string} {string} should be added to inventory detail URL",
   (keyword: string, attribute: string) => {
     inventoryDetailPage.assertQueryParam(attribute, keyword);
+  }
+);
+
+Then(
+  "user should be able to see {string} sort with {string} ascending added to inventory batch detail API",
+  (sortValue: string, ascendingValue: string) => {
+    inventoryDetailPage.assertExpiryBatchAPI(sortValue, ascendingValue);
   }
 );

@@ -19,6 +19,8 @@ export default class InventoryDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div[2]';
 
   expiryDateTableXpath = '(//tbody[contains(@class, "MuiTableBody-root")])[1]';
+  expiryDateTableSortXpath =
+    '(//span[contains(@class, "MuiTableSortLabel-root")])[index]';
 
   movementTableXPath = '(//tbody[contains(@class, "MuiTableBody-root")])[2]';
   movementReferenceIDXPath =
@@ -38,10 +40,38 @@ export default class InventoryDetailPage extends BasePage {
     '(//div[contains(@aria-haspopup, "listbox")])[2]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
 
+  interceptExpiryBatchAPI() {
+    this.utils.interceptAPI(
+      "GET",
+      "/inventory/inventory-batch-detail/**",
+      "expiryBatchAPI"
+    );
+  }
+
   setExpDatePageAmount(value: string) {
     cy.xpath(this.expDatePageAmountDropdownXPath).click();
     cy.get(this.pageAmountDropdownOptions).contains(value).click();
   }
+
+  sortExpiryBatchTable(value: string) {
+    let element = "";
+    switch (value) {
+      case "quantity":
+        element = this.utils.replaceElementIndex(
+          this.expiryDateTableSortXpath,
+          1
+        );
+        break;
+      case "expiry_date":
+        element = this.utils.replaceElementIndex(
+          this.expiryDateTableSortXpath,
+          2
+        );
+        break;
+    }
+    cy.xpath(element).click();
+  }
+
   setMovementPageAmount(value: string) {
     cy.xpath(this.movementPageAmountDropdownXPath).click();
     cy.get(this.pageAmountDropdownOptions).contains(value).click();
@@ -110,6 +140,15 @@ export default class InventoryDetailPage extends BasePage {
           .xpath(this.utils.replaceElementIndex(this.movementByXPath, 1))
           .should("contain", lutBy)
       );
+    });
+  }
+
+  assertExpiryBatchAPI(sortValue: string, ascendingValue: string) {
+    cy.wait("@expiryBatchAPI").then((api) => {
+      cy.log(String(api.request));
+      expect(api.request.url).to.include("order_by=" + sortValue);
+      expect(api.request.url).to.include("ascending=" + ascendingValue);
+      expect(api.response?.statusCode).to.eq(200);
     });
   }
 }

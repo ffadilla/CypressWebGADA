@@ -31,6 +31,22 @@ Feature: Get Inventory Detail
     | "20"          |
     | "25"          |
 
+  Scenario Outline: User successfully sorts expiry batch table by <parameter> parameter at inventory detail page
+    When user redirects to inventory menu
+    And user clicks any data on inventory list table
+    Then user should be at inventory detail page
+
+    When user sorts expiry batch table based on <parameter> at inventory detail page
+    Then user should be able to see <parameter> sort with "false" ascending added to inventory batch detail API
+
+    When user sorts expiry batch table based on <parameter> at inventory detail page
+    Then user should be able to see <parameter> sort with "true" ascending added to inventory batch detail API
+    
+    Examples:
+    | parameter     |
+    | "quantity"    |
+    | "expiry_date" |
+
   Scenario Outline: User successfully filters inventory movement by <pageAmount> page amount at inventory detail page
     When user redirects to inventory menu
     And user clicks any data on inventory list table
