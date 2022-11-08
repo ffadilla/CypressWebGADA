@@ -228,7 +228,7 @@ Scenario: User bulk adds 20 inventories with mandatory fields
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
-
+@ignore-this
 Scenario: User deletes all product item row
     When user click nama barang atau scan barcode searchbox
     And user types "kukis 300gr" on nama barang searchbox
@@ -340,6 +340,7 @@ Scenario: User add some product to bulk add form, and set stock reminder
     And user click on stock reminder toggle
     And user types "3" on batas stock textbox 
     And user click on simpan button stock reminder
+    Then user view on stock reminder toggle is enabled
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
@@ -381,6 +382,7 @@ Scenario: User chooses sell in MP for an inventory
     And user types "5" on minimum pesanan textbox
     And user types "5" on minimum stock text box
     And user click on simpan button sell in MP
+    Then user view on sell in mp toggle is enabled
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data

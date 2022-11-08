@@ -490,3 +490,21 @@ Then("text barang sudah ada ditable is displayed on this item product", () => {
 Then("tooltip is displayed on some cell that no input", () => {
   cy.get("td").eq(2).should("have.css", "border-color", "rgb(218, 56, 54)");
 });
+
+Then("user view on stock reminder toggle is enabled", () => {
+  cy.get("#button_toggle_is_stock_reminder_active_kukis_300gr").should(
+    "be.enabled"
+  );
+  cy.get("#button_toggle_is_stock_reminder_active_madu_tj_murni_150_gr").should(
+    "be.enabled"
+  );
+});
+
+Then("user view on sell in mp toggle is enabled", () => {
+  cy.get("#button_toggle_online_selling_active_djarum_super_12_slop_2").should(
+    "be.enabled"
+  );
+  cy.get(
+    "#button_toggle_online_selling_active_dji_sam_soe_magnum_mild_20_slop_8"
+  ).should("be.enabled");
+});
