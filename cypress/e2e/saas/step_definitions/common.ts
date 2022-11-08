@@ -47,6 +47,8 @@ Given("a new user is registered", () => {
 });
 
 Given("user {string} is logged in", (number: string) => {
+  cy.clearLocalStorage();
+  cy.clearCookies();
   cy.saasLogin(number);
 });
 

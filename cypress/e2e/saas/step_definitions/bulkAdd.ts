@@ -3,7 +3,6 @@ import BulkAddPage from "../../../e2e/saas/page_objects/bulkAddPage";
 import * as utils from "./utils";
 
 const bulkAddPage = new BulkAddPage();
-let uomName: string;
 let customUomName: string;
 
 Given("user visits bulk add inventory page", () => {
@@ -65,6 +64,7 @@ When("user clicks on {} multiple buying uom checkbox", (uomName: string) => {
       bulkAddPage.clickBulkAddInputUomCheckboxBuying(
         utils.replaceWhiteSpace(uomId)
       );
+      cy.wrap(uomId).as("uomId " + i);
     });
   }
 });
@@ -87,6 +87,7 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
   let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
   for (let i = 0; i < stockArr.length; i++) {
     cy.get("@inventoryName").then((inventoryName: any) => {
+      utils.retrieveUomId(customUomName[i]);
       cy.get(`@uomId ${i}`).then((uomId: any) => {
         bulkAddPage.typeBulkAddInputJumlahStok(
           stockArr[i],
@@ -104,6 +105,32 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
     });
   }
 });
+
+When(
+  "user types {} on custom uom multiple input jumlah stock cell",
+  (stock: string) => {
+    let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
+    for (let i = 0; i < stockArr.length; i++) {
+      cy.get("@inventoryName").then((inventoryName: any) => {
+        utils.retrieveUomId(customUomName + 1);
+        cy.get(`@uomId`).then((uomId: any) => {
+          bulkAddPage.typeBulkAddInputJumlahStok(
+            stockArr[i],
+            inventoryName,
+            uomId
+          );
+          cy.get(
+            bulkAddPage.bulkAddInputJumlahStok +
+              utils.replaceWhiteSpace(inventoryName) +
+              "_" +
+              uomId
+          ).should("have.value", stockArr[i]);
+          cy.wrap(stockArr[i]).as("stock " + i);
+        });
+      });
+    }
+  }
+);
 
 When(
   "user types {} on multiple input harga modal per unit cell",
@@ -126,7 +153,7 @@ When(
             "have.value",
             "Rp " + utils.numberWithSeparators(buyingArr[i])
           );
-          cy.wrap(buyingArr[i]).as("stock " + i);
+          cy.wrap(buyingArr[i]).as("buying " + i);
         });
       });
     }
@@ -154,7 +181,7 @@ When(
             "have.value",
             "Rp " + utils.numberWithSeparators(sellingArr[i])
           );
-          cy.wrap(sellingArr[i]).as("stock " + i);
+          cy.wrap(sellingArr[i]).as("selling " + i);
         });
       });
     }
@@ -268,7 +295,7 @@ When("user click tambah nama unit baru option", () => {
 });
 
 When("user type {string} on search custom buying", () => {
-  uomName = utils.generateRandomString(5);
+  let uomName = utils.generateRandomString(5);
   customUomName = uomName;
   bulkAddPage.typesBulkAddInputSearchCustomUomBuying("WebAutoUOM " + uomName);
   cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
@@ -387,6 +414,45 @@ When("user types {string} on minimum stock text box", (input: string) => {
 
 When("user click on simpan button sell in MP", () => {
   bulkAddPage.clickBulkAddOnlineSellingSimpan();
+});
+
+When("user click on conversion button up", (uomName: string) => {
+  cy.wrap(uomName).as("uomName");
+  utils.retrieveUomId(uomName);
+  cy.get("@uomId").then((uomId: any) => {
+    bulkAddPage.clickBulkAddButtonConversionUp(utils.replaceWhiteSpace(uomId));
+  });
+});
+
+When("user click on selanjutnya button", () => {
+  bulkAddPage.clicBulkAddButtonSelanjutnyaConversion();
+});
+
+When("user types {string} on conversion uom input modal", (input: string) => {
+  cy.get("@uomId").then((uomId: any) => {
+    cy.get(
+      bulkAddPage.bulkAddInputConversionModalUom +
+        utils.replaceWhiteSpace(uomId)
+    ).clear();
+    bulkAddPage.typeBulkAddInputConversionModalUom(input, uomId);
+    cy.get(
+      bulkAddPage.bulkAddInputConversionModalUom +
+        utils.replaceWhiteSpace(uomId)
+    ).should("have.value", input);
+    cy.wrap(uomId).as("uomId");
+  });
+});
+
+When("user click simpan on conversion uom modal", () => {
+  bulkAddPage.clickBulkAddConversionButtonSimpan();
+});
+
+When("user click clear search on buying uom searchbox", () => {
+  bulkAddPage.clickBulkAddSeachButtonClearBuying();
+});
+
+When("user click clear search on selling uom searchbox", () => {
+  bulkAddPage.clickBulkAddSeachButtonClearSelling();
 });
 
 //Assertion

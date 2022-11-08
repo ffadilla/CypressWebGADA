@@ -45,24 +45,14 @@ export default class BulkAddPage extends BasePage {
   bulkAddToggleConsignedActive = "#button_toggle_consigned_active_";
   bulkAddSupplierPopover = "#button_supplier_popover_";
   bulkAddSupplierOption = "#supplier_option_";
-
-  //Multiple UOM
-  bulkAddInputStokMultipleKarton = "#input_jumlah_stok_djarum_coklat_12_2";
-  bulkAddInputStokMultipleBal = "#input_jumlah_stok_djarum_coklat_12_7";
-  bulkAddInputStokMultipleSlop = "#input_jumlah_stok_djarum_coklat_12_8";
-  bulkAddInputStokMultiplePieces = "#input_jumlah_stok_djarum_coklat_12_5";
-
-  bulkAddInputHargaModalKarton =
-    "#input_harga_modal_per_unit_djarum_coklat_12_2";
-  bulkAddInputHargaModalBal = "#input_harga_modal_per_unit_djarum_coklat_12_7";
-  bulkAddInputHargaModalSlop = "#input_harga_modal_per_unit_djarum_coklat_12_8";
-  bulkAddInputHargaModalPieces =
-    "#input_harga_modal_per_unit_djarum_coklat_12_5";
-
-  bulkAddInputHargaJualKarton = "#input_harga_jual_per_unit_djarum_coklat_12_2";
-  bulkAddInputHargaJualBal = "#input_harga_jual_per_unit_djarum_coklat_12_7";
-  bulkAddInputHargaJualSlop = "#input_harga_jual_per_unit_djarum_coklat_12_8";
-  bulkAddInputHargaJualPieces = "#input_harga_jual_per_unit_djarum_coklat_12_5";
+  bulkAddSeachButtonClearBuying = "#button_search_clear_buying";
+  bulkAddSeachButtonClearSelling = "#button_search_clear_selling";
+  bulkAddButtonConversionUp = "#button_conversion_modal_sort_content_up_";
+  bulkAddButtonConversionDown = "#button_conversion_modal_sort_content_down_";
+  bulkAddButtonSelanjutnyaConversion = "#button_conversion_modal_selanjutnya";
+  bulkAddInputConversionModalUom =
+    "#input_conversion_modal_convert_content_uom_";
+  bulkAddConversionButtonSimpan = "#button_conversion_modal_simpan";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
@@ -249,53 +239,31 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddOnlineSellingSimpan).click();
   }
 
-  // Multiple UOM
-
-  typebulkAddInputStokMultipleKarton(input: string) {
-    cy.get(this.bulkAddInputStokMultipleKarton).type(input);
+  clickBulkAddButtonConversionUp(uomId: string) {
+    cy.get(this.bulkAddButtonConversionUp + uomId).click();
   }
 
-  typebulkAddInputStokMultipleBal(input: string) {
-    cy.get(this.bulkAddInputStokMultipleBal).type(input);
+  clickBulkAddButtonConversionDown(uomId: string) {
+    cy.get(this.bulkAddButtonConversionDown + uomId).click();
   }
 
-  typebulkAddInputStokMultipleSlop(input: string) {
-    cy.get(this.bulkAddInputStokMultipleSlop).type(input);
+  clicBulkAddButtonSelanjutnyaConversion() {
+    cy.get(this.bulkAddButtonSelanjutnyaConversion).click();
   }
 
-  typebulkAddInputStokMultiplePieces(input: string) {
-    cy.get(this.bulkAddInputStokMultiplePieces).type(input);
+  typeBulkAddInputConversionModalUom(input: string, uomId: string) {
+    cy.get(this.bulkAddInputConversionModalUom + uomId).type(input);
   }
 
-  typebulkAddInputHargaModalKarton(input: string) {
-    cy.get(this.bulkAddInputHargaModalKarton).type(input);
+  clickBulkAddConversionButtonSimpan() {
+    cy.get(this.bulkAddConversionButtonSimpan).click();
   }
 
-  typebulkAddInputHargaModalBal(input: string) {
-    cy.get(this.bulkAddInputHargaModalBal).type(input);
+  clickBulkAddSeachButtonClearBuying() {
+    cy.get(this.bulkAddSeachButtonClearBuying).click();
   }
 
-  typebulkAddInputHargaModalSlop(input: string) {
-    cy.get(this.bulkAddInputHargaModalSlop).type(input);
-  }
-
-  typebulkAddInputHargaModalPieces(input: string) {
-    cy.get(this.bulkAddInputHargaModalPieces).type(input);
-  }
-
-  typebulkAddInputHargaJualKarton(input: string) {
-    cy.get(this.bulkAddInputHargaJualKarton).type(input);
-  }
-
-  typebulkAddInputHargaJualBal(input: string) {
-    cy.get(this.bulkAddInputHargaJualBal).type(input);
-  }
-
-  typebulkAddInputHargaJualSlop(input: string) {
-    cy.get(this.bulkAddInputHargaJualSlop).type(input);
-  }
-
-  typebulkAddInputHargaJualPieces(input: string) {
-    cy.get(this.bulkAddInputHargaJualPieces).type(input);
+  clickBulkAddSeachButtonClearSelling() {
+    cy.get(this.bulkAddSeachButtonClearSelling).click();
   }
 }

@@ -2,7 +2,6 @@ Feature: Bulk Add Inventory
 
 Background:
     Given user "8408418423" is logged in
-    And user deletes test data
     And user visits bulk add inventory page
 
 Scenario: User bulk adds 20 inventories with mandatory fields
