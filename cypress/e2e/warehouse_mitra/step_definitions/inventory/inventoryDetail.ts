@@ -25,6 +25,22 @@ When(
   }
 );
 
+When(
+  "user applies {string} to find related inventory movement at inventory detail page",
+  (value: string) => {
+    inventoryDetailPage.setMovementKeyword(value);
+    inventoryDetailPage.interceptInventoryMovementAPI();
+    inventoryDetailPage.waitMovementTableRender();
+  }
+);
+
+When(
+  "user resets any applied keyword filter on movement table at inventory detail page",
+  () => {
+    inventoryDetailPage.resetMovementKeyword();
+  }
+);
+
 Then("user should be at inventory detail page", () => {
   inventoryDetailPage.assertInventoryDetail();
 });
@@ -47,5 +63,12 @@ Then(
   "user should be able to see {string} sort with {string} ascending added to inventory batch detail API",
   (sortValue: string, ascendingValue: string) => {
     inventoryDetailPage.assertExpiryBatchAPI(sortValue, ascendingValue);
+  }
+);
+
+Then(
+  "user should only able to see inventory movement with {string} matched {string} at inventory detail page",
+  (attribute: string, keyword: string) => {
+    inventoryDetailPage.assertMovementTableByKeyword(attribute, keyword);
   }
 );

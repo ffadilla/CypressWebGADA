@@ -42,6 +42,8 @@ Feature: Get Inventory Detail
     When user sorts expiry batch table based on <parameter> at inventory detail page
     Then user should be able to see <parameter> sort with "true" ascending added to inventory batch detail API
     
+    When user logs out from WMS
+
     Examples:
     | parameter     |
     | "quantity"    |
@@ -63,3 +65,24 @@ Feature: Get Inventory Detail
     | "15"          |
     | "20"          |
     | "25"          |
+
+  Scenario Outline: User successfully using <keyword> to search <searchTarget> for movement table at inventory detail page
+    When user redirects to inventory menu
+    And user applies '15' as page amount at inventory list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters
+    And user clicks any data on inventory list table
+    Then user should be at inventory detail page
+
+    And user applies <keyword> to find related inventory movement at inventory detail page
+    Then query param for <keyword> "invMoveLogsSearchVal" should be added to inventory detail URL
+    And user should only able to see inventory movement with <searchTarget> matched <keyword> at inventory detail page
+
+    When user resets any applied keyword filter on movement table at inventory detail page
+    Then query param for "null" "invMoveLogsSearchVal" should be added to inventory detail URL
+
+    When user logs out from WMS
+    
+    Examples:
+    | keyword           | searchTarget     |
+    | "Cyp"             | "reference id"   |
+    | "REQUEST_IN"      | "category"       |
