@@ -1,6 +1,6 @@
 import BasePage from "../basePage";
 
-export default class InventoryListPage extends BasePage {
+export default class InventoryDetailPage extends BasePage {
   path = "/inventory/detail?id=";
 
   skuHeaderTitleXPath =
@@ -31,6 +31,26 @@ export default class InventoryListPage extends BasePage {
     this.movementTableXPath + "/tr[index]/td[4]";
   movementTimeXPath = this.movementTableXPath + "/tr[index]/td[5]/div[1]";
   movementByXPath = this.movementTableXPath + "/tr[index]/td[5]/div[2]";
+
+  expDatePageAmountDropdownXPath =
+    '(//div[contains(@aria-haspopup, "listbox")])[1]';
+  movementPageAmountDropdownXPath =
+    '(//div[contains(@aria-haspopup, "listbox")])[2]';
+  pageAmountDropdownOptions = 'ul[role="listbox"]';
+
+  setExpDatePageAmount(value: string) {
+    cy.xpath(this.expDatePageAmountDropdownXPath).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
+  }
+  setMovementPageAmount(value: string) {
+    cy.xpath(this.movementPageAmountDropdownXPath).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
+  }
+
+  assertInventoryDetail() {
+    cy.xpath(this.skuNameXPath).should("be.visible");
+    cy.url().should("include", this.path);
+  }
 
   assertSKUDataByInventoryList() {
     cy.get("@inventoryListSKUID").then((skuID) => {
