@@ -1,6 +1,6 @@
 import BasePage from "../basePage";
 
-export default class InventoryListPage extends BasePage {
+export default class InventoryDetailPage extends BasePage {
   path = "/inventory/detail?id=";
 
   skuHeaderTitleXPath =
