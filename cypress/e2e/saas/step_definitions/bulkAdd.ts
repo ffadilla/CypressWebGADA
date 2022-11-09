@@ -87,7 +87,6 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
   let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
   for (let i = 0; i < stockArr.length; i++) {
     cy.get("@inventoryName").then((inventoryName: any) => {
-      utils.retrieveUomId(customUomName[i]);
       cy.get(`@uomId ${i}`).then((uomId: any) => {
         bulkAddPage.typeBulkAddInputJumlahStok(
           stockArr[i],
@@ -110,24 +109,25 @@ When(
   "user types {} on custom uom multiple input jumlah stock cell",
   (stock: string) => {
     let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
-    for (let i = 0; i < stock.length; i++) {
-      cy.get("@inventoryName").then((inventoryName: any) => {
-        utils.retrieveUomId(customUomName);
-        cy.get("@uomId").then((uomId: any) => {
-          bulkAddPage.typeBulkAddInputJumlahStok(
-            stockArr[i],
-            inventoryName,
-            uomId
-          );
-          cy.get(
-            bulkAddPage.bulkAddInputJumlahStok +
-              utils.replaceWhiteSpace(inventoryName) +
-              "_" +
-              uomId
-          ).should("have.value", stockArr[i]);
-          cy.wrap(stockArr[i]).as("stock " + i);
+    for (let i = 0; i < stockArr.length; i++) {
+      for (let j = 0; j < customUomName.length; j++) {
+        cy.get("@inventoryName").then((inventoryName: any) => {
+          cy.get(`@uomId`).then((uomId: any) => {
+            bulkAddPage.typeBulkAddInputJumlahStok(
+              stockArr[j],
+              inventoryName,
+              uomId[j]
+            );
+            cy.get(
+              bulkAddPage.bulkAddInputJumlahStok +
+                utils.replaceWhiteSpace(inventoryName) +
+                "_" +
+                uomId
+            ).should("have.value", stockArr[i]);
+            cy.wrap(uomId[j]).as("stock " + j);
+          });
         });
-      });
+      }
     }
   }
 );
