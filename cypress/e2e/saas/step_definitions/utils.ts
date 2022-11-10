@@ -1126,11 +1126,6 @@ export function deleteSupplierTestData() {
   cy.reload(true);
 }
 
-export function replaceWhiteSpace(input: string) {
-  input = input.replace(/\s+/g, "_").toLowerCase();
-  return input;
-}
-
 export const convertNameToId = (name?: string): string => {
   return (
     name

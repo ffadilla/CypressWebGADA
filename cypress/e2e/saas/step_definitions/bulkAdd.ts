@@ -24,7 +24,7 @@ When(
   (inventoryName: string) => {
     cy.wait(1000);
     bulkAddPage.clickBulkAddTambahBarangInputCheckbox(
-      utils.replaceWhiteSpace(inventoryName)
+      utils.convertNameToId(inventoryName)
     );
     cy.wrap(inventoryName).as("inventoryName");
   }
@@ -39,14 +39,14 @@ When(
   (uomName: string, inventoryName: string) => {
     if (uomName.toLowerCase() === "empty") {
       bulkAddPage.clickBulkAddOpenUomSelectButton(
-        utils.replaceWhiteSpace(inventoryName),
+        utils.convertNameToId(inventoryName),
         "-1"
       );
     } else {
       utils.retrieveUomId(uomName);
       cy.get("@uomId").then((uomId: any) => {
         bulkAddPage.clickBulkAddOpenUomSelectButton(
-          utils.replaceWhiteSpace(inventoryName),
+          utils.convertNameToId(inventoryName),
           uomId
         );
         cy.wrap(uomId).as("uomId");
@@ -62,7 +62,7 @@ When("user clicks on {} multiple buying uom checkbox", (uomName: string) => {
     utils.retrieveUomId(uomNameArr[i]);
     cy.get("@uomId").then((uomId: any) => {
       bulkAddPage.clickBulkAddInputUomCheckboxBuying(
-        utils.replaceWhiteSpace(uomId)
+        utils.convertNameToId(uomId)
       );
       cy.wrap(uomId).as("uomId " + i);
     });
@@ -76,7 +76,7 @@ When("user clicks on {} multiple selling uom checkbox", (uomName: string) => {
     utils.retrieveUomId(uomNameArr[i]);
     cy.get("@uomId").then((uomId: any) => {
       bulkAddPage.clicklBulkAddInputUomCheckBoxSelling(
-        utils.replaceWhiteSpace(uomId)
+        utils.convertNameToId(uomId)
       );
       cy.wrap(uomId).as("uomId " + i);
     });
@@ -95,7 +95,7 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
         );
         cy.get(
           bulkAddPage.bulkAddInputJumlahStok +
-            utils.replaceWhiteSpace(inventoryName) +
+            utils.convertNameToId(inventoryName) +
             "_" +
             uomId
         ).should("have.value", stockArr[i]);
@@ -120,7 +120,7 @@ When(
             );
             cy.get(
               bulkAddPage.bulkAddInputJumlahStok +
-                utils.replaceWhiteSpace(inventoryName) +
+                utils.convertNameToId(inventoryName) +
                 "_" +
                 uomId
             ).should("have.value", stockArr[i]);
@@ -146,7 +146,7 @@ When(
           );
           cy.get(
             bulkAddPage.bulkAddInputHargaModalPerUnit +
-              utils.replaceWhiteSpace(inventoryName) +
+              utils.convertNameToId(inventoryName) +
               "_" +
               uomId
           ).should(
@@ -174,7 +174,7 @@ When(
           );
           cy.get(
             bulkAddPage.bulkAddInputHargaJualPerUnit +
-              utils.replaceWhiteSpace(inventoryName) +
+              utils.convertNameToId(inventoryName) +
               "_" +
               uomId
           ).should(
@@ -192,7 +192,7 @@ When("user clicks on {string} buying uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
     bulkAddPage.clickBulkAddInputUomCheckboxBuying(
-      utils.replaceWhiteSpace(uomId)
+      utils.convertNameToId(uomId)
     );
   });
 });
@@ -201,7 +201,7 @@ When("user clicks on {string} selling uom checkbox", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
     bulkAddPage.clicklBulkAddInputUomCheckBoxSelling(
-      utils.replaceWhiteSpace(uomId)
+      utils.convertNameToId(uomId)
     );
   });
 });
@@ -217,7 +217,7 @@ When("user types {string} on input jumlah stock cell", (input: string) => {
       bulkAddPage.typeBulkAddInputJumlahStok(input, inventoryName, uomId);
       cy.get(
         bulkAddPage.bulkAddInputJumlahStok +
-          utils.replaceWhiteSpace(inventoryName) +
+          utils.convertNameToId(inventoryName) +
           "_" +
           uomId
       ).should("have.value", input);
@@ -237,7 +237,7 @@ When(
         );
         cy.get(
           bulkAddPage.bulkAddInputHargaModalPerUnit +
-            utils.replaceWhiteSpace(inventoryName) +
+            utils.convertNameToId(inventoryName) +
             "_" +
             uomId
         ).should("have.value", "Rp " + utils.numberWithSeparators(input));
@@ -258,7 +258,7 @@ When(
         );
         cy.get(
           bulkAddPage.bulkAddInputHargaJualPerUnit +
-            utils.replaceWhiteSpace(inventoryName) +
+            utils.convertNameToId(inventoryName) +
             "_" +
             uomId
         ).should("have.value", "Rp " + utils.numberWithSeparators(input));
@@ -321,7 +321,7 @@ When(
     utils.retrieveUomId(uomName);
     cy.get("@uomId").then((uomId: any) => {
       bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(
-        utils.replaceWhiteSpace(uomId)
+        utils.convertNameToId(uomId)
       );
     });
   }
@@ -332,7 +332,7 @@ When(
   (inventoryName: string) => {
     cy.wait(1000);
     bulkAddPage.uncheckBulkAddInputCheckboxTambahBarangOption(
-      utils.replaceWhiteSpace(inventoryName)
+      utils.convertNameToId(inventoryName)
     );
     cy.wrap(inventoryName).as("inventoryName");
   }
@@ -343,7 +343,7 @@ When(
   (inventoryName: string) => {
     cy.wait(1000);
     bulkAddPage.checkBulkAddInputCheckboxTambahBarangOption(
-      utils.replaceWhiteSpace(inventoryName)
+      utils.convertNameToId(inventoryName)
     );
     cy.wrap(inventoryName).as("inventoryName");
   }
@@ -353,7 +353,7 @@ When("user click on stock reminder toggle", () => {
   cy.get("@inventoryName").then((inventoryName: any) => {
     cy.wait(500);
     bulkAddPage.clickBulkAddButtonToggleIsStockReminderActive(
-      utils.replaceWhiteSpace(inventoryName)
+      utils.convertNameToId(inventoryName)
     );
     cy.wrap(inventoryName).as("inventoryName");
   });
@@ -363,8 +363,7 @@ When("user types {string} on batas stock textbox", (input: string) => {
   cy.get("@inventoryName").then((inventoryName: any) => {
     bulkAddPage.typeBulkAddInputBatasStock(input, inventoryName);
     cy.get(
-      bulkAddPage.bulkAddInputBatasStock +
-        utils.replaceWhiteSpace(inventoryName)
+      bulkAddPage.bulkAddInputBatasStock + utils.convertNameToId(inventoryName)
     ).should("have.value", input);
   });
 });
@@ -390,7 +389,7 @@ When("user types {string} on minimum pesanan textbox", (input: string) => {
       bulkAddPage.typeBulkAddInputMinimumPesanan(input, inventoryName, uomId);
       cy.get(
         bulkAddPage.bulkAddInputMinimumPesanan +
-          utils.replaceWhiteSpace(inventoryName) +
+          utils.convertNameToId(inventoryName) +
           "_" +
           uomId
       ).should("have.value", input);
@@ -404,7 +403,7 @@ When("user types {string} on minimum stock text box", (input: string) => {
       bulkAddPage.typeBulkAddInputMinumumStock(input, inventoryName, uomId);
       cy.get(
         bulkAddPage.bulkAddInputMinumumStock +
-          utils.replaceWhiteSpace(inventoryName) +
+          utils.convertNameToId(inventoryName) +
           "_" +
           uomId
       ).should("have.value", input);
@@ -420,7 +419,7 @@ When("user click on conversion button up", (uomName: string) => {
   cy.wrap(uomName).as("uomName");
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
-    bulkAddPage.clickBulkAddButtonConversionUp(utils.replaceWhiteSpace(uomId));
+    bulkAddPage.clickBulkAddButtonConversionUp(utils.convertNameToId(uomId));
     cy.wrap(uomName).as("uomName");
   });
 });
@@ -432,13 +431,11 @@ When("user click on selanjutnya button", () => {
 When("user types {string} on conversion uom input modal", (input: string) => {
   cy.get("@uomId").then((uomId: any) => {
     cy.get(
-      bulkAddPage.bulkAddInputConversionModalUom +
-        utils.replaceWhiteSpace(uomId)
+      bulkAddPage.bulkAddInputConversionModalUom + utils.convertNameToId(uomId)
     ).clear();
     bulkAddPage.typeBulkAddInputConversionModalUom(input, uomId);
     cy.get(
-      bulkAddPage.bulkAddInputConversionModalUom +
-        utils.replaceWhiteSpace(uomId)
+      bulkAddPage.bulkAddInputConversionModalUom + utils.convertNameToId(uomId)
     ).should("have.value", input);
     cy.wrap(uomId).as("uomId");
   });
@@ -475,7 +472,7 @@ Then(
     cy.wait(1000);
     cy.get(
       "#input_checkbox_tambah_barang_option_" +
-        utils.replaceWhiteSpace(inventoryName)
+        utils.convertNameToId(inventoryName)
     ).should("be.disabled");
     cy.wrap(inventoryName).as("inventoryName");
   }

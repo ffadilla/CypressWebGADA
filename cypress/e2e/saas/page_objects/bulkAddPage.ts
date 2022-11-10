@@ -95,7 +95,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddInputJumlahStok +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).type(input);
@@ -108,7 +108,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddInputHargaModalPerUnit +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).type(input);
@@ -121,7 +121,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddInputHargaJualPerUnit +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).type(input);
@@ -189,7 +189,7 @@ export default class BulkAddPage extends BasePage {
 
   typeBulkAddInputBatasStock(input: string, inventoryName: string) {
     cy.get(
-      this.bulkAddInputBatasStock + utils.replaceWhiteSpace(inventoryName)
+      this.bulkAddInputBatasStock + utils.convertNameToId(inventoryName)
     ).type(input);
   }
 
@@ -203,7 +203,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddButtonToggleOnlineSellingActive +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).click();
@@ -216,7 +216,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddInputMinimumPesanan +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).type(input);
@@ -229,7 +229,7 @@ export default class BulkAddPage extends BasePage {
   ) {
     cy.get(
       this.bulkAddInputMinumumStock +
-        utils.replaceWhiteSpace(inventoryName) +
+        utils.convertNameToId(inventoryName) +
         "_" +
         uomId
     ).type(input);
