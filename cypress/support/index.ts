@@ -32,6 +32,8 @@ import { generateCurrentDateOTP } from "../e2e/saas/step_definitions/utils";
 // SAAS Custom Commands
 
 Cypress.Commands.add("saasLogin", (phoneNumber: string): any => {
+  cy.clearLocalStorage();
+  cy.clearCookies();
   cy.request({
     method: "POST",
     url: gadaConfig.saas.baseApiUrl + "authentication/logout",

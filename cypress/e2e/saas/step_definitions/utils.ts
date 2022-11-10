@@ -9,6 +9,7 @@ export function deleteTestDataSequence() {
   deleteBrandTestData();
   deletePrincipalTestData();
   deleteSeedInventoryData();
+  deleteBulkAddInventoryData();
   deleteCustomerTestData();
   deleteSupplierTestData();
 }
@@ -286,6 +287,44 @@ export function createSeedCustomer() {
       is_max_amount_active: false,
     },
   });
+}
+
+export function deleteBulkAddInventoryData() {
+  let array = [
+    "9216",
+    "20805",
+    "20808",
+    "7639",
+    "7690",
+    "7684",
+    "7693",
+    "18467",
+    "25344",
+    "894",
+    "7641",
+    "7643",
+    "7644",
+    "2019",
+    "1955",
+    "1956",
+    "1947",
+    "2027",
+    "2018",
+    "1969",
+  ];
+
+  for (let i = 0; i < array.length; i++) {
+    cy.request({
+      method: "DELETE",
+      url:
+        gadaConfig.saas.baseApiUrl + "product/variant/" + array[i] + "/delete",
+      failOnStatusCode: false,
+      qs: {
+        store_id: gadaConfig.saas.testUserAccount.storeId,
+        variant_id: array[i],
+      },
+    });
+  }
 }
 
 export function createSeedInventory({
