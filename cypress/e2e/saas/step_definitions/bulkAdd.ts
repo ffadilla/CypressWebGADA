@@ -116,7 +116,7 @@ When(
             bulkAddPage.typeBulkAddInputJumlahStok(
               stockArr[j],
               inventoryName,
-              uomId[j]
+              uomId
             );
             cy.get(
               bulkAddPage.bulkAddInputJumlahStok +
@@ -421,6 +421,7 @@ When("user click on conversion button up", (uomName: string) => {
   utils.retrieveUomId(uomName);
   cy.get("@uomId").then((uomId: any) => {
     bulkAddPage.clickBulkAddButtonConversionUp(utils.replaceWhiteSpace(uomId));
+    cy.wrap(uomName).as("uomName");
   });
 });
 
