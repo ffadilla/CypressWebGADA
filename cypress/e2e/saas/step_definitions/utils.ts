@@ -1057,6 +1057,11 @@ export function generateRandomNumber() {
   return "8" + random + "";
 }
 
+export function generateInvoiceNumber() {
+  let random = Math.floor(100000000 + Math.random() * 900000000);
+  return "INV-5" + random + "";
+}
+
 export function generateCurrentDateOTP() {
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, "0");
