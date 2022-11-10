@@ -3,9 +3,17 @@ import RequestListPage from "../../page_objects/inbound/requestListPage";
 
 const requestListPage = new RequestListPage();
 
-When("user clicks inbound Request list tab", () => {
-  requestListPage.clickRequestTab();
-});
+When(
+  "user applies {string} and its store as global filters at inbound Request list",
+  (warehouse: string) => {
+    requestListPage.utils.interceptAPI(
+      "GET",
+      "/inbound/requests/list/?*",
+      "inboundRequestListAPI"
+    );
+    requestListPage.setGlobalFilter(warehouse);
+  }
+);
 
 When(
   "user applies {string} to find related inbound Request",
@@ -19,17 +27,24 @@ When(
         requestListPage.setSearchKeyword(String(sourceID));
       });
     } else requestListPage.setSearchKeyword(keyword);
+    requestListPage.waitSearchRender();
   }
 );
 
 When("user resets any applied keyword filter at inbound Request list", () => {
   requestListPage.resetSearchKeyword();
+  requestListPage.waitSearchRender();
 });
 
 When(
-  "user applies {string} as delivery date filter at inbound Request list",
-  (deliveryDate: string) => {
-    requestListPage.setDeliveryDateFilter(deliveryDate);
+  "user applies {string} date, {string} month, {string} year as delivery date filter at inbound Request list",
+  (deliveryDate: string, deliveryMonth: string, deliveryYear: string) => {
+    requestListPage.setDeliveryDateFilter(
+      deliveryDate,
+      deliveryMonth,
+      deliveryYear
+    );
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -37,6 +52,7 @@ When(
   "user resets any applied delivery date filter at inbound Request list",
   () => {
     requestListPage.resetDeliveryDate();
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -44,6 +60,7 @@ When(
   "user applies {string} as delivery method filter at inbound Request list",
   (deliveryMethod: string) => {
     requestListPage.setDeliveryMethodFilter(deliveryMethod);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -51,6 +68,7 @@ When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
     requestListPage.clickStatusChip(status);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -58,6 +76,7 @@ When(
   "user applies {string} as page amount at inbound Request list",
   (value: string) => {
     requestListPage.setPageAmount(value);
+    requestListPage.waitSearchRender();
   }
 );
 
@@ -119,13 +138,7 @@ Then(
   (value: string, attribute: string) => {
     if (value === "Semua Metode") return;
     else if (attribute === "delivery date") {
-      const expectedDeliveryDate = requestListPage.setExpectedDeliveryDate(
-        parseInt(value)
-      );
-      requestListPage.assertRequestItemsBySearchFilter(
-        "delivery date",
-        expectedDeliveryDate
-      );
+      requestListPage.assertRequestItemsBySearchFilter("delivery date", value);
     } else {
       requestListPage.assertRequestItemsBySearchFilter(attribute, value);
     }
@@ -141,5 +154,21 @@ Then(
   (value: string) => {
     if (value === "created") requestListPage.assertCreatedRequestItem();
     else if (value === "canceled") requestListPage.assertCanceledRequestItem();
+  }
+);
+
+Then(
+  "{string} UUID should be added as inbound Request list API headers",
+  (warehouse: string) => {
+    requestListPage.assertAPIRequestHeaders(
+      "@inboundRequestListAPI",
+      "warehouse-id",
+      requestListPage.warehouseData[warehouse].warehouseUUID
+    );
+    requestListPage.assertAPIRequestHeaders(
+      "@inboundRequestListAPI",
+      "store-id",
+      requestListPage.warehouseData[warehouse].stores[0].storeUUID
+    );
   }
 );

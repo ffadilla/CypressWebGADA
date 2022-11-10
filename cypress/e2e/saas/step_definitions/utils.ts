@@ -327,12 +327,17 @@ export function deleteBulkAddInventoryData() {
   }
 }
 
-export function createSeedInventory() {
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
-    failOnStatusCode: false,
-    body: {
+export function createSeedInventory({
+  limitCustomInv = 4,
+  limitCuratedInv = 2,
+  limitCuratedInvUom = 2,
+}: {
+  limitCustomInv?: number;
+  limitCuratedInv?: number;
+  limitCuratedInvUom?: number;
+} = {}) {
+  const customInvs = [
+    {
       display_name: null,
       product_information: {
         brand_id: null,
@@ -340,7 +345,7 @@ export function createSeedInventory() {
         product_category_id: 179,
         image: null,
       },
-      product_name: "Web Automation Custom Inventory 1 (Single UOM)",
+      product_name: "Web Automation Custom Inventory 1 - Single UOM",
       store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
@@ -371,12 +376,7 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
-    failOnStatusCode: false,
-    body: {
+    {
       display_name: null,
       product_information: {
         brand_id: null,
@@ -437,12 +437,7 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
-    failOnStatusCode: false,
-    body: {
+    {
       display_name: null,
       product_information: {
         brand_id: null,
@@ -481,12 +476,7 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory/custom",
-    failOnStatusCode: false,
-    body: {
+    {
       display_name: null,
       product_information: {
         brand_id: null,
@@ -547,16 +537,25 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory",
-    failOnStatusCode: false,
-    body: {
+  ];
+
+  for (let index = 0; index < limitCustomInv; index++) {
+    const customInv = customInvs[index];
+
+    cy.request({
+      method: "POST",
+      url: gadaConfig.saas.baseApiUrl + "inventory/custom",
+      failOnStatusCode: false,
+      body: customInv,
+    });
+  }
+
+  const curatedInvs = [
+    {
       consignor_id: null,
       conversion: [],
       display_name: null,
-      product_variant_id: 22277,
+      product_variant_id: 22277, // Onyx Sendok Nasi 8'5-7001 Official
       store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
@@ -605,16 +604,11 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
-  cy.request({
-    method: "POST",
-    url: gadaConfig.saas.baseApiUrl + "inventory",
-    failOnStatusCode: false,
-    body: {
+    {
       consignor_id: 315,
       conversion: [],
       display_name: null,
-      product_variant_id: 22131,
+      product_variant_id: 22131, // Hati Angsa Kecap Manis Sedang 600 ml
       store_id: gadaConfig.saas.testUserAccount.storeId,
       stock_reminder: {
         stock_reminder_amount: 1,
@@ -643,7 +637,21 @@ export function createSeedInventory() {
         },
       ],
     },
-  });
+  ];
+
+  for (let index = 0; index < limitCuratedInv; index++) {
+    const curatedInv = curatedInvs[index];
+    const uoms = curatedInv.inventories.filter(
+      (_, index) => index < limitCuratedInvUom
+    );
+
+    cy.request({
+      method: "POST",
+      url: gadaConfig.saas.baseApiUrl + "inventory",
+      failOnStatusCode: false,
+      body: { ...curatedInv, inventories: uoms },
+    });
+  }
 }
 
 export function setDefaultTaxAndCustomerDebtSettings() {
@@ -1117,3 +1125,12 @@ export function replaceWhiteSpace(input: string) {
   input = input.replace(/\s+/g, "_").toLowerCase();
   return input;
 }
+
+export const convertNameToId = (name?: string): string => {
+  return (
+    name
+      ?.trim()
+      .toLowerCase()
+      .replace(/[ '()]/g, "_") || ""
+  );
+};

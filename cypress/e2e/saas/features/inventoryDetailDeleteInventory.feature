@@ -6,8 +6,8 @@ Feature: Inventory Detail - Delete Inventory
     And user visits inventory list page
 
   Scenario: User deletes non consign inventory with smallest uom quantity > 0
-    And user types search inventory input field with "Web Automation Custom Inventory 1 (Single UOM)"
-    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 (Single UOM)"
+    And user types search inventory input field with "Web Automation Custom Inventory 1 - Single UOM"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 - Single UOM"
     Then is consign toggle button is not displayed
     And user clicks on delete inventory button
     And user clicks on delete reason = "wrong input"

@@ -47,9 +47,9 @@ Feature: Get Inventory List
     When user logs out from WMS
 
    Scenario: User successfully filters inventory list based on latest movement date
-    When user redirects to inbound menu
+    When user redirects to inbound Request menu
     And user clicks create new inbound request button
-    And user creates a new inbound Source Request
+    And user creates a new inbound Source Request to "Warehouse Mitra Cypress" - "Cyp" from "Faris" with product "Beng"
     And user applies "created Source ID" to find related inbound Request
     And user clicks the first data on inbound Request table
     And user click create Receipt data at inbound Request detail page

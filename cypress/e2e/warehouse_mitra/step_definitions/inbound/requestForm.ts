@@ -3,19 +3,22 @@ import RequestFormPage from "../../page_objects/inbound/requestFormPage";
 
 const requestFormPage = new RequestFormPage();
 
-Given("user creates a new inbound Source Request", () => {
-  requestFormPage.typeSourceID();
-  requestFormPage.setStore("Faris");
-  requestFormPage.setSourceType("Retur");
-  requestFormPage.setWarehouse("Warehouse");
-  requestFormPage.setTargetStore("Faris");
-  requestFormPage.setSourceDate(13);
-  requestFormPage.setDeliveryDate(23);
-  requestFormPage.setDeliveryMethod("STORE COURIER");
-  requestFormPage.setRequestFirstProductName("Beng");
-  requestFormPage.setRequestFirstProductAmount(10);
-  requestFormPage.submitRequestForm();
-});
+Given(
+  "user creates a new inbound Source Request to {string} - {string} from {string} with product {string}",
+  (warehouse: string, store: string, targetStore: string, product: string) => {
+    requestFormPage.typeSourceID();
+    requestFormPage.setWarehouse(warehouse);
+    requestFormPage.setSourceType("Retur");
+    requestFormPage.setStore(store);
+    requestFormPage.setTargetStore(targetStore);
+    requestFormPage.setSourceDate("13", "1", "2022");
+    requestFormPage.setDeliveryDate("23", "11", "2023");
+    requestFormPage.setDeliveryMethod("STORE COURIER");
+    requestFormPage.setRequestFirstProductName(product);
+    requestFormPage.setRequestFirstProductAmount(10);
+    requestFormPage.submitRequestForm();
+  }
+);
 
 When("user fills inbound Source ID at new inbound request form", () => {
   requestFormPage.typeSourceID();
@@ -50,16 +53,16 @@ When(
 );
 
 When(
-  "user selects date {int} as Source date at new inbound request form",
-  (sourceDate: number) => {
-    requestFormPage.setSourceDate(sourceDate);
+  "user selects {string} date, {string} month, {string} year, as Source date at new inbound request form",
+  (date: string, month: string, year: string) => {
+    requestFormPage.setSourceDate(date, month, year);
   }
 );
 
 When(
-  "user selects date {int} as delivery date at new inbound request form",
-  (deliveryDate: number) => {
-    requestFormPage.setDeliveryDate(deliveryDate);
+  "user selects {string} date, {string} month, {string} year, as delivery date at new inbound request form",
+  (date: string, month: string, year: string) => {
+    requestFormPage.setDeliveryDate(date, month, year);
   }
 );
 
@@ -93,6 +96,11 @@ When(
 
 When("user clicks new inbound request form submission button", () => {
   requestFormPage.submitRequestForm();
+});
+
+When("user should be at inbound Request form", () => {
+  expect(cy.get(requestFormPage.sourceIDField).should("be.visible"));
+  expect(cy.url().should("contain", requestFormPage.path));
 });
 
 Then(
@@ -141,6 +149,16 @@ Then(
     requestFormPage.assertErrorInboundRequestForm(
       "request product quantity",
       "Harap masukkan jumlah produk"
+    );
+  }
+);
+
+Then(
+  "user should see {string} applied as warehouse store dropdown on inbound Request form",
+  (warehouse: string) => {
+    requestFormPage.assertAppliedWarehouseStore(
+      warehouse,
+      requestFormPage.warehouseData[warehouse].stores[0].storeName
     );
   }
 );

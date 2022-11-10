@@ -4,26 +4,25 @@ Feature: Get Inbound Receipt List
     Given user already logged in to WMS as "superuser"
 
   Scenario Outline: User successfully applies combination keyword and filter to see empty result at inbound Receipt list
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user clicks <status> status chip at inbound Receipt list
     And user applies <keyword> to find related inbound Receipt
     And user applies <deliveryMethod> as delivery method filter at inbound Receipt list
-    And user applies <deliveryDate> as delivery date filter at inbound Receipt list
+    And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Receipt list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <status> "status" should be added to inbound Receipt list URL
     And query param for <keyword> "keyword" should be added to inbound Receipt list URL
     And query param for <deliveryMethod> "delivery method" should be added to inbound Receipt list URL
-    And query param for <deliveryDate> "delivery date" should be added to inbound Receipt list URL
+    And query param for <expDeliveryDate> "delivery date" should be added to inbound Receipt list URL
     And user should able to see empty inbound Receipts list
     When user logs out from WMS
     Examples:
-    | status            | keyword             | deliveryMethod   | deliveryDate  |
-    | "Sedang Diproses" | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           |
+    | status            | keyword             | deliveryMethod   | deliveryDate  | deliveryMonth | deliveryYear  | expDeliveryDate |
+    | "Sedang Diproses" | "asDIUUWdNKxjcqdKo" | "STORE COURIER"  | "1"           | "1"           | "1960"        | "1960-01-01"    |
 
   Scenario Outline: User successfully filters inbound Receipt list by <status> status
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user clicks <status> status chip at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <status> "status" should be added to inbound Receipt list URL
@@ -39,8 +38,7 @@ Feature: Get Inbound Receipt List
     | "Sudah Selesai"   |
 
   Scenario Outline: User successfully using <keyword> to search <searchTarget> for inbound Receipt list
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <keyword> to find related inbound Receipt
     Then user should be at inbound Receipt list
     And query param for <keyword> "keyword" should be added to inbound Receipt list URL
@@ -51,12 +49,11 @@ Feature: Get Inbound Receipt List
 
     Examples:
     | keyword           | searchTarget    |
-    | "08220000"        | "receipt ID"    |
+    | "102200"          | "receipt ID"    |
     | "Toko"            | "supplier store"|
 
   Scenario Outline: User successfully filters inbound Receipt list by <deliveryMethod> deliveryMethod
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <deliveryMethod> as delivery method filter at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <deliveryMethod> "delivery method" should be added to inbound Receipt list URL
@@ -72,25 +69,23 @@ Feature: Get Inbound Receipt List
     | "STORE COURIER"   |
 
  Scenario Outline: User successfully filters inbound Receipt list by <deliveryDate> deliveryDate
-    //TODO: Precondition to create inbound Receipt with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
-    And user applies <deliveryDate> as delivery date filter at inbound Receipt list
+    When user redirects to inbound Receipt menu
+    And user applies <deliveryDate> date, <deliveryMonth> month, <deliveryYear> year as delivery date filter at inbound Receipt list
     Then user should be at inbound Receipt list
-    And query param for <deliveryDate> "delivery date" should be added to inbound Receipt list URL
-    And user should only able to see inbound Receipt with <deliveryDate> "delivery date"
+    And query param for <expDeliveryDate> "delivery date" should be added to inbound Receipt list URL
+    And user should only able to see inbound Receipt with <expDeliveryDate> "delivery date"
+    
     When user resets any applied delivery date filter at inbound Receipt list
     Then query param for "null" "delivery date" should be added to inbound Receipt list URL
+    
     When user logs out from WMS
 
     Examples:
-    | deliveryDate    |
-    | "22"            |
+    | deliveryDate    | deliveryMonth | deliveryYear | expDeliveryDate  |
+    | "23"            | "11"          | "2023"       | "2023-11-23"     |
 
    Scenario Outline: User successfully filters inbound Receipt list by <pageAmount> page amount
-    //TODO: Precondition to create inbound Receipt with 22 as delivery date
-    When user redirects to inbound menu
-    And user clicks inbound Receipt list tab
+    When user redirects to inbound Receipt menu
     And user applies <pageAmount> as page amount at inbound Receipt list
     Then user should be at inbound Receipt list
     And query param for <pageAmount> "rowsPerPage" should be added to inbound Receipt list URL
@@ -101,3 +96,10 @@ Feature: Get Inbound Receipt List
     | "15"          |
     | "20"          |
     | "25"          |
+
+  Scenario: User successfully applies warehouse and store global filter at inbound request list
+    When user redirects to inbound Receipt menu
+    And user applies "25" as page amount at inbound Receipt list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters at inbound Receipt list
+    Then "Warehouse Mitra Cypress" UUID should be added as inbound Receipt list API headers
+    When user logs out from WMS

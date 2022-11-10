@@ -1,68 +1,87 @@
-import BaseListPage from "./baseListPage";
+import InboundBaseListPage from "./inboundBaseListPage";
 
-export default class ReceiptListPage extends BaseListPage {
+export default class ReceiptListPage extends InboundBaseListPage {
   path = "/inventory/inbound/receipt/list";
-  createReceiptButton =
-    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]/div[2]/span/button';
   createReceiptWarehouseNameDropdown =
     'input[placeholder="Pilih lokasi gudang"]';
   createReceiptStoreNameDropdown = 'input[placeholder="Pilih toko"]';
-  createReceiptRequestIDDropdown = 'input[placeholder="Pilih no. permintaan"]';
+  createReceiptRequestIDDropdown =
+    'input[placeholder="Pilih no. barang keluar"]';
   dropdownOptionsItem = '[role="option"]';
   createReceiptCTAButton = "[type=button]";
-  tableBody = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]';
-  accordionParent = "#panel[index]a-header";
+
+  tableBody = '[data-testid="inbound_list"]';
+  accordionParent = "#panelindexa-header";
   accordionParentReceiptIDPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(1) > a > .MuiTypography-root";
   accordionParentCreatedDatePointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(2) > :nth-child(2)";
   accordionParentStatusPointer =
     " > .MuiAccordionSummary-contentGutters > .MuiBox-root > :nth-child(2) > :nth-child(5)";
-  accordionChild = "#panel[index]a-content";
+
+  accordionChild = '[data-testid="inbound_list[index].request_table"]';
   accordionChildSourceIDPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(1) > :nth-child(1) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(1) > :nth-child(1) > .MuiTypography-root";
   accordionChildSourceTypePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(1) > :nth-child(2) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(1) > :nth-child(2) > .MuiTypography-root";
   accordionChildRequestIDPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(2) > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(2) > .MuiTypography-root";
   accordionChildDeliveryDatePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(2) > .MuiBox-root > .MuiTypography-root";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(2) > .MuiBox-root > .MuiTypography-root";
   accordionChildSupplierStorePointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(3)";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(3)";
   accordionChildDeliveryMethodPointer =
-    " > .MuiAccordionDetails-root > .MuiTableContainer-root > .MuiTable-root > .MuiTableBody-root > .MuiTableRow-root > :nth-child(4)";
+    " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(4)";
 
-  firstRowAccordionParent = this.accordionParent.split("[index]").join("0");
-  firstRowAccordionReceiptID = this.firstRowAccordionParent.concat(
-    this.accordionParentReceiptIDPointer
+  firstRowAccordionParent = this.utils.replaceElementIndex(
+    this.accordionParent,
+    0
   );
-  firstRowAccordionCreatedDate = this.firstRowAccordionParent.concat(
-    this.accordionParentCreatedDatePointer
-  );
-  firstRowAccordionStatus = this.firstRowAccordionParent.concat(
-    this.accordionParentStatusPointer
-  );
-  firstRowAccordionChild = this.accordionChild.split("[index]").join("0");
-  firstRowAccordionSourceID = this.firstRowAccordionChild.concat(
-    this.accordionChildSourceIDPointer
-  );
-  firstRowAccordionSourceType = this.firstRowAccordionChild.concat(
-    this.accordionChildSourceTypePointer
-  );
-  firstRowAccordionRequestID = this.firstRowAccordionChild.concat(
-    this.accordionChildRequestIDPointer
-  );
-  firstRowAccordionDeliveryDate = this.firstRowAccordionChild.concat(
-    this.accordionChildDeliveryDatePointer
-  );
-  firstRowAccordionSupplierStore = this.firstRowAccordionChild.concat(
-    this.accordionChildSupplierStorePointer
-  );
-  firstRowAccordionDeliveryMethod = this.firstRowAccordionChild.concat(
-    this.accordionChildDeliveryMethodPointer
-  );
+  firstRowAccordionReceiptID =
+    this.firstRowAccordionParent + this.accordionParentReceiptIDPointer;
+  firstRowAccordionCreatedDate =
+    this.firstRowAccordionParent + this.accordionParentCreatedDatePointer;
+  firstRowAccordionStatus =
+    this.firstRowAccordionParent + this.accordionParentStatusPointer;
 
-  submitCreateReceiptPopup() {
+  firstRowAccordionChild = this.utils.replaceElementIndex(
+    this.accordionChild,
+    0
+  );
+  firstRowAccordionSourceID =
+    this.firstRowAccordionChild + this.accordionChildSourceIDPointer;
+  firstRowAccordionSourceType =
+    this.firstRowAccordionChild + this.accordionChildSourceTypePointer;
+  firstRowAccordionRequestID =
+    this.firstRowAccordionChild + this.accordionChildRequestIDPointer;
+  firstRowAccordionDeliveryDate =
+    this.firstRowAccordionChild + this.accordionChildDeliveryDatePointer;
+  firstRowAccordionSupplierStore =
+    this.firstRowAccordionChild + this.accordionChildSupplierStorePointer;
+  firstRowAccordionDeliveryMethod =
+    this.firstRowAccordionChild + this.accordionChildDeliveryMethodPointer;
+
+  waitSearchRender() {
+    cy.wait(500);
+    /**
+     *  This lines still return inconsitent behavior
+     *  caused by intermittent behavior (API isn't called when clicking status chip)
+    this.utils.interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
+    cy.wait("@inboundRequestListAPI").then((API) => {
+      const responseBody = API.response?.body;
+      if (responseBody.total_data === 0)
+        cy.get(this.notFoundReceiptText).should("be.visible");
+      else cy.get(this.tablePaginationInfoContainer).should('contain', 'dari ' + responseBody.total_data);
+    });
+     * 
+     */
+  }
+
+  clickCreateNewReceipt() {
+    cy.wait(500); //TODO: Request implement test-id on FE
+    cy.get(this.inboundListButtons).contains("Penerimaan Barang Masuk").click();
+  }
+  selectWarehouseStoreAtCreatePopup() {
     cy.get("@requestDetailWarehouseName").then((warehouseName) => {
       cy.get(this.createReceiptWarehouseNameDropdown).click();
       cy.get(this.dropdownOptionsItem).contains(String(warehouseName)).click();
@@ -71,12 +90,16 @@ export default class ReceiptListPage extends BaseListPage {
       cy.get(this.createReceiptStoreNameDropdown).click();
       cy.get(this.dropdownOptionsItem).contains(String(storeName)).click();
     });
+  }
+
+  submitCreateReceiptPopup() {
     cy.get("@requestDetailRequestID").then((requestID) => {
       cy.get(this.createReceiptRequestIDDropdown).click();
       cy.get(this.dropdownOptionsItem)
         .contains(String(requestID).substring(6, 15))
         .click();
     });
+    cy.get(this.createReceiptRequestIDDropdown).click();
     cy.get(this.createReceiptCTAButton).contains("Simpan").click();
   }
 
@@ -130,12 +153,13 @@ export default class ReceiptListPage extends BaseListPage {
           this.accordionChild + this.accordionChildDeliveryMethodPointer;
         break;
       case "delivery date":
+        value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         pointer = this.accordionChild + this.accordionChildDeliveryDatePointer;
         break;
     }
 
-    cy.xpath(this.tableBody).then(($list) => {
-      for (let index = 0; index < $list.children().length - 1; index++) {
+    cy.get(this.tableBody).then(($list) => {
+      for (let index = 0; index < $list.children().length - 2; index++) {
         let accordionPointer = this.accordionParent
           .split("[index]")
           .join(index.toString());
@@ -147,5 +171,24 @@ export default class ReceiptListPage extends BaseListPage {
         expect(cy.get(receiptAttribute).should("contain", value));
       }
     });
+  }
+
+  assertReceiptPopupFilter(warehouseName: string, storeName: string) {
+    expect(
+      cy
+        .get(this.createReceiptWarehouseNameDropdown)
+        .invoke("val")
+        .should("contain", warehouseName)
+    );
+    expect(
+      cy.get(this.createReceiptWarehouseNameDropdown).should("be.disabled")
+    );
+    expect(
+      cy
+        .get(this.createReceiptStoreNameDropdown)
+        .invoke("val")
+        .should("contain", storeName)
+    );
+    expect(cy.get(this.createReceiptStoreNameDropdown).should("be.disabled"));
   }
 }

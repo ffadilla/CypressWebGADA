@@ -29,6 +29,30 @@
         "email": "cypress_renter@mail.com",
         "password": "warehouse"
       }
+    },
+    "warehouses": {
+      "Warehouse Mitra Cypress": {
+        "warehouseCode": "WH-Cyp01",
+        "warehouseUUID": "411ec55a-3646-4b45-ab0b-1ae92ecca65b",
+        "stores": [
+          {
+            "storeName": "Toko WMS Mitra Cyp",
+            "storeCode": "GADA-bvvj5v",
+            "storeUUID": "bc2f223a-f4ff-4cd6-a802-54991f7b9554"
+          }
+        ]
+      },
+      "Warehouse Siraf": {
+        "warehouseCode": "12312399922",
+        "warehouseUUID": "4f791a3f-69de-4976-9162-19344daffe7f",
+        "stores": [
+          {
+            "storeName": "Faris",
+            "storeCode": "GADA-h41bhh",
+            "storeUUID": "488f1431-cfd5-4668-bae2-d64d95d2e2ec"
+          }
+        ]
+      }
     }
   },
   "watchForFileChanges": false
