@@ -228,7 +228,7 @@ Scenario: User bulk adds 20 inventories with mandatory fields
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
-@ignore-this
+
 Scenario: User deletes all product item row
     When user click nama barang atau scan barcode searchbox
     And user types "kukis 300gr" on nama barang searchbox
