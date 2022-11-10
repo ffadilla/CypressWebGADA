@@ -18,40 +18,69 @@
   "bms": {
     "baseUrl": "https://bms.gudangada.online/"
   },
-  "warehouseMitra": {
-    "baseUrl": "https://warehouse-dev.gudangada.com/",
-    "accounts": {
-      "superuser": {
-        "email": "cypress_su@mail.com",
-        "password": "warehouse"
+  "warehouse": {
+    "mitra": {
+      "baseUrl": "https://warehouse-dev.gudangada.com/",
+      "accounts": {
+        "superuser": {
+          "email": "cypress_su@mail.com",
+          "password": "warehouse"
+        },
+        "renter": {
+          "email": "cypress_renter@mail.com",
+          "password": "warehouse"
+        }
       },
-      "renter": {
-        "email": "cypress_renter@mail.com",
-        "password": "warehouse"
+      "warehouses": {
+        "Warehouse Mitra Cypress": {
+          "warehouseCode": "WH-Cyp01",
+          "warehouseUUID": "411ec55a-3646-4b45-ab0b-1ae92ecca65b",
+          "stores": [
+            {
+              "storeName": "Toko WMS Mitra Cyp",
+              "storeCode": "GADA-bvvj5v",
+              "storeUUID": "bc2f223a-f4ff-4cd6-a802-54991f7b9554"
+            }
+          ]
+        },
+        "Warehouse Siraf": {
+          "warehouseCode": "12312399922",
+          "warehouseUUID": "4f791a3f-69de-4976-9162-19344daffe7f",
+          "stores": [
+            {
+              "storeName": "Faris",
+              "storeCode": "GADA-h41bhh",
+              "storeUUID": "488f1431-cfd5-4668-bae2-d64d95d2e2ec"
+            }
+          ]
+        }
       }
     },
-    "warehouses": {
-      "Warehouse Mitra Cypress": {
-        "warehouseCode": "WH-Cyp01",
-        "warehouseUUID": "411ec55a-3646-4b45-ab0b-1ae92ecca65b",
-        "stores": [
-          {
-            "storeName": "Toko WMS Mitra Cyp",
-            "storeCode": "GADA-bvvj5v",
-            "storeUUID": "bc2f223a-f4ff-4cd6-a802-54991f7b9554"
-          }
-        ]
+    "dc": {
+      "baseUrl": "https://dc-warehouse-dev.gudangada.com/",
+      "accounts": {
+        "superuser": {
+          "email": "cypress_su@mail.com",
+          "password": "warehouse"
+        }
       },
-      "Warehouse Siraf": {
-        "warehouseCode": "12312399922",
-        "warehouseUUID": "4f791a3f-69de-4976-9162-19344daffe7f",
-        "stores": [
-          {
-            "storeName": "Faris",
-            "storeCode": "GADA-h41bhh",
-            "storeUUID": "488f1431-cfd5-4668-bae2-d64d95d2e2ec"
-          }
-        ]
+      "warehouses": {
+        "Warehouse DC FRS": {
+          "warehouseCode": "DC-FRS-WH",
+          "warehouseUUID": "4b6e7004-a242-4d65-9865-d61f1a1b57e6",
+          "stores": [
+            {
+              "storeName": "Toko DCFRS",
+              "storeCode": "GADA-6zznk1",
+              "storeUUID": "2498a315-ac0e-47f3-bb55-83ae7af2634b"
+            },
+            {
+              "storeName": "DCFRS B",
+              "storeCode": "GADA-9dyxjm",
+              "storeUUID": "eae905f8-a52a-4d80-a215-689a5e598f9a"
+            }
+          ]
+        }
       }
     }
   },
