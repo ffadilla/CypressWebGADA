@@ -193,7 +193,7 @@ When("user clicks on update stock card ubah button", () => {
   inventoryDetailPage.clickInventoryEditStockCardUbahButton();
 });
 
-When("user clicks on tambah stok baru button", () => {
+When("user clicks on Tambah Stok dari Pembelian button", () => {
   cy.wait(1000);
   inventoryDetailPage.clickTambahStokBaruButton();
 });

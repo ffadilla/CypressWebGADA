@@ -67,6 +67,7 @@ When(
   (input: string) => {
     utils.retrieveProductVariantId(input);
     cy.get("@productVariantId").then((pvId: any) => {
+      cy.wait(1500);
       cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
       inventoryListPage.clickStockEditButton(pvId);
     });
@@ -120,7 +121,9 @@ When(
     utils.retrieveProductVariantId(input);
     cy.get("@productVariantId").then((pvId: any) => {
       cy.get(inventoryListPage.namaBarangButton + pvId).trigger("mouseover");
-      inventoryListPage.clickSellingPriceEditButton(pvId);
+      inventoryListPage.clickSellingPriceEditButton(
+        utils.convertNameToId(input)
+      );
     });
   }
 );
@@ -128,18 +131,17 @@ When(
 When(
   "user clicks on selling price edit button of inventory {string} unit {string}",
   (inventoryName: string, uomName: string) => {
-    cy.wait(500);
-    utils.retrieveProductVariantId(inventoryName);
-    cy.get("@productVariantId").then((pvId: any) => {
-      utils.retrieveUomId(uomName);
-      let temp = pvId;
-      cy.get("@uomId").then((uomId: any) => {
-        temp = temp.concat("_" + uomId);
-        inventoryListPage.clickSellingPriceEditButton(temp);
-      });
+    utils.retrieveUomId(uomName);
+    cy.get("@uomId").then((uomId: any) => {
+      const id = utils.convertNameToId(inventoryName) + "_" + uomId;
+      inventoryListPage.clickSellingPriceEditButton(id);
     });
   }
 );
+
+When("user closes popover", () => {
+  cy.get("body").click(0, 0);
+});
 
 When(
   "user deletes inventory {string} with delete reason = wrong input",
