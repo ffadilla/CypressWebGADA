@@ -9,7 +9,7 @@ Feature: Inventory Detail - Update Inventory
     When user types search inventory input field with "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on inventory detail button of "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on update stock card ubah button
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     And user clicks on tambah stok baru uom popover button
     And user clicks on "Pieces" unit checkbox
     And user clicks on choose unit button
@@ -33,7 +33,7 @@ Feature: Inventory Detail - Update Inventory
     When user types search inventory input field with "Hati Angsa Kecap Manis Sedang 600 ml"
     And user clicks on inventory detail button of "Hati Angsa Kecap Manis Sedang 600 ml"
     And user clicks on update stock card ubah button
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     And user clicks on tambah stok baru uom popover button
     Then lainnya text is not displayed
     And user deletes test data
@@ -42,7 +42,7 @@ Feature: Inventory Detail - Update Inventory
     When user types search inventory input field with "Hati Angsa Kecap Manis Sedang 600 ml"
     And user clicks on inventory detail button of "Hati Angsa Kecap Manis Sedang 600 ml"
     And user clicks on update stock card ubah button
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     And user clicks on tambah stok baru uom popover button
     And user clicks on "Karton" unit checkbox
     And user clicks on choose unit button
@@ -61,7 +61,7 @@ Feature: Inventory Detail - Update Inventory
     When user types search inventory input field with "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on inventory detail button of "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on update stock card ubah button
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     And user clicks on tambah stok baru uom popover button
     And user types search unit field with "Karton"
     And user clicks on "Karton" unit checkbox
@@ -92,7 +92,7 @@ Feature: Inventory Detail - Update Inventory
     When user types search inventory input field with "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on inventory detail button of "Web Automation Custom Inventory 4 (Consign)"
     And user clicks on update stock card ubah button
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     And user clicks on tambah stok baru uom popover button
     And user clicks on "Pieces" unit checkbox
     And user clicks on choose unit button
@@ -108,17 +108,17 @@ Feature: Inventory Detail - Update Inventory
     And user deletes test data
 
   Scenario: User restocks non consign inventory
-    When user types search inventory input field with "Web Automation Custom Inventory 1 (Single UOM)"
-    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 (Single UOM)"
+    When user types search inventory input field with "Web Automation Custom Inventory 1 - Single UOM"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 - Single UOM"
     And user clicks on update stock card ubah button
     Then restock button text is "Tambah Stok dari Pembelian"
-    And user clicks on tambah stok baru button
+    And user clicks on Tambah Stok dari Pembelian button
     Then user is redirected to add purchase transaction page
     And user deletes test data
 
   Scenario: User views inventory details of non consign inventory
-    When user types search inventory input field with "Web Automation Custom Inventory 1 (Single UOM)"
-    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 (Single UOM)"
+    When user types search inventory input field with "Web Automation Custom Inventory 1 - Single UOM"
+    And user clicks on inventory detail button of "Web Automation Custom Inventory 1 - Single UOM"
     Then is consign toggle button is not displayed
     And user deletes test data
 
