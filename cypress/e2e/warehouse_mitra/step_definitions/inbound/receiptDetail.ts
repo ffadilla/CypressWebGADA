@@ -5,7 +5,7 @@ const receiptDetailPage = new ReceiptDetailPage();
 
 Given("user submits created inbound Receipt", () => {
   receiptDetailPage.downloadPrintableDoc();
-  receiptDetailPage.selectExpDate("Tidak Tersedia");
+  receiptDetailPage.selectExpDate("Tidak tersedia");
   receiptDetailPage.setAttachment("Surat Jalan");
   receiptDetailPage.submitReceipt();
   receiptDetailPage.confirmReceiptSubmission();

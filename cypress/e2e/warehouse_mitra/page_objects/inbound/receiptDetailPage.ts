@@ -4,7 +4,6 @@ export default class ReceiptDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/receipt/detail";
   date = this.utils.generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
-  downloadedFileDir = "";
   expectedAttachmentXPath = "";
   expectedAttachmentURL = "";
 
@@ -181,13 +180,14 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       });
 
     cy.get("@printableDocURL").then((url) => {
-      this.downloadedFileDir =
+      let directory =
         "cypress/downloads/" +
         String(url).replace(
           "https://warehouse-uploads-dev.gudangada.com/INBOUND/INBOUND_PICTURE/PDF/",
           ""
         );
-      cy.readFile(this.downloadedFileDir, { timeout: 10000 }).should("exist");
+      cy.wrap(directory).as("downloadedFileDir");
+      cy.readFile(directory, { timeout: 10000 }).should("exist");
     });
   }
 
@@ -220,14 +220,15 @@ export default class ReceiptDetailPage extends BaseDetailPage {
 
   setAttachment(value: string) {
     this.switchAttachment(value);
-
-    cy.xpath(this.expectedAttachmentXPath)
-      .find("input")
-      .selectFile(this.downloadedFileDir, { force: true });
-    cy.xpath(this.expectedAttachmentXPath)
-      .find("svg")
-      .should("have.attr", "data-testid")
-      .and("equal", "DescriptionOutlinedIcon");
+    cy.get("@downloadedFileDir").then((dir) => {
+      cy.xpath(this.expectedAttachmentXPath)
+        .find("input")
+        .selectFile(dir, { force: true });
+      cy.xpath(this.expectedAttachmentXPath)
+        .find("svg")
+        .should("have.attr", "data-testid")
+        .and("equal", "DescriptionOutlinedIcon");
+    });
   }
 
   downloadReceiptAttachment(value: string) {
