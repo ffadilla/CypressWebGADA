@@ -3,9 +3,9 @@ import * as utils from "../common/utils";
 
 export default class BasePage {
   utils = utils;
-  baseUrl = gadaConfig.warehouseMitra.baseUrl;
-  accountData = gadaConfig.warehouseMitra.accounts;
-  warehouseData = gadaConfig.warehouseMitra.warehouses;
+  baseUrl = gadaConfig.warehouse.mitra.baseUrl;
+  accountData = gadaConfig.warehouse.mitra.accounts;
+  warehouseData = gadaConfig.warehouse.mitra.warehouses;
   dateQueryBaseFormat = "" + this.utils.generateDateTime(0, "YYYY-MM-");
 
   storeGlobalFilter = 'input[placeholder="Toko"]';

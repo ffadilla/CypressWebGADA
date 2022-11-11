@@ -1,0 +1,22 @@
+/**
+ * This file should only related to WMS global header and sidebar menu.
+ */
+
+import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
+import LoginPage from "../page_objects/loginPage";
+import BasePage from "../page_objects/basePage";
+
+const basePage = new BasePage();
+const loginPage = new LoginPage();
+
+Given("user already logged in to WMS as {string}", (role: string) => {
+  loginPage.loginAs(role);
+});
+
+When("user logs out from WMS", () => {
+  basePage.logout();
+});
+
+When("user redirects to the previous visited page", () => {
+  cy.go("back");
+});
