@@ -19,8 +19,14 @@ export default class InventoryDetailPage extends BasePage {
     '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[2]/div[2]';
 
   expiryDateTableXpath = '(//tbody[contains(@class, "MuiTableBody-root")])[1]';
+  expiryDateTableSortXpath =
+    '(//span[contains(@class, "MuiTableSortLabel-root")])[index]';
 
   movementTableXPath = '(//tbody[contains(@class, "MuiTableBody-root")])[2]';
+  movementTableEmptyInfoXpath =
+    '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[4]/div[3]/div';
+  movementSearchbar = 'input[placeholder="Cari ID referensi dan kategori..."]';
+  resetMovementSearchbar = 'svg[data-testid="CloseRoundedIcon"]';
   movementReferenceIDXPath =
     this.movementTableXPath + "/tr[index]/td[1]/div/div[1]";
   movementRequestIDXPath =
@@ -31,6 +37,88 @@ export default class InventoryDetailPage extends BasePage {
     this.movementTableXPath + "/tr[index]/td[4]";
   movementTimeXPath = this.movementTableXPath + "/tr[index]/td[5]/div[1]";
   movementByXPath = this.movementTableXPath + "/tr[index]/td[5]/div[2]";
+
+  expDatePageAmountDropdownXPath =
+    '(//div[contains(@aria-haspopup, "listbox")])[1]';
+  movementPageAmountDropdownXPath =
+    '(//div[contains(@aria-haspopup, "listbox")])[2]';
+  pageAmountDropdownOptions = 'ul[role="listbox"]';
+
+  interceptExpiryBatchAPI() {
+    this.utils.interceptAPI(
+      "GET",
+      "/inventory/inventory-batch-detail/**",
+      "expiryBatchAPI"
+    );
+  }
+
+  interceptInventoryMovementAPI() {
+    this.utils.interceptAPI(
+      "GET",
+      "/inventory/inventory-detail/**",
+      "inventoryMovementAPI"
+    );
+  }
+
+  waitMovementTableRender() {
+    cy.wait("@inventoryMovementAPI").then((API) => {
+      const responseBody = API.response?.body;
+      if (responseBody.total_data === 0)
+        cy.xpath(this.movementTableEmptyInfoXpath).should("be.visible");
+      else
+        cy.xpath(
+          this.utils.replaceElementIndex(this.movementByXPath, 1)
+        ).should("exist");
+
+      expect(API.response?.statusCode).to.eq(200);
+    });
+  }
+
+  setExpDatePageAmount(value: string) {
+    cy.xpath(this.expDatePageAmountDropdownXPath).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
+  }
+
+  sortExpiryBatchTable(value: string) {
+    let element = "";
+    switch (value) {
+      case "quantity":
+        element = this.utils.replaceElementIndex(
+          this.expiryDateTableSortXpath,
+          1
+        );
+        break;
+      case "expiry_date":
+        element = this.utils.replaceElementIndex(
+          this.expiryDateTableSortXpath,
+          2
+        );
+        break;
+    }
+    cy.xpath(element).click();
+  }
+
+  setMovementPageAmount(value: string) {
+    cy.xpath(this.movementPageAmountDropdownXPath).click();
+    cy.get(this.pageAmountDropdownOptions).contains(value).click();
+  }
+
+  setMovementKeyword(value: string) {
+    cy.get(this.movementSearchbar).click().type(value).type("{enter}");
+    cy.url().should(
+      "contain",
+      "invMoveLogsSearchVal=" + value.split(" ").join("+")
+    );
+  }
+
+  resetMovementKeyword() {
+    cy.get(this.resetMovementSearchbar).click();
+  }
+
+  assertInventoryDetail() {
+    cy.xpath(this.skuNameXPath).should("be.visible");
+    cy.url().should("include", this.path);
+  }
 
   assertSKUDataByInventoryList() {
     cy.get("@inventoryListSKUID").then((skuID) => {
@@ -90,6 +178,44 @@ export default class InventoryDetailPage extends BasePage {
           .xpath(this.utils.replaceElementIndex(this.movementByXPath, 1))
           .should("contain", lutBy)
       );
+    });
+  }
+
+  assertExpiryBatchAPI(sortValue: string, ascendingValue: string) {
+    cy.wait("@expiryBatchAPI").then((api) => {
+      cy.log(String(api.request));
+      expect(api.request.url).to.include("order_by=" + sortValue);
+      expect(api.request.url).to.include("ascending=" + ascendingValue);
+      expect(api.response?.statusCode).to.eq(200);
+    });
+  }
+
+  assertMovementTableByKeyword(attribute: string, keyword: string) {
+    let element = "";
+    switch (attribute) {
+      case "reference id":
+        element = this.movementReferenceIDXPath;
+        break;
+      case "category":
+        element = this.movementCategoryXPath;
+        break;
+    }
+
+    cy.xpath(this.movementTableXPath).then((table) => {
+      for (let index = 1; index < table.find("tr").length + 1; index++) {
+        cy.xpath(this.utils.replaceElementIndex(element, index))
+          .invoke("text")
+          .then((text) => {
+            switch (attribute) {
+              case "reference id":
+                expect(text).to.include(keyword);
+                break;
+              case "category":
+                if (keyword === "REQUEST_IN") expect(text).to.eq("Order Masuk");
+                break;
+            }
+          });
+      }
     });
   }
 }

@@ -25,6 +25,7 @@ export default class InventoryListPage extends BaseListPage {
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
+  tableEmptyInfoXpath = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]';
 
   interceptListAPI() {
     this.utils.interceptAPI(
@@ -38,13 +39,13 @@ export default class InventoryListPage extends BaseListPage {
     cy.wait("@inventoryListAPI").then((API) => {
       const responseBody = API.response?.body;
       if (responseBody.total_data === 0)
-        cy.xpath(
-          this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
-        ).should("be.visible");
+        cy.xpath(this.tableEmptyInfoXpath).should("be.visible");
       else
         cy.xpath(
           this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
         ).should("be.visible");
+
+      expect(API.response?.statusCode).to.eq(200);
     });
   }
 
@@ -62,6 +63,7 @@ export default class InventoryListPage extends BaseListPage {
   setSearchKeyword(keyword: string) {
     cy.get(this.searchbox).type(keyword);
     cy.get(this.searchbox).type("{enter}");
+    cy.url().should("contain", "search=" + keyword.split(" ").join("+"));
   }
 
   resetSearchKeyword() {

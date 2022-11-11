@@ -10,8 +10,8 @@ When("user applies today's date as filter date at inventory list", () => {
 });
 
 When("user applies {string} to find related inventory", (value: string) => {
-  inventoryListPage.interceptListAPI();
   inventoryListPage.setSearchKeyword(value);
+  inventoryListPage.interceptListAPI();
   inventoryListPage.waitSearchRender();
 });
 
