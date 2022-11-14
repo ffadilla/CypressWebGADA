@@ -1,6 +1,5 @@
 import { And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestDetailPage from "../page_objects/outboundRequestDetailPage";
-
 const outboundRequestDetailPage = new OutboundRequestDetailPage();
 
 And("user chooses to go back", () => {
