@@ -158,6 +158,7 @@ export default class OutboundPage extends BasePage {
         break;
       case "Semua Status":
         cy.get(this.statusDefault).click();
+        break;
     }
   }
 

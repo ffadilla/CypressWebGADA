@@ -93,3 +93,4 @@ Feature: Checking the outbound request list Page
 
   Scenario: Logout after test
     Then user should be logged out
+    
