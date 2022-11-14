@@ -1,22 +1,30 @@
-import { reformatDate } from "../common/utils";
 import BasePage from "./basePage";
 
 export default class OutboundRequestDetailPage extends BasePage {
-  requestDetailPath = "inventory/outbound/request/detail";
+  path = "inventory/outbound/request/detail";
 
-  //xpath start here
-  xpathOutboundIdOnDetail = "//div/div[1]/span[1]";
+  //XPaths start here
+  xpathOutboundIdOnDetail = "//div/div[1]/div[1]/div/div[1]/span[1]";
   xpathRequestIdOnDetail = "//div/div[2]/span[2]";
-  xpathOutboundRecipientOnDetail = "//div[1]/div[2]/div/div[1]/div[2]/div";
-  xpathOutboundDeliveryMethodOnDetail = "//div[1]/div[2]/div/div[2]/div[2]/div";
-  xpathOutboundStatusOnDetail = "//div/div[2]/span[3]";
-  xpathOutboundDeliveryDateOnDetail = "//div[1]/div[2]/div/div[2]/div[1]/div";
+  xpathCreateDateOnDetail = "//div/div[1]/div[1]/div/div[2]/span[1]";
+  xpathOutboundTypeOnDetail =
+    "//div/div[1]/div[2]/div/div[1]/div[1]/div/div[2]";
+  xpathRecipientOnDetail = "//div[1]/div[2]/div/div[1]/div[2]/div/div[2]";
+  xpathShipperOnDetail = "//div[1]/div[2]/div/div[1]/div[3]/div/div[2]";
+  xpathShipperWarehouseLocation =
+    "//div[1]/div[2]/div/div[2]/div[3]/div/div[2]";
+  xpathDeliveryMethodOnDetail = "//div[1]/div[2]/div/div[2]/div[2]/div/div[2]";
+  xpathStatusOnDetail = "//div/div[2]/span[3]";
+  xpathDeliveryDateOnDetail = "//div[1]/div[2]/div/div[2]/div[1]/div/div[2]";
+  xpathProductList = "//table/body";
+  xpathFirstProductName = "//table/tbody/tr/td[1]/div";
+  xpathFirstTotalItem = "//table/tbody/tr/td[2]/div/p";
   xpathBackButtonOnDetail = "//a[text()='Kembali']";
   xpathSendButtonOnDetail = "//button[text()='Kirim Barang']";
+  xpathUOMTooltip = "//div[@role='tooltip']/div/div";
 
-  clickBackToRequestList() {
+  clickBack() {
     cy.xpath(this.xpathBackButtonOnDetail).click();
-    cy.url().should("include", "inventory/outbound/request/list");
   }
 
   clickSubmitOutbound() {
@@ -24,52 +32,131 @@ export default class OutboundRequestDetailPage extends BasePage {
     cy.url().should("include", "inventory/outbound/shipment/detail");
   }
 
-  assertFirstOutboundId() {
+  getShipmentCreateAPI() {
+    cy.intercept("POST", "/outbound/shipments/create/").as("shipmentCreateAPI");
+  }
+
+  getDetailPageAPI() {
+    cy.intercept("GET", "/outbound/shipments/*/detail/").as("detailPageAPI");
+  }
+
+  waitShipmentCreationToSucceed() {
+    cy.wait("@shipmentCreateAPI").its("response.statusCode").should("eq", 200);
+  }
+
+  getOutboundIdOnDetail() {
+    cy.xpath(this.xpathOutboundIdOnDetail)
+      .invoke("text")
+      .as("outboundIdOnDetail");
+  }
+
+  getRequestIdOnDetail() {
+    cy.xpath(this.xpathRequestIdOnDetail)
+      .invoke("text")
+      .as("requestIdOnDetail");
+  }
+
+  getCreateDateOnDetail() {
+    cy.xpath(this.xpathCreateDateOnDetail)
+      .invoke("text")
+      .as("createDateOnDetail");
+  }
+
+  getStatusOnDetail() {
+    cy.xpath(this.xpathStatusOnDetail).invoke("text").as("statusOnDetail");
+  }
+
+  getOutboundTypeOnDetail() {
+    cy.xpath(this.xpathOutboundTypeOnDetail)
+      .invoke("text")
+      .as("outboundTypeOnDetail");
+  }
+
+  getRecipientOnDetail() {
+    cy.xpath(this.xpathRecipientOnDetail)
+      .invoke("text")
+      .as("recipientOnDetail");
+  }
+
+  getShipperOnDetail() {
+    cy.xpath(this.xpathShipperOnDetail).invoke("text").as("shipperOnDetail");
+  }
+
+  getDeliveryDateOnDetail() {
+    cy.xpath(this.xpathDeliveryDateOnDetail)
+      .invoke("text")
+      .as("deliveryDateOnDetail");
+  }
+
+  getDeliveryMethodOnDetail() {
+    cy.xpath(this.xpathDeliveryMethodOnDetail)
+      .invoke("text")
+      .as("deliveryMethodOnDetail");
+  }
+
+  getShipperWarehouseLocationOnDetail() {
+    cy.xpath(this.xpathShipperWarehouseLocation)
+      .invoke("text")
+      .as("shipperWarehouseLocationOnDetail");
+  }
+
+  getFirstProductName() {
+    cy.xpath(this.xpathFirstProductName).invoke("text").as("firstProductName");
+  }
+
+  getFirstTotalItem() {
+    cy.xpath(this.xpathFirstTotalItem).invoke("text").as("firstTotalItem");
+  }
+
+  assertInOutboundDetailPage() {
+    cy.url().should("include", this.path);
+  }
+
+  assertCurrentOutboundId() {
     cy.get("@outboundId").then((outboundId: any) => {
       cy.xpath(this.xpathOutboundIdOnDetail).should("have.text", outboundId);
     });
   }
 
-  assertFirstReqId() {
+  assertCurrentRequestId() {
     cy.get("@requestId").then((requestId: any) => {
       cy.xpath(this.xpathRequestIdOnDetail).should("contain.text", requestId);
     });
   }
 
-  assertFirstRecipientName() {
+  assertCurrentRecipientName() {
     cy.get("@recipientName").then((recipientName: any) => {
-      cy.xpath(this.xpathOutboundRecipientOnDetail).should(
-        "contain.text",
-        recipientName
-      );
+      cy.xpath(this.xpathRecipientOnDetail).should("have.text", recipientName);
     });
   }
 
-  assertFirstDeliveryMethod() {
+  assertCurrentDeliveryMethod() {
     cy.get("@deliveryMethod").then((deliveryMethod: any) => {
-      cy.xpath(this.xpathOutboundDeliveryMethodOnDetail).should(
-        "contain.text",
+      cy.xpath(this.xpathDeliveryMethodOnDetail).should(
+        "have.text",
         deliveryMethod
       );
     });
   }
 
-  assertFirstRequestStatus() {
+  assertCurrentRequestStatus() {
     cy.get("@requestStatus").then((requestStatus: any) => {
-      cy.xpath(this.xpathOutboundStatusOnDetail).should(
-        "contain.text",
-        requestStatus
-      );
+      cy.xpath(this.xpathStatusOnDetail).should("have.text", requestStatus);
     });
   }
 
-  assertFirstShipmentDate() {
-    cy.get("@deliveryDate").then((deliveryDate: object | any) => {
+  assertCurrentShipmentDate() {
+    cy.get("@deliveryDate").then((deliveryDate: any) => {
       let getDate = deliveryDate.slice(8);
-      cy.xpath(this.xpathOutboundDeliveryDateOnDetail).should(
-        "contain.text",
-        reformatDate(getDate, "DD MMM YYYY", "YYYY-MM-DD")
-      );
+      cy.xpath(this.xpathDeliveryDateOnDetail).should("have.text", getDate);
     });
+  }
+
+  assertSendOutboundButtonEnable() {
+    cy.xpath(this.xpathSendButtonOnDetail).should("be.enabled");
+  }
+
+  assertBackButtonEnable() {
+    cy.xpath(this.xpathBackButtonOnDetail).should("be.visible");
   }
 }

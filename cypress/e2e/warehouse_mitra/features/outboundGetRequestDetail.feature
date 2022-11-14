@@ -2,23 +2,24 @@ Feature: Checking the outbound request detail page
 
   Scenario: Login before test
     Given user already logged in to WMS as "superuser"
-
-  Scenario: Check the outbound request detail data
     When user chooses menu Barang Keluar
-    And user filters status by "Belum Selesai"
-    And user wants to view the outbound detail data
-    Then the outboundId shall be correct
-    And the requestId shall be correct
-    And the recipient name shall be correct
-    And the delivery method shall be correct
-    And the request status shall be correct
-    And the shipment date on the outbound request list shall be correct
 
-  Scenario: Back to outbound request list
-    When user chooses menu Barang Keluar
-    And user wants to view the outbound detail data
-    And user goes back to the outbound request list page
-    Then the outbound request default list will be showed
+  Scenario: Check the outbound request detail
+    When user selects menu Permintaan Barang
+    Then user will be "redirected" to the outbound request list page
+
+    When user filters status by "Belum Selesai"
+    Then the outbound request list with status "Belum Selesai" will be showed
+
+    When user selects the current outbound request
+    Then user will be redirected to the outbound request detail page
+    And user will see similar data between data on the outbound request list page and data on the detail page
+    And the send outbound button will be enabled
+    And the back button will be visible
+
+  Scenario: Back to the outbound request list
+    When user chooses to go back
+    Then user will be "redirected back" to the outbound request list page
 
   Scenario: Logout after test
     Then user should be logged out
