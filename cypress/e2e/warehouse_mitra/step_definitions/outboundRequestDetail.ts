@@ -1,13 +1,13 @@
-import { When, And, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestDetailPage from "../page_objects/outboundRequestDetailPage";
-import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
+// import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
 
 const outboundRequestDetailPage = new OutboundRequestDetailPage();
-const outboundRequestListPage = new OutboundRequestListPage();
+// const outboundRequestListPage = new OutboundRequestListPage();
 
-When("user wants to view the outbound detail data", () => {
-  outboundRequestListPage.clickFirstRequestDetail();
-});
+// When("user wants to view the outbound detail data", () => {
+//   outboundRequestListPage.clickFirstRequestDetail();
+// });
 
 And("user goes back to the outbound request list page", () => {
   outboundRequestDetailPage.clickBackToRequestList();

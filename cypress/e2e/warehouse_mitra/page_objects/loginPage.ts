@@ -11,7 +11,7 @@ export default class LoginPage extends BasePage {
     this.utils.interceptAPI("POST", "/account/login*", "loginAPI");
     cy.get(this.loginButton).click();
     cy.wait("@loginAPI").then(($API) => {
-      if ($API.response?.statusCode == 400) {
+      if ($API.response?.statusCode === 400) {
         cy.get(this.loginButton).click();
       }
     });
