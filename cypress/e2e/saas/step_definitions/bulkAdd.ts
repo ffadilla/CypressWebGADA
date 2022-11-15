@@ -49,7 +49,6 @@ When(
           utils.convertNameToId(inventoryName),
           uomId
         );
-        cy.wrap(uomId).as("uomId");
       });
     }
   }
@@ -104,33 +103,6 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
     });
   }
 });
-
-When(
-  "user types {} on custom uom multiple input jumlah stock cell",
-  (stock: string) => {
-    let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
-    for (let i = 0; i < stockArr.length; i++) {
-      for (let j = 0; j < customUomName.length; j++) {
-        cy.get("@inventoryName").then((inventoryName: any) => {
-          cy.get(`@uomId`).then((uomId: any) => {
-            bulkAddPage.typeBulkAddInputJumlahStok(
-              stockArr[j],
-              inventoryName,
-              uomId
-            );
-            cy.get(
-              bulkAddPage.bulkAddInputJumlahStok +
-                utils.convertNameToId(inventoryName) +
-                "_" +
-                uomId
-            ).should("have.value", stockArr[i]);
-            cy.wrap(uomId[j]).as("stock " + j);
-          });
-        });
-      }
-    }
-  }
-);
 
 When(
   "user types {} on multiple input harga modal per unit cell",
@@ -286,22 +258,25 @@ When("user click tambah barang on nama barang option field", () => {
   bulkAddPage.clickBulkAddTambahCustomInventoryOption();
 });
 
-When("user click tambah unit baru", () => {
-  bulkAddPage.clickBulkAddButtonCustomUomBuying();
-});
-
-When("user click tambah nama unit baru option", () => {
-  bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
-});
-
-When("user type {string} on search custom buying", () => {
-  let uomName = utils.generateRandomString(5);
-  customUomName = uomName;
-  bulkAddPage.typesBulkAddInputSearchCustomUomBuying("WebAutoUOM " + uomName);
-  cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
-    "have.value",
-    "WebAutoUOM " + uomName
-  );
+When("user type {} on search custom buying", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    let randomString = utils.generateRandomString(5);
+    bulkAddPage.typesBulkAddInputSearchCustomUomBuying(
+      uomNameArr[i] + randomString
+    );
+    cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
+      "have.value",
+      uomNameArr[i] + randomString
+    );
+    bulkAddPage.clickBulkAddButtonCustomUomBuying();
+    bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
+    utils.retrieveUomId(uomNameArr[i] + randomString);
+    cy.get("@uomId").then((uomId: any) => {
+      cy.wrap(uomId).as("uomId " + i);
+    });
+    bulkAddPage.clickBulkAddSeachButtonClearBuying();
+  }
 });
 
 When(
@@ -315,17 +290,14 @@ When(
   }
 );
 
-When(
-  "user clicks on {string} selling custom uom checkbox",
-  (uomName: string) => {
-    utils.retrieveUomId(uomName);
-    cy.get("@uomId").then((uomId: any) => {
-      bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(
-        utils.convertNameToId(uomId)
-      );
+When("user clicks on {} selling custom uom checkbox", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    cy.get(`@uomId ${i}`).then((uomId: any) => {
+      bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(uomId);
     });
   }
-);
+});
 
 When(
   "user uncheck on {string} bulk add custom inventory checkbox",
@@ -437,16 +409,11 @@ When("user types {string} on conversion uom input modal", (input: string) => {
     cy.get(
       bulkAddPage.bulkAddInputConversionModalUom + utils.convertNameToId(uomId)
     ).should("have.value", input);
-    cy.wrap(uomId).as("uomId");
   });
 });
 
 When("user click simpan on conversion uom modal", () => {
   bulkAddPage.clickBulkAddConversionButtonSimpan();
-});
-
-When("user click clear search on buying uom searchbox", () => {
-  bulkAddPage.clickBulkAddSeachButtonClearBuying();
 });
 
 When("user click clear search on selling uom searchbox", () => {
