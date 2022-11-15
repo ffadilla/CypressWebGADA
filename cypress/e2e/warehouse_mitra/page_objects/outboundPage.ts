@@ -5,6 +5,7 @@ export default class OutboundPage extends BasePage {
   searchInputBox =
     "input[placeholder='No. permintaan barang atau nama produk...']";
   invalidId = "INVALID/00112233";
+  defaultFilterDate = "Semua Hari";
   prevArrowButton = "button[title='Go to previous page']";
   nextArrowButton = "button[title='Go to next page']";
   closeSearchButton = "svg[data-testid='CloseRoundedIcon']";
@@ -91,11 +92,11 @@ export default class OutboundPage extends BasePage {
     }
   }
 
-  getOutboundListResponseAPI() {
+  waitOutboundListResponseAPI() {
     cy.wait("@outboundListPageAPI").its("response").as("response");
   }
 
-  getShipmentListResponseAPI() {
+  waitShipmentListResponseAPI() {
     cy.wait("@shipmentListPageAPI").its("response").as("response");
   }
 
@@ -166,38 +167,23 @@ export default class OutboundPage extends BasePage {
     this.setDateOnly(this.deliveryDateDP, date);
   }
 
-  searchRecentlyAddedOutboundId() {
-    cy.get("@newOutboundId").then((newOutboundId: any) => {
+  searchBasedOn(id: string) {
+    let temp: any;
+    switch (id) {
+      case "recently created":
+        temp = "@newOutboundId";
+        break;
+      case "current":
+        temp = "@outboundId";
+        break;
+    }
+    cy.get(temp).then((selectedId: any) => {
       cy.get(this.searchInputBox)
         .click()
-        .type(newOutboundId + "{enter}");
+        .type(selectedId + "{enter}");
       cy.location("search").should(
         "include",
-        "&search=" + newOutboundId.replace("/", "%2F")
-      );
-    });
-  }
-
-  searchCurrentRequestId() {
-    cy.get("@requestId").then((requestId: any) => {
-      cy.get(this.searchInputBox)
-        .click()
-        .type(requestId + "{enter}");
-      cy.location("search").should(
-        "include",
-        "&search=" + requestId.replace("/", "%2F")
-      );
-    });
-  }
-
-  searchCurrentOutboundId() {
-    cy.get("@outboundId").then((outboundId: any) => {
-      cy.get(this.searchInputBox)
-        .click()
-        .type(outboundId + "{enter}");
-      cy.location("search").should(
-        "include",
-        "&search=" + outboundId.replace("/", "%2F")
+        "&search=" + selectedId.replace("/", "%2F")
       );
     });
   }
@@ -242,15 +228,22 @@ export default class OutboundPage extends BasePage {
   }
 
   getCurrentFilterDate() {
-    cy.get(this.deliveryDateDP).invoke("val").as("defaultFilterDate");
+    cy.get(this.deliveryDateDP).invoke("val").as("currentFilterDate");
   }
 
   assertDefaultSearchBar() {
     cy.get(this.searchInputBox).invoke("val").should("be.empty");
   }
 
-  assertDefaultFilterDate(date: string) {
-    cy.get("@defaultFilterDate").should("eq", date);
+  assertCurrentFilterDate() {
+    this.getCurrentFilterDate();
+    cy.get("@currentFilterDate").then((currentFilterDate: any) => {
+      cy.get("@deliveryDate").then((deliveryDate: any) => {
+        currentFilterDate !== this.defaultFilterDate
+          ? expect(currentFilterDate).to.equal(deliveryDate)
+          : expect(currentFilterDate).to.equal(this.defaultFilterDate);
+      });
+    });
   }
 
   assertDefaultDeliveryMethodWithArg(method: string) {

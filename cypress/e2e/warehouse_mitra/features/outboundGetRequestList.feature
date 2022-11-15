@@ -9,7 +9,7 @@ Feature: Checking the outbound request list Page
     Then user will be "redirected" to the outbound request list page
     And the total outbound request shall be correct
     And the default search bar shall be empty
-    And the default filter date shall be "Semua Hari"
+    And the current filter date shall be correct
     And the add outbound request button will be clickable
     And the previous page button will be disabled
     But the next page button will be clickable
@@ -19,13 +19,13 @@ Feature: Checking the outbound request list Page
     Then the total outbound request on the next page shall be correct
     And the previous page button will be clickable
     And the next page button will be clickable
-    And the default filter date shall be "Semua Hari"
+    And the current filter date shall be correct
     And the add outbound request button will be clickable
     And the default search bar shall be empty
 
   Scenario Outline: Check the total outbound request list per page
     When user chooses total <rows> data per page
-    Then the total row of the outbound request list will be <rows> rows per page
+    Then the total row of the outbound request list will be correct
 
   Examples:
     | rows  |
@@ -35,16 +35,16 @@ Feature: Checking the outbound request list Page
     | 10    |
 
   Scenario: Check the searched outbound request list by valid outbound ID
-    When user searches for an outbound current valid outboundId
+    When user searches for the "current" outbound request
     Then the expected "outbound request" list will be showed
 
   Scenario: Check the searched outbound request list by invalid outbound ID
-    When user searches for an outbound invalid outboundId
+    When user searches for the invalid outbound request
     Then the error message "Pencarian Tidak Ditemukan" will be showed
 
   Scenario: Check the outbound request list after clearing the search bar
     When user selects menu Permintaan Barang
-    And user searches for an outbound invalid outboundId
+    And user searches for the invalid outbound request
     Then the error message "Pencarian Tidak Ditemukan" will be showed
 
     When user clears the search input
@@ -71,11 +71,11 @@ Feature: Checking the outbound request list Page
   Examples:
     | date        |
     | "today"     |
-    | "15"         |
+    | "20"        |
 
   Scenario: Check the outbound request list after resetting the delivery_date filter
     When user resets the delivery_date filter back to default
-    Then the default filter date shall be "Semua Hari"
+    Then the current filter date shall be correct
 
   Scenario Outline: Check the filtered outbound request list by selected delivery_method
     When user filters delivery_method by <method>

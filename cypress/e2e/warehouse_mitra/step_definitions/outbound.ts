@@ -21,8 +21,8 @@ And("the default search bar shall be empty", () => {
   outboundPage.assertDefaultSearchBar();
 });
 
-And("the default filter date shall be {string}", (date: string) => {
-  outboundPage.assertDefaultFilterDate(date);
+And("the current filter date shall be correct", () => {
+  outboundPage.assertCurrentFilterDate();
 });
 
 And("the previous page button will be disabled", () => {

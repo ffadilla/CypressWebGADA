@@ -6,19 +6,15 @@ export default class OutboundRequestListPage extends OutboundPage {
 
   //XPaths start here
   xpathOutboundRequestList = "//table/tbody";
-  xpathCurrentRequestId =
-    this.xpathOutboundRequestList + "/tr[1]/td[2]/a/div[1]";
-  xpathCurrentOutboundId =
-    this.xpathOutboundRequestList + "/tr[1]/td[1]/div[1]";
-  xpathCurrentRecipientName =
-    this.xpathOutboundRequestList + "/tr[1]/td[3]/div";
-  xpathCurrentDeliveryMethod =
-    this.xpathOutboundRequestList + "/tr[1]/td[4]/div";
-  xpathCurrentRequestStatus =
+  xpathFirstRequestId = this.xpathOutboundRequestList + "/tr[1]/td[2]/a/div[1]";
+  xpathFirstOutboundId = this.xpathOutboundRequestList + "/tr[1]/td[1]/div[1]";
+  xpathFirstRecipientName = this.xpathOutboundRequestList + "/tr[1]/td[3]/div";
+  xpathFirstDeliveryMethod = this.xpathOutboundRequestList + "/tr[1]/td[4]/div";
+  xpathFirstRequestStatus =
     this.xpathOutboundRequestList + "/tr[1]/td[5]/span/span[2]";
-  xpathCurrentDeliveryDateDefault =
+  xpathFirstDeliveryDateDefault =
     this.xpathOutboundRequestList + "/tr[1]/td[2]/a/div[2]/span[2]";
-  xpathCurrentDeliveryDate =
+  xpathFirstDeliveryDate =
     this.xpathOutboundRequestList + "/tr[1]/td[2]/a/div[2]/span";
 
   xpathAddOutboundRequestButton = "//div/div[2]/span/button";
@@ -43,29 +39,27 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   getCurrentRequestId() {
-    cy.xpath(this.xpathCurrentRequestId).invoke("text").as("requestId");
+    cy.xpath(this.xpathFirstRequestId).invoke("text").as("requestId");
   }
 
   getCurrentOutboundId() {
-    cy.xpath(this.xpathCurrentOutboundId).invoke("text").as("outboundId");
+    cy.xpath(this.xpathFirstOutboundId).invoke("text").as("outboundId");
   }
 
   getCurrentRecipientName() {
-    cy.xpath(this.xpathCurrentRecipientName).invoke("text").as("recipientName");
+    cy.xpath(this.xpathFirstRecipientName).invoke("text").as("recipientName");
   }
 
   getCurrentDeliveryMethod() {
-    cy.xpath(this.xpathCurrentDeliveryMethod)
-      .invoke("text")
-      .as("deliveryMethod");
+    cy.xpath(this.xpathFirstDeliveryMethod).invoke("text").as("deliveryMethod");
   }
 
   getCurrentRequestStatus() {
-    cy.xpath(this.xpathCurrentRequestStatus).invoke("text").as("requestStatus");
+    cy.xpath(this.xpathFirstRequestStatus).invoke("text").as("requestStatus");
   }
 
   getCurrentDeliveryDate() {
-    cy.xpath(this.xpathCurrentDeliveryDate).invoke("text").as("deliveryDate");
+    cy.xpath(this.xpathFirstDeliveryDate).invoke("text").as("deliveryDate");
   }
 
   getCurrentTotalDataOnList() {
@@ -93,7 +87,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   clickCurrentOutboundRequest() {
-    cy.xpath(this.xpathCurrentOutboundId).click();
+    cy.xpath(this.xpathFirstOutboundId).click();
   }
 
   clickAddOutboundRequest() {
@@ -111,7 +105,7 @@ export default class OutboundRequestListPage extends OutboundPage {
           if (this.dateOnly.slice(0, 1) !== "0") {
             resp.body.total_data !== 0
               ? cy
-                  .xpath(this.xpathCurrentDeliveryDate)
+                  .xpath(this.xpathFirstDeliveryDate)
                   .should("contain.text", this.todayDF2)
               : cy
                   .xpath(this.xpathNotFound)
@@ -119,7 +113,7 @@ export default class OutboundRequestListPage extends OutboundPage {
           } else {
             resp.body.total_data !== 0
               ? cy
-                  .xpath(this.xpathCurrentDeliveryDate)
+                  .xpath(this.xpathFirstDeliveryDate)
                   .should("contain.text", this.todayDF1)
               : cy
                   .xpath(this.xpathNotFound)
@@ -131,7 +125,7 @@ export default class OutboundRequestListPage extends OutboundPage {
           if (parseInt(date) < 10) {
             resp.body.total_data !== 0
               ? cy
-                  .xpath(this.xpathCurrentDeliveryDate)
+                  .xpath(this.xpathFirstDeliveryDate)
                   .should("contain.text", generateDateTime(-temp, "D MMM YYYY"))
               : cy
                   .xpath(this.xpathNotFound)
@@ -139,7 +133,7 @@ export default class OutboundRequestListPage extends OutboundPage {
           } else {
             resp.body.total_data !== 0
               ? cy
-                  .xpath(this.xpathCurrentDeliveryDate)
+                  .xpath(this.xpathFirstDeliveryDate)
                   .should(
                     "contain.text",
                     generateDateTime(-temp, "DD MMM YYYY")
@@ -153,6 +147,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertTotalOutboundRequest() {
+    this.getCurrentDataAmountOnPagination();
     cy.get("@currentDataAmountOnPagination").then((totalDataOnPage: any) => {
       cy.get("@response").then((resp: any) => {
         expect(resp.body.total_data).to.equal(
@@ -167,23 +162,23 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertOutboundListDefault() {
-    cy.get("@outboundId").then((outboundIdOnDetail: any) => {
+    cy.get("@outboundId").then((outboundId: any) => {
       cy.xpath(this.xpathOutboundRequestList).should(
         "contain.text",
-        outboundIdOnDetail
+        outboundId
       );
     });
   }
 
   assertOutboundListDefaultByDate() {
     cy.get("@deliveryDate").then((deliveryDate: any) => {
-      cy.xpath(this.xpathCurrentDeliveryDate).should("have.text", deliveryDate);
+      cy.xpath(this.xpathFirstDeliveryDate).should("have.text", deliveryDate);
     });
   }
 
   assertOutboundListDefaultByMethod() {
     cy.get("@deliveryMethod").then((deliveryMethod: any) => {
-      cy.xpath(this.xpathCurrentDeliveryMethod).should(
+      cy.xpath(this.xpathFirstDeliveryMethod).should(
         "have.text",
         deliveryMethod
       );
@@ -191,10 +186,12 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertOutboundStatus(status: string) {
+    this.getCurrentRequestStatus();
     cy.get("@requestStatus").should("eq", status);
   }
 
   assertTotalOutboundNextPage() {
+    this.getCurrentTotalDataOnList();
     cy.get("@currentDataAmountOnPagination").then(
       (currentDataAmountOnPagination: any) => {
         let data = currentDataAmountOnPagination.split(" ");
@@ -215,6 +212,8 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertTotalDataPerPage() {
+    this.getCurrentTotalDataPerPage();
+    this.getCurrentTotalDataOnList();
     cy.get("@currentTotalData").then((currentTotalData: any) => {
       cy.get("@currentTotalDataOnList").should(
         "eq",
@@ -224,6 +223,7 @@ export default class OutboundRequestListPage extends OutboundPage {
   }
 
   assertOutboundListByMethod(method: string) {
+    this.getCurrentDeliveryMethod();
     cy.get("@deliveryMethod").should("eq", method);
   }
 
