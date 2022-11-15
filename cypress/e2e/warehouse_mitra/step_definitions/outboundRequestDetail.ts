@@ -1,38 +1,51 @@
 import { And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestDetailPage from "../page_objects/outboundRequestDetailPage";
-// import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
-
 const outboundRequestDetailPage = new OutboundRequestDetailPage();
-// const outboundRequestListPage = new OutboundRequestListPage();
 
-// When("user wants to view the outbound detail data", () => {
-//   outboundRequestListPage.clickFirstRequestDetail();
-// });
-
-And("user goes back to the outbound request list page", () => {
-  outboundRequestDetailPage.clickBackToRequestList();
+And("user chooses to go back", () => {
+  outboundRequestDetailPage.getOutboundIdOnDetail();
+  outboundRequestDetailPage.clickBack();
 });
 
-Then("the outboundId shall be correct", () => {
-  outboundRequestDetailPage.assertFirstOutboundId();
+Then("user will be redirected to the outbound request detail page", () => {
+  outboundRequestDetailPage.assertInOutboundDetailPage();
+  outboundRequestDetailPage.getCreateDateOnDetail();
+  outboundRequestDetailPage.getDeliveryDateOnDetail();
+  outboundRequestDetailPage.getDeliveryMethodOnDetail();
+  outboundRequestDetailPage.getFirstProductName();
+  outboundRequestDetailPage.getFirstTotalItem();
+  outboundRequestDetailPage.getOutboundIdOnDetail();
+  outboundRequestDetailPage.getRecipientOnDetail();
+  outboundRequestDetailPage.getOutboundTypeOnDetail();
+  outboundRequestDetailPage.getShipperOnDetail();
+  outboundRequestDetailPage.getStatusOnDetail();
+  outboundRequestDetailPage.getShipperWarehouseLocationOnDetail();
+  outboundRequestDetailPage.getRequestIdOnDetail();
 });
 
-And("the requestId shall be correct", () => {
-  outboundRequestDetailPage.assertFirstReqId();
+And(
+  "user will see similar data between data on the outbound request list page and data on the detail page",
+  () => {
+    outboundRequestDetailPage.assertCurrentOutboundId();
+    outboundRequestDetailPage.assertCurrentRequestId();
+    outboundRequestDetailPage.assertCurrentRecipientName();
+    outboundRequestDetailPage.assertCurrentDeliveryMethod();
+    outboundRequestDetailPage.assertCurrentRequestStatus();
+    outboundRequestDetailPage.assertCurrentShipmentDate();
+  }
+);
+
+And("user submits the new outbound request", () => {
+  outboundRequestDetailPage.getShipmentCreateAPI();
+  outboundRequestDetailPage.clickSubmitOutbound();
+  outboundRequestDetailPage.waitShipmentCreationToSucceed();
+  outboundRequestDetailPage.getDetailPageAPI();
 });
 
-And("the recipient name shall be correct", () => {
-  outboundRequestDetailPage.assertFirstRecipientName();
+And("the send outbound button will be enabled", () => {
+  outboundRequestDetailPage.assertSendOutboundButtonEnable();
 });
 
-And("the delivery method shall be correct", () => {
-  outboundRequestDetailPage.assertFirstDeliveryMethod();
-});
-
-And("the request status shall be correct", () => {
-  outboundRequestDetailPage.assertFirstRequestStatus();
-});
-
-And("the shipment date on the outbound request list shall be correct", () => {
-  outboundRequestDetailPage.assertFirstShipmentDate();
+And("the back button will be visible", () => {
+  outboundRequestDetailPage.assertBackButtonEnable();
 });
