@@ -279,6 +279,14 @@ When("user type {} on search custom buying", (uomName: string) => {
   }
 });
 
+When("user click tambah unit baru", () => {
+  bulkAddPage.clickBulkAddButtonCustomUomBuying();
+});
+
+When("user click tambah nama unit baru option", () => {
+  bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
+});
+
 When(
   "user types recently created custom unit selling name on search unit field",
   () => {
