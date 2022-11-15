@@ -17,12 +17,20 @@ export default class BasePage {
   sidebarSubMenuButton = ".MuiCollapse-root";
   inboundMenuButton = 'div[data-testid="sidebar.inbound_menu"]';
   outboundMenuButton = "//div[2]/div/div/div/nav/div[1]/a[3]";
+  xpathOutboundRequest =
+    "//div/div[2]/div/div/div/nav/div[1]/div[3]/div/div/div/div/a[1]/div";
+  xpathOutboundShipment =
+    "//div/div[2]/div/div/div/nav/div[1]/div[3]/div/div/div/div/a[2]/div";
+  xpathOutboundMenuAccordion = "//div[2]/div/div/div/nav/div[1]/div[2]";
 
   dropdownPopOver = 'div.MuiAutocomplete-popper[role="presentation"]';
-  firstAutocompleteItem = '[data-option-index="0"]';
+  firstAutocompleteItem = "[data-option-index='0']";
+  secondAutocompleteItem = "[data-option-index='1']";
   datepickerItem = 'button[role="gridcell"]';
   monthpickerItem = "button.PrivatePickersMonth-root";
   yearpickerItem = "button.PrivatePickersYear-yearButton";
+  currentDateItem = "button[aria-current=date]";
+  button = "button";
 
   navigate(path: string) {
     cy.visit(this.baseUrl + path);
@@ -100,8 +108,15 @@ export default class BasePage {
   }
 
   clickMenuOutbound() {
-    cy.xpath(this.outboundMenuButton).click();
-    cy.url().should("include", "inventory/outbound/request/list");
+    cy.xpath(this.xpathOutboundMenuAccordion).click();
+  }
+
+  selectOutboundRequest() {
+    cy.xpath(this.xpathOutboundRequest).click();
+  }
+
+  selectShipmentProcess() {
+    cy.xpath(this.xpathOutboundShipment).click();
   }
 
   clickInventoryMenu() {
@@ -118,6 +133,18 @@ export default class BasePage {
       }
     });
     cy.get(this.sidebarSubMenuButton).contains("Daftar Inventori").click();
+  }
+
+  setDateOnly(element: string, date: string) {
+    cy.get(element).click();
+    switch (date) {
+      case "today":
+        cy.get(this.currentDateItem).click();
+        break;
+      default:
+        cy.contains(this.datepickerItem, parseInt(date)).click();
+    }
+    cy.contains(this.button, "OK").click({ force: true });
   }
 
   setDatepicker(element: string, date: string, month: string, year: string) {

@@ -5,9 +5,11 @@
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../page_objects/loginPage";
 import BasePage from "../page_objects/basePage";
+import OutboundPage from "../page_objects/outboundPage";
 
 const basePage = new BasePage();
 const loginPage = new LoginPage();
+const outboundPage = new OutboundPage();
 
 Given(
   "user {string} already logged in to WMS with {string} as password",
@@ -53,6 +55,18 @@ When("user redirects to inventory menu", () => {
 
 Then("user should see disabled global filter dropdown", () => {
   basePage.assertDisabledGlobalFilter();
+});
+
+When("user selects menu Permintaan Barang", () => {
+  outboundPage.getOutbondListPageAPI();
+  outboundPage.getCounterStatusOutboundAPI();
+  basePage.selectOutboundRequest();
+});
+
+When("user selects menu Pengiriman Barang", () => {
+  outboundPage.getShipmentListPageAPI();
+  outboundPage.getCounterStatusShipmentAPI();
+  basePage.selectShipmentProcess();
 });
 
 Then("user should be logged out", () => {

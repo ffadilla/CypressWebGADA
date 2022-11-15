@@ -1,74 +1,76 @@
-import { When, Then, And, But } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundPage from "../page_objects/outboundPage";
 
 const outboundPage = new OutboundPage();
 
-When("user goes to the second page", () => {
-  outboundPage.checkSecondPage();
+When("user filters status by {string}", (status: string) => {
+  outboundPage.getOutbondListPageAPI();
+  outboundPage.getShipmentListPageAPI();
+  outboundPage.selectStatus(status);
 });
 
-When("user inputs ID {string}", (value: string) => {
-  outboundPage.inputRequestWithArg(value);
+And("user filters delivery_method by {string}", (method: string) => {
+  outboundPage.selectDeliveryMethod(method);
 });
 
-When("user filters status by {string}", (value: string) => {
-  outboundPage.selectStatus(value);
+And("user chooses total {int} data per page", (page: number) => {
+  outboundPage.selectTotalPage(page);
 });
 
-When("user filters delivery_date by {string}", (value: string) => {
-  outboundPage.selectDeliveryDate(value);
+And("the default search bar shall be empty", () => {
+  outboundPage.assertDefaultSearchBar();
 });
 
-When("user filters delivery_method by {string}", (value: string) => {
-  outboundPage.selectDeliveryMethod(value);
-});
-
-When("user chooses total {int} data per page", (value: number) => {
-  outboundPage.selectTotalPage(value);
+And("the current filter date shall be correct", () => {
+  outboundPage.assertCurrentFilterDate();
 });
 
 And("the previous page button will be disabled", () => {
   outboundPage.assertPrevButtonDisable();
 });
 
-Then("the previous page button will be clickable", () => {
-  outboundPage.assertPrevButtonEnable();
-});
-
-But("the next page button will be clickable", () => {
-  outboundPage.assertNextButtonEnable();
-});
-
-And("user deletes the search input", () => {
+And("user clears the search input", () => {
   outboundPage.resetSearchRequest();
-});
-
-And("user resets the delivery_date filter back to default", () => {
-  outboundPage.resetDelivDateFilter();
 });
 
 And("user changes delivery_method filter back to default", () => {
   outboundPage.resetDeliveryMethod();
 });
 
-And("the total data with status {string} shall be correct", (value: string) => {
-  outboundPage.assertTotalOutboundStatus(value);
+And("the next page button will be clickable", () => {
+  outboundPage.assertNextButtonEnable();
+});
+
+Then("the previous page button will be clickable", () => {
+  outboundPage.assertPrevButtonEnable();
 });
 
 Then(
-  "the default list with delivery_method filter as {string} for the {string} will be showed",
-  (value: string) => {
-    outboundPage.assertDefaultDelivMethodFilterWithArg(value);
+  "the default query param for delivery_method will be {string}",
+  (method: string) => {
+    outboundPage.assertDefaultDeliveryMethodWithArg(method);
   }
 );
 
-Then("the error message {string} will be showed", (value: string) => {
-  outboundPage.assertInvalidSearchResult(value);
+Then("the error message {string} will be showed", (err: string) => {
+  outboundPage.assertInvalidId(err);
 });
 
-Then(
-  "the default list with delivery_date as {string} for the {string} will be showed",
-  (value: string) => {
-    outboundPage.assertDefaultDelivDateFilterWithArg(value);
-  }
-);
+Then("the outbound request will be created successfully", () => {
+  outboundPage.waitOutboundCreationToSucceed();
+  outboundPage.assertRequestSuccessSnackBarExist();
+});
+
+Then("the shipment process will be submitted successfully", () => {
+  outboundPage.waitShipmentSubmissionToSucceed();
+  outboundPage.assertShipmentSuccessSnackBarExist();
+  outboundPage.getShipmentListPageAPI();
+});
+
+Then("the outbound request creation will be failed", () => {
+  outboundPage.assertFailSnackBarExist();
+});
+
+Then("the expected {string} list will be showed", (keyword: string) => {
+  outboundPage.assertCurrentOutboundId(keyword);
+});
