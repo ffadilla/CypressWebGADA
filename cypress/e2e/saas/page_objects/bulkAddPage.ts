@@ -53,6 +53,10 @@ export default class BulkAddPage extends BasePage {
   bulkAddInputConversionModalUom =
     "#input_conversion_modal_convert_content_uom_";
   bulkAddConversionButtonSimpan = "#button_conversion_modal_simpan";
+  bulkAddSimpanFormBulkAddModal = "#button_navigate_away_modal_ya_simpan";
+  bulkAddInventoryListTambahBarang = "#button_inventory_list_tambah_barang";
+  bulkAddNavigateModalLanjutkanBulkAdd =
+    "#button_bulk_navigate_modal_ya_lanjutkan";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
@@ -265,5 +269,17 @@ export default class BulkAddPage extends BasePage {
 
   clickBulkAddSeachButtonClearSelling() {
     cy.get(this.bulkAddSeachButtonClearSelling).click();
+  }
+
+  clickBulkAddSimpanFormBulkAddModal() {
+    cy.get(this.bulkAddSimpanFormBulkAddModal).click();
+  }
+
+  clickBulkAddInventoryListTambahBarang() {
+    cy.get(this.bulkAddInventoryListTambahBarang).click();
+  }
+
+  clickBulkAddNavigateModalLanjutkanBulkAdd() {
+    cy.get(this.bulkAddNavigateModalLanjutkanBulkAdd).click();
   }
 }

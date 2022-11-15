@@ -420,6 +420,18 @@ When("user click clear search on selling uom searchbox", () => {
   bulkAddPage.clickBulkAddSeachButtonClearSelling();
 });
 
+When("user clicks on simpan inventory on popup modal", () => {
+  bulkAddPage.clickBulkAddSimpanFormBulkAddModal();
+});
+
+When("user click tambah barang on inventory list page", () => {
+  bulkAddPage.clickBulkAddInventoryListTambahBarang();
+});
+
+When("user click lanjutkan on confirmation popup modal", () => {
+  bulkAddPage.clickBulkAddNavigateModalLanjutkanBulkAdd();
+});
+
 //Assertion
 
 Then("user delete all row on bulk add form", (rowCount: number) => {

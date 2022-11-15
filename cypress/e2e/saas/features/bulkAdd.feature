@@ -386,3 +386,122 @@ Scenario: User chooses sell in MP for an inventory
     And user click simpan bulk add inventory
     And user click kembali ke halaman daftar barang button
     Then user deletes test data
+
+Scenario: User navigates to other page, clicks on save button on confirmation popup
+    When user click nama barang atau scan barcode searchbox
+    And user types "kukis 300gr" on nama barang searchbox
+    And user clicks on "kukis 300gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kukis 300gr"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "120000" on input harga modal per unit cell
+    And user types "140000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "Madu TJ Murni 150 gr" on nama barang searchbox
+    And user clicks on "Madu TJ Murni 150 gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Madu TJ Murni 150 gr"
+    And user clicks on "Pieces" buying uom checkbox
+    And user clicks on "Pieces" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "14000" on input harga modal per unit cell
+    And user types "18000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "Madu TJ Murni 250 gr" on nama barang searchbox
+    And user clicks on "Madu TJ Murni 250 gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Madu TJ Murni 250 gr"
+    And user clicks on "Pieces" buying uom checkbox
+    And user clicks on "Pieces" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "16000" on input harga modal per unit cell
+    And user types "19000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "kopi caffino" on nama barang searchbox
+    And user clicks on "kopi caffino" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kopi caffino"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "234000" on input harga modal per unit cell
+    And user types "250000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "kopi top skm" on nama barang searchbox
+    And user clicks on "kopi top skm" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kopi top skm"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "100" on input jumlah stock cell
+    And user types "214000" on input harga modal per unit cell
+    And user types "220000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "kopi top 165gr" on nama barang searchbox
+    And user clicks on "kopi top 165gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kopi top 165gr"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "120" on input jumlah stock cell
+    And user types "124000" on input harga modal per unit cell
+    And user types "130000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "kopi top white" on nama barang searchbox
+    And user clicks on "kopi top white" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "kopi top white"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "80" on input jumlah stock cell
+    And user types "104000" on input harga modal per unit cell
+    And user types "110000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "Warung Kopi 12" on nama barang searchbox
+    And user clicks on "Warung Kopi 12" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Warung Kopi 12"
+    And user clicks on "Slop" buying uom checkbox
+    And user clicks on "Slop" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "10" on input jumlah stock cell
+    And user types "84000" on input harga modal per unit cell
+    And user types "98000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "Kopi Toraja dua" on nama barang searchbox
+    And user clicks on "Kopi Toraja dua" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Kopi Toraja dua"
+    And user clicks on "Pieces" buying uom checkbox
+    And user clicks on "Pieces" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "11" on input jumlah stock cell
+    And user types "222000" on input harga modal per unit cell
+    And user types "234000" on input harga jual per unit cell
+    And user click nama barang atau scan barcode searchbox
+    And user types "Kopi Ya SP 60 gr" on nama barang searchbox
+    And user clicks on "Kopi Ya SP 60 gr" bulk add tambah barang input checkbox
+    And user clicks on simpan button popover
+    And user clicks on "empty" open uom select button of "Kopi Ya SP 60 gr"
+    And user clicks on "Karton" buying uom checkbox
+    And user clicks on "Karton" selling uom checkbox
+    And user click lanjut on uom select popover
+    And user types "17" on input jumlah stock cell
+    And user types "54000" on input harga modal per unit cell
+    And user types "57000" on input harga jual per unit cell
+    And user clicks on inventory list side menu button
+    And user clicks on simpan inventory on popup modal
+    And user click tambah barang on inventory list page
+    And user click lanjutkan on confirmation popup modal
+    And user click simpan bulk add inventory
+    And user click kembali ke halaman daftar barang button
+    Then user deletes test data
