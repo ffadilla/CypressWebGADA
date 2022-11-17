@@ -39,20 +39,20 @@ When(
 When(
   "user applies {string} to find related inbound Receipt",
   (keyword: string) => {
-    receiptListPage.setSearchKeyword(keyword);
+    receiptListPage.baseList.setSearchKeyword(keyword);
     receiptListPage.waitSearchRender();
   }
 );
 
 When("user resets any applied keyword filter at inbound Receipt list", () => {
-  receiptListPage.resetSearchKeyword();
+  receiptListPage.baseList.resetSearchKeyword();
   receiptListPage.waitSearchRender();
 });
 
 When(
   "user applies {string} date, {string} month, {string} year as delivery date filter at inbound Receipt list",
   (deliveryDate: string, deliveryMonth: string, deliveryYear: string) => {
-    receiptListPage.setDeliveryDateFilter(
+    receiptListPage.baseList.setDeliveryDateFilter(
       deliveryDate,
       deliveryMonth,
       deliveryYear
@@ -64,7 +64,7 @@ When(
 When(
   "user resets any applied delivery date filter at inbound Receipt list",
   () => {
-    receiptListPage.resetDeliveryDate();
+    receiptListPage.baseList.resetDeliveryDate();
     receiptListPage.waitSearchRender();
   }
 );
@@ -72,7 +72,7 @@ When(
 When(
   "user applies {string} as delivery method filter at inbound Receipt list",
   (deliveryMethod: string) => {
-    receiptListPage.setDeliveryMethodFilter(deliveryMethod);
+    receiptListPage.baseList.setDeliveryMethodFilter(deliveryMethod);
     receiptListPage.waitSearchRender();
   }
 );
@@ -80,7 +80,7 @@ When(
 When(
   "user clicks {string} status chip at inbound Receipt list",
   (status: string) => {
-    receiptListPage.clickStatusChip(status);
+    receiptListPage.baseList.clickStatusChip(status);
     receiptListPage.waitSearchRender();
   }
 );
@@ -88,7 +88,7 @@ When(
 When(
   "user applies {string} as page amount at inbound Receipt list",
   (value: string) => {
-    receiptListPage.setPageAmount(value);
+    receiptListPage.pagination.setPageAmount(value);
     receiptListPage.waitSearchRender();
   }
 );
@@ -104,7 +104,7 @@ Then("user should be at inbound Receipt list", () => {
 Then(
   "user should able to see {string} snackbar at inbound Receipt list",
   (value: string) => {
-    receiptListPage.assertSnackbar(value);
+    receiptListPage.baseList.assertSnackbar(value);
   }
 );
 
@@ -117,7 +117,7 @@ Then(
       attribute === "delivery method" ? val.split(" ").join("_") : val;
 
     if (attribute === "status") {
-      receiptListPage.assertStatusQueryParam(value);
+      receiptListPage.baseList.assertStatusQueryParam(value);
     } else if (attribute === "delivery date") {
       assertDateQueryParam(target, value);
     } else if (attribute === "delivery method" && val === "Semua Metode") {
@@ -138,7 +138,7 @@ Then(
 Then(
   "user should only able to see {string} inbound Receipt per page maximum",
   (value: string) => {
-    receiptListPage.assertTotalPageAmount(value);
+    receiptListPage.pagination.assertTotalPageAmount(value);
   }
 );
 
@@ -155,7 +155,7 @@ Then(
 );
 
 Then("user should able to see empty inbound Receipts list", () => {
-  receiptListPage.assertEmptyList();
+  receiptListPage.baseList.assertEmptyList();
 });
 
 Then(
