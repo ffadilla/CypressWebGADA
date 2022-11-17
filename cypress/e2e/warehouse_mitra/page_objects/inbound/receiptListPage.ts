@@ -1,3 +1,7 @@
+import {
+  reformatDate,
+  replaceElementIndex,
+} from "../../../warehouse_core/common/utils";
 import InboundBaseListPage from "./inboundBaseListPage";
 
 export default class ReceiptListPage extends InboundBaseListPage {
@@ -33,10 +37,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
   accordionChildDeliveryMethodPointer =
     " > table.MuiTable-root > tbody.MuiTableBody-root > tr.MuiTableRow-root > :nth-child(4)";
 
-  firstRowAccordionParent = this.utils.replaceElementIndex(
-    this.accordionParent,
-    0
-  );
+  firstRowAccordionParent = replaceElementIndex(this.accordionParent, 0);
   firstRowAccordionReceiptID =
     this.firstRowAccordionParent + this.accordionParentReceiptIDPointer;
   firstRowAccordionCreatedDate =
@@ -44,10 +45,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
   firstRowAccordionStatus =
     this.firstRowAccordionParent + this.accordionParentStatusPointer;
 
-  firstRowAccordionChild = this.utils.replaceElementIndex(
-    this.accordionChild,
-    0
-  );
+  firstRowAccordionChild = replaceElementIndex(this.accordionChild, 0);
   firstRowAccordionSourceID =
     this.firstRowAccordionChild + this.accordionChildSourceIDPointer;
   firstRowAccordionSourceType =
@@ -66,7 +64,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
     /**
      *  This lines still return inconsitent behavior
      *  caused by intermittent behavior (API isn't called when clicking status chip)
-    this.utils.interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
+    interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
     cy.wait("@inboundRequestListAPI").then((API) => {
       const responseBody = API.response?.body;
       if (responseBody.total_data === 0)
@@ -153,7 +151,7 @@ export default class ReceiptListPage extends InboundBaseListPage {
           this.accordionChild + this.accordionChildDeliveryMethodPointer;
         break;
       case "delivery date":
-        value = this.utils.reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
+        value = reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         pointer = this.accordionChild + this.accordionChildDeliveryDatePointer;
         break;
     }

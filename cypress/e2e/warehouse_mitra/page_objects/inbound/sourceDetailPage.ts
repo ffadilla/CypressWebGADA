@@ -1,9 +1,13 @@
 import { hasCompletedRequest } from "../../../warehouse_core/common/helper";
+import {
+  generateDateTime,
+  reformatDate,
+} from "../../../warehouse_core/common/utils";
 import BaseDetailPage from "../baseDetailPage";
 
 export default class SourceDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/request/source/detail";
-  date = this.utils.generateDateTime(0, "DD MMM YYYY");
+  date = generateDateTime(0, "DD MMM YYYY");
 
   sourceIDInfoXPath =
     '//*[@id="__next"]/div/div[3]/div[2]/form/div[1]/form/div/div/div[2]/div[1]/h3';
@@ -287,7 +291,7 @@ export default class SourceDetailPage extends BaseDetailPage {
     });
     cy.get("@inboundFormSourceDate").then((sourceDate) => {
       let strSourceDate = String(sourceDate);
-      let formattedSourceDate = this.utils.reformatDate(
+      let formattedSourceDate = reformatDate(
         strSourceDate,
         "YYYY-MM-DD",
         "DD MMM YYYY"
@@ -368,7 +372,7 @@ export default class SourceDetailPage extends BaseDetailPage {
       .then((accordionSubHeader) => {
         expect(
           cy
-            .xpath(this.xPathAccountDropdown)
+            .xpath(this.header.xPathAccountDropdown)
             .find("p")
             .should("contain", String(accordionSubHeader).replace("Oleh ", ""))
         );

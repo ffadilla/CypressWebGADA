@@ -1,3 +1,4 @@
+import { interceptAPI } from "../../warehouse_core/common/utils";
 import BasePage from "./basePage";
 
 export default class BaseDetailPage extends BasePage {
@@ -11,7 +12,7 @@ export default class BaseDetailPage extends BasePage {
       .within(() => {
         cy.get(this.attachmentKebabButton).click({ force: true });
       });
-    this.utils.interceptAPI("GET", downloadAPI, "downloadAttachmentAPI");
+    interceptAPI("GET", downloadAPI, "downloadAttachmentAPI");
     cy.get("body")
       .find(this.popoverContainer)
       .last()
