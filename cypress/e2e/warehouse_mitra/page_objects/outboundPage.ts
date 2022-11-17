@@ -80,6 +80,19 @@ export default class OutboundPage extends BasePage {
     cy.intercept("GET", "/outbound/shipments/list/*").as("shipmentListPageAPI");
   }
 
+  getCurrentDataAmountOnPagination(value: string) {
+    let locator: any;
+    switch (value) {
+      case "outbound request":
+        locator = this.xpathOutboundDataCounter;
+        break;
+      case "shipment process":
+        locator = this.xpathShipmentDataCounter;
+        break;
+    }
+    cy.xpath(locator).invoke("text").as("currentDataAmountOnPagination");
+  }
+
   selectTotalPage(page: number) {
     cy.xpath(this.xpathPaginationBox).click();
     switch (page) {
@@ -236,14 +249,23 @@ export default class OutboundPage extends BasePage {
   }
 
   assertCurrentFilterDate() {
-    this.getCurrentFilterDate();
-    cy.get("@currentFilterDate").then((currentFilterDate: any) => {
-      cy.get("@deliveryDate").then((deliveryDate: any) => {
-        currentFilterDate !== this.defaultFilterDate
-          ? expect(currentFilterDate).to.equal(deliveryDate)
-          : expect(currentFilterDate).to.equal(this.defaultFilterDate);
-      });
+    cy.get("@listDate").then((isFound: any) => {
+      if (isFound !== this.xpathNotFoundMsg) {
+        this.getCurrentFilterDate();
+        cy.get("@currentFilterDate").then((currentFilterDate: any) => {
+          cy.get("@deliveryDate").then((deliveryDate: any) => {
+            currentFilterDate !== this.defaultFilterDate
+              ? expect(deliveryDate).to.contain(currentFilterDate)
+              : expect(this.defaultFilterDate).to.equal(currentFilterDate);
+          });
+        });
+      }
     });
+  }
+
+  assertDefaultFilterDate() {
+    this.getCurrentFilterDate();
+    cy.get("@currentFilterDate").should("eq", this.defaultFilterDate);
   }
 
   assertDefaultDeliveryMethodWithArg(method: string) {
@@ -311,5 +333,113 @@ export default class OutboundPage extends BasePage {
 
   assertNextButtonEnable() {
     cy.get(this.nextArrowButton).should("be.enabled");
+  }
+
+  assertListByDate(date: string, locator: string) {
+    cy.get("@response").then((resp: any) => {
+      switch (date) {
+        case "today":
+          if (this.dateOnly.slice(0, 1) !== "0") {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", this.todayDF2)
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          } else {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", this.todayDF1)
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          }
+          break;
+        default:
+          let temp = parseInt(this.dateOnly) - parseInt(date);
+          if (parseInt(date) < 10) {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", generateDateTime(-temp, "D MMM YYYY"))
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          } else {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", generateDateTime(-temp, "DD MMM YYYY"))
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          }
+      }
+    });
+  }
+
+  assertTotalData(value: string) {
+    this.getCurrentDataAmountOnPagination(value);
+    cy.get("@currentDataAmountOnPagination").then((totalDataOnPage: any) => {
+      cy.get("@response").then((resp: any) => {
+        expect(resp.body.total_data).to.equal(
+          parseInt(totalDataOnPage.slice(16))
+        );
+      });
+    });
+  }
+
+  assertTotalDataNextPage(value: string) {
+    cy.get("@currentDataAmountOnPagination").then(
+      (currentDataAmountOnPagination: any) => {
+        let top: any;
+        let down: any;
+        let totalDataNextPage: any;
+        let data = currentDataAmountOnPagination.split(" ");
+        let temp = data[1].split("-");
+        cy.get("@currentTotalDataOnList").then(
+          (currentTotalDataOnList: any) => {
+            switch (value) {
+              case "outbound request":
+                top = parseInt(temp[0]) + currentTotalDataOnList;
+                down = parseInt(temp[1]) + currentTotalDataOnList;
+                totalDataNextPage = String(top) + "-" + String(down);
+                cy.xpath(this.xpathOutboundDataCounter).should(
+                  "include.text",
+                  totalDataNextPage
+                );
+                break;
+              case "shipment process":
+                top = parseInt(temp[0]) + currentTotalDataOnList - 1;
+                down = parseInt(temp[1]) + currentTotalDataOnList - 1;
+                totalDataNextPage = String(top) + "-" + String(down);
+                cy.xpath(this.xpathShipmentDataCounter).should(
+                  "include.text",
+                  totalDataNextPage
+                );
+                break;
+            }
+          }
+        );
+      }
+    );
   }
 }

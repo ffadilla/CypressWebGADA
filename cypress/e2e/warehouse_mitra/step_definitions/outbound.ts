@@ -13,6 +13,10 @@ And("user filters delivery_method by {string}", (method: string) => {
   outboundPage.selectDeliveryMethod(method);
 });
 
+And("user filters delivery_date by {string}", (date: string) => {
+  outboundPage.selectDeliveryDate(date);
+});
+
 And("user chooses total {int} data per page", (page: number) => {
   outboundPage.selectTotalPage(page);
 });
@@ -21,8 +25,8 @@ And("the default search bar shall be empty", () => {
   outboundPage.assertDefaultSearchBar();
 });
 
-And("the current filter date shall be correct", () => {
-  outboundPage.assertCurrentFilterDate();
+And("the default filter date shall be correct", () => {
+  outboundPage.assertDefaultFilterDate();
 });
 
 And("the previous page button will be disabled", () => {
@@ -73,4 +77,26 @@ Then("the outbound request creation will be failed", () => {
 
 Then("the expected {string} list will be showed", (keyword: string) => {
   outboundPage.assertCurrentOutboundId(keyword);
+});
+
+And("the total {string} on the next page shall be correct", (value: string) => {
+  outboundPage.assertTotalDataNextPage(value);
+});
+
+And(
+  "the total {string} on the selected status shall be correct",
+  (value: string) => {
+    outboundPage.assertTotalData(value);
+  }
+);
+
+Then("the total {string} shall be correct", (value: string) => {
+  outboundPage.assertTotalData(value);
+});
+
+And("user goes to the {string} second page", (value: string) => {
+  outboundPage.getOutbondListPageAPI();
+  outboundPage.getShipmentListPageAPI();
+  outboundPage.getCurrentDataAmountOnPagination(value);
+  outboundPage.checkSecondPage();
 });
