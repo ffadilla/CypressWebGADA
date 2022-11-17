@@ -1,4 +1,4 @@
-type warehousePlatforms = "dc" | "mitra";
+export type warehousePlatforms = "dc" | "mitra";
 
 type config = {
   google: {
