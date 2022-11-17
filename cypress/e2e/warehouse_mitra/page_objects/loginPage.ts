@@ -1,3 +1,4 @@
+import { interceptAPI } from "../../warehouse_core/common/utils";
 import BasePage from "./basePage";
 
 export default class LoginPage extends BasePage {
@@ -8,7 +9,7 @@ export default class LoginPage extends BasePage {
   errorLoginButton = '//*[@id="__next"]/div/div/div/div[3]/form/div[2]/div[2]';
 
   clickLoginButton() {
-    this.utils.interceptAPI("POST", "/account/login*", "loginAPI");
+    interceptAPI("POST", "/account/login*", "loginAPI");
     cy.get(this.loginButton).click();
     cy.wait("@loginAPI").then(($API) => {
       if ($API.response?.statusCode === 400) {
@@ -26,8 +27,8 @@ export default class LoginPage extends BasePage {
 
   loginAs(role: string) {
     this.navigate(this.path);
-    cy.get(this.emailField).type(this.accountData[role].email);
-    cy.get(this.passwordField).type(this.accountData[role].password);
+    cy.get(this.emailField).type(this.configData.accountData[role].email);
+    cy.get(this.passwordField).type(this.configData.accountData[role].password);
     this.clickLoginButton();
   }
 }

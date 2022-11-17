@@ -1,9 +1,14 @@
+import {
+  generateDateTime,
+  interceptAPI,
+  replaceElementIndex,
+} from "../../../warehouse_core/common/utils";
 import BaseDetailPage from "../baseDetailPage";
 
 export default class ReceiptDetailPage extends BaseDetailPage {
   path = "/inventory/inbound/receipt/detail";
-  date = this.utils.generateDateTime(0, "DD MMM YYYY");
-  receiptIDPrefix = "IN/" + this.utils.generateDateTime(0, "MMYY") + "00";
+  date = generateDateTime(0, "DD MMM YYYY");
+  receiptIDPrefix = "IN/" + generateDateTime(0, "MMYY") + "00";
   expectedAttachmentXPath = "";
   expectedAttachmentURL = "";
 
@@ -52,51 +57,51 @@ export default class ReceiptDetailPage extends BaseDetailPage {
       '//*[@id="__next"]/div/div[3]/div[2]/div/div[1]/div[2]/div/div/div[3]/div[2]/p[2]',
 
     tableBodyContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1),
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1),
     productNameBodyContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[1]",
     productQtyBodyContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[2]",
     allocatedInputBodyContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[3]",
     allocatedQtyField:
       '[name="inbound_requests[0].product_variant_request_items[0].active_unit_items[0].allocated_quantity"]',
     substractAllocatedQtyButtonXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[3]/div/div[1]/div/div/div[1]/button[1]",
     addAllocatedQtyButtonXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[3]/div/div[1]/div/div/div[1]/button[2]",
     allocatedUOMDropdown:
       '[id="mui-component-select-inbound_requests[0].product_variant_request_items[0].active_unit_items[0].product_unit_id"]',
     addAllocatedUOMButtonXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[3]/div/div[2]/span/button",
     expDateContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[4]",
     expiryDateDropdownXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[4]/div/div/div/div",
     discrepancyQtyContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[5]",
     discrepancyRemarksContainerXPath:
-      this.utils.replaceElementIndex(this.receiptTableXPath, 1) +
-      this.utils.replaceElementIndex(this.tableBodyPointerXPath, 1) +
+      replaceElementIndex(this.receiptTableXPath, 1) +
+      replaceElementIndex(this.tableBodyPointerXPath, 1) +
       "/td[6]",
     discrepancyRemarksField:
       '[name="inbound_requests[0].product_variant_request_items[0].rejected_reason"]',
@@ -270,7 +275,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
     cy.get(this.popupContent)
       .find("p")
       .should("contain", submissionPopupContent);
-    this.utils.interceptAPI(
+    interceptAPI(
       "PUT",
       "/inbound/receipts/**/bulk-submit/",
       "submitReceiptAPI"

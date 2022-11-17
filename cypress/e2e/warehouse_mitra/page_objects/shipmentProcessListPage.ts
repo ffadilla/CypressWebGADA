@@ -118,7 +118,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
       .then(($counter) => {
         let counterOnFooter = $counter.split(" ");
         let page = Math.ceil(parseInt(counterOnFooter[3]) / currentPage);
-        cy.visit(this.baseUrl + this.shipmentListPath, {
+        cy.visit(this.configData.baseUrl + this.shipmentListPath, {
           qs: {
             page: page.toString(),
           },
