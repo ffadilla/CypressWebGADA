@@ -498,6 +498,5 @@ Scenario: User navigates to other page, clicks on save button on confirmation po
     And user clicks on simpan inventory on popup modal
     And user click tambah barang on inventory list page
     And user click lanjutkan on confirmation popup modal
-    And user click simpan bulk add inventory
-    And user click kembali ke halaman daftar barang button
-    Then user deletes test data
+    And user clicks on daftar barang list side menu button
+    Then user clicks on tidak simpan on popup modal

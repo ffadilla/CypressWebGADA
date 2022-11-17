@@ -3,7 +3,7 @@ Feature: Bulk Add Inventory Multiple UOM
     Background:
         Given user "8408418423" is logged in
         And user visits bulk add inventory page
-
+    
     Scenario: User bulk adds custom inventories with multiple uom
         When user click nama barang atau scan barcode searchbox
         And user types "web automation" on nama barang searchbox
@@ -12,7 +12,7 @@ Feature: Bulk Add Inventory Multiple UOM
         And user clicks on simpan button popover
         And user clicks on "empty" open uom select button of "web automation"
         And user type "WebAutoUom 1 ","WebAutoUom 2 " on search custom buying
-        And user clicks on "WebAutoUom 1 ","WebAutoUom 2" selling custom uom checkbox
+        And user clicks on "WebAutoUom 1 ","WebAutoUom 2 " selling custom uom checkbox
         And user click lanjut on uom select popover
         And user click on conversion button up
         And user click on selanjutnya button
@@ -33,10 +33,7 @@ Feature: Bulk Add Inventory Multiple UOM
         And user clicks on simpan button popover
         And user clicks on "empty" open uom select button of "web automation"
         And user type "WebAutoUom " on search custom buying
-        And user click tambah unit baru 
-        And user click tambah nama unit baru option
-        And user types recently created custom unit selling name on search unit field
-        And user clicks on "WebAutoUom" selling custom uom checkbox
+        And user clicks on "WebAutoUom " selling custom uom checkbox
         And user click lanjut on uom select popover
         And user types "100" on input jumlah stock cell
         And user types "120000" on input harga modal per unit cell

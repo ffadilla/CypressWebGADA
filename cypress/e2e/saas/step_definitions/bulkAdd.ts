@@ -1,9 +1,11 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import BulkAddPage from "../../../e2e/saas/page_objects/bulkAddPage";
+import HomePage from "../page_objects/homePage";
 import * as utils from "./utils";
 
 const bulkAddPage = new BulkAddPage();
-let customUomName: string;
+const homePage = new HomePage();
+//let randomString: string;
 
 Given("user visits bulk add inventory page", () => {
   bulkAddPage.navigate(bulkAddPage.path);
@@ -279,25 +281,6 @@ When("user type {} on search custom buying", (uomName: string) => {
   }
 });
 
-When("user click tambah unit baru", () => {
-  bulkAddPage.clickBulkAddButtonCustomUomBuying();
-});
-
-When("user click tambah nama unit baru option", () => {
-  bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
-});
-
-When(
-  "user types recently created custom unit selling name on search unit field",
-  () => {
-    bulkAddPage.typesBulkAddInputSearchCustomUomSelling(customUomName);
-    cy.get(bulkAddPage.bulkAddInputSearchCustomUomSelling).should(
-      "have.value",
-      customUomName
-    );
-  }
-);
-
 When("user clicks on {} selling custom uom checkbox", (uomName: string) => {
   let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
   for (let i = 0; i < uomNameArr.length; i++) {
@@ -438,6 +421,15 @@ When("user click tambah barang on inventory list page", () => {
 
 When("user click lanjutkan on confirmation popup modal", () => {
   bulkAddPage.clickBulkAddNavigateModalLanjutkanBulkAdd();
+});
+
+When("user clicks on tidak simpan on popup modal", () => {
+  bulkAddPage.clickBulkAddNavigateAwayKeluar();
+  cy.reload();
+});
+
+When("user clicks on daftar barang list side menu button", () => {
+  homePage.clickInventoryListSideMenuButton();
 });
 
 //Assertion

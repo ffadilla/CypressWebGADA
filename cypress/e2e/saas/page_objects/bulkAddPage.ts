@@ -57,6 +57,7 @@ export default class BulkAddPage extends BasePage {
   bulkAddInventoryListTambahBarang = "#button_inventory_list_tambah_barang";
   bulkAddNavigateModalLanjutkanBulkAdd =
     "#button_bulk_navigate_modal_ya_lanjutkan";
+  bulkAddNavigateAwayKeluar = "#button_navigate_away_modal_tidak_keluar";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
@@ -159,8 +160,9 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddInputSearchCustomUomBuying).type(input);
   }
 
-  typesBulkAddInputSearchCustomUomSelling(input: string) {
-    cy.get(this.bulkAddInputSearchCustomUomSelling).type(input);
+  typesBulkAddInputSearchCustomUomSelling(randomString: string) {
+    utils.retrieveUomId(randomString);
+    cy.get(this.bulkAddInputSearchCustomUomSelling).type(randomString);
   }
 
   clickBulkAddInputUomPopoverChecboxSelling(uomId: string) {
@@ -281,5 +283,9 @@ export default class BulkAddPage extends BasePage {
 
   clickBulkAddNavigateModalLanjutkanBulkAdd() {
     cy.get(this.bulkAddNavigateModalLanjutkanBulkAdd).click();
+  }
+
+  clickBulkAddNavigateAwayKeluar() {
+    cy.get(this.bulkAddNavigateAwayKeluar).click();
   }
 }
