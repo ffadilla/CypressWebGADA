@@ -1,5 +1,5 @@
 import gadaConfig from "../../utils/gadaConfig";
-import * as utils from "../common/utils";
+import * as utils from "../../warehouse_core/common/utils";
 
 export default class BasePage {
   utils = utils;

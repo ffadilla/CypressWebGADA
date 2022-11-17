@@ -1,5 +1,5 @@
 import BasePage from "./basePage";
-import { generateDateTime } from "../common/utils";
+import { generateDateTime } from "../../warehouse_core/common/utils";
 
 export default class OutboundPage extends BasePage {
   searchInputBox =

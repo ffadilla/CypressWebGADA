@@ -1,5 +1,5 @@
 import OutboundPage from "./outboundPage";
-import { generateDateTime } from "../common/utils";
+import { generateDateTime } from "../../warehouse_core/common/utils";
 
 export default class ShipmentProcessListPage extends OutboundPage {
   shipmentListPath = "inventory/outbound/shipment/list";

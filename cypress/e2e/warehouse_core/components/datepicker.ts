@@ -1,4 +1,4 @@
-import { generateDateTime } from "../../warehouse_mitra/common/utils";
+import { generateDateTime } from "../common/utils";
 
 export default class Datepicker {
   dateQueryBaseFormat = "" + generateDateTime(0, "YYYY-MM-");
