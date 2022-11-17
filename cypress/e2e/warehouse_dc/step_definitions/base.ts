@@ -14,7 +14,7 @@ Given("user already logged in to WMS as {string}", (role: string) => {
 });
 
 When("user logs out from WMS", () => {
-  basePage.logout();
+  basePage.header.logout();
 });
 
 When("user redirects to the previous visited page", () => {
