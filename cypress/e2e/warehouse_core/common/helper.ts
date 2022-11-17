@@ -1,7 +1,7 @@
 import gadaConfig, { warehousePlatforms } from "../../utils/gadaConfig";
 
 export class ConfigData {
-  baseUrl: any;
+  baseUrl: string;
   accountData: any;
   warehouseData: any;
 

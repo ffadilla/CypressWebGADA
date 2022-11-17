@@ -1,7 +1,9 @@
+import { ConfigData } from "../common/helper";
+
 export default class Sidebar {
   configData;
 
-  constructor(configData: any) {
+  constructor(configData: ConfigData) {
     this.configData = configData;
   }
 
