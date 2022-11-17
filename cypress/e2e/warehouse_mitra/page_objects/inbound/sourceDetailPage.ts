@@ -1,4 +1,4 @@
-import { hasCompletedRequest } from "../../common/helper";
+import { hasCompletedRequest } from "../../../warehouse_core/common/helper";
 import BaseDetailPage from "../baseDetailPage";
 
 export default class SourceDetailPage extends BaseDetailPage {

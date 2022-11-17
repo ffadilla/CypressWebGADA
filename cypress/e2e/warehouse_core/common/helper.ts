@@ -11,3 +11,17 @@ export class ConfigData {
     this.warehouseData = gadaConfig.warehouse[type].warehouses;
   }
 }
+
+let inbound = {
+  source: {
+    hasCompletedRequest: false,
+  },
+};
+
+export function setHasCompletedRequest(status: boolean) {
+  inbound.source.hasCompletedRequest = status;
+}
+
+export function hasCompletedRequest(): boolean {
+  return inbound.source.hasCompletedRequest;
+}
