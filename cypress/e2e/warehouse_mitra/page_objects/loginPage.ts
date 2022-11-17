@@ -1,12 +1,17 @@
+import { ConfigData } from "../../warehouse_core/common/helper";
 import { interceptAPI } from "../../warehouse_core/common/utils";
-import BasePage from "./basePage";
 
-export default class LoginPage extends BasePage {
+export default class LoginPage {
+  configData = new ConfigData("mitra");
   path = "login";
   emailField = 'input[id="email"]';
   passwordField = 'input[id="password"]';
   loginButton = 'button[type="submit"]';
   errorLoginButton = '//*[@id="__next"]/div/div/div/div[3]/form/div[2]/div[2]';
+
+  navigate(path: string) {
+    cy.visit(this.configData.baseUrl + path);
+  }
 
   clickLoginButton() {
     interceptAPI("POST", "/account/login*", "loginAPI");
