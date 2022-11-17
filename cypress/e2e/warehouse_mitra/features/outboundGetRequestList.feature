@@ -7,19 +7,20 @@ Feature: Checking the outbound request list Page
   Scenario: Check the default outbound request list
     When user selects menu Permintaan Barang
     Then user will be "redirected" to the outbound request list page
-    And the total outbound request shall be correct
+    And the total "outbound request" shall be correct
     And the default search bar shall be empty
-    And the current filter date shall be correct
+    And the default filter date shall be correct
     And the add outbound request button will be clickable
     And the previous page button will be disabled
     But the next page button will be clickable
 
   Scenario: Check the second page of the outbound request list
-    When user goes to the outbound second page
-    Then the total outbound request on the next page shall be correct
+    When user goes to the "outbound request" second page
+    Then user will be redirected to the second page of outbound request
+    And the total "outbound request" on the next page shall be correct
     And the previous page button will be clickable
     And the next page button will be clickable
-    And the current filter date shall be correct
+    And the default filter date shall be correct
     And the add outbound request button will be clickable
     And the default search bar shall be empty
 
@@ -39,12 +40,12 @@ Feature: Checking the outbound request list Page
     Then the expected "outbound request" list will be showed
 
   Scenario: Check the searched outbound request list by invalid outbound ID
-    When user searches for the invalid outbound request
+    When user searches for the "invalid" outbound request
     Then the error message "Pencarian Tidak Ditemukan" will be showed
 
   Scenario: Check the outbound request list after clearing the search bar
     When user selects menu Permintaan Barang
-    And user searches for the invalid outbound request
+    And user searches for the "invalid" outbound request
     Then the error message "Pencarian Tidak Ditemukan" will be showed
 
     When user clears the search input
@@ -54,7 +55,7 @@ Feature: Checking the outbound request list Page
   Scenario Outline: Check the filtered outbound request list by selected status
     When user filters status by <status>
     Then the outbound request list with status <status> will be showed
-    And the total outbound request on status shall be correct
+    And the total "outbound request" on the selected status shall be correct
   
   Examples:
     | status            |
@@ -65,7 +66,7 @@ Feature: Checking the outbound request list Page
 
   Scenario Outline: Check the filtered outbound request list by selected delivery_date
     When user filters status by "Semua Status"
-    And user filters outbound delivery_date by <date>
+    And user filters delivery_date by <date>
     Then the outbound request list with delivery_date on <date> will be showed
   
   Examples:
@@ -74,8 +75,8 @@ Feature: Checking the outbound request list Page
     | "20"        |
 
   Scenario: Check the outbound request list after resetting the delivery_date filter
-    When user resets the delivery_date filter back to default
-    Then the current filter date shall be correct
+    When user resets the outbound delivery_date filter back to default
+    Then the default filter date shall be correct
 
   Scenario Outline: Check the filtered outbound request list by selected delivery_method
     When user filters delivery_method by <method>
