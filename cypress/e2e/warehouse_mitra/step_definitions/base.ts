@@ -23,22 +23,22 @@ Given("user already logged in to WMS as {string}", (role: string) => {
 });
 
 When("user logs out from WMS", () => {
-  basePage.logout();
+  basePage.header.logout();
 });
 
 When(
   "user applies {string} and its store as global filters",
   (warehouse: string) => {
-    basePage.setGlobalFilter(warehouse);
+    basePage.header.setGlobalFilter(warehouse);
   }
 );
 
 When("user redirects to inbound Request menu", () => {
-  basePage.clickInboundRequestMenu();
+  basePage.sidebar.clickInboundRequestMenu();
 });
 
 When("user redirects to inbound Receipt menu", () => {
-  basePage.clickInboundReceiptMenu();
+  basePage.sidebar.clickInboundReceiptMenu();
 });
 
 When("user redirects to the previous visited page", () => {
@@ -46,29 +46,29 @@ When("user redirects to the previous visited page", () => {
 });
 
 When("user chooses menu Barang Keluar", () => {
-  basePage.clickMenuOutbound();
+  basePage.sidebar.clickMenuOutbound();
 });
 
 When("user redirects to inventory menu", () => {
-  basePage.clickInventoryMenu();
+  basePage.sidebar.clickInventoryMenu();
 });
 
 Then("user should see disabled global filter dropdown", () => {
-  basePage.assertDisabledGlobalFilter();
+  basePage.header.assertDisabledGlobalFilter();
 });
 
 When("user selects menu Permintaan Barang", () => {
   outboundPage.getOutbondListPageAPI();
   outboundPage.getCounterStatusOutboundAPI();
-  basePage.selectOutboundRequest();
+  basePage.sidebar.selectOutboundRequest();
 });
 
 When("user selects menu Pengiriman Barang", () => {
   outboundPage.getShipmentListPageAPI();
   outboundPage.getCounterStatusShipmentAPI();
-  basePage.selectShipmentProcess();
+  basePage.sidebar.selectShipmentProcess();
 });
 
 Then("user should be logged out", () => {
-  basePage.logout();
+  basePage.header.logout();
 });

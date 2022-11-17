@@ -1,4 +1,5 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import { assertQueryParam } from "../../../warehouse_core/common/assertions";
 import InventoryDetailPage from "../../page_objects/inventory/inventoryDetailPage";
 
 const inventoryDetailPage = new InventoryDetailPage();
@@ -55,7 +56,7 @@ Then(
 Then(
   "query param for {string} {string} should be added to inventory detail URL",
   (keyword: string, attribute: string) => {
-    inventoryDetailPage.assertQueryParam(attribute, keyword);
+    assertQueryParam(attribute, keyword);
   }
 );
 

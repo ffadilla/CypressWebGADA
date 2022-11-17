@@ -1,4 +1,10 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  assertAPIRequestHeaders,
+  assertDateQueryParam,
+  assertQueryParam,
+} from "../../../warehouse_core/common/assertions";
+import { interceptAPI } from "../../../warehouse_core/common/utils";
 import RequestListPage from "../../page_objects/inbound/requestListPage";
 
 const requestListPage = new RequestListPage();
@@ -6,12 +12,8 @@ const requestListPage = new RequestListPage();
 When(
   "user applies {string} and its store as global filters at inbound Request list",
   (warehouse: string) => {
-    requestListPage.utils.interceptAPI(
-      "GET",
-      "/inbound/requests/list/?*",
-      "inboundRequestListAPI"
-    );
-    requestListPage.setGlobalFilter(warehouse);
+    interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
+    requestListPage.header.setGlobalFilter(warehouse);
   }
 );
 
@@ -110,11 +112,11 @@ Then(
     if (attribute === "status") {
       requestListPage.assertStatusQueryParam(value);
     } else if (attribute === "delivery date") {
-      requestListPage.assertDateQueryParam(target, value);
+      assertDateQueryParam(target, value);
     } else if (attribute === "delivery method" && val === "Semua Metode") {
-      requestListPage.assertQueryParam(target, "all");
+      assertQueryParam(target, "all");
     } else {
-      requestListPage.assertQueryParam(target, value);
+      assertQueryParam(target, value);
     }
   }
 );
@@ -160,15 +162,15 @@ Then(
 Then(
   "{string} UUID should be added as inbound Request list API headers",
   (warehouse: string) => {
-    requestListPage.assertAPIRequestHeaders(
+    assertAPIRequestHeaders(
       "@inboundRequestListAPI",
       "warehouse-id",
-      requestListPage.warehouseData[warehouse].warehouseUUID
+      requestListPage.configData.warehouseData[warehouse].warehouseUUID
     );
-    requestListPage.assertAPIRequestHeaders(
+    assertAPIRequestHeaders(
       "@inboundRequestListAPI",
       "store-id",
-      requestListPage.warehouseData[warehouse].stores[0].storeUUID
+      requestListPage.configData.warehouseData[warehouse].stores[0].storeUUID
     );
   }
 );
