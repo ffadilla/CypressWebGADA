@@ -1,6 +1,6 @@
 import { ConfigData } from "../common/helper";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import Header from "../component_objects/header";
+import Sidebar from "../component_objects/sidebar";
 
 export default class MainPage {
   configData = new ConfigData("mitra");
