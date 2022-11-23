@@ -6,10 +6,10 @@ import {
 } from "../../../warehouse_core/common/assertions";
 import { interceptAPI } from "../../../warehouse_core/common/utils";
 import RequestListPage, {
-  getSearcbox,
+  getSearchbox,
 } from "../../page_objects/inbound/requestListPage";
 
-const requestListPage = new RequestListPage("mitra", getSearcbox());
+const requestListPage = new RequestListPage("mitra", getSearchbox());
 
 When(
   "user applies {string} and its store as global filters at inbound Request list",

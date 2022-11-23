@@ -6,10 +6,10 @@ import {
   assertAPIRequestHeaders,
 } from "../../../warehouse_core/common/assertions";
 import RequestListPage, {
-  getSearcbox,
+  getSearchbox,
 } from "../../page_objects/inbound/requestListPage";
 
-const requestListPage = new RequestListPage("dc", getSearcbox());
+const requestListPage = new RequestListPage("dc", getSearchbox());
 
 When(
   "user applies {string} and its store as global filters at inbound Request list",

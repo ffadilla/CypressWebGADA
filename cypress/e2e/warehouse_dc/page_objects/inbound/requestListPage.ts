@@ -5,6 +5,6 @@ export default class RequestListPage extends CoreRequestListPage {}
 const searchbox =
   'input[placeholder="No. Barang Masuk atau No. Permintaan Barang"]';
 
-export function getSearcbox() {
+export function getSearchbox() {
   return searchbox;
 }
