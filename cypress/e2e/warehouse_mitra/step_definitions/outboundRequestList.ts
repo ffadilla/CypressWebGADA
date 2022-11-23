@@ -1,7 +1,7 @@
 import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
 
-const outboundRequestListPage = new OutboundRequestListPage();
+const outboundRequestListPage = new OutboundRequestListPage("mitra");
 
 When("user selects the current outbound request", () => {
   outboundRequestListPage.getOutboundDetailAPI();

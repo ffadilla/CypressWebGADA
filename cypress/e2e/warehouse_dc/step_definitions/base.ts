@@ -6,7 +6,7 @@ import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../page_objects/loginPage";
 import BasePage from "../page_objects/basePage";
 
-const basePage = new BasePage();
+const basePage = new BasePage("dc");
 const loginPage = new LoginPage();
 
 Given("user already logged in to WMS as {string}", (role: string) => {

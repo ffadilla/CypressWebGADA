@@ -7,7 +7,7 @@ import {
 import { interceptAPI } from "../../../warehouse_core/common/utils";
 import RequestListPage from "../../page_objects/inbound/requestListPage";
 
-const requestListPage = new RequestListPage();
+const requestListPage = new RequestListPage("mitra");
 
 When(
   "user applies {string} and its store as global filters at inbound Request list",

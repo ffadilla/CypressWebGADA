@@ -1,7 +1,7 @@
 import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundPage from "../page_objects/outboundPage";
 
-const outboundPage = new OutboundPage();
+const outboundPage = new OutboundPage("mitra");
 
 When("user filters status by {string}", (status: string) => {
   outboundPage.getOutbondListPageAPI();

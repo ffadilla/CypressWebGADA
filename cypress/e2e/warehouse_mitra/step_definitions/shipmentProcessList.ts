@@ -1,7 +1,7 @@
 import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 import ShipmentProcessListPage from "../page_objects/shipmentProcessListPage";
 
-const shipmentProcessListPage = new ShipmentProcessListPage();
+const shipmentProcessListPage = new ShipmentProcessListPage("mitra");
 
 And("user chooses Shipment Process page", () => {
   shipmentProcessListPage.selectShipmentProcess();

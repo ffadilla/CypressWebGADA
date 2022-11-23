@@ -3,8 +3,8 @@ import { When, And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import ShipmentProcessDetailPage from "../page_objects/shipmentProcessDetailPage";
 import ShipmentProcessListPage from "../page_objects/shipmentProcessListPage";
 
-const shipmentProcessDetailPage = new ShipmentProcessDetailPage();
-const shipmentProcessListPage = new ShipmentProcessListPage();
+const shipmentProcessDetailPage = new ShipmentProcessDetailPage("mitra");
+const shipmentProcessListPage = new ShipmentProcessListPage("mitra");
 // const outboundPage = new OutboundPage();
 
 When("user wants to view the shipment detail data", () => {

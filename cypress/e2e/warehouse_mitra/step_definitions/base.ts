@@ -7,9 +7,9 @@ import LoginPage from "../page_objects/loginPage";
 import BasePage from "../page_objects/basePage";
 import OutboundPage from "../page_objects/outboundPage";
 
-const basePage = new BasePage();
+const basePage = new BasePage("mitra");
 const loginPage = new LoginPage();
-const outboundPage = new OutboundPage();
+const outboundPage = new OutboundPage("mitra");
 
 Given(
   "user {string} already logged in to WMS with {string} as password",

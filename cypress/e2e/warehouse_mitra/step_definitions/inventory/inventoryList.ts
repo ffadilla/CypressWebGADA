@@ -5,7 +5,7 @@ import {
 } from "../../../warehouse_core/common/assertions";
 import InventoryListPage from "../../page_objects/inventory/inventoryListPage";
 
-const inventoryListPage = new InventoryListPage();
+const inventoryListPage = new InventoryListPage("mitra");
 
 When("user applies today's date as filter date at inventory list", () => {
   inventoryListPage.interceptListAPI();
