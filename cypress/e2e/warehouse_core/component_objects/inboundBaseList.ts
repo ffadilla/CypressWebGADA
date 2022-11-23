@@ -1,5 +1,5 @@
-import { assertQueryParam } from "../../common/assertions";
-import Datepicker from "../../component_objects/datepicker";
+import { assertQueryParam } from "../common/assertions";
+import Datepicker from "./datepicker";
 
 export default class InboundBaseListPage {
   datepicker = new Datepicker();

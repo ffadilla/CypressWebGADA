@@ -1,7 +1,7 @@
 import { reformatDate, replaceElementIndex } from "../../common/utils";
 import Pagination from "../../component_objects/pagination";
 import MainPage from "../mainPage";
-import InboundBaseListPage from "./inboundBaseListPage";
+import InboundBaseListPage from "../../component_objects/inboundBaseList";
 
 export default class ReceiptListPage extends MainPage {
   baseList = new InboundBaseListPage();

@@ -3,7 +3,7 @@ import {
   reformatDate,
   replaceElementIndex,
 } from "../../common/utils";
-import InboundBaseListPage from "./inboundBaseListPage";
+import InboundBaseListPage from "../../component_objects/inboundBaseList";
 import MainPage from "../mainPage";
 import Pagination from "../../component_objects/pagination";
 
