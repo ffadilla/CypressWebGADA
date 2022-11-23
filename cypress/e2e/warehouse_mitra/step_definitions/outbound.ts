@@ -10,6 +10,8 @@ When("user filters status by {string}", (status: string) => {
 });
 
 And("user filters delivery_method by {string}", (method: string) => {
+  outboundPage.getOutbondListPageAPI();
+  outboundPage.getShipmentListPageAPI();
   outboundPage.selectDeliveryMethod(method);
 });
 
@@ -79,24 +81,15 @@ Then("the expected {string} list will be showed", (keyword: string) => {
   outboundPage.assertCurrentOutboundId(keyword);
 });
 
-And("the total {string} on the next page shall be correct", (value: string) => {
-  outboundPage.assertTotalDataNextPage(value);
-});
-
 And(
-  "the total {string} on the selected status shall be correct",
-  (value: string) => {
-    outboundPage.assertTotalData(value);
+  "the total {string} on the {string} shall be correct",
+  (value: string, onpage: string) => {
+    outboundPage.assertCurrentDataAmountOnPage(value, onpage);
   }
 );
 
-Then("the total {string} shall be correct", (value: string) => {
-  outboundPage.assertTotalData(value);
-});
-
-And("user goes to the {string} second page", (value: string) => {
+And("user goes to the second page", () => {
   outboundPage.getOutbondListPageAPI();
   outboundPage.getShipmentListPageAPI();
-  outboundPage.getCurrentDataAmountOnPagination(value);
-  outboundPage.checkSecondPage();
+  outboundPage.clickNextPage();
 });

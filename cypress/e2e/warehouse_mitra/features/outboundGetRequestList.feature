@@ -7,7 +7,7 @@ Feature: Checking the outbound request list Page
   Scenario: Check the default outbound request list
     When user selects menu Permintaan Barang
     Then user will be "redirected" to the outbound request list page
-    And the total "outbound request" shall be correct
+    And the total "outbound request" on the "current page" shall be correct
     And the default search bar shall be empty
     And the default filter date shall be correct
     And the add outbound request button will be clickable
@@ -15,9 +15,9 @@ Feature: Checking the outbound request list Page
     But the next page button will be clickable
 
   Scenario: Check the second page of the outbound request list
-    When user goes to the "outbound request" second page
+    When user goes to the second page
     Then user will be redirected to the second page of outbound request
-    And the total "outbound request" on the next page shall be correct
+    And the total "outbound request" on the "next page" shall be correct
     And the previous page button will be clickable
     And the next page button will be clickable
     And the default filter date shall be correct
@@ -55,7 +55,7 @@ Feature: Checking the outbound request list Page
   Scenario Outline: Check the filtered outbound request list by selected status
     When user filters status by <status>
     Then the outbound request list with status <status> will be showed
-    And the total "outbound request" on the selected status shall be correct
+    And the total "outbound request" on the "current page" shall be correct
   
   Examples:
     | status            |
@@ -81,6 +81,7 @@ Feature: Checking the outbound request list Page
   Scenario Outline: Check the filtered outbound request list by selected delivery_method
     When user filters delivery_method by <method>
     Then the outbound request list with delivery_method by <method> will be showed
+    And the total "outbound request" on the "current page" shall be correct
 
   Examples:
     | method          |

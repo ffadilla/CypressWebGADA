@@ -104,6 +104,7 @@ Then(
 Then(
   "the outbound request list with delivery_method by {string} will be showed",
   (method: string) => {
+    outboundRequestListPage.waitOutboundListResponseAPI();
     outboundRequestListPage.assertOutboundListByMethod(method);
   }
 );

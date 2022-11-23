@@ -41,8 +41,7 @@ export default class OutboundPage extends BasePage {
   xpathDatepickerSetToday = "//button[contains(@class,'MuiPickersDay-today')]";
   xpathOutboundDataCounter =
     "//div/div[3]/div[2]/div/div/div[2]/div[2]/div[2]/div/p[2]/span";
-  xpathShipmentDataCounter =
-    "//div/div[3]/div[2]/div/div/div[2]/div[11]/div[2]/div/p[2]/span";
+  xpathShipmentDataCounter = "//span[text()='Baris']";
   xpathPageDD = "//ul[@role='listbox']/li[@data-value=";
 
   xpathResetDP = "//button[text()='Reset']";
@@ -80,7 +79,7 @@ export default class OutboundPage extends BasePage {
     cy.intercept("GET", "/outbound/shipments/list/*").as("shipmentListPageAPI");
   }
 
-  getCurrentDataAmountOnPagination(value: string) {
+  getCurrentDataAmountOnPage(value: string) {
     let locator: any;
     switch (value) {
       case "outbound request":
@@ -231,7 +230,7 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "&delivery_method=all");
   }
 
-  checkSecondPage() {
+  clickNextPage() {
     cy.get(this.nextArrowButton).click();
     cy.location("search").should("include", "page=2");
   }
@@ -396,50 +395,42 @@ export default class OutboundPage extends BasePage {
     });
   }
 
-  assertTotalData(value: string) {
-    this.getCurrentDataAmountOnPagination(value);
-    cy.get("@currentDataAmountOnPagination").then((totalDataOnPage: any) => {
-      cy.get("@response").then((resp: any) => {
-        expect(resp.body.total_data).to.equal(
-          parseInt(totalDataOnPage.slice(16))
-        );
-      });
-    });
-  }
-
-  assertTotalDataNextPage(value: string) {
-    cy.get("@currentDataAmountOnPagination").then(
-      (currentDataAmountOnPagination: any) => {
-        let top: any;
-        let down: any;
-        let totalDataNextPage: any;
-        let data = currentDataAmountOnPagination.split(" ");
-        let temp = data[1].split("-");
-        cy.get("@currentTotalDataOnList").then(
-          (currentTotalDataOnList: any) => {
-            switch (value) {
-              case "outbound request":
-                top = parseInt(temp[0]) + currentTotalDataOnList;
-                down = parseInt(temp[1]) + currentTotalDataOnList;
-                totalDataNextPage = String(top) + "-" + String(down);
-                cy.xpath(this.xpathOutboundDataCounter).should(
-                  "include.text",
-                  totalDataNextPage
-                );
-                break;
-              case "shipment process":
-                top = parseInt(temp[0]) + currentTotalDataOnList - 1;
-                down = parseInt(temp[1]) + currentTotalDataOnList - 1;
-                totalDataNextPage = String(top) + "-" + String(down);
-                cy.xpath(this.xpathShipmentDataCounter).should(
-                  "include.text",
-                  totalDataNextPage
-                );
-                break;
-            }
-          }
-        );
+  assertCurrentDataAmountOnPage(value: string, onpage: string) {
+    let temp: number;
+    this.getCurrentDataAmountOnPage(value);
+    cy.get("@currentDataAmountOnPagination").then((dataAmountOnPage: any) => {
+      switch (onpage) {
+        case "current page":
+          cy.get("@response").then((resp: any) => {
+            temp = resp.body.results.length;
+            expect(temp).to.equal(parseInt(dataAmountOnPage.slice(8, 10)));
+          });
+          break;
+        case "next page":
+          cy.get("@response").then((resp: any) => {
+            cy.get("@currentTotalDataOnList").then(
+              (currentTotalDataOnList: any) => {
+                switch (value) {
+                  case "outbound request":
+                    temp = resp.body.results.length + currentTotalDataOnList;
+                    expect(temp).to.equal(
+                      parseInt(dataAmountOnPage.slice(9, 11))
+                    );
+                    break;
+                  case "shipment process":
+                    /**
+                     * Need to subtract the div by 1 because the footer div is joined with the list divs
+                     */
+                    temp =
+                      resp.body.results.length + (currentTotalDataOnList - 1);
+                    expect(temp).to.equal(
+                      parseInt(dataAmountOnPage.slice(9, 11))
+                    );
+                }
+              }
+            );
+          });
       }
-    );
+    });
   }
 }

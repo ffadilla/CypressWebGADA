@@ -7,7 +7,7 @@ Feature: Checking the shipment process list page
   Scenario: Check the default shipment process list
     When user selects menu Pengiriman Barang
     Then user will be "redirected" to the shipment process list page
-    And the total "shipment process" shall be correct
+    And the total "shipment process" on the "current page" shall be correct
     And the default search bar shall be empty
     And the default filter date shall be correct
     And the add shipment process button will be clickable
@@ -15,9 +15,9 @@ Feature: Checking the shipment process list page
     But the next page button will be clickable
 
   Scenario: Check the second page of the shipment process list
-    When user goes to the "shipment process" second page
+    When user goes to the second page
     Then user will be redirected to the second page of shipment process
-    And the total "shipment process" on the next page shall be correct
+    And the total "shipment process" on the "next page" shall be correct
     And the previous page button will be clickable
     And the next page button will be clickable
     And the default filter date shall be correct
@@ -55,7 +55,7 @@ Feature: Checking the shipment process list page
   Scenario Outline: Check the filtered shipment process list by selected status
     When user filters status by <status>
     Then the shipment process list with status <status> will be showed
-    And the total "shipment process" on the selected status shall be correct
+    And the total "shipment process" on the "current page" shall be correct
   
   Examples:
     | status            |
@@ -80,6 +80,7 @@ Feature: Checking the shipment process list page
   Scenario Outline: Check the filtered shipment process list by selected delivery_method
     When user filters delivery_method by <method>
     Then the shipment process list with delivery_method by <method> will be showed
+    And the total "shipment process" on the "current page" shall be correct
 
   Examples:
     | method          |

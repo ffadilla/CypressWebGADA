@@ -110,6 +110,7 @@ Then(
 Then(
   "the shipment process list with delivery_method by {string} will be showed",
   (method: string) => {
+    shipmentProcessListPage.waitShipmentListResponseAPI();
     shipmentProcessListPage.assertShipmentListByMethod(method);
   }
 );
