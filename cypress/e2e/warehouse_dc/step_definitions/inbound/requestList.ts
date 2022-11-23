@@ -1,13 +1,13 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import { interceptAPI } from "../../warehouse_core/common/utils";
+import { interceptAPI } from "../../../warehouse_core/common/utils";
 import {
   assertQueryParam,
   assertDateQueryParam,
   assertAPIRequestHeaders,
-} from "../../warehouse_core/common/assertions";
+} from "../../../warehouse_core/common/assertions";
 import RequestListPage, {
   getSearcbox,
-} from "../page_objects/inbound/requestListPage";
+} from "../../page_objects/inbound/requestListPage";
 
 const requestListPage = new RequestListPage("dc", getSearcbox());
 
