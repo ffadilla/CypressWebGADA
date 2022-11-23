@@ -4,7 +4,7 @@
 
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../page_objects/loginPage";
-import BasePage from "../page_objects/basePage";
+import BasePage from "../page_objects/mainPage";
 import OutboundPage from "../page_objects/outboundPage";
 
 const basePage = new BasePage("mitra");
