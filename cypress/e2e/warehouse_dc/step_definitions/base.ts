@@ -17,6 +17,21 @@ When("user logs out from WMS", () => {
   basePage.header.logout();
 });
 
+When(
+  "user applies {string} and its store as global filters",
+  (warehouse: string) => {
+    basePage.header.setGlobalFilter(warehouse);
+  }
+);
+
+When("user redirects to inbound Request menu", () => {
+  basePage.sidebar.clickInboundRequestMenu();
+});
+
+When("user redirects to inbound Receipt menu", () => {
+  basePage.sidebar.clickInboundReceiptMenu();
+});
+
 When("user redirects to the previous visited page", () => {
   cy.go("back");
 });
