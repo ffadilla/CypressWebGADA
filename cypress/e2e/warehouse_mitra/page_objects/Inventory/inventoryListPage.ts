@@ -6,10 +6,12 @@ import {
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
 import Datepicker from "../../../warehouse_core/component_objects/datepicker";
-import BaseListPage from "../baseListPage";
+import Pagination from "../../../warehouse_core/component_objects/pagination";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class InventoryListPage extends BaseListPage {
+export default class InventoryListPage extends MainPage {
   datepicker = new Datepicker();
+  pagination = new Pagination();
   path = "/inventory/list";
   date = "";
   dateFullFormat = "";
