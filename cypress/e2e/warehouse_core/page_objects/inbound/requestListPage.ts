@@ -6,8 +6,13 @@ import {
 import InboundBaseListPage from "../../component_objects/inboundBaseList";
 import MainPage from "../mainPage";
 import Pagination from "../../component_objects/pagination";
+import { wmsType } from "../../../utils/gadaConfig";
 
 export default class RequestListPage extends MainPage {
+  constructor(type: wmsType, searchbox: string) {
+    super(type);
+    this.baseList.searchbox = searchbox;
+  }
   baseList = new InboundBaseListPage();
   pagination = new Pagination();
 
