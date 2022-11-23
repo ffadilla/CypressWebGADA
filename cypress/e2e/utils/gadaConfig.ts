@@ -1,4 +1,23 @@
-export type warehousePlatforms = "dc" | "mitra";
+export type wmsType = "dc" | "mitra";
+export class wmsAccount {
+  [accountRole: string]: {
+    email: string;
+    password: string;
+  };
+}
+export class wmsWarehouse {
+  [warehouseName: string]: {
+    warehouseCode: string;
+    warehouseUUID: string;
+    stores: [
+      {
+        storeName: string;
+        storeCode: string;
+        storeUUID: string;
+      }
+    ];
+  };
+}
 
 type config = {
   google: {
@@ -21,27 +40,10 @@ type config = {
     baseUrl: string;
   };
   warehouse: {
-    [key in warehousePlatforms]: {
+    [key in wmsType]: {
       baseUrl: string;
-      accounts: {
-        [accountRole: string]: {
-          email: string;
-          password: string;
-        };
-      };
-      warehouses: {
-        [warehouseName: string]: {
-          warehouseCode: string;
-          warehouseUUID: string;
-          stores: [
-            {
-              storeName: string;
-              storeCode: string;
-              storeUUID: string;
-            }
-          ];
-        };
-      };
+      accounts: wmsAccount;
+      warehouses: wmsWarehouse;
     };
   };
 };

@@ -1,4 +1,4 @@
-import { warehousePlatforms } from "../../utils/gadaConfig";
+import { wmsType } from "../../utils/gadaConfig";
 import { ConfigData } from "../common/helper";
 import Header from "../component_objects/header";
 import Sidebar from "../component_objects/sidebar";
@@ -8,7 +8,7 @@ export default class MainPage {
   sidebar: Sidebar;
   header: Header;
 
-  constructor(type: warehousePlatforms) {
+  constructor(type: wmsType) {
     this.configData = new ConfigData(type);
     this.sidebar = new Sidebar(this.configData);
     this.header = new Header(this.configData);
