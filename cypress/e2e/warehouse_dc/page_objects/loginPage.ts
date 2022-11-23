@@ -1,12 +1,18 @@
-import BasePage from "./basePage";
+import { ConfigData } from "../../warehouse_core/common/helper";
 
-export default class LoginPage extends BasePage {
+export default class LoginPage {
+  configData = new ConfigData("dc");
+
   path = "login";
   loginFormXPath = "//form";
   emailField = 'input[id="email"]';
   passwordField = 'input[id="password"]';
   loginButton = 'button[type="submit"]';
   errorLoginInfoXPath = this.loginFormXPath + "/div[2]";
+
+  navigate(path: string) {
+    cy.visit(this.configData.baseUrl + path);
+  }
 
   setEmailField(email: string) {
     cy.get(this.emailField).type(email);
@@ -34,8 +40,8 @@ export default class LoginPage extends BasePage {
 
   loginAs(role: string) {
     this.navigate(this.path);
-    cy.get(this.emailField).type(this.accountData[role].email);
-    cy.get(this.passwordField).type(this.accountData[role].password);
+    cy.get(this.emailField).type(this.configData.accountData[role].email);
+    cy.get(this.passwordField).type(this.configData.accountData[role].password);
     this.clickLoginButton();
   }
 }

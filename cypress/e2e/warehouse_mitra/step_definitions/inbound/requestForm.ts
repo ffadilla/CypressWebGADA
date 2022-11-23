@@ -158,7 +158,7 @@ Then(
   (warehouse: string) => {
     requestFormPage.assertAppliedWarehouseStore(
       warehouse,
-      requestFormPage.warehouseData[warehouse].stores[0].storeName
+      requestFormPage.configData.warehouseData[warehouse].stores[0].storeName
     );
   }
 );

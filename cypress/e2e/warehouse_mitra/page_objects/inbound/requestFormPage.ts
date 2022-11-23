@@ -1,6 +1,12 @@
+import {
+  generateDateTime,
+  interceptAPI,
+} from "../../../warehouse_core/common/utils";
+import Datepicker from "../../../warehouse_core/component_objects/datepicker";
 import BasePage from "../basePage";
 
 export default class RequestFormPage extends BasePage {
+  datepicker = new Datepicker();
   path = "/inventory/inbound/request/create";
   formButtons = ".MuiButtonBase-root";
 
@@ -56,7 +62,7 @@ export default class RequestFormPage extends BasePage {
   datepickerItem = '[role="gridcell"]';
 
   typeSourceID() {
-    let sourceID = "Cyp-" + this.utils.generateDateTime(0, "YYMMDD_HHmmss");
+    let sourceID = "Cyp-" + generateDateTime(0, "YYMMDD_HHmmss");
     cy.get(this.sourceIDField).type(sourceID);
     cy.get(this.sourceIDField).invoke("val").as("inboundFormSourceID");
   }
@@ -87,7 +93,7 @@ export default class RequestFormPage extends BasePage {
 
   setTargetStore(keyword: string) {
     cy.get(this.targetStoreNameField).click();
-    this.utils.interceptAPI(
+    interceptAPI(
       "GET",
       "/store/store-list/?search=" +
         keyword +
@@ -106,12 +112,12 @@ export default class RequestFormPage extends BasePage {
   }
 
   setSourceDate(date: string, month: string, year: string) {
-    this.setDatepicker(this.sourceDateField, date, month, year);
+    this.datepicker.setDatepicker(this.sourceDateField, date, month, year);
     cy.get(this.sourceDateField).invoke("val").as("inboundFormSourceDate");
   }
 
   setDeliveryDate(date: string, month: string, year: string) {
-    this.setDatepicker(this.deliveryDateField, date, month, year);
+    this.datepicker.setDatepicker(this.deliveryDateField, date, month, year);
     cy.get(this.deliveryDateField).invoke("val").as("inboundFormDeliveryDate");
   }
 

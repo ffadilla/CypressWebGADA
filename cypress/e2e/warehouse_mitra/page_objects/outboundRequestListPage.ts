@@ -1,5 +1,5 @@
 import OutboundPage from "./outboundPage";
-import { generateDateTime } from "../common/utils";
+import { generateDateTime } from "../../warehouse_core/common/utils";
 
 export default class OutboundRequestListPage extends OutboundPage {
   path = "inventory/outbound/request/list";

@@ -1,3 +1,7 @@
+import {
+  interceptAPI,
+  replaceElementIndex,
+} from "../../../warehouse_core/common/utils";
 import BasePage from "../basePage";
 
 export default class InventoryDetailPage extends BasePage {
@@ -45,7 +49,7 @@ export default class InventoryDetailPage extends BasePage {
   pageAmountDropdownOptions = 'ul[role="listbox"]';
 
   interceptExpiryBatchAPI() {
-    this.utils.interceptAPI(
+    interceptAPI(
       "GET",
       "/inventory/inventory-batch-detail/**",
       "expiryBatchAPI"
@@ -53,7 +57,7 @@ export default class InventoryDetailPage extends BasePage {
   }
 
   interceptInventoryMovementAPI() {
-    this.utils.interceptAPI(
+    interceptAPI(
       "GET",
       "/inventory/inventory-detail/**",
       "inventoryMovementAPI"
@@ -66,9 +70,7 @@ export default class InventoryDetailPage extends BasePage {
       if (responseBody.total_data === 0)
         cy.xpath(this.movementTableEmptyInfoXpath).should("be.visible");
       else
-        cy.xpath(
-          this.utils.replaceElementIndex(this.movementByXPath, 1)
-        ).should("exist");
+        cy.xpath(replaceElementIndex(this.movementByXPath, 1)).should("exist");
 
       expect(API.response?.statusCode).to.eq(200);
     });
@@ -83,16 +85,10 @@ export default class InventoryDetailPage extends BasePage {
     let element = "";
     switch (value) {
       case "quantity":
-        element = this.utils.replaceElementIndex(
-          this.expiryDateTableSortXpath,
-          1
-        );
+        element = replaceElementIndex(this.expiryDateTableSortXpath, 1);
         break;
       case "expiry_date":
-        element = this.utils.replaceElementIndex(
-          this.expiryDateTableSortXpath,
-          2
-        );
+        element = replaceElementIndex(this.expiryDateTableSortXpath, 2);
         break;
     }
     cy.xpath(element).click();
@@ -156,26 +152,21 @@ export default class InventoryDetailPage extends BasePage {
     cy.get("@inventoryListProductQty").then((productQty) => {
       expect(
         cy
-          .xpath(
-            this.utils.replaceElementIndex(
-              this.movementInventoryFinalAmountXPath,
-              1
-            )
-          )
+          .xpath(replaceElementIndex(this.movementInventoryFinalAmountXPath, 1))
           .should("contain", productQty)
       );
     });
     cy.get("@inventoryListLastUpdatedTime").then((lut) => {
       expect(
         cy
-          .xpath(this.utils.replaceElementIndex(this.movementTimeXPath, 1))
+          .xpath(replaceElementIndex(this.movementTimeXPath, 1))
           .should("contain", lut)
       );
     });
     cy.get("@inventoryListLastUpdatedBy").then((lutBy) => {
       expect(
         cy
-          .xpath(this.utils.replaceElementIndex(this.movementByXPath, 1))
+          .xpath(replaceElementIndex(this.movementByXPath, 1))
           .should("contain", lutBy)
       );
     });
@@ -203,7 +194,7 @@ export default class InventoryDetailPage extends BasePage {
 
     cy.xpath(this.movementTableXPath).then((table) => {
       for (let index = 1; index < table.find("tr").length + 1; index++) {
-        cy.xpath(this.utils.replaceElementIndex(element, index))
+        cy.xpath(replaceElementIndex(element, index))
           .invoke("text")
           .then((text) => {
             switch (attribute) {
