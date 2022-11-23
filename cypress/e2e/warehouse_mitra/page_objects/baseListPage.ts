@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import MainPage from "../../warehouse_core/page_objects/mainPage";
 
-export default class BaseListPage extends BasePage {
+export default class BaseListPage extends MainPage {
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";

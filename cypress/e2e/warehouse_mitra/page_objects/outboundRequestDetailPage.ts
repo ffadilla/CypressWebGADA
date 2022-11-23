@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import MainPage from "../../warehouse_core/page_objects/mainPage";
 
-export default class OutboundRequestDetailPage extends BasePage {
+export default class OutboundRequestDetailPage extends MainPage {
   path = "inventory/outbound/request/detail";
 
   //XPaths start here

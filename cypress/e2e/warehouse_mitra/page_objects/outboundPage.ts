@@ -1,8 +1,8 @@
-import BasePage from "./basePage";
+import MainPage from "../../warehouse_core/page_objects/mainPage";
 import { generateDateTime } from "../../warehouse_core/common/utils";
 import Datepicker from "../../warehouse_core/component_objects/datepicker";
 
-export default class OutboundPage extends BasePage {
+export default class OutboundPage extends MainPage {
   datepicker = new Datepicker();
   searchInputBox =
     "input[placeholder='No. permintaan barang atau nama produk...']";

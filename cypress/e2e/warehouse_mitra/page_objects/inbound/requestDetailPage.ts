@@ -4,9 +4,9 @@ import {
   interceptAPI,
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
-import BasePage from "../basePage";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class RequestDetailPage extends BasePage {
+export default class RequestDetailPage extends MainPage {
   path = "/inventory/inbound/request/detail";
   date = generateDateTime(0, "DD MMM YYYY");
 

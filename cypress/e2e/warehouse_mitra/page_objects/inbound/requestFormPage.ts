@@ -3,9 +3,9 @@ import {
   interceptAPI,
 } from "../../../warehouse_core/common/utils";
 import Datepicker from "../../../warehouse_core/component_objects/datepicker";
-import BasePage from "../basePage";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class RequestFormPage extends BasePage {
+export default class RequestFormPage extends MainPage {
   datepicker = new Datepicker();
   path = "/inventory/inbound/request/create";
   formButtons = ".MuiButtonBase-root";
