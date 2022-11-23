@@ -2,9 +2,14 @@ import { assertQueryParam } from "../common/assertions";
 import Datepicker from "./datepicker";
 
 export default class InboundBaseListPage {
-  datepicker = new Datepicker();
+  datepicker: Datepicker;
+  searchbox: string;
 
-  searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
+  constructor(searchbox: string) {
+    this.datepicker = new Datepicker();
+    this.searchbox = searchbox;
+  }
+
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";
   deliveryMethodDropdown = "#mui-component-select-delivery_method";
