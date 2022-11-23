@@ -1,7 +1,6 @@
-import { interceptAPI } from "../../warehouse_core/common/utils";
-import MainPage from "../../warehouse_core/page_objects/mainPage";
+import { interceptAPI } from "../common/utils";
 
-export default class BaseDetailPage extends MainPage {
+export default class Attachment {
   attachmentKebabButton = '[data-testid="MoreVertIcon"]';
   popoverContainer = ".MuiPopover-paper";
   popoverItem = 'li[role="menuitem"]';
