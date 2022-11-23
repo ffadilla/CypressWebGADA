@@ -2,10 +2,17 @@ import { reformatDate, replaceElementIndex } from "../../common/utils";
 import Pagination from "../../component_objects/pagination";
 import MainPage from "../mainPage";
 import InboundBaseListPage from "../../component_objects/inboundBaseList";
+import { wmsType } from "../../../utils/gadaConfig";
 
 export default class ReceiptListPage extends MainPage {
-  baseList = new InboundBaseListPage();
-  pagination = new Pagination();
+  baseList: InboundBaseListPage;
+  pagination: Pagination;
+
+  constructor(type: wmsType, searchbox: string) {
+    super(type);
+    this.baseList = new InboundBaseListPage(searchbox);
+    this.pagination = new Pagination();
+  }
 
   path = "/inventory/inbound/receipt/list";
   createReceiptWarehouseNameDropdown =
