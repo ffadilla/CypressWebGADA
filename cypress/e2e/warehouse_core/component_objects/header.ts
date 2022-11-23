@@ -1,7 +1,7 @@
 import { ConfigData } from "../common/helper";
 
 export default class Header {
-  configData;
+  configData: ConfigData;
 
   constructor(configData: ConfigData) {
     this.configData = configData;

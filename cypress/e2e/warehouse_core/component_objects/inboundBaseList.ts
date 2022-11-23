@@ -2,7 +2,11 @@ import { assertQueryParam } from "../common/assertions";
 import Datepicker from "./datepicker";
 
 export default class InboundBaseListPage {
-  datepicker = new Datepicker();
+  datepicker: Datepicker;
+
+  constructor() {
+    this.datepicker = new Datepicker();
+  }
 
   searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
