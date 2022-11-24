@@ -1,7 +1,7 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import SourceDetailPage from "../../page_objects/inbound/sourceDetailPage";
 
-const sourceDetailPage = new SourceDetailPage("mitra");
+const sourceDetailPage = new SourceDetailPage("dc");
 
 When("user cancels Source at inbound Source detail", () => {
   sourceDetailPage.cancelSource();

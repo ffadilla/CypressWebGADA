@@ -1,7 +1,7 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import RequestDetailPage from "../../page_objects/inbound/requestDetailPage";
 
-const requestDetailPage = new RequestDetailPage("mitra");
+const requestDetailPage = new RequestDetailPage("dc");
 
 When("user retrieves data from inbound Request detail page", () => {
   requestDetailPage.invokeRequestDetail();
