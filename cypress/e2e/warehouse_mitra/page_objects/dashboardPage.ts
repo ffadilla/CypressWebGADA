@@ -1,9 +1,3 @@
-import MainPage from "../../warehouse_core/page_objects/mainPage";
+import CoreDashboardPage from "../../warehouse_core/page_objects/dashboardPage";
 
-export default class DashboardPage extends MainPage {
-  path = "dashboard";
-
-  visitDashboard() {
-    this.navigate(this.path);
-  }
-}
+export default class DashboardPage extends CoreDashboardPage {}

@@ -3,9 +3,12 @@ import {
   generateDateTime,
   reformatDate,
 } from "../../../warehouse_core/common/utils";
-import BaseDetailPage from "../baseDetailPage";
+import Attachment from "../../../warehouse_core/component_objects/attachment";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class SourceDetailPage extends BaseDetailPage {
+export default class SourceDetailPage extends MainPage {
+  attachment = new Attachment();
+
   path = "/inventory/inbound/request/source/detail";
   date = generateDateTime(0, "DD MMM YYYY");
 
@@ -136,7 +139,10 @@ export default class SourceDetailPage extends BaseDetailPage {
         break;
     }
 
-    this.downloadAttachment(expectedAttachmentXPath, expectedAttachmentURL);
+    this.attachment.downloadAttachment(
+      expectedAttachmentXPath,
+      expectedAttachmentURL
+    );
   }
 
   closeHistoryPopup() {

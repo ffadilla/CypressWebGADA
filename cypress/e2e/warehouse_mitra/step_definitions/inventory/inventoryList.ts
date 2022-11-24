@@ -35,7 +35,7 @@ When(
   "user applies {string} as page amount at inventory list",
   (value: string) => {
     inventoryListPage.interceptListAPI();
-    inventoryListPage.setPageAmount(value);
+    inventoryListPage.pagination.setPageAmount(value);
     inventoryListPage.waitSearchRender();
   }
 );
@@ -72,7 +72,7 @@ Then(
 Then(
   "user should only able to see {string} SKU per page maximum",
   (value: string) => {
-    inventoryListPage.assertTotalPageAmount(value);
+    inventoryListPage.pagination.assertTotalPageAmount(value);
   }
 );
 

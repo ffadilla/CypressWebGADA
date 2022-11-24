@@ -3,9 +3,12 @@ import {
   interceptAPI,
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
-import BaseDetailPage from "../baseDetailPage";
+import Attachment from "../../../warehouse_core/component_objects/attachment";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class ReceiptDetailPage extends BaseDetailPage {
+export default class ReceiptDetailPage extends MainPage {
+  attachment = new Attachment();
+
   path = "/inventory/inbound/receipt/detail";
   date = generateDateTime(0, "DD MMM YYYY");
   receiptIDPrefix = "IN/" + generateDateTime(0, "MMYY") + "00";
@@ -238,7 +241,7 @@ export default class ReceiptDetailPage extends BaseDetailPage {
 
   downloadReceiptAttachment(value: string) {
     this.switchAttachment(value);
-    this.downloadAttachment(
+    this.attachment.downloadAttachment(
       this.expectedAttachmentXPath,
       this.expectedAttachmentURL
     );
