@@ -1,7 +1,9 @@
 import BasePage from "./basePage";
-import { generateDateTime } from "../common/utils";
+import { generateDateTime } from "../../warehouse_core/common/utils";
+import Datepicker from "../../warehouse_core/component_objects/datepicker";
 
 export default class OutboundPage extends BasePage {
+  datepicker = new Datepicker();
   searchInputBox =
     "input[placeholder='No. permintaan barang atau nama produk...']";
   invalidId = "INVALID/00112233";
@@ -176,7 +178,7 @@ export default class OutboundPage extends BasePage {
   }
 
   selectDeliveryDate(date: string) {
-    this.setDateOnly(this.deliveryDateDP, date);
+    this.datepicker.setDateOnly(this.deliveryDateDP, date);
   }
 
   searchBasedOn(id: string) {

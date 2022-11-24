@@ -1,6 +1,15 @@
+import {
+  generateDateTime,
+  getRandomIntInclusive,
+  interceptAPI,
+  reformatDate,
+  replaceElementIndex,
+} from "../../../warehouse_core/common/utils";
+import Datepicker from "../../../warehouse_core/component_objects/datepicker";
 import BaseListPage from "../baseListPage";
 
 export default class InventoryListPage extends BaseListPage {
+  datepicker = new Datepicker();
   path = "/inventory/list";
   date = "";
   dateFullFormat = "";
@@ -28,11 +37,7 @@ export default class InventoryListPage extends BaseListPage {
   tableEmptyInfoXpath = '//*[@id="__next"]/div/div[3]/div[2]/div/div/div[3]';
 
   interceptListAPI() {
-    this.utils.interceptAPI(
-      "GET",
-      "/inventory/inventory-list/?*",
-      "inventoryListAPI"
-    );
+    interceptAPI("GET", "/inventory/inventory-list/?*", "inventoryListAPI");
   }
 
   waitSearchRender() {
@@ -42,7 +47,7 @@ export default class InventoryListPage extends BaseListPage {
         cy.xpath(this.tableEmptyInfoXpath).should("be.visible");
       else
         cy.xpath(
-          this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
+          replaceElementIndex(this.inventoryProductSubtextXPath, 1)
         ).should("be.visible");
 
       expect(API.response?.statusCode).to.eq(200);
@@ -50,11 +55,16 @@ export default class InventoryListPage extends BaseListPage {
   }
 
   setTodayAsDeliveryDateFilter() {
-    this.date = this.utils.generateDateTime(0, "D");
-    let month = this.utils.generateDateTime(0, "M");
-    let year = this.utils.generateDateTime(0, "YYYY");
-    this.dateFullFormat = this.utils.reformatDate(this.date, "D", "D MMM YYYY");
-    this.setDatepicker(this.dateFilterButton, this.date, month, year);
+    this.date = generateDateTime(0, "D");
+    let month = generateDateTime(0, "M");
+    let year = generateDateTime(0, "YYYY");
+    this.dateFullFormat = reformatDate(this.date, "D", "D MMM YYYY");
+    this.datepicker.setDatepicker(
+      this.dateFilterButton,
+      this.date,
+      month,
+      year
+    );
     cy.get(this.dateFilterButton)
       .invoke("val")
       .should("contain", this.dateFullFormat);
@@ -75,59 +85,40 @@ export default class InventoryListPage extends BaseListPage {
   }
 
   clickAnySKURow() {
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
-    ); //waiting for FE render
+    cy.xpath(replaceElementIndex(this.inventoryProductSubtextXPath, 1)); //waiting for FE render
 
     cy.xpath(this.inventoryListXPath).then(($list) => {
-      const index = this.utils.getRandomIntInclusive(
-        1,
-        $list.find("tr").length
-      );
+      const index = getRandomIntInclusive(1, $list.find("tr").length);
       this.invokeSKUData(index);
       cy.xpath(
-        this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
+        replaceElementIndex(this.inventoryProductNameXPath, index)
       ).click();
     });
   }
 
   invokeSKUData(index: number) {
-    cy.xpath(this.utils.replaceElementIndex(this.inventorySKUXPath, index))
+    cy.xpath(replaceElementIndex(this.inventorySKUXPath, index))
       .invoke("text")
       .as("inventoryListSKUID");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryProductNameXPath, index))
       .invoke("text")
       .as("inventoryListProductName");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryProductSubtextXPath, index))
       .invoke("text")
       .as("inventoryListOwnership");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductNameXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryProductNameXPath, index))
       .invoke("text")
       .as("inventoryListProductName");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryWarehouseStoreXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryWarehouseStoreXPath, index))
       .invoke("text")
       .as("inventoryListWarehouseStore");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductQtyXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryProductQtyXPath, index))
       .invoke("text")
       .as("inventoryListProductQty");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryLastUpdatedTimeXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryLastUpdatedTimeXPath, index))
       .invoke("text")
       .as("inventoryListLastUpdatedTime");
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryLastUpdatedByXPath, index)
-    )
+    cy.xpath(replaceElementIndex(this.inventoryLastUpdatedByXPath, index))
       .invoke("text")
       .as("inventoryListLastUpdatedBy");
   }
@@ -135,9 +126,9 @@ export default class InventoryListPage extends BaseListPage {
   assertInventoryBySearchFilter(target: string, keyword: string) {
     let element = "";
     let expectedHasZeroQty = false;
-    cy.xpath(
-      this.utils.replaceElementIndex(this.inventoryProductSubtextXPath, 1)
-    ).should("be.visible"); //waiting for FE render
+    cy.xpath(replaceElementIndex(this.inventoryProductSubtextXPath, 1)).should(
+      "be.visible"
+    ); //waiting for FE render
 
     switch (target) {
       case "last updated":
@@ -162,7 +153,7 @@ export default class InventoryListPage extends BaseListPage {
 
     cy.xpath(this.inventoryListXPath).then(($list) => {
       for (let index = 1; index < $list.find("tr").length + 1; index++) {
-        cy.xpath(this.utils.replaceElementIndex(element, index))
+        cy.xpath(replaceElementIndex(element, index))
           .invoke("text")
           .then((text) => {
             if (target === "quantity" && expectedHasZeroQty) {
@@ -184,16 +175,11 @@ export default class InventoryListPage extends BaseListPage {
   assertInventoryByGlobalFilter(warehouse: string) {
     cy.xpath(this.inventoryListXPath).then(($list) => {
       for (let index = 1; index < $list.find("tr").length + 1; index++) {
-        cy.xpath(
-          this.utils.replaceElementIndex(
-            this.inventoryWarehouseStoreXPath,
-            index
-          )
-        )
+        cy.xpath(replaceElementIndex(this.inventoryWarehouseStoreXPath, index))
           .invoke("text")
           .then((text) => {
             expect(text.split(" - ")[0]).to.equal(
-              this.warehouseData[warehouse].stores[0].storeName
+              this.configData.warehouseData[warehouse].stores[0].storeName
             );
             expect(text.split(" - ")[1]).to.equal(warehouse);
           });

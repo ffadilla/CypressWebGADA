@@ -1,6 +1,9 @@
-import BaseListPage from "../baseListPage";
+import { assertQueryParam } from "../../common/assertions";
+import Datepicker from "../../component_objects/datepicker";
 
-export default class InboundBaseListPage extends BaseListPage {
+export default class InboundBaseListPage {
+  datepicker = new Datepicker();
+
   searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";
@@ -39,7 +42,7 @@ export default class InboundBaseListPage extends BaseListPage {
     deliveryMonth: string,
     deliveryYear: string
   ) {
-    this.setDatepicker(
+    this.datepicker.setDatepicker(
       this.deliveryDateFilterButton,
       deliveryDate,
       deliveryMonth,
@@ -74,7 +77,7 @@ export default class InboundBaseListPage extends BaseListPage {
       case "Semua Status":
         expectedValue = "";
     }
-    this.assertQueryParam("status", expectedValue);
+    assertQueryParam("status", expectedValue);
   }
 
   assertEmptyList() {

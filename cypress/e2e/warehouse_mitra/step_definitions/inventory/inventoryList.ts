@@ -1,4 +1,8 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  assertDateQueryParam,
+  assertQueryParam,
+} from "../../../warehouse_core/common/assertions";
 import InventoryListPage from "../../page_objects/inventory/inventoryListPage";
 
 const inventoryListPage = new InventoryListPage();
@@ -44,10 +48,10 @@ Then(
   "query param for {string} {string} should be added to inventory list URL",
   (keyword: string, attribute: string) => {
     if (attribute === "updated_at" && keyword == "input")
-      inventoryListPage.assertDateQueryParam(attribute, inventoryListPage.date);
+      assertDateQueryParam(attribute, inventoryListPage.date);
     else if (attribute === "updated_at")
-      inventoryListPage.assertDateQueryParam(attribute, keyword);
-    else inventoryListPage.assertQueryParam(attribute, keyword);
+      assertDateQueryParam(attribute, keyword);
+    else assertQueryParam(attribute, keyword);
   }
 );
 

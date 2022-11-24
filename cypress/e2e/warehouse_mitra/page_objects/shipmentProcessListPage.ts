@@ -67,7 +67,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
     // this.getCurrentDeliveryDate();
     cy.xpath(this.xpathFirstShipmentId).click();
   }
-
+  
   clickOutboundShipment() {
     cy.xpath(this.xpathAddShipmentProcessButton).click();
   }

@@ -1,4 +1,10 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  assertAPIRequestHeaders,
+  assertDateQueryParam,
+  assertQueryParam,
+} from "../../../warehouse_core/common/assertions";
+import { interceptAPI } from "../../../warehouse_core/common/utils";
 import RequestListPage from "../../page_objects/inbound/requestListPage";
 
 const requestListPage = new RequestListPage();
@@ -6,12 +12,8 @@ const requestListPage = new RequestListPage();
 When(
   "user applies {string} and its store as global filters at inbound Request list",
   (warehouse: string) => {
-    requestListPage.utils.interceptAPI(
-      "GET",
-      "/inbound/requests/list/?*",
-      "inboundRequestListAPI"
-    );
-    requestListPage.setGlobalFilter(warehouse);
+    interceptAPI("GET", "/inbound/requests/list/?*", "inboundRequestListAPI");
+    requestListPage.header.setGlobalFilter(warehouse);
   }
 );
 
@@ -20,26 +22,26 @@ When(
   (keyword: string) => {
     if (keyword === "canceled Source ID") {
       cy.get("@sourceDetailSourceID").then((sourceID) => {
-        requestListPage.setSearchKeyword(String(sourceID));
+        requestListPage.baseList.setSearchKeyword(String(sourceID));
       });
     } else if (keyword === "created Source ID") {
       cy.get("@inboundFormSourceID").then((sourceID) => {
-        requestListPage.setSearchKeyword(String(sourceID));
+        requestListPage.baseList.setSearchKeyword(String(sourceID));
       });
-    } else requestListPage.setSearchKeyword(keyword);
+    } else requestListPage.baseList.setSearchKeyword(keyword);
     requestListPage.waitSearchRender();
   }
 );
 
 When("user resets any applied keyword filter at inbound Request list", () => {
-  requestListPage.resetSearchKeyword();
+  requestListPage.baseList.resetSearchKeyword();
   requestListPage.waitSearchRender();
 });
 
 When(
   "user applies {string} date, {string} month, {string} year as delivery date filter at inbound Request list",
   (deliveryDate: string, deliveryMonth: string, deliveryYear: string) => {
-    requestListPage.setDeliveryDateFilter(
+    requestListPage.baseList.setDeliveryDateFilter(
       deliveryDate,
       deliveryMonth,
       deliveryYear
@@ -51,7 +53,7 @@ When(
 When(
   "user resets any applied delivery date filter at inbound Request list",
   () => {
-    requestListPage.resetDeliveryDate();
+    requestListPage.baseList.resetDeliveryDate();
     requestListPage.waitSearchRender();
   }
 );
@@ -59,7 +61,7 @@ When(
 When(
   "user applies {string} as delivery method filter at inbound Request list",
   (deliveryMethod: string) => {
-    requestListPage.setDeliveryMethodFilter(deliveryMethod);
+    requestListPage.baseList.setDeliveryMethodFilter(deliveryMethod);
     requestListPage.waitSearchRender();
   }
 );
@@ -67,7 +69,7 @@ When(
 When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
-    requestListPage.clickStatusChip(status);
+    requestListPage.baseList.clickStatusChip(status);
     requestListPage.waitSearchRender();
   }
 );
@@ -75,7 +77,7 @@ When(
 When(
   "user applies {string} as page amount at inbound Request list",
   (value: string) => {
-    requestListPage.setPageAmount(value);
+    requestListPage.pagination.setPageAmount(value);
     requestListPage.waitSearchRender();
   }
 );
@@ -95,7 +97,7 @@ Then("user should be at inbound Request list", () => {
 Then(
   "user should able to see {string} snackbar at inbound Request list",
   (value: string) => {
-    requestListPage.assertSnackbar(value);
+    requestListPage.baseList.assertSnackbar(value);
   }
 );
 
@@ -108,13 +110,13 @@ Then(
       attribute === "delivery method" ? val.split(" ").join("_") : val;
 
     if (attribute === "status") {
-      requestListPage.assertStatusQueryParam(value);
+      requestListPage.baseList.assertStatusQueryParam(value);
     } else if (attribute === "delivery date") {
-      requestListPage.assertDateQueryParam(target, value);
+      assertDateQueryParam(target, value);
     } else if (attribute === "delivery method" && val === "Semua Metode") {
-      requestListPage.assertQueryParam(target, "all");
+      assertQueryParam(target, "all");
     } else {
-      requestListPage.assertQueryParam(target, value);
+      assertQueryParam(target, value);
     }
   }
 );
@@ -129,7 +131,7 @@ Then(
 Then(
   "user should only able to see {string} inbound Request per page maximum",
   (value: string) => {
-    requestListPage.assertTotalPageAmount(value);
+    requestListPage.pagination.assertTotalPageAmount(value);
   }
 );
 
@@ -146,7 +148,7 @@ Then(
 );
 
 Then("user should able to see empty inbound Requests list", () => {
-  requestListPage.assertEmptyList();
+  requestListPage.baseList.assertEmptyList();
 });
 
 Then(
@@ -160,15 +162,15 @@ Then(
 Then(
   "{string} UUID should be added as inbound Request list API headers",
   (warehouse: string) => {
-    requestListPage.assertAPIRequestHeaders(
+    assertAPIRequestHeaders(
       "@inboundRequestListAPI",
       "warehouse-id",
-      requestListPage.warehouseData[warehouse].warehouseUUID
+      requestListPage.configData.warehouseData[warehouse].warehouseUUID
     );
-    requestListPage.assertAPIRequestHeaders(
+    assertAPIRequestHeaders(
       "@inboundRequestListAPI",
       "store-id",
-      requestListPage.warehouseData[warehouse].stores[0].storeUUID
+      requestListPage.configData.warehouseData[warehouse].stores[0].storeUUID
     );
   }
 );
