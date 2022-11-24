@@ -2,7 +2,7 @@
  * This file should only related to WMS global header and sidebar menu.
  */
 
-import { Given, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../page_objects/loginPage";
 import BasePage from "../page_objects/mainPage";
 
@@ -34,4 +34,8 @@ When("user redirects to inbound Receipt menu", () => {
 
 When("user redirects to the previous visited page", () => {
   cy.go("back");
+});
+
+Then("user should see disabled global filter dropdown", () => {
+  basePage.header.assertDisabledGlobalFilter();
 });
