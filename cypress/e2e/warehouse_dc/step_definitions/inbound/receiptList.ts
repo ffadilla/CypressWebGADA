@@ -82,7 +82,7 @@ When(
 When(
   "user clicks {string} status chip at inbound Receipt list",
   (status: string) => {
-    receiptListPage.baseList.clickStatusChip(status);
+    receiptListPage.baseList.statusChip.clickStatusChip(status);
     receiptListPage.waitSearchRender();
   }
 );

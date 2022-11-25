@@ -71,7 +71,7 @@ When(
 When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
-    requestListPage.baseList.clickStatusChip(status);
+    requestListPage.baseList.statusChip.clickStatusChip(status);
     requestListPage.waitSearchRender();
   }
 );
