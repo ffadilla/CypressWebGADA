@@ -43,8 +43,7 @@ export default class OutboundPage extends BasePage {
   xpathDatepickerSetToday = "//button[contains(@class,'MuiPickersDay-today')]";
   xpathOutboundDataCounter =
     "//div/div[3]/div[2]/div/div/div[2]/div[2]/div[2]/div/p[2]/span";
-  xpathShipmentDataCounter =
-    "//div/div[3]/div[2]/div/div/div[2]/div[11]/div[2]/div/p[2]/span";
+  xpathShipmentDataCounter = "//span[text()='Baris']";
   xpathPageDD = "//ul[@role='listbox']/li[@data-value=";
 
   xpathResetDP = "//button[text()='Reset']";
@@ -80,6 +79,19 @@ export default class OutboundPage extends BasePage {
 
   getShipmentListPageAPI() {
     cy.intercept("GET", "/outbound/shipments/list/*").as("shipmentListPageAPI");
+  }
+
+  getCurrentDataAmountOnPage(value: string) {
+    let locator: any;
+    switch (value) {
+      case "outbound request":
+        locator = this.xpathOutboundDataCounter;
+        break;
+      case "shipment process":
+        locator = this.xpathShipmentDataCounter;
+        break;
+    }
+    cy.xpath(locator).invoke("text").as("currentDataAmountOnPagination");
   }
 
   selectTotalPage(page: number) {
@@ -169,36 +181,27 @@ export default class OutboundPage extends BasePage {
     this.datepicker.setDateOnly(this.deliveryDateDP, date);
   }
 
-  searchBasedOn(id: string) {
-    let temp: any;
-    switch (id) {
+  searchBasedOn(value: string) {
+    let temp: string;
+    let id = "";
+    switch (value) {
       case "recently created":
         temp = "@newOutboundId";
+        cy.get(temp).then((temp: any) => {
+          id = temp;
+        });
         break;
       case "current":
         temp = "@outboundId";
+        cy.get(temp).then((temp: any) => {
+          id = temp;
+        });
+        break;
+      case "invalid":
+        id = this.invalidId;
         break;
     }
-    cy.get(temp).then((selectedId: any) => {
-      cy.get(this.searchInputBox)
-        .click()
-        .type(selectedId + "{enter}");
-      cy.location("search").should(
-        "include",
-        "&search=" + selectedId.replace("/", "%2F")
-      );
-    });
-  }
-
-  searchInvalidId() {
-    cy.get(this.searchInputBox)
-      .click()
-      .clear()
-      .type(this.invalidId + "{enter}");
-    cy.location("search").should(
-      "include",
-      "&search=" + this.invalidId.replace("/", "%2F")
-    );
+    this.assertQueryParamsIsCorrect(id);
   }
 
   resetSearchRequest() {
@@ -220,9 +223,9 @@ export default class OutboundPage extends BasePage {
     cy.location("search").should("include", "&delivery_method=all");
   }
 
-  checkSecondPage() {
+  clickNextPage() {
     cy.get(this.nextArrowButton).click();
-    cy.location("search").should("include", "page=2");
+    // cy.location("search").should("include", "page=2");
   }
 
   getCurrentTotalDataPerPage() {
@@ -238,14 +241,23 @@ export default class OutboundPage extends BasePage {
   }
 
   assertCurrentFilterDate() {
-    this.getCurrentFilterDate();
-    cy.get("@currentFilterDate").then((currentFilterDate: any) => {
-      cy.get("@deliveryDate").then((deliveryDate: any) => {
-        currentFilterDate !== this.defaultFilterDate
-          ? expect(currentFilterDate).to.equal(deliveryDate)
-          : expect(currentFilterDate).to.equal(this.defaultFilterDate);
-      });
+    cy.get("@listDate").then((isFound: any) => {
+      if (isFound !== this.xpathNotFoundMsg) {
+        this.getCurrentFilterDate();
+        cy.get("@currentFilterDate").then((currentFilterDate: any) => {
+          cy.get("@deliveryDate").then((deliveryDate: any) => {
+            currentFilterDate !== this.defaultFilterDate
+              ? expect(deliveryDate).to.contain(currentFilterDate)
+              : expect(this.defaultFilterDate).to.equal(currentFilterDate);
+          });
+        });
+      }
     });
+  }
+
+  assertDefaultFilterDate() {
+    this.getCurrentFilterDate();
+    cy.get("@currentFilterDate").should("eq", this.defaultFilterDate);
   }
 
   assertDefaultDeliveryMethodWithArg(method: string) {
@@ -313,5 +325,120 @@ export default class OutboundPage extends BasePage {
 
   assertNextButtonEnable() {
     cy.get(this.nextArrowButton).should("be.enabled");
+  }
+
+  assertListByDate(date: string, locator: string) {
+    cy.get("@response").then((resp: any) => {
+      switch (date) {
+        case "today":
+          if (this.dateOnly.slice(0, 1) !== "0") {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", this.todayDF2)
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          } else {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", this.todayDF1)
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          }
+          break;
+        default:
+          let temp = parseInt(this.dateOnly) - parseInt(date);
+          if (parseInt(date) < 10) {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", generateDateTime(-temp, "D MMM YYYY"))
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          } else {
+            resp.body.total_data !== 0
+              ? cy
+                  .xpath(locator)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("contain", generateDateTime(-temp, "DD MMM YYYY"))
+              : cy
+                  .xpath(this.xpathNotFound)
+                  .invoke("text")
+                  .as("listDate")
+                  .should("eq", this.xpathNotFoundMsg);
+          }
+      }
+    });
+  }
+
+  assertCurrentDataAmountOnPage(value: string, onpage: string) {
+    let temp: number;
+    this.getCurrentDataAmountOnPage(value);
+    cy.get("@currentDataAmountOnPagination").then((dataAmountOnPage: any) => {
+      switch (onpage) {
+        case "current page":
+          cy.get("@response").then((resp: any) => {
+            temp = resp.body.results.length;
+            expect(temp).to.equal(parseInt(dataAmountOnPage.slice(8, 10)));
+          });
+          break;
+        case "next page":
+          cy.get("@response").then((resp: any) => {
+            cy.get("@currentTotalDataOnList").then(
+              (currentTotalDataOnList: any) => {
+                switch (value) {
+                  case "outbound request":
+                    temp = resp.body.results.length + currentTotalDataOnList;
+                    expect(temp).to.equal(
+                      parseInt(dataAmountOnPage.slice(9, 11))
+                    );
+                    break;
+                  case "shipment process":
+                    /**
+                     * Need to subtract the div by 1 because the footer div is joined with the list divs
+                     */
+                    temp =
+                      resp.body.results.length + (currentTotalDataOnList - 1);
+                    expect(temp).to.equal(
+                      parseInt(dataAmountOnPage.slice(9, 11))
+                    );
+                }
+              }
+            );
+          });
+      }
+    });
+  }
+
+  assertUserIsInTheSecondPage() {
+    cy.location("search").should("include", "page=2");
+  }
+
+  assertQueryParamsIsCorrect(id: string) {
+    cy.get(this.searchInputBox)
+      .click()
+      .clear()
+      .type(id + "{enter}");
+    cy.location("search").should(
+      "include",
+      "&search=" + id.replace("/", "%2F")
+    );
   }
 }
