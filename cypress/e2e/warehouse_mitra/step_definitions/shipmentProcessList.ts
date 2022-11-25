@@ -32,13 +32,7 @@ And("user chooses to create a new shipment process", () => {
 
 And("user searches for the {string} shipment process", (value: string) => {
   shipmentProcessListPage.getCurrentOutboundId();
-  switch (value) {
-    case "invalid":
-      shipmentProcessListPage.searchInvalidId();
-      break;
-    default:
-      shipmentProcessListPage.searchBasedOn(value);
-  }
+  shipmentProcessListPage.searchBasedOn(value);
 });
 
 Then(
@@ -46,13 +40,13 @@ Then(
   (keyword: string) => {
     switch (keyword) {
       case "redirected":
-        shipmentProcessListPage.assertInShipmentListPage();
+        shipmentProcessListPage.assertUserIsInTheShipmentListPage();
         shipmentProcessListPage.waitShipmentListResponseAPI();
         shipmentProcessListPage.waitListToRender();
         shipmentProcessListPage.getDefaultDeliveryDate();
         break;
       case "redirected back":
-        shipmentProcessListPage.assertInShipmentListPage();
+        shipmentProcessListPage.assertUserIsInTheShipmentListPage();
         break;
     }
   }
@@ -116,6 +110,7 @@ Then(
 );
 
 Then("user will be redirected to the second page of shipment process", () => {
+  shipmentProcessListPage.assertUserIsInTheSecondPage();
   shipmentProcessListPage.waitShipmentListResponseAPI();
   shipmentProcessListPage.waitListToRender();
   shipmentProcessListPage.getCurrentTotalDataOnList();

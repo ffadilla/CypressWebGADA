@@ -67,7 +67,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
     // this.getCurrentDeliveryDate();
     cy.xpath(this.xpathFirstShipmentId).click();
   }
-  
+
   clickOutboundShipment() {
     cy.xpath(this.xpathAddShipmentProcessButton).click();
   }
@@ -209,7 +209,7 @@ export default class ShipmentProcessListPage extends OutboundPage {
     cy.get("@deliveryMethod").should("eq", method);
   }
 
-  assertInShipmentListPage() {
+  assertUserIsInTheShipmentListPage() {
     cy.url().should("include", this.path);
   }
 }

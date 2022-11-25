@@ -125,7 +125,7 @@ export default class OutboundRequestListPage extends OutboundPage {
     this.assertListByDate(date, this.xpathFirstDeliveryDate1);
   }
 
-  assertInOutboundListPage() {
+  assertUserIsInTheOutboundListPage() {
     cy.url().should("include", this.path);
   }
 

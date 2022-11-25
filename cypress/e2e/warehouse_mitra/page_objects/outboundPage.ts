@@ -181,36 +181,27 @@ export default class OutboundPage extends BasePage {
     this.datepicker.setDateOnly(this.deliveryDateDP, date);
   }
 
-  searchBasedOn(id: string) {
-    let temp: any;
-    switch (id) {
+  searchBasedOn(value: string) {
+    let temp: string;
+    let id = "";
+    switch (value) {
       case "recently created":
         temp = "@newOutboundId";
+        cy.get(temp).then((temp: any) => {
+          id = temp;
+        });
         break;
       case "current":
         temp = "@outboundId";
+        cy.get(temp).then((temp: any) => {
+          id = temp;
+        });
+        break;
+      case "invalid":
+        id = this.invalidId;
         break;
     }
-    cy.get(temp).then((selectedId: any) => {
-      cy.get(this.searchInputBox)
-        .click()
-        .type(selectedId + "{enter}");
-      cy.location("search").should(
-        "include",
-        "&search=" + selectedId.replace("/", "%2F")
-      );
-    });
-  }
-
-  searchInvalidId() {
-    cy.get(this.searchInputBox)
-      .click()
-      .clear()
-      .type(this.invalidId + "{enter}");
-    cy.location("search").should(
-      "include",
-      "&search=" + this.invalidId.replace("/", "%2F")
-    );
+    this.assertQueryParamsIsCorrect(id);
   }
 
   resetSearchRequest() {
@@ -234,7 +225,7 @@ export default class OutboundPage extends BasePage {
 
   clickNextPage() {
     cy.get(this.nextArrowButton).click();
-    cy.location("search").should("include", "page=2");
+    // cy.location("search").should("include", "page=2");
   }
 
   getCurrentTotalDataPerPage() {
@@ -434,5 +425,20 @@ export default class OutboundPage extends BasePage {
           });
       }
     });
+  }
+
+  assertUserIsInTheSecondPage() {
+    cy.location("search").should("include", "page=2");
+  }
+
+  assertQueryParamsIsCorrect(id: string) {
+    cy.get(this.searchInputBox)
+      .click()
+      .clear()
+      .type(id + "{enter}");
+    cy.location("search").should(
+      "include",
+      "&search=" + id.replace("/", "%2F")
+    );
   }
 }

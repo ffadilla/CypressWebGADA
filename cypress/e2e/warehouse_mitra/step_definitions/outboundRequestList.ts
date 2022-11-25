@@ -40,10 +40,10 @@ Then(
   (keyword: string) => {
     switch (keyword) {
       case "redirected back":
-        outboundRequestListPage.assertInOutboundListPage();
+        outboundRequestListPage.assertUserIsInTheOutboundListPage();
         break;
       case "redirected":
-        outboundRequestListPage.assertInOutboundListPage();
+        outboundRequestListPage.assertUserIsInTheOutboundListPage();
         outboundRequestListPage.waitOutboundListResponseAPI();
         outboundRequestListPage.waitListToRender();
         outboundRequestListPage.getDefaultDeliveryDate();
@@ -110,6 +110,7 @@ Then(
 );
 
 Then("user will be redirected to the second page of outbound request", () => {
+  outboundRequestListPage.assertUserIsInTheSecondPage();
   outboundRequestListPage.waitOutboundListResponseAPI();
   outboundRequestListPage.waitListToRender();
   outboundRequestListPage.getCurrentTotalDataOnList();
