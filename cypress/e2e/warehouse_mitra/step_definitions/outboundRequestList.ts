@@ -21,13 +21,7 @@ And("user chooses to create a new outbound request", () => {
 
 And("user searches for the {string} outbound request", (value: string) => {
   outboundRequestListPage.getCurrentOutboundId();
-  switch (value) {
-    case "invalid":
-      outboundRequestListPage.searchInvalidId();
-      break;
-    default:
-      outboundRequestListPage.searchBasedOn(value);
-  }
+  outboundRequestListPage.searchBasedOn(value);
 });
 
 And("user resets the outbound delivery_date filter back to default", () => {
