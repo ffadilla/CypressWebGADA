@@ -1,49 +1,112 @@
-import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 import OutboundRequestListPage from "../page_objects/outboundRequestListPage";
 
 const outboundRequestListPage = new OutboundRequestListPage();
 
-When("user inputs valid requestId", () => {
-  outboundRequestListPage.searchRequest();
+When("user selects the current outbound request", () => {
+  outboundRequestListPage.getOutboundDetailAPI();
+  outboundRequestListPage.getCurrentData();
+  outboundRequestListPage.clickCurrentOutboundRequest();
 });
 
-Then("show valid requestId search result {string}", (value: string) => {
-  outboundRequestListPage.assertSearchResultWithArg(value);
+And("the add outbound request button will be clickable", () => {
+  outboundRequestListPage.assertAddOutboundButtonEnabled();
 });
 
-Then("the requestId result will be showed", () => {
-  outboundRequestListPage.assertSearchResult();
+And("user chooses to create a new outbound request", () => {
+  outboundRequestListPage.getProductUnitAccessListAPI();
+  outboundRequestListPage.clickAddOutboundRequest();
+  outboundRequestListPage.clickCreateNewOutbound();
 });
 
-Then("the outbound request default list will be showed", () => {
-  outboundRequestListPage.assertRequestDefaultList();
+And("user searches for the {string} outbound request", (value: string) => {
+  outboundRequestListPage.getCurrentOutboundId();
+  outboundRequestListPage.searchBasedOn(value);
 });
 
-Then("show outbound requests result with status {string}", (value: string) => {
-  outboundRequestListPage.assertResultStatus(value);
-});
-
-Then("the total outbound request should be correct", () => {
-  outboundRequestListPage.assertTotalData();
+And("user resets the outbound delivery_date filter back to default", () => {
+  outboundRequestListPage.resetDeliveryDateFilter();
+  outboundRequestListPage.getDefaultDeliveryDate();
 });
 
 Then(
-  "the total row of the outbound request list will be {int} rows per page",
+  "user will be {string} to the outbound request list page",
+  (keyword: string) => {
+    switch (keyword) {
+      case "redirected back":
+        outboundRequestListPage.assertUserIsInTheOutboundListPage();
+        break;
+      case "redirected":
+        outboundRequestListPage.assertUserIsInTheOutboundListPage();
+        outboundRequestListPage.waitOutboundListResponseAPI();
+        outboundRequestListPage.waitListToRender();
+        outboundRequestListPage.getDefaultDeliveryDate();
+        break;
+    }
+  }
+);
+
+Then("the default outbound request list will be showed", () => {
+  outboundRequestListPage.assertOutboundListDefault();
+});
+
+/**
+ * this is for the next PR
+ * Then(
+  "the default outbound request list by delivery_date will be showed",
   () => {
-    outboundRequestListPage.assertTotalDataPerPage();
+    outboundRequestListPage.assertOutboundListDefaultByDate();
   }
 );
 
 Then(
-  "the outbound request delivery_date on {string} will be showed",
-  (value: string) => {
-    outboundRequestListPage.assertDeliveryDate(value);
+  "the default outbound request list by delivery_method will be showed",
+  () => {
+    outboundRequestListPage.assertOutboundListDefaultByMethod();
+  }
+);
+
+Then("the recently created outbound request list will be showed", () => {
+  outboundRequestListPage.waitListToRender();
+  outboundRequestListPage.assertRecentlyAddedOutboundId();
+});
+ */
+
+Then(
+  "the outbound request list with status {string} will be showed",
+  (status: string) => {
+    outboundRequestListPage.waitOutboundListResponseAPI();
+    outboundRequestListPage.waitListToRender();
+    outboundRequestListPage.assertOutboundStatus(status);
+  }
+);
+
+Then("the total row of the outbound request list will be correct", () => {
+  outboundRequestListPage.assertTotalDataPerPage();
+});
+
+Then(
+  "the outbound request list with delivery_date on {string} will be showed",
+  (date: string) => {
+    outboundRequestListPage.waitOutboundListResponseAPI();
+    outboundRequestListPage.assertOutboundListByDate(date);
+    outboundRequestListPage.getCurrentDeliveryDate();
+    outboundRequestListPage.assertCurrentFilterDate();
   }
 );
 
 Then(
-  "the outbound request delivery_method by {string} will be showed",
-  (value: string) => {
-    outboundRequestListPage.assertDelivMethodWithArg(value);
+  "the outbound request list with delivery_method by {string} will be showed",
+  (method: string) => {
+    outboundRequestListPage.waitOutboundListResponseAPI();
+    outboundRequestListPage.assertOutboundListByMethod(method);
   }
 );
+
+Then("user will be redirected to the second page of outbound request", () => {
+  outboundRequestListPage.assertUserIsInTheSecondPage();
+  outboundRequestListPage.waitOutboundListResponseAPI();
+  outboundRequestListPage.waitListToRender();
+  outboundRequestListPage.getCurrentTotalDataOnList();
+  outboundRequestListPage.getDefaultDeliveryDate();
+});

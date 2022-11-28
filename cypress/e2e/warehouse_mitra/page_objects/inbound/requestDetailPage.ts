@@ -1,9 +1,14 @@
-import { setHasCompletedRequest } from "../../common/helper";
+import { setHasCompletedRequest } from "../../../warehouse_core/common/helper";
+import {
+  generateDateTime,
+  interceptAPI,
+  replaceElementIndex,
+} from "../../../warehouse_core/common/utils";
 import BasePage from "../basePage";
 
 export default class RequestDetailPage extends BasePage {
   path = "/inventory/inbound/request/detail";
-  date = this.utils.generateDateTime(0, "DD MMM YYYY");
+  date = generateDateTime(0, "DD MMM YYYY");
 
   requestHeaderXPath = '//div[contains(@class, "cardHeader")]';
   sourceIDInfoXPath = this.requestHeaderXPath + "/div/div[1]/span[1]";
@@ -48,10 +53,10 @@ export default class RequestDetailPage extends BasePage {
     cy.xpath(this.warehouseNameXPath)
       .invoke("text")
       .as("requestDetailWarehouseName");
-    cy.xpath(this.utils.replaceElementIndex(this.productNameXPath, 1))
+    cy.xpath(replaceElementIndex(this.productNameXPath, 1))
       .invoke("text")
       .as("requestDetailProductName");
-    cy.xpath(this.utils.replaceElementIndex(this.productQtyXPath, 1))
+    cy.xpath(replaceElementIndex(this.productQtyXPath, 1))
       .invoke("text")
       .as("requestDetailProductQty");
     /**
@@ -69,11 +74,7 @@ export default class RequestDetailPage extends BasePage {
 
   clickSourceCTA() {
     this.invokeRequestDetail();
-    this.utils.interceptAPI(
-      "GET",
-      "/inbound/sources/*/detail",
-      "sourceDetailAPI"
-    );
+    interceptAPI("GET", "/inbound/sources/*/detail", "sourceDetailAPI");
     cy.xpath(this.sourceCTAButtonXPath).click();
     cy.wait("@sourceDetailAPI").then(($API) => {
       for (let i = 0; i < $API.response?.body.inbound_requests.length; i++) {
@@ -266,7 +267,7 @@ export default class RequestDetailPage extends BasePage {
     });
     cy.get('@inboundFormDeliveryDate').then((deliveryDate) => {
       let formattedDeliveryDate =
-        this.utils.reformatDate(deliveryDate.toString(), 'YYYY-MM-DD', 'DD MMM YYYY');
+        reformatDate(deliveryDate.toString(), 'YYYY-MM-DD', 'DD MMM YYYY');
       expect(cy.xpath(this.deliveryDateInfoXPath).should('contain', formattedDeliveryDate));
     });
     */
@@ -282,7 +283,7 @@ export default class RequestDetailPage extends BasePage {
         cy.xpath(this.warehouseNameXPath).should("contain", warehouseNameXPath)
       );
     });
-    cy.xpath(this.utils.replaceElementIndex(this.productNameXPath, 1)).then(
+    cy.xpath(replaceElementIndex(this.productNameXPath, 1)).then(
       (actualProductName) => {
         expect(
           cy
@@ -291,7 +292,7 @@ export default class RequestDetailPage extends BasePage {
         );
       }
     );
-    cy.xpath(this.utils.replaceElementIndex(this.productQtyXPath, 1)).then(
+    cy.xpath(replaceElementIndex(this.productQtyXPath, 1)).then(
       (actualProductQty) => {
         const strings = actualProductQty.text().split(" ");
         expect(

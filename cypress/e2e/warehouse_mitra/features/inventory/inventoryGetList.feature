@@ -56,8 +56,17 @@ Feature: Get Inventory List
     And user submits created inbound Receipt
     
     When user redirects to inventory menu
-    And user applies "today's date" as filter date at inventory list
+    And user clicks hide zero quantity toggle at inventory list
+    And user applies today's date as filter date at inventory list
     Then query param for "input" "updated_at" should be added to inventory list URL
     And user should only able to see SKU with "today" "last updated"
     
+    When user logs out from WMS
+
+  Scenario: User successfully applies warehouse and store global filter at inventory list
+    When user redirects to inventory menu
+    And user applies '15' as page amount at inventory list
+    And user applies "Warehouse Mitra Cypress" and its store as global filters
+    And user clicks hide zero quantity toggle at inventory list
+    Then user should only able to see SKU with "Warehouse Mitra Cypress" and its store
     When user logs out from WMS

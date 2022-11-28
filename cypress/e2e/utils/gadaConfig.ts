@@ -1,3 +1,5 @@
+export type warehousePlatforms = "dc" | "mitra";
+
 type config = {
   google: {
     baseUrl: string;
@@ -18,25 +20,27 @@ type config = {
   bms: {
     baseUrl: string;
   };
-  warehouseMitra: {
-    baseUrl: string;
-    accounts: {
-      [accountRole: string]: {
-        email: string;
-        password: string;
+  warehouse: {
+    [key in warehousePlatforms]: {
+      baseUrl: string;
+      accounts: {
+        [accountRole: string]: {
+          email: string;
+          password: string;
+        };
       };
-    };
-    warehouses: {
-      [warehouseName: string]: {
-        warehouseCode: string;
-        warehouseUUID: string;
-        stores: [
-          {
-            storeName: string;
-            storeCode: string;
-            storeUUID: string;
-          }
-        ];
+      warehouses: {
+        [warehouseName: string]: {
+          warehouseCode: string;
+          warehouseUUID: string;
+          stores: [
+            {
+              storeName: string;
+              storeCode: string;
+              storeUUID: string;
+            }
+          ];
+        };
       };
     };
   };
