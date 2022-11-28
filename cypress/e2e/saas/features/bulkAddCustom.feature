@@ -16,7 +16,7 @@ Feature: Bulk Add Inventory Multiple UOM
         And user click lanjut on uom select popover
         And user click on conversion button up
         And user click on selanjutnya button
-        And user types "24" on conversion uom input modal
+        And user types "1000000" on conversion uom input modal
         And user click simpan on conversion uom modal
         And user types "5","10" on multiple input jumlah stock cell
         And user types "1134000","534000" on multiple input harga modal per unit cell
