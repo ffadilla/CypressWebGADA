@@ -515,9 +515,11 @@ Then(
 );
 
 Then("text barang sudah ada ditable is displayed on this item product", () => {
-  cy.get('[for="input_checkbox_tambah_barang_option_kukis_300gr"]').should(
+  cy.get(
+    '[for="input_checkbox_tambah_barang_option_dji_sam_soe_magnum_mild_20_slop"]'
+  ).should(
     "have.text",
-    "kukis 300grSudah ditambahkan ke tabel"
+    "Dji Sam Soe Magnum Mild 20 SLOPSudah ditambahkan ke tabel"
   );
 });
 
@@ -526,18 +528,18 @@ Then("tooltip is displayed on some cell that no input", () => {
 });
 
 Then("user view on stock reminder toggle is enabled", () => {
-  cy.get("#button_toggle_is_stock_reminder_active_kukis_300gr").should(
-    "be.enabled"
-  );
-  cy.get("#button_toggle_is_stock_reminder_active_madu_tj_murni_150_gr").should(
+  cy.get(
+    "#button_toggle_is_stock_reminder_active_kokola_kukis_kelapa_300_gr"
+  ).should("be.enabled");
+  cy.get("#button_toggle_is_stock_reminder_active_madu_tj_murni_250_gr").should(
     "be.enabled"
   );
 });
 
 Then("user view on sell in mp toggle is enabled", () => {
-  cy.get("#button_toggle_online_selling_active_djarum_super_12_slop_2").should(
-    "be.enabled"
-  );
+  cy.get(
+    "#button_toggle_is_stock_reminder_active_kokola_kukis_kelapa_300_gr"
+  ).should("be.enabled");
   cy.get(
     "#button_toggle_online_selling_active_dji_sam_soe_magnum_mild_20_slop_8"
   ).should("be.enabled");

@@ -3,6 +3,7 @@ Feature: Bulk Add Inventory Multiple UOM
     Background:
         Given user "08408418423" is logged in
         And user visits bulk add inventory page
+        And user deletes test data
     
     Scenario: User bulk adds custom inventories with customs multiple uom
         When user click nama barang atau scan barcode searchbox

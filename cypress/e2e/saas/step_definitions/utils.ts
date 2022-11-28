@@ -335,8 +335,8 @@ export function deleteBulkAddInventoryData() {
     "21652",
     "20807",
     "20808",
-    "5724",
-    "3253",
+    "1819",
+    "15935",
     "16857",
     "12632",
     "18467",
@@ -353,6 +353,7 @@ export function deleteBulkAddInventoryData() {
     "19062",
     "8245",
     "16340",
+    "3253",
   ];
 
   for (let i = 0; i < array.length; i++) {
