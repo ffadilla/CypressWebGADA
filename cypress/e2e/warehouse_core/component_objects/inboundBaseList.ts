@@ -58,8 +58,7 @@ export default class InboundBaseListPage {
   }
 
   resetDeliveryDate() {
-    cy.get(this.deliveryDateFilterButton).click();
-    cy.get(this.deliveryDateCTAContainer).contains("Reset").click();
+    this.datepicker.resetDate(this.deliveryDateFilterButton);
   }
 
   assertStatusQueryParam(value: string) {
