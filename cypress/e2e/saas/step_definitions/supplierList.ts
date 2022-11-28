@@ -31,8 +31,49 @@ When("user types a random phone number in Nomor Handphone field", () => {
   );
 });
 
+When("user types {string} on alamat field", (input: string) => {
+  supplierListPage.typeAlamatInput(input);
+  cy.get(supplierListPage.alamatInput).should("have.value", input);
+});
+
+When("user types {string} on catatan field", (input: string) => {
+  supplierListPage.typeCatatanInput(input);
+  cy.get(supplierListPage.catatanInput).should("have.value", input);
+});
+
+When("user click on bank name dropdown", () => {
+  supplierListPage.clickNamaBankDropdownButton();
+});
+
+When("user select on bank bca syariah on option number three", () => {
+  supplierListPage.clickNamaBankOption();
+});
+
+When("user types random account number on account number field", () => {
+  const randPhoneNum = generateRandomNumber();
+  supplierListPage.typeNomorRekeningInput(randPhoneNum);
+  cy.get(supplierListPage.nomorRekeningInput).should(
+    "have.value",
+    randPhoneNum
+  );
+});
+
+When("user types {string} in account holder name", (input: string) => {
+  supplierListPage.typeNamaPemilikRekeningInput(input);
+  cy.get(supplierListPage.namaPemilikRekeningInput).should("have.value", input);
+});
+
 When("user clicks on supplier modal simpan button", () => {
   supplierListPage.clickSupplierModalSimpanButton();
+});
+
+//Assertion
+
+Then("user view supplier berhasil ditambahkan is displayed", () => {
+  cy.get("#notistack-snackbar").should(
+    "have.text",
+    "Supplier berhasil ditambahkan"
+  );
 });
 
 Then("{string} is displayed in the list", (supplierName: string) => {

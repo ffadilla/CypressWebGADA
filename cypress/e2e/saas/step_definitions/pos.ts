@@ -11,7 +11,7 @@ When("user visits pos page", () => {
 When("user searches for {string} on pos search input", (input: string) => {
   posPage.typeSearchProductInput(input);
   cy.get(posPage.searchProductInput).should("have.value", input);
-  cy.wait(500);
+  cy.wait(1000);
 });
 
 When(
@@ -20,6 +20,7 @@ When(
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.clickDecrementInventoryButton(inventoryId);
+      cy.wait(1000);
     });
   }
 );
@@ -30,6 +31,7 @@ When(
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.clickAddInventoryButton(inventoryId);
+      cy.wait(1000);
     });
   }
 );
@@ -40,6 +42,7 @@ When(
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.clickDeleteCartItemButton(inventoryId);
+      cy.wait(750);
     });
   }
 );
@@ -50,6 +53,7 @@ When(
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.typeInventoryNumberCartItemInput(inventoryId, quantityInput);
+      cy.wait(1000);
     });
   }
 );
@@ -60,6 +64,7 @@ When(
     utils.retrieveInventoryId(productVariantName, productUnit);
     cy.get("@inventoryId").then((inventoryId: any) => {
       posPage.typeInventoryNumberCartItemInput(inventoryId, quantityInput);
+      cy.wait(1000);
     });
   }
 );
@@ -136,10 +141,6 @@ Then(
     });
   }
 );
-
-Then("{string} is displayed", (input: string) => {
-  cy.contains(input);
-});
 
 Then("{string} transaction discount is displayed", (input: string) => {
   cy.contains("Diskon Transaksi")

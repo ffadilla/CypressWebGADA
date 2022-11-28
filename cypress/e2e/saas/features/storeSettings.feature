@@ -1,7 +1,7 @@
 Feature: Store settings
 
   Background: 
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user deletes test data
     And user visits user account page
 

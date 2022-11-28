@@ -1,7 +1,7 @@
 Feature: Purchase
 
   Background:
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user visits inventory list page
 
   Scenario: User views purchase transaction details

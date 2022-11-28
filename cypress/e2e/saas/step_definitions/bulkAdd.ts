@@ -1,9 +1,11 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import BulkAddPage from "../../../e2e/saas/page_objects/bulkAddPage";
+import HomePage from "../page_objects/homePage";
 import * as utils from "./utils";
 
 const bulkAddPage = new BulkAddPage();
-let customUomName: string;
+const homePage = new HomePage();
+//let randomString: string;
 
 Given("user visits bulk add inventory page", () => {
   bulkAddPage.navigate(bulkAddPage.path);
@@ -49,7 +51,6 @@ When(
           utils.convertNameToId(inventoryName),
           uomId
         );
-        cy.wrap(uomId).as("uomId");
       });
     }
   }
@@ -104,33 +105,6 @@ When("user types {} on multiple input jumlah stock cell", (stock: string) => {
     });
   }
 });
-
-When(
-  "user types {} on custom uom multiple input jumlah stock cell",
-  (stock: string) => {
-    let stockArr: Array<string> = stock.replace(/"/g, "").split(",");
-    for (let i = 0; i < stockArr.length; i++) {
-      for (let j = 0; j < customUomName.length; j++) {
-        cy.get("@inventoryName").then((inventoryName: any) => {
-          cy.get(`@uomId`).then((uomId: any) => {
-            bulkAddPage.typeBulkAddInputJumlahStok(
-              stockArr[j],
-              inventoryName,
-              uomId
-            );
-            cy.get(
-              bulkAddPage.bulkAddInputJumlahStok +
-                utils.convertNameToId(inventoryName) +
-                "_" +
-                uomId
-            ).should("have.value", stockArr[i]);
-            cy.wrap(uomId[j]).as("stock " + j);
-          });
-        });
-      }
-    }
-  }
-);
 
 When(
   "user types {} on multiple input harga modal per unit cell",
@@ -286,46 +260,35 @@ When("user click tambah barang on nama barang option field", () => {
   bulkAddPage.clickBulkAddTambahCustomInventoryOption();
 });
 
-When("user click tambah unit baru", () => {
-  bulkAddPage.clickBulkAddButtonCustomUomBuying();
-});
-
-When("user click tambah nama unit baru option", () => {
-  bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
-});
-
-When("user type {string} on search custom buying", () => {
-  let uomName = utils.generateRandomString(5);
-  customUomName = uomName;
-  bulkAddPage.typesBulkAddInputSearchCustomUomBuying("WebAutoUOM " + uomName);
-  cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
-    "have.value",
-    "WebAutoUOM " + uomName
-  );
-});
-
-When(
-  "user types recently created custom unit selling name on search unit field",
-  () => {
-    bulkAddPage.typesBulkAddInputSearchCustomUomSelling(customUomName);
-    cy.get(bulkAddPage.bulkAddInputSearchCustomUomSelling).should(
-      "have.value",
-      customUomName
+When("user type {} on search custom buying", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    let randomString = utils.generateRandomString(5);
+    bulkAddPage.typesBulkAddInputSearchCustomUomBuying(
+      uomNameArr[i] + randomString
     );
-  }
-);
-
-When(
-  "user clicks on {string} selling custom uom checkbox",
-  (uomName: string) => {
-    utils.retrieveUomId(uomName);
+    cy.get(bulkAddPage.bulkAddInputSearchCustomUomBuying).should(
+      "have.value",
+      uomNameArr[i] + randomString
+    );
+    bulkAddPage.clickBulkAddButtonCustomUomBuying();
+    bulkAddPage.clickbulkAddInputAddCustomUomBuyingOption();
+    utils.retrieveUomId(uomNameArr[i] + randomString);
     cy.get("@uomId").then((uomId: any) => {
-      bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(
-        utils.convertNameToId(uomId)
-      );
+      cy.wrap(uomId).as("uomId " + i);
+    });
+    bulkAddPage.clickBulkAddSeachButtonClearBuying();
+  }
+});
+
+When("user clicks on {} selling custom uom checkbox", (uomName: string) => {
+  let uomNameArr: Array<string> = uomName.replace(/"/g, "").split(",");
+  for (let i = 0; i < uomNameArr.length; i++) {
+    cy.get(`@uomId ${i}`).then((uomId: any) => {
+      bulkAddPage.clickBulkAddInputUomPopoverChecboxSelling(uomId);
     });
   }
-);
+});
 
 When(
   "user uncheck on {string} bulk add custom inventory checkbox",
@@ -437,7 +400,6 @@ When("user types {string} on conversion uom input modal", (input: string) => {
     cy.get(
       bulkAddPage.bulkAddInputConversionModalUom + utils.convertNameToId(uomId)
     ).should("have.value", input);
-    cy.wrap(uomId).as("uomId");
   });
 });
 
@@ -445,12 +407,86 @@ When("user click simpan on conversion uom modal", () => {
   bulkAddPage.clickBulkAddConversionButtonSimpan();
 });
 
-When("user click clear search on buying uom searchbox", () => {
-  bulkAddPage.clickBulkAddSeachButtonClearBuying();
-});
-
 When("user click clear search on selling uom searchbox", () => {
   bulkAddPage.clickBulkAddSeachButtonClearSelling();
+});
+
+When("user clicks on simpan inventory on popup modal", () => {
+  bulkAddPage.clickBulkAddSimpanFormBulkAddModal();
+});
+
+When("user click tambah barang on inventory list page", () => {
+  bulkAddPage.clickBulkAddInventoryListTambahBarang();
+});
+
+When("user click lanjutkan on confirmation popup modal", () => {
+  bulkAddPage.clickBulkAddNavigateModalLanjutkanBulkAdd();
+});
+
+When("user clicks on tidak simpan on popup modal", () => {
+  bulkAddPage.clickBulkAddNavigateAwayKeluar();
+  cy.reload();
+});
+
+When("user clicks on daftar barang list side menu button", () => {
+  homePage.clickInventoryListSideMenuButton();
+});
+
+When("user click on consigned toggle", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.wait(500);
+    bulkAddPage.clickBulkAddToggleConsignedActive(
+      utils.convertNameToId(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  });
+});
+
+When("user click on supplier dropdown", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.wait(500);
+    bulkAddPage.clickBulkAddSupplierPopover(
+      utils.convertNameToId(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  });
+});
+
+When("user select {string} on supplier dropdown", (supplierName: string) => {
+  utils.retrieveSupplierId(supplierName);
+  cy.get("@supplierId").then((supplierId: any) => {
+    bulkAddPage.clickbulkAddSupplierOption(utils.convertNameToId(supplierId));
+  });
+});
+
+When(
+  "user click on edit supplier {string} on supplier dropdown",
+  (supplierName: string) => {
+    utils.retrieveSupplierId(supplierName);
+    cy.get("@supplierId").then((supplierId: any) => {
+      bulkAddPage.clickBulkAddSupplierOptionEdit(
+        utils.convertNameToId(supplierId)
+      );
+    });
+  }
+);
+
+When("user types a random phone number in nomor handphone field", () => {
+  cy.get("#input_add_custom_supplier_phone_number").clear();
+  const randPhoneNum = utils.generateRandomNumber();
+  bulkAddPage.typeAddCustomSupplierPhoneNumberInput(randPhoneNum);
+  cy.get(bulkAddPage.bulkAddCustomSupplierPhoneNumberInput).should(
+    "have.value",
+    randPhoneNum
+  );
+});
+
+When("user clicks on supplier popup modal simpan button", () => {
+  bulkAddPage.clickBulkAddButtonAddCustomSupplierSimpan();
+});
+
+When("user click close button on supplier modal", () => {
+  bulkAddPage.clickBulkAddButtonSupplierCloseModal();
 });
 
 //Assertion
@@ -505,4 +541,12 @@ Then("user view on sell in mp toggle is enabled", () => {
   cy.get(
     "#button_toggle_online_selling_active_dji_sam_soe_magnum_mild_20_slop_8"
   ).should("be.enabled");
+});
+
+Then("user view on consign toggle is enabled", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get(
+      "#button_toggle_consigned_active_" + utils.convertNameToId(inventoryName)
+    ).should("be.enabled");
+  });
 });
