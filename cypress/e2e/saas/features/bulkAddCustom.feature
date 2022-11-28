@@ -4,7 +4,7 @@ Feature: Bulk Add Inventory Multiple UOM
         Given user "08408418423" is logged in
         And user visits bulk add inventory page
     
-    Scenario: User bulk adds custom inventories with multiple uom
+    Scenario: User bulk adds custom inventories with customs multiple uom
         When user click nama barang atau scan barcode searchbox
         And user types "web automation" on nama barang searchbox
         And user clicks on isi manual text button
