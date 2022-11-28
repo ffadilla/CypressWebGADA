@@ -9,6 +9,7 @@ const inventoryDetailPage = new InventoryDetail();
 
 When("user visits inventory list page", () => {
   inventoryListPage.navigate(inventoryListPage.path);
+  cy.wait(2000);
 });
 
 When(

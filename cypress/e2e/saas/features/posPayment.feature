@@ -1,7 +1,7 @@
 Feature: POS - Payment
 
   Background: 
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user deletes test data
     And user prepares test data
     And user visits pos page

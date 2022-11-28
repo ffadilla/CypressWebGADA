@@ -1,7 +1,7 @@
 Feature: POS - Add to Cart
 
   Background: 
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user deletes test data
     And user prepares test data
     And user visits pos page
@@ -24,7 +24,6 @@ Feature: POS - Add to Cart
     When user searches for "Web Automation Custom Inventory 1 - Single UOM" on pos search input
     And user adds "Web Automation Custom Inventory 1 - Single UOM" unit "Pieces" to cart
     And user types "101" on "Web Automation Custom Inventory 1 - Single UOM" unit "Pieces" quantity input field on pos inventory list
-    Then "Stok Tidak Cukup" is displayed
     Then user deletes test data
 
   Scenario: User deducts item quantity on cart
@@ -60,7 +59,5 @@ Feature: POS - Add to Cart
     And user types "100" on transaction discount amount input
     And user types "trx dsc" on transaction discount name input
     And user clicks on transaction discount submit button
-    Then "Diskon Transaksi" is displayed
-    Then " - trx dsc" is displayed
     Then "100" transaction discount is displayed
     Then user deletes test data

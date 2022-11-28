@@ -17,7 +17,7 @@ export default class SupplierListPage extends BasePage {
   catatanInput = "#input_add_custom_supplier_notes";
   namaBankDropdownButton = "#button_add_custom_supplier_bank_name_dropdown"; // [drop down button]
   namaBankClearButton = "#button_add_custom_supplier_bank_name_clear"; // [clear button]
-  namaBankOption = "#input_add_custom_supplier_bank_name-option"; // [  0 => x ]
+  namaBankOption = "#input_add_custom_supplier_bank_name-option-2"; // [  0 => x ]
   namaBankInput = "#input_add_custom_supplier_bank_name";
   nomorRekeningInput = "#input_add_custom_supplier_account_number";
   namaPemilikRekeningInput = "#input_add_custom_supplier_account_holder_name";
@@ -58,8 +58,8 @@ export default class SupplierListPage extends BasePage {
     cy.get(this.namaBankDropdownButton).click();
   }
 
-  clickNamaBankDropdowOption(option: number) {
-    cy.get(`${this.namaBankOption}-${option}`).click();
+  clickNamaBankOption() {
+    cy.get(this.namaBankOption).click();
   }
 
   clickSupplierModalSimpanButton() {

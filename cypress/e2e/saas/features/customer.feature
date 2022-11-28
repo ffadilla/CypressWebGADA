@@ -1,7 +1,7 @@
 Feature: Customer
 
   Background: 
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user prepares test data
     And user visits customer page
 

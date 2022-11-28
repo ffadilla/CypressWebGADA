@@ -432,6 +432,63 @@ When("user clicks on daftar barang list side menu button", () => {
   homePage.clickInventoryListSideMenuButton();
 });
 
+When("user click on consigned toggle", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.wait(500);
+    bulkAddPage.clickBulkAddToggleConsignedActive(
+      utils.convertNameToId(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  });
+});
+
+When("user click on supplier dropdown", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.wait(500);
+    bulkAddPage.clickBulkAddSupplierPopover(
+      utils.convertNameToId(inventoryName)
+    );
+    cy.wrap(inventoryName).as("inventoryName");
+  });
+});
+
+When("user select {string} on supplier dropdown", (supplierName: string) => {
+  utils.retrieveSupplierId(supplierName);
+  cy.get("@supplierId").then((supplierId: any) => {
+    bulkAddPage.clickbulkAddSupplierOption(utils.convertNameToId(supplierId));
+  });
+});
+
+When(
+  "user click on edit supplier {string} on supplier dropdown",
+  (supplierName: string) => {
+    utils.retrieveSupplierId(supplierName);
+    cy.get("@supplierId").then((supplierId: any) => {
+      bulkAddPage.clickBulkAddSupplierOptionEdit(
+        utils.convertNameToId(supplierId)
+      );
+    });
+  }
+);
+
+When("user types a random phone number in nomor handphone field", () => {
+  cy.get("#input_add_custom_supplier_phone_number").clear();
+  const randPhoneNum = utils.generateRandomNumber();
+  bulkAddPage.typeAddCustomSupplierPhoneNumberInput(randPhoneNum);
+  cy.get(bulkAddPage.bulkAddCustomSupplierPhoneNumberInput).should(
+    "have.value",
+    randPhoneNum
+  );
+});
+
+When("user clicks on supplier popup modal simpan button", () => {
+  bulkAddPage.clickBulkAddButtonAddCustomSupplierSimpan();
+});
+
+When("user click close button on supplier modal", () => {
+  bulkAddPage.clickBulkAddButtonSupplierCloseModal();
+});
+
 //Assertion
 
 Then("user delete all row on bulk add form", (rowCount: number) => {
@@ -484,4 +541,12 @@ Then("user view on sell in mp toggle is enabled", () => {
   cy.get(
     "#button_toggle_online_selling_active_dji_sam_soe_magnum_mild_20_slop_8"
   ).should("be.enabled");
+});
+
+Then("user view on consign toggle is enabled", () => {
+  cy.get("@inventoryName").then((inventoryName: any) => {
+    cy.get(
+      "#button_toggle_consigned_active_" + utils.convertNameToId(inventoryName)
+    ).should("be.enabled");
+  });
 });

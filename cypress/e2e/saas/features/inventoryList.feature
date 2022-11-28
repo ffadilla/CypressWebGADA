@@ -1,7 +1,7 @@
 Feature: Inventory List
 
   Background: 
-    Given user "8408418423" is logged in
+    Given user "08408418423" is logged in
     And user visits inventory list page
 
   Scenario: User searches for inventory by name and clicks tambah barang
