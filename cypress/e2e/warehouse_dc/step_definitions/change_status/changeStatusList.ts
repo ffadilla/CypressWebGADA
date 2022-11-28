@@ -5,9 +5,18 @@ import ChangeStatusListPage from "../../page_objects/change_status/changeStatusL
 const changeStatusListPage = new ChangeStatusListPage("dc");
 
 When(
+  "user applies {string} to find related Change Status task",
+  (keyword: string) => {
+    changeStatusListPage.setSearchKeyword(keyword);
+    changeStatusListPage.waitSearchRender();
+  }
+);
+
+When(
   "user clicks {string} status chip at Change Status list",
   (status: string) => {
     changeStatusListPage.statusChip.clickStatusChip(status);
+    changeStatusListPage.waitSearchRender();
   }
 );
 
@@ -23,7 +32,14 @@ Then(
 );
 
 Then(
-  "user should only able to see Change Status with {string} {string}",
+  "user should only able to see Change Status task with {string} matched {string}",
+  (attribute: string, value: string) => {
+    changeStatusListPage.assertTableListBySearchFilter(attribute, value);
+  }
+);
+
+Then(
+  "user should only able to see Change Status task with {string} {string}",
   (value: string, attribute: string) => {
     changeStatusListPage.assertTableListBySearchFilter(attribute, value);
   }
