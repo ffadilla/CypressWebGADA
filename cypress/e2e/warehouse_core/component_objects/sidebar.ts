@@ -52,12 +52,15 @@ export default class Sidebar {
     cy.xpath(this.xpathOutboundShipment).click();
   }
 
-  clickInventoryMenu() {
+  clickInventoryAccordion() {
     cy.wait(1000);
     cy.url().then((url) => {
       if (
         !url.includes(this.configData.baseUrl + "inventory/list/") ||
-        !url.includes(this.configData.baseUrl + "inventory/detail/")
+        !url.includes(this.configData.baseUrl + "inventory/detail/") ||
+        !url.includes(this.configData.baseUrl + "inventory/stock-transfer/") ||
+        !url.includes(this.configData.baseUrl + "inventory/cycle-count/") ||
+        !url.includes(this.configData.baseUrl + "inventory/move/")
       ) {
         cy.get(this.sidebarMenuButton)
           .find("span")
@@ -65,6 +68,15 @@ export default class Sidebar {
           .click();
       }
     });
+  }
+
+  clickInventoryMenu() {
+    this.clickInventoryAccordion();
     cy.get(this.sidebarSubMenuButton).contains("Daftar Inventori").click();
+  }
+
+  clickChangeStatusMenu() {
+    this.clickInventoryAccordion();
+    cy.get(this.sidebarSubMenuButton).contains("Ubah Status").click();
   }
 }
