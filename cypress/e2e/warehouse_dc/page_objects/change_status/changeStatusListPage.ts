@@ -1,21 +1,27 @@
 import { assertQueryParam } from "../../../warehouse_core/common/assertions";
 import {
   interceptAPI,
+  reformatDate,
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
+import Datepicker from "../../../warehouse_core/component_objects/datepicker";
 import StatusChip from "../../../warehouse_core/component_objects/statusChip";
 import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
 export default class ChangeStatusListPage extends MainPage {
+  datepicker = new Datepicker();
   statusChip = new StatusChip();
 
   searchbox = 'input[placeholder="No. ubah status atau nama produk"]';
+  dateFilter = 'input[placeholder="Tanggal"]';
   changeStatusTaskListBodyXPath =
     '//tbody[contains(@class, "MuiTableBody-root")]';
   changeStatusTaskIDXPath =
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[1]/div[1]";
   changeStatusTaskCreatedAt =
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[1]/div[2]";
+  changeStatusTaskDateXPath =
+    this.changeStatusTaskListBodyXPath + "/tr[index]/td[5]/div[1]";
   changeStatusTaskStatusXPath =
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[6]/span/span[2]";
   noResultSearchFilterInfo =
@@ -43,6 +49,23 @@ export default class ChangeStatusListPage extends MainPage {
     cy.get(this.searchbox).type("{enter}");
   }
 
+  setExecutionDateFilter(
+    executionDate: string,
+    executionMonth: string,
+    executionYear: string
+  ) {
+    this.datepicker.setDatepicker(
+      this.dateFilter,
+      executionDate,
+      executionMonth,
+      executionYear
+    );
+  }
+
+  resetExecutionDate() {
+    this.datepicker.resetDate(this.dateFilter);
+  }
+
   assertStatusQueryParam(value: string) {
     let expectedValue = "";
     switch (value) {
@@ -62,12 +85,18 @@ export default class ChangeStatusListPage extends MainPage {
   }
 
   assertTableListBySearchFilter(target: string, value: string) {
-    if (target === "product name") return;
     let element = "";
 
     switch (target) {
       case "change status ID":
         element = this.changeStatusTaskIDXPath;
+        break;
+      case "product name":
+        // NOTE: skip assertion, because there's no component at Change Status list that contains product name
+        return;
+      case "execution date":
+        element = this.changeStatusTaskDateXPath;
+        value = reformatDate(value, "YYYY-MM-DD", "D MMM YYYY");
         break;
       case "status":
         element = this.changeStatusTaskStatusXPath;
@@ -75,7 +104,7 @@ export default class ChangeStatusListPage extends MainPage {
     }
 
     cy.xpath(this.changeStatusTaskListBodyXPath).then(($list) => {
-      for (let index = 1; index < $list.children().length; index++) {
+      for (let index = 1; index < $list.children().length + 1; index++) {
         const changeStatusItemAttribute = replaceElementIndex(element, index);
         expect(cy.xpath(changeStatusItemAttribute).should("contain", value));
       }
