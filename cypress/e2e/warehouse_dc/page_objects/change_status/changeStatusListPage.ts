@@ -5,12 +5,14 @@ import {
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
 import Datepicker from "../../../warehouse_core/component_objects/datepicker";
+import Pagination from "../../../warehouse_core/component_objects/pagination";
 import StatusChip from "../../../warehouse_core/component_objects/statusChip";
 import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
 export default class ChangeStatusListPage extends MainPage {
   datepicker = new Datepicker();
   statusChip = new StatusChip();
+  pagination = new Pagination();
 
   searchbox = 'input[placeholder="No. ubah status atau nama produk"]';
   dateFilter = 'input[placeholder="Tanggal"]';

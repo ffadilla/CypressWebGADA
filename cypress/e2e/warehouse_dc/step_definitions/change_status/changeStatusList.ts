@@ -43,6 +43,14 @@ When(
   }
 );
 
+When(
+  "user applies {string} as page amount at Change Status list",
+  (value: string) => {
+    changeStatusListPage.pagination.setPageAmount(value);
+    changeStatusListPage.waitSearchRender();
+  }
+);
+
 Then(
   "query param for {string} {string} should be added to Change Status list URL",
   (val: string, attribute: string) => {
@@ -67,5 +75,12 @@ Then(
   "user should only able to see Change Status task with {string} {string}",
   (value: string, attribute: string) => {
     changeStatusListPage.assertTableListBySearchFilter(attribute, value);
+  }
+);
+
+Then(
+  "user should only able to see {string} Change Status per page maximum",
+  (value: string) => {
+    changeStatusListPage.pagination.assertTotalPageAmount(value);
   }
 );

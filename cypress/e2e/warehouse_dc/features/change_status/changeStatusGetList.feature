@@ -53,3 +53,18 @@ Feature: Get Change Status List
     Examples:
     | executionDate | executionMonth | executionYear | expectedDate |
     | "11"          | "10"           | "2022"        | "2022-10-11" |
+
+   Scenario Outline: User successfully filters Change Status list by <pageAmount> page amount
+    When user redirects to Change Status menu
+    #When user clicks "Sudah Selesai" status chip at Change Status list
+    And user applies <pageAmount> as page amount at Change Status list
+    And query param for <pageAmount> "rowsPerPage" should be added to Change Status list URL
+    Then user should only able to see <pageAmount> Change Status per page maximum
+
+    When user logs out from WMS
+
+    Examples:
+    | pageAmount    |
+    | "15"          |
+    | "20"          |
+    | "25"          |
