@@ -9,7 +9,7 @@ import ReceiptListPage, {
   getSearchbox,
 } from "../../page_objects/inbound/receiptListPage";
 
-const receiptListPage = new ReceiptListPage("mitra", getSearchbox());
+const receiptListPage = new ReceiptListPage("dc", getSearchbox());
 
 When(
   "user applies {string} and its store as global filters at inbound Receipt list",

@@ -1,15 +1,15 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import {
-  assertAPIRequestHeaders,
-  assertDateQueryParam,
-  assertQueryParam,
-} from "../../../warehouse_core/common/assertions";
 import { interceptAPI } from "../../../warehouse_core/common/utils";
+import {
+  assertQueryParam,
+  assertDateQueryParam,
+  assertAPIRequestHeaders,
+} from "../../../warehouse_core/common/assertions";
 import RequestListPage, {
   getSearchbox,
 } from "../../page_objects/inbound/requestListPage";
 
-const requestListPage = new RequestListPage("mitra", getSearchbox());
+const requestListPage = new RequestListPage("dc", getSearchbox());
 
 When(
   "user applies {string} and its store as global filters at inbound Request list",

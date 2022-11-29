@@ -3,7 +3,7 @@ import CoreReceiptListPage from "../../../warehouse_core/page_objects/inbound/re
 export default class ReceiptListPage extends CoreReceiptListPage {}
 
 const searchbox =
-  'input[placeholder="No. permintaan barang atau nama produk..."]';
+  'input[placeholder="No. Barang Masuk atau No. Permintaan Barang"]';
 
 export function getSearchbox() {
   return searchbox;

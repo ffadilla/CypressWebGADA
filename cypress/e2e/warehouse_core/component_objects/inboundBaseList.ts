@@ -3,12 +3,13 @@ import Datepicker from "./datepicker";
 
 export default class InboundBaseListPage {
   datepicker: Datepicker;
+  searchbox: string;
 
-  constructor() {
+  constructor(searchbox: string) {
     this.datepicker = new Datepicker();
+    this.searchbox = searchbox;
   }
 
-  searchbox = 'input[placeholder="No. permintaan barang atau nama produk..."]';
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
   deliveryMethodFilterButton = "#filter-modal";
   deliveryMethodDropdown = "#mui-component-select-delivery_method";

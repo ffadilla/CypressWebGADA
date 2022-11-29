@@ -4,7 +4,7 @@ import RequestListPage, {
 } from "../../page_objects/inbound/requestListPage";
 import SourceDetailPage from "../../page_objects/inbound/sourceDetailPage";
 
-const sourceDetailPage = new SourceDetailPage("mitra");
+const sourceDetailPage = new SourceDetailPage("dc");
 const requestListPage = new RequestListPage("dc", getSearchbox());
 
 When("user cancels Source at inbound Source detail", () => {
