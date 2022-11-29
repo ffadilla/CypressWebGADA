@@ -9,18 +9,7 @@ And("user chooses to go back", () => {
 
 Then("user will be redirected to the outbound request detail page", () => {
   outboundRequestDetailPage.assertInOutboundDetailPage();
-  outboundRequestDetailPage.getCreateDateOnDetail();
-  outboundRequestDetailPage.getDeliveryDateOnDetail();
-  outboundRequestDetailPage.getDeliveryMethodOnDetail();
-  outboundRequestDetailPage.getFirstProductName();
-  outboundRequestDetailPage.getFirstTotalItem();
-  outboundRequestDetailPage.getOutboundIdOnDetail();
-  outboundRequestDetailPage.getRecipientOnDetail();
-  outboundRequestDetailPage.getOutboundTypeOnDetail();
-  outboundRequestDetailPage.getShipperOnDetail();
-  outboundRequestDetailPage.getStatusOnDetail();
-  outboundRequestDetailPage.getShipperWarehouseLocationOnDetail();
-  outboundRequestDetailPage.getRequestIdOnDetail();
+  outboundRequestDetailPage.waitElementsToRender();
 });
 
 And(
@@ -39,7 +28,7 @@ And("user submits the new outbound request", () => {
   outboundRequestDetailPage.getShipmentCreateAPI();
   outboundRequestDetailPage.clickSubmitOutbound();
   outboundRequestDetailPage.waitShipmentCreationToSucceed();
-  outboundRequestDetailPage.getDetailPageAPI();
+  outboundRequestDetailPage.getShipmentDetailAPI();
 });
 
 And("the send outbound button will be enabled", () => {

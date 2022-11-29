@@ -6,7 +6,7 @@
     "baseUrl": "https://saas.gudangada.net/",
     "baseApiUrl": "https://saas-api.gudangada.net/api/",
     "testUserAccount": {
-      "phoneNumber": "8408418423",
+      "phoneNumber": "08408418423",
       "canonicalId": "2154727",
       "storeId": "9c4784e9-38c2-41ea-b01e-7cb7509b1fec",
       "userId": "1d7658df-c2dc-4dc4-8f12-e95553b3b8ae"

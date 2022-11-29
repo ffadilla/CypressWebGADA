@@ -4,7 +4,7 @@ import * as utils from "../step_definitions/utils";
 export default class BulkAddPage extends BasePage {
   path = "inventory/bulk-add";
 
-  //Bulk Add Form
+  // Curated Bulk Add Object
   bulkAddNewItemPopOver = "#button_bulk_add_add_new_item_popover";
   bulkAddTambahBarangSearchbar = "#input_tambah_barang_searchbar";
   bulkAddTambahBarangInputCheckbox = "#input_checkbox_tambah_barang_option_";
@@ -20,39 +20,11 @@ export default class BulkAddPage extends BasePage {
   bulkAddSimpanButton = "#button_bulk_add_simpan";
   bulkAddSuccessModalButtonPrimary = "#button_success_modal_primary";
   bulkAddSuccessModalButtonSecondary = "#button_success_modal_secondary";
-  bulkAddTambahBarangResult = "#div_tambah_barang_results";
-  bulkAddTambahCustomInventoryOption = "#input_add_custom_inventory-option-0";
-  bulkAddRemoveRow = "#button_0_0_remove";
-  bulkAddDisabledItem = "#div_tambah_barang_results";
-  bulkAddIsiManualInventory = "#button_tambah_barang_isi_manual";
-  bulkAddInputSearchCustomUomBuying = "#input_search_custom_uom_buying";
-  bulkAddInputSearchCustomUomSelling = "#input_search_custom_uom_selling";
-  bulkAddButtonCustomUomBuying = "#button_add_custom_uom_buying";
-  bulkAddInputAddCustomUomBuyingOption =
-    "#input_add_custom_uom_buying-option-0";
-  bulkAddInputUomPopoverChecboxSelling = "#input_uom_popover_checkbox_selling_";
-  bulkAddInputCheckboxTambahBarangOption =
-    "#input_checkbox_tambah_barang_option_";
-  bulkAddButtonToggleIsStockReminderActive =
-    "#button_toggle_is_stock_reminder_active_";
-  bulkAddInputBatasStock = "#input_batas_stock_";
-  bulkAddStockReminderSimpan = "#button_stock_reminder_simpan";
-  bulkAddButtonToggleOnlineSellingActive =
-    "#button_toggle_online_selling_active_";
-  bulkAddInputMinimumPesanan = "#input_min_pesanan_";
-  bulkAddInputMinumumStock = "#input_min_stock_";
-  bulkAddOnlineSellingSimpan = "#button_online_selling_simpan";
-  bulkAddToggleConsignedActive = "#button_toggle_consigned_active_";
-  bulkAddSupplierPopover = "#button_supplier_popover_";
-  bulkAddSupplierOption = "#supplier_option_";
-  bulkAddSeachButtonClearBuying = "#button_search_clear_buying";
-  bulkAddSeachButtonClearSelling = "#button_search_clear_selling";
-  bulkAddButtonConversionUp = "#button_conversion_modal_sort_content_up_";
-  bulkAddButtonConversionDown = "#button_conversion_modal_sort_content_down_";
-  bulkAddButtonSelanjutnyaConversion = "#button_conversion_modal_selanjutnya";
-  bulkAddInputConversionModalUom =
-    "#input_conversion_modal_convert_content_uom_";
-  bulkAddConversionButtonSimpan = "#button_conversion_modal_simpan";
+  bulkAddSimpanFormBulkAddModal = "#button_navigate_away_modal_ya_simpan";
+  bulkAddInventoryListTambahBarang = "#button_inventory_list_tambah_barang";
+  bulkAddNavigateModalLanjutkanBulkAdd =
+    "#button_bulk_navigate_modal_ya_lanjutkan";
+  bulkAddNavigateAwayKeluar = "#button_navigate_away_modal_tidak_keluar";
 
   clickBulkAddNewItemPopOver() {
     cy.get(this.bulkAddNewItemPopOver).click();
@@ -128,7 +100,7 @@ export default class BulkAddPage extends BasePage {
   }
 
   clickBulkAddSimpanButton() {
-    cy.get(this.bulkAddSimpanButton).click();
+    cy.get(this.bulkAddSimpanButton).click({ force: true });
   }
 
   clickBulkAddSuccessModalButtonPrimary() {
@@ -143,6 +115,21 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddRemoveRow).click();
   }
 
+  //Custom Bulk Add Object
+  bulkAddTambahBarangResult = "#div_tambah_barang_results";
+  bulkAddTambahCustomInventoryOption = "#input_add_custom_inventory-option-0";
+  bulkAddRemoveRow = "#button_0_0_remove";
+  bulkAddDisabledItem = "#div_tambah_barang_results";
+  bulkAddIsiManualInventory = "#button_tambah_barang_isi_manual";
+  bulkAddInputSearchCustomUomBuying = "#input_search_custom_uom_buying";
+  bulkAddInputSearchCustomUomSelling = "#input_search_custom_uom_selling";
+  bulkAddButtonCustomUomBuying = "#button_add_custom_uom_buying";
+  bulkAddInputAddCustomUomBuyingOption =
+    "#input_add_custom_uom_buying-option-0";
+  bulkAddInputUomPopoverChecboxSelling = "#input_uom_popover_checkbox_selling_";
+  bulkAddInputCheckboxTambahBarangOption =
+    "#input_checkbox_tambah_barang_option_";
+
   clickBulkAddIsiManualInventory() {
     cy.get(this.bulkAddIsiManualInventory).click();
   }
@@ -155,8 +142,9 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddInputSearchCustomUomBuying).type(input);
   }
 
-  typesBulkAddInputSearchCustomUomSelling(input: string) {
-    cy.get(this.bulkAddInputSearchCustomUomSelling).type(input);
+  typesBulkAddInputSearchCustomUomSelling(randomString: string) {
+    utils.retrieveUomId(randomString);
+    cy.get(this.bulkAddInputSearchCustomUomSelling).type(randomString);
   }
 
   clickBulkAddInputUomPopoverChecboxSelling(uomId: string) {
@@ -180,6 +168,17 @@ export default class BulkAddPage extends BasePage {
   checkBulkAddInputCheckboxTambahBarangOption(inventoryName: string) {
     cy.get(this.bulkAddInputCheckboxTambahBarangOption + inventoryName).check();
   }
+
+  //Stock Reminder & MP Object
+  bulkAddButtonToggleIsStockReminderActive =
+    "#button_toggle_is_stock_reminder_active_";
+  bulkAddInputBatasStock = "#input_batas_stock_";
+  bulkAddStockReminderSimpan = "#button_stock_reminder_simpan";
+  bulkAddButtonToggleOnlineSellingActive =
+    "#button_toggle_online_selling_active_";
+  bulkAddInputMinimumPesanan = "#input_min_pesanan_";
+  bulkAddInputMinumumStock = "#input_min_stock_";
+  bulkAddOnlineSellingSimpan = "#button_online_selling_simpan";
 
   clickBulkAddButtonToggleIsStockReminderActive(inventoryName: string) {
     cy.get(
@@ -239,6 +238,16 @@ export default class BulkAddPage extends BasePage {
     cy.get(this.bulkAddOnlineSellingSimpan).click();
   }
 
+  // Custom Uom Object
+  bulkAddSeachButtonClearBuying = "#button_search_clear_buying";
+  bulkAddSeachButtonClearSelling = "#button_search_clear_selling";
+  bulkAddButtonConversionUp = "#button_conversion_modal_sort_content_up_";
+  bulkAddButtonConversionDown = "#button_conversion_modal_sort_content_down_";
+  bulkAddButtonSelanjutnyaConversion = "#button_conversion_modal_selanjutnya";
+  bulkAddInputConversionModalUom =
+    "#input_conversion_modal_convert_content_uom_";
+  bulkAddConversionButtonSimpan = "#button_conversion_modal_simpan";
+
   clickBulkAddButtonConversionUp(uomId: string) {
     cy.get(this.bulkAddButtonConversionUp + uomId).click();
   }
@@ -265,5 +274,64 @@ export default class BulkAddPage extends BasePage {
 
   clickBulkAddSeachButtonClearSelling() {
     cy.get(this.bulkAddSeachButtonClearSelling).click();
+  }
+
+  clickBulkAddSimpanFormBulkAddModal() {
+    cy.get(this.bulkAddSimpanFormBulkAddModal).click();
+  }
+
+  clickBulkAddInventoryListTambahBarang() {
+    cy.get(this.bulkAddInventoryListTambahBarang).click();
+  }
+
+  clickBulkAddNavigateModalLanjutkanBulkAdd() {
+    cy.get(this.bulkAddNavigateModalLanjutkanBulkAdd).click();
+  }
+
+  clickBulkAddNavigateAwayKeluar() {
+    cy.get(this.bulkAddNavigateAwayKeluar).click();
+  }
+
+  // Consigned Product Object
+  bulkAddToggleConsignedActive = "#button_toggle_consigned_active_";
+  bulkAddSupplierPopover = "#button_supplier_popover_";
+  bulkAddSupplierOption = "#supplier_option_";
+  bulkAddInputSupplierSearchModal = "#input_supplier_search_modal";
+  bulkAddButtonAddCustomSupplier = "#button_add_custom_supplier";
+  bulkAddSupplierOptionEdit = "#supplier_option_edit_";
+  bulkAddCustomSupplierPhoneNumberInput =
+    "#input_add_custom_supplier_phone_number";
+  bulkAddButtonSupplierCloseModal = "#button_supplier_modal_close";
+  bulkAddButtonAddCustomSupplierSimpan = "#button_add_custom_supplier_simpan";
+
+  clickBulkAddToggleConsignedActive(inventoryName: string) {
+    cy.get(this.bulkAddToggleConsignedActive + inventoryName).click();
+  }
+
+  clickBulkAddSupplierPopover(inventoryName: string) {
+    cy.get(this.bulkAddSupplierPopover + inventoryName).click();
+  }
+
+  clickbulkAddSupplierOption(supplierId: string) {
+    cy.get(this.bulkAddSupplierOption + supplierId)
+      .click()
+      .type("{esc}")
+      .type("{esc}");
+  }
+
+  clickBulkAddSupplierOptionEdit(supplierId: string) {
+    cy.get(this.bulkAddSupplierOptionEdit + supplierId).click();
+  }
+
+  typeAddCustomSupplierPhoneNumberInput(input: string) {
+    cy.get(this.bulkAddCustomSupplierPhoneNumberInput).type(input);
+  }
+
+  clickBulkAddButtonAddCustomSupplierSimpan() {
+    cy.get(this.bulkAddButtonAddCustomSupplierSimpan).click();
+  }
+
+  clickBulkAddButtonSupplierCloseModal() {
+    cy.get(this.bulkAddButtonSupplierCloseModal).click();
   }
 }

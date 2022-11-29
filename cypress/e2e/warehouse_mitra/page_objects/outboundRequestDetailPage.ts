@@ -36,8 +36,14 @@ export default class OutboundRequestDetailPage extends MainPage {
     cy.intercept("POST", "/outbound/shipments/create/").as("shipmentCreateAPI");
   }
 
-  getDetailPageAPI() {
-    cy.intercept("GET", "/outbound/shipments/*/detail/").as("detailPageAPI");
+  getShipmentDetailAPI() {
+    cy.intercept("GET", "/outbound/shipments/*/detail/").as(
+      "shipmentDetailAPI"
+    );
+  }
+
+  waitElementsToRender() {
+    cy.wait("@outboundDetailAPI").its("response.statusCode").should("eq", 200);
   }
 
   waitShipmentCreationToSucceed() {

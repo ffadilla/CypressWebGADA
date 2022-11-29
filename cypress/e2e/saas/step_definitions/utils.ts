@@ -3,6 +3,7 @@ import gadaConfig from "../../../e2e/utils/gadaConfig";
 export function deleteTestDataSequence() {
   setDefaultTaxAndCustomerDebtSettings();
   setDefaultRefundSettings();
+  setDefaultEmployeeData();
   unlinkStore();
   deleteBankAccount();
   deleteCategoryTestData();
@@ -11,12 +12,14 @@ export function deleteTestDataSequence() {
   deleteSeedInventoryData();
   deleteBulkAddInventoryData();
   deleteCustomerTestData();
+  deleteEmployeeTestData();
   deleteSupplierTestData();
 }
 
 export function insertTestDataSequence() {
   createSeedInventory();
   createSeedCustomer();
+  createSeedEmployeeData();
 }
 
 export function deleteCategoryTestData() {
@@ -201,6 +204,44 @@ export function deleteCustomerTestData() {
   });
 }
 
+export function deleteEmployeeTestData() {
+  // delete customer name prefix web automation
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "employee",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      keyword: "web automation employee",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let employeeIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      employeeIdArray.push(data[i].id.toString());
+    }
+
+    for (let employeeId of employeeIdArray) {
+      cy.request({
+        method: "DELETE",
+        headers: {
+          channel: "SAAS",
+        },
+        url:
+          gadaConfig.saas.baseApiUrl +
+          "employee" +
+          "/" +
+          gadaConfig.saas.testUserAccount.storeId +
+          "/" +
+          employeeId,
+        failOnStatusCode: false,
+      });
+    }
+  });
+}
+
 export function deleteSeedInventoryData() {
   // delete custom inventories with prefix web automation
   cy.request({
@@ -291,26 +332,28 @@ export function createSeedCustomer() {
 
 export function deleteBulkAddInventoryData() {
   let array = [
-    "9216",
-    "20805",
+    "21652",
+    "20807",
     "20808",
-    "7639",
-    "7690",
-    "7684",
-    "7693",
+    "1819",
+    "15935",
+    "16857",
+    "12632",
     "18467",
-    "25344",
+    "18782",
     "894",
-    "7641",
-    "7643",
-    "7644",
-    "2019",
-    "1955",
-    "1956",
-    "1947",
+    "18470",
+    "2493",
+    "21891",
+    "22292",
+    "18924",
+    "12516",
+    "11502",
     "2027",
-    "2018",
-    "1969",
+    "19062",
+    "8245",
+    "16340",
+    "3253",
   ];
 
   for (let i = 0; i < array.length; i++) {
@@ -670,6 +713,79 @@ export function setDefaultTaxAndCustomerDebtSettings() {
       is_max_amount_active: false,
       is_allow_multiple_top: false,
     },
+  });
+}
+
+export function setDefaultEmployeeData() {
+  cy.request({
+    method: "GET",
+    url: gadaConfig.saas.baseApiUrl + "employee",
+    failOnStatusCode: false,
+    qs: {
+      page: 1,
+      page_size: 100,
+      keyword: "update karyawan",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+    },
+  }).then((resp) => {
+    let data = resp.body.data;
+    let employeeIdArray: Array<string> = [];
+    for (let i = 0; i < data.length; i++) {
+      employeeIdArray.push(data[i].id.toString());
+    }
+
+    for (let employeeId of employeeIdArray) {
+      cy.request({
+        method: "PATCH",
+        headers: {
+          channel: "SAAS",
+        },
+        url: gadaConfig.saas.baseApiUrl + "employee" + "/" + employeeId,
+        failOnStatusCode: false,
+        body: {
+          employee_name: "Update Karyawan",
+          employee_email: null,
+          employee_phone_number: "089495323423",
+          store_id: gadaConfig.saas.testUserAccount.storeId,
+          position: "GUDANG",
+          permission_id_list: [
+            "d40e98a8-3a71-4221-82ef-66868fb42ecc",
+            "28fbb2a7-a254-405b-9588-45a42e11598e",
+            "13826bbd-0406-46a0-be24-8b514b0f57c0",
+          ],
+        },
+      });
+    }
+  });
+}
+
+export function createSeedEmployeeData() {
+  cy.request({
+    method: "POST",
+    url: gadaConfig.saas.baseApiUrl + "employee",
+    body: {
+      employee_name: "Delete Karyawan",
+      employee_email: null,
+      employee_phone_number: "085643180151",
+      store_id: gadaConfig.saas.testUserAccount.storeId,
+      position: "ADMIN",
+      permission_id_list: [
+        "82e91a3c-3036-41d3-84db-0ac06c084887",
+        "eb73a080-9409-4a2c-a26f-446d3bb0f725",
+        "d40e98a8-3a71-4221-82ef-66868fb42ecc",
+        "e8980f72-005c-4985-8ac3-8ca5d457fa17",
+        "28fbb2a7-a254-405b-9588-45a42e11598e",
+        "32a49b02-8c19-4f7e-8f00-f47fda6c20a4",
+        "13826bbd-0406-46a0-be24-8b514b0f57c0",
+        "d1b165d7-804b-4f91-a301-05b0c00b2d50",
+        "a8f41268-4a48-405f-9f4d-e69b9d84b7df",
+        "2f802519-871f-4b40-b538-91f798c76968",
+        "f808c4e4-8c1b-4c76-a8a8-21fab37e6489",
+        "e8daa5e4-7e0b-4f79-8ae4-a74124aa76b6",
+        "e91943d7-75cf-4ac3-847e-7359ae00b817",
+      ],
+    },
+    failOnStatusCode: false,
   });
 }
 
