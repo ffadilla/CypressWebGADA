@@ -8,6 +8,14 @@ import ChangeStatusListPage from "../../page_objects/change_status/changeStatusL
 const changeStatusListPage = new ChangeStatusListPage("dc");
 
 When(
+  "user applies {string} and its store as global filters at Change Status list",
+  (warehouse: string) => {
+    changeStatusListPage.header.setGlobalFilter(warehouse);
+    changeStatusListPage.waitSearchRender();
+  }
+);
+
+When(
   "user applies {string} to find related Change Status task",
   (keyword: string) => {
     changeStatusListPage.setSearchKeyword(keyword);
@@ -61,6 +69,13 @@ Then(
     } else {
       assertQueryParam(attribute, val);
     }
+  }
+);
+
+Then(
+  "user should only able to see Change Status task with {string} matched store of {string}",
+  (attribute: string, value: string) => {
+    changeStatusListPage.assertTableListBySearchFilter(attribute, value);
   }
 );
 

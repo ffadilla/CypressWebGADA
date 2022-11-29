@@ -22,6 +22,8 @@ export default class ChangeStatusListPage extends MainPage {
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[1]/div[1]";
   changeStatusTaskCreatedAt =
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[1]/div[2]";
+  changeStatusTaskStoreName =
+    this.changeStatusTaskListBodyXPath + "/tr[index]/td[2]/a/div[1]";
   changeStatusTaskDateXPath =
     this.changeStatusTaskListBodyXPath + "/tr[index]/td[5]/div[1]";
   changeStatusTaskStatusXPath =
@@ -90,6 +92,10 @@ export default class ChangeStatusListPage extends MainPage {
     let element = "";
 
     switch (target) {
+      case "store name":
+        element = this.changeStatusTaskStoreName;
+        value = this.configData.warehouseData[value].stores[0].storeName;
+        break;
       case "change status ID":
         element = this.changeStatusTaskIDXPath;
         break;

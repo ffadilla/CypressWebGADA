@@ -3,6 +3,15 @@ Feature: Get Change Status List
   Background: 
     Given user already logged in to WMS as "superuser"
 
+   Scenario Outline: User successfully applies warehouse and store global filter at Change Status list
+    When user redirects to Change Status menu
+    #When user clicks "Sudah Selesai" status chip at Change Status list
+    And user applies "15" as page amount at Change Status list
+    And user applies "Warehouse DC FRS" and its store as global filters at Change Status list
+    Then user should only able to see Change Status task with "store name" matched store of "Warehouse DC FRS"
+
+    When user logs out from WMS
+
   Scenario Outline: User successfully filters Change Status list by <status> status
     When user redirects to Change Status menu
     And user clicks <status> status chip at Change Status list
