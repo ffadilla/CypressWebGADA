@@ -1,10 +1,15 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import RequestListPage, {
+  getSearchbox,
+} from "../../page_objects/inbound/requestListPage";
 import SourceDetailPage from "../../page_objects/inbound/sourceDetailPage";
 
 const sourceDetailPage = new SourceDetailPage("dc");
+const requestListPage = new RequestListPage("dc", getSearchbox());
 
 When("user cancels Source at inbound Source detail", () => {
   sourceDetailPage.cancelSource();
+  requestListPage.waitSearchRender(); // need to wait for request list to fully rendered, avoid logout popover detached from DOM
 });
 
 When("user clicks historical reception button at inbound Source detail", () => {

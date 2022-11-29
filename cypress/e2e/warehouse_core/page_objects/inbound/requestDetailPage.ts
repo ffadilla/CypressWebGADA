@@ -250,17 +250,14 @@ export default class RequestDetailPage extends MainPage {
     cy.get("@inboundFormStoreName").then((storeNameXPath) => {
       expect(cy.xpath(this.storeNameXPath).should("contain", storeNameXPath));
     });
-    /**
-     * FE still render incorrect format
-    cy.get('@inboundFormSourceType').then((sourceType) => {
-      expect(cy.xpath(this.sourceTypeInfoXPath).should('contain', sourceType));
+    cy.get("@inboundFormSourceType").then((sourceType) => {
+      expect(cy.xpath(this.sourceTypeInfoXPath).should("contain", sourceType));
     });
-    cy.get('@inboundFormDeliveryDate').then((deliveryDate) => {
-      let formattedDeliveryDate =
-        reformatDate(deliveryDate.toString(), 'YYYY-MM-DD', 'DD MMM YYYY');
-      expect(cy.xpath(this.deliveryDateInfoXPath).should('contain', formattedDeliveryDate));
+    cy.get("@inboundFormDeliveryDate").then((deliveryDate) => {
+      expect(
+        cy.xpath(this.deliveryDateInfoXPath).should("contain", deliveryDate)
+      );
     });
-    */
     cy.xpath(this.deliveryMethodInfoXPath).then((actualDeliveryMethod) => {
       expect(
         cy

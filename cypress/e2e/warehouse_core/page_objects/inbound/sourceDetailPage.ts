@@ -1,8 +1,5 @@
 import { hasCompletedRequest } from "../../../warehouse_core/common/helper";
-import {
-  generateDateTime,
-  reformatDate,
-} from "../../../warehouse_core/common/utils";
+import { generateDateTime } from "../../../warehouse_core/common/utils";
 import Attachment from "../../../warehouse_core/component_objects/attachment";
 import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
@@ -296,17 +293,7 @@ export default class SourceDetailPage extends MainPage {
       );
     });
     cy.get("@inboundFormSourceDate").then((sourceDate) => {
-      let strSourceDate = String(sourceDate);
-      let formattedSourceDate = reformatDate(
-        strSourceDate,
-        "YYYY-MM-DD",
-        "DD MMM YYYY"
-      );
-      expect(
-        cy
-          .xpath(this.sourceDateInfoXPath)
-          .should("contain", formattedSourceDate)
-      );
+      expect(cy.xpath(this.sourceDateInfoXPath).should("contain", sourceDate));
     });
     cy.xpath(this.sourceProductNameInfoXPath)
       .invoke("text")

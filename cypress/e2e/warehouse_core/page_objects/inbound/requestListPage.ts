@@ -150,15 +150,10 @@ export default class RequestListPage extends MainPage {
       }
     );
     cy.get("@inboundFormDeliveryDate").then((deliveryDate) => {
-      let formattedDeliveryDate = reformatDate(
-        deliveryDate.toString(),
-        "YYYY-MM-DD",
-        "DD MMM YYYY"
-      );
       expect(
         cy
           .get(this.firstRequestItemDeliveryDate)
-          .should("contain", formattedDeliveryDate)
+          .should("contain", deliveryDate)
       );
     });
     expect(
