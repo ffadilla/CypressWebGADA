@@ -175,24 +175,14 @@ export default class RequestDetailPage extends MainPage {
           .find(".MuiButton-root")
           .should("have.length", 1)
       );
-    } else if (status === "Belum Selesai") {
+    } else if (status === "Dibatalkan") {
       expect(
         cy
           .xpath(this.headerSubtextContainerXPath)
           .find("span")
           .should("have.length", 3)
       );
-      expect(
-        cy
-          .xpath(this.requestCTAButtonContainerXPath)
-          .find(".MuiButton-root")
-          .should("have.length", 1)
-      );
-      expect(
-        cy
-          .xpath(this.requestCTAButtonContainerXPath)
-          .should("contain", "Kembali")
-      );
+      expect(cy.xpath(this.requestCTAButtonContainerXPath).should("not.exist"));
     }
   }
 
