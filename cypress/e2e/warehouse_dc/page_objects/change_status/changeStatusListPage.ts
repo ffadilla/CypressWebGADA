@@ -118,4 +118,20 @@ export default class ChangeStatusListPage extends MainPage {
       }
     });
   }
+
+  assertNoResultList() {
+    expect(
+      cy
+        .xpath(this.noResultSearchFilterInfo)
+        .should("contain", "Pencarian Tidak Ditemukan")
+    );
+    expect(
+      cy
+        .xpath(this.noResultSearchFilterInfo)
+        .should(
+          "contain",
+          "Silakan ganti filter/kata kunci lain yang lebih sesuai."
+        )
+    );
+  }
 }

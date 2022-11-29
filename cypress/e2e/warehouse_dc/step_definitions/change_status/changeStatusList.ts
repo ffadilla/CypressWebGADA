@@ -99,3 +99,10 @@ Then(
     changeStatusListPage.pagination.assertTotalPageAmount(value);
   }
 );
+
+Then(
+  "user should able to see empty search filter result on Change Status list",
+  () => {
+    changeStatusListPage.assertNoResultList();
+  }
+);
