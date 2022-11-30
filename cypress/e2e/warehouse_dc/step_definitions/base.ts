@@ -20,3 +20,7 @@ When("user logs out from WMS", () => {
 When("user redirects to the previous visited page", () => {
   cy.go("back");
 });
+
+When("user chooses menu Stock Opname", () => {
+  basePage.sidebar.clickCycleCountMenu();
+});
