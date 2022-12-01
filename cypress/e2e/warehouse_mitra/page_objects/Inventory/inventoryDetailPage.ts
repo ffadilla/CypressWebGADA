@@ -2,9 +2,9 @@ import {
   interceptAPI,
   replaceElementIndex,
 } from "../../../warehouse_core/common/utils";
-import BasePage from "../basePage";
+import MainPage from "../../../warehouse_core/page_objects/mainPage";
 
-export default class InventoryDetailPage extends BasePage {
+export default class InventoryDetailPage extends MainPage {
   path = "/inventory/detail?id=";
 
   skuHeaderTitleXPath =

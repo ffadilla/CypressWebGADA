@@ -2,7 +2,7 @@ import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import { assertQueryParam } from "../../../warehouse_core/common/assertions";
 import InventoryDetailPage from "../../page_objects/inventory/inventoryDetailPage";
 
-const inventoryDetailPage = new InventoryDetailPage();
+const inventoryDetailPage = new InventoryDetailPage("mitra");
 
 When(
   "user applies {string} as page amount of {string} table at inventory detail",

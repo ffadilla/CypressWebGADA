@@ -1,7 +1,7 @@
 import { When, Then, Given } from "@badeball/cypress-cucumber-preprocessor";
 import RequestFormPage from "../../page_objects/inbound/requestFormPage";
 
-const requestFormPage = new RequestFormPage("mitra");
+const requestFormPage = new RequestFormPage("dc");
 
 Given(
   "user creates a new inbound Source Request to {string} - {string} from {string} with product {string}",

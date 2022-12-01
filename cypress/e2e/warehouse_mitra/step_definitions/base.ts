@@ -4,12 +4,12 @@
 
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../page_objects/loginPage";
-import BasePage from "../page_objects/basePage";
+import BasePage from "../page_objects/mainPage";
 import OutboundPage from "../page_objects/outboundPage";
 
-const basePage = new BasePage();
+const basePage = new BasePage("mitra");
 const loginPage = new LoginPage();
-const outboundPage = new OutboundPage();
+const outboundPage = new OutboundPage("mitra");
 
 Given(
   "user {string} already logged in to WMS with {string} as password",

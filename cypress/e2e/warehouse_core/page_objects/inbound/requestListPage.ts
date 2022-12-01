@@ -3,13 +3,20 @@ import {
   reformatDate,
   replaceElementIndex,
 } from "../../common/utils";
-import InboundBaseListPage from "./inboundBaseListPage";
+import InboundBaseListPage from "../../component_objects/inboundBaseList";
 import MainPage from "../mainPage";
 import Pagination from "../../component_objects/pagination";
+import { wmsType } from "../../../utils/gadaConfig";
 
 export default class RequestListPage extends MainPage {
-  baseList = new InboundBaseListPage();
-  pagination = new Pagination();
+  baseList: InboundBaseListPage;
+  pagination: Pagination;
+
+  constructor(type: wmsType, searchbox: string) {
+    super(type);
+    this.baseList = new InboundBaseListPage(searchbox);
+    this.pagination = new Pagination();
+  }
 
   path = "/inventory/inbound/request/list";
   createNewRequestButtonOption = "Buat Barang Masuk Baru";
@@ -143,15 +150,10 @@ export default class RequestListPage extends MainPage {
       }
     );
     cy.get("@inboundFormDeliveryDate").then((deliveryDate) => {
-      let formattedDeliveryDate = reformatDate(
-        deliveryDate.toString(),
-        "YYYY-MM-DD",
-        "DD MMM YYYY"
-      );
       expect(
         cy
           .get(this.firstRequestItemDeliveryDate)
-          .should("contain", formattedDeliveryDate)
+          .should("contain", deliveryDate)
       );
     });
     expect(

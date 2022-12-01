@@ -1,11 +1,15 @@
-import gadaConfig, { warehousePlatforms } from "../../utils/gadaConfig";
+import gadaConfig, {
+  wmsAccount,
+  wmsType,
+  wmsWarehouse,
+} from "../../utils/gadaConfig";
 
 export class ConfigData {
   baseUrl: string;
-  accountData: any;
-  warehouseData: any;
+  accountData: wmsAccount;
+  warehouseData: wmsWarehouse;
 
-  constructor(type: warehousePlatforms) {
+  constructor(type: wmsType) {
     this.baseUrl = gadaConfig.warehouse[type].baseUrl;
     this.accountData = gadaConfig.warehouse[type].accounts;
     this.warehouseData = gadaConfig.warehouse[type].warehouses;

@@ -1,7 +1,7 @@
 import { And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import ShipmentProcessDetailPage from "../page_objects/shipmentProcessDetailPage";
 
-const shipmentProcessDetailPage = new ShipmentProcessDetailPage();
+const shipmentProcessDetailPage = new ShipmentProcessDetailPage("mitra");
 
 And("user downloads the travel document file", () => {
   shipmentProcessDetailPage.clickDownloadTravelDocument();
