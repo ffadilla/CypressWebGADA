@@ -32,6 +32,10 @@ When("user redirects to inbound Receipt menu", () => {
   basePage.sidebar.clickInboundReceiptMenu();
 });
 
+When("user redirects to Change Status menu", () => {
+  basePage.sidebar.clickChangeStatusMenu();
+});
+
 When("user redirects to the previous visited page", () => {
   cy.go("back");
 });

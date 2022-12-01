@@ -39,4 +39,9 @@ export default class Datepicker {
       )
     );
   }
+
+  resetDate(element: string) {
+    cy.get(element).click();
+    cy.get(this.button).contains("Reset").click();
+  }
 }

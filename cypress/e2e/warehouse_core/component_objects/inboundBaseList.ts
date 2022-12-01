@@ -1,13 +1,16 @@
 import { assertQueryParam } from "../common/assertions";
 import Datepicker from "./datepicker";
+import StatusChip from "./statusChip";
 
 export default class InboundBaseListPage {
   datepicker: Datepicker;
   searchbox: string;
+  statusChip: StatusChip;
 
   constructor(searchbox: string) {
     this.datepicker = new Datepicker();
     this.searchbox = searchbox;
+    this.statusChip = new StatusChip();
   }
 
   resetSearchbox = '[data-testid = "CloseRoundedIcon"]';
@@ -17,7 +20,6 @@ export default class InboundBaseListPage {
   deliveryDateFilterButton = 'input[placeholder="Tanggal"]';
   deliveryDateCTAContainer = ".MuiDialogActions-root";
   inboundTabContainer = ".MuiTabs-flexContainer";
-  chipContainer = "#chips-container";
   pageAmountDropdown = '[aria-haspopup="listbox"]';
   pageAmountDropdownOptions = 'ul[role="listbox"]';
   tablePaginationInfoContainer = ".MuiTablePagination-displayedRows";
@@ -56,12 +58,7 @@ export default class InboundBaseListPage {
   }
 
   resetDeliveryDate() {
-    cy.get(this.deliveryDateFilterButton).click();
-    cy.get(this.deliveryDateCTAContainer).contains("Reset").click();
-  }
-
-  clickStatusChip(status: string) {
-    cy.get(this.chipContainer).contains(status).click();
+    this.datepicker.resetDate(this.deliveryDateFilterButton);
   }
 
   assertStatusQueryParam(value: string) {
