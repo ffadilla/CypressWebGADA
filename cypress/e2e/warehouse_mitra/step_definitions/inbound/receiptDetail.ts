@@ -1,7 +1,7 @@
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import ReceiptDetailPage from "../../page_objects/inbound/receiptDetailPage";
 
-const receiptDetailPage = new ReceiptDetailPage();
+const receiptDetailPage = new ReceiptDetailPage("mitra");
 
 Given("user submits created inbound Receipt", () => {
   receiptDetailPage.downloadPrintableDoc();

@@ -1,7 +1,7 @@
 import { Then, When } from "@badeball/cypress-cucumber-preprocessor";
 import DashboardPage from "../page_objects/dashboardPage";
 
-const dashboardPage = new DashboardPage();
+const dashboardPage = new DashboardPage("dc");
 
 When("user redirects to Dashboard page", () => {
   dashboardPage.visitDashboard();

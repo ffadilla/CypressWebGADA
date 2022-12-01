@@ -1,6 +1,6 @@
-import BasePage from "./basePage";
+import MainPage from "../../warehouse_core/page_objects/mainPage";
 
-export default class ShipmentProcessDetailPage extends BasePage {
+export default class ShipmentProcessDetailPage extends MainPage {
   path = "inventory/outbound/shipment/detail";
   downloadPath = "./cypress/downloads/";
   firstDiscrepancyReason =

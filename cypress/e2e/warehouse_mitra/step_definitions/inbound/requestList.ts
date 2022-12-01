@@ -5,9 +5,11 @@ import {
   assertQueryParam,
 } from "../../../warehouse_core/common/assertions";
 import { interceptAPI } from "../../../warehouse_core/common/utils";
-import RequestListPage from "../../page_objects/inbound/requestListPage";
+import RequestListPage, {
+  getSearchbox,
+} from "../../page_objects/inbound/requestListPage";
 
-const requestListPage = new RequestListPage();
+const requestListPage = new RequestListPage("mitra", getSearchbox());
 
 When(
   "user applies {string} and its store as global filters at inbound Request list",
@@ -69,7 +71,7 @@ When(
 When(
   "user clicks {string} status chip at inbound Request list",
   (status: string) => {
-    requestListPage.baseList.clickStatusChip(status);
+    requestListPage.baseList.statusChip.clickStatusChip(status);
     requestListPage.waitSearchRender();
   }
 );

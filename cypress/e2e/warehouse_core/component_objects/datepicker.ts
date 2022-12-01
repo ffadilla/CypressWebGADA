@@ -1,4 +1,4 @@
-import { generateDateTime } from "../common/utils";
+import { generateDateTime, padTo2Digits, reformatDate } from "../common/utils";
 
 export default class Datepicker {
   dateQueryBaseFormat = "" + generateDateTime(0, "YYYY-MM-");
@@ -30,17 +30,18 @@ export default class Datepicker {
       .eq(parseInt(month) - 1)
       .click();
     cy.get(this.yearpickerItem).contains(year).click();
-    /**
-     * FE still renders wrong format
-    cy.get(element)
-      .should('have.value',
-      this.utils.reformatDate(
-        year+this.utils.padTo2Digits(parseInt(month))+this.utils.padTo2Digits(parseInt(date)),
+    cy.get(element).should(
+      "have.value",
+      reformatDate(
+        year + padTo2Digits(parseInt(month)) + padTo2Digits(parseInt(date)),
         "YYYYMMDD",
         "D MMM YYYY"
       )
     );
-     *
-     */
+  }
+
+  resetDate(element: string) {
+    cy.get(element).click();
+    cy.get(this.button).contains("Reset").click();
   }
 }
