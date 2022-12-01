@@ -40,6 +40,10 @@ When("user redirects to the previous visited page", () => {
   cy.go("back");
 });
 
+When("user chooses menu Stock Opname", () => {
+  basePage.sidebar.clickCycleCountMenu();
+});
+
 Then("user should see disabled global filter dropdown", () => {
   basePage.header.assertDisabledGlobalFilter();
 });

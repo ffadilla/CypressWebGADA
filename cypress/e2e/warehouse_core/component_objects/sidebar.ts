@@ -16,6 +16,8 @@ export default class Sidebar {
   xpathOutboundShipment =
     "//div/div[2]/div/div/div/nav/div[1]/div[3]/div/div/div/div/a[2]/div";
   xpathOutboundMenuAccordion = "//div[2]/div/div/div/nav/div[1]/div[2]";
+  inventorySidebarMenu = "div[data-testid='sidebar.menu_inventory']";
+  cycleCountMenu = "div[data-testid='sidebar.submenu_cycle_count']";
 
   clickInboundMenu() {
     cy.url().then((url) => {
@@ -73,6 +75,11 @@ export default class Sidebar {
   clickInventoryMenu() {
     this.clickInventoryAccordion();
     cy.get(this.sidebarSubMenuButton).contains("Daftar Inventori").click();
+  }
+
+  clickCycleCountMenu() {
+    cy.get(this.inventorySidebarMenu).eq(0).click();
+    cy.get(this.cycleCountMenu).click();
   }
 
   clickChangeStatusMenu() {
