@@ -399,7 +399,7 @@ When("user types {string} on conversion uom input modal", (input: string) => {
     bulkAddPage.typeBulkAddInputConversionModalUom(input, uomId);
     cy.get(
       bulkAddPage.bulkAddInputConversionModalUom + utils.convertNameToId(uomId)
-    ).should("have.value", input);
+    ).should("have.value", utils.numberWithSeparators(input));
   });
 });
 
@@ -488,6 +488,12 @@ When("user clicks on supplier popup modal simpan button", () => {
 When("user click close button on supplier modal", () => {
   bulkAddPage.clickBulkAddButtonSupplierCloseModal();
 });
+
+When("user upload custom inventory image", () => {
+  cy.get('#input_name_barang_photo_url_web_automation')
+  .selectFile('./cypress/e2e/saas/resources/image/raos-paling-eco.jpg', { force: true })
+});
+
 
 //Assertion
 
