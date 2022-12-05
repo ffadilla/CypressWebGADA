@@ -1,7 +1,7 @@
 import { And, Then } from "@badeball/cypress-cucumber-preprocessor";
 import CycleCountDetailPage from "../../page_objects/inventory/cycleCountDetailPage";
 
-const cycleCountDetailPage = new CycleCountDetailPage();
+const cycleCountDetailPage = new CycleCountDetailPage("dc");
 
 Then("user should be redirected to the cycle count detail page", () => {
   cycleCountDetailPage.waitForDetailToBeRendered();

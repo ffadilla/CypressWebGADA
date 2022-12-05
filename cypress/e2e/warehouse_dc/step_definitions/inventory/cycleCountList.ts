@@ -1,7 +1,7 @@
 import { And } from "@badeball/cypress-cucumber-preprocessor";
 import CycleCountListPage from "../../page_objects/inventory/cycleCountListPage";
 
-const cycleCountListPage = new CycleCountListPage();
+const cycleCountListPage = new CycleCountListPage("dc");
 
 And("user clicks add new cycle count task", () => {
   cycleCountListPage.clickAddNewTask();
